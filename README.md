@@ -1,8 +1,8 @@
 # Screenshots
 
-![Large size](/medias/large.png)
-![Medium size](/medias/medium.png)
-![Small size](/medias/small.png)
+![Large size](medias/large.png)
+![Medium size](medias/medium.png)
+![Small size](medias/small.png)
 
 # Setup
 
