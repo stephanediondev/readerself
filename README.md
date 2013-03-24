@@ -1,3 +1,8 @@
+* [CodeIgniter](http://ellislab.com/codeigniter/)
+* [SimplePie](http://simplepie.org)
+* [Bootstrap](http://twitter.github.com/bootstrap/)
+* [jQuery](http://jquery.com/)
+
 # Screenshots
 
 ![Large size](medias/large.png)
