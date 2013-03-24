@@ -3,8 +3,6 @@
 class Reader_model extends CI_Model {
 	function __construct() {
 		parent::__construct();
-		$this->today = date('Y-m-d H:i:s');
-		$this->hour = date('G');
 	}
 	function login($email, $password, $remember) {
 		$this->session->unset_userdata('logged_member');
