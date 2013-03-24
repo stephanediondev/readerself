@@ -123,7 +123,7 @@ class Refresh extends CI_Controller {
 		include_once('thirdparty/simplepie/autoloader.php');
 		include_once('thirdparty/simplepie/idn/idna_convert.class.php');
 
-		$query = $this->db->query('SELECT fed.* FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_lasterror IS NULL GROUP BY fed.fed_id HAVING (SELECT COUNT(DISTINCT(sub.mbr_id)) FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = fed.fed_id) > 0');
+		$query = $this->db->query('SELECT fed.* FROM '.$this->db->dbprefix('feeds').' AS fed GROUP BY fed.fed_id HAVING (SELECT COUNT(DISTINCT(sub.mbr_id)) FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = fed.fed_id) > 0');
 		if($query->num_rows() > 0) {
 			foreach($query->result() as $fed) {
 
@@ -139,45 +139,49 @@ class Refresh extends CI_Controller {
 					$this->db->set('fed_lasterror', $sp_feed->error());
 					$this->db->where('fed_id', $fed->fed_id);
 					$this->db->update('feeds');
-				} else {
-					foreach($sp_feed->get_items() as $sp_item) {
-						$query = $this->db->query('SELECT * FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_link = ? GROUP BY itm.itm_id', array($sp_item->get_link()));
-						if($query->num_rows() == 0) {
-							$this->db->set('fed_id', $fed->fed_id);
+				} if($fed->fed_lasterror) {
+					$this->db->set('fed_lasterror', '');
+					$this->db->where('fed_id', $fed->fed_id);
+					$this->db->update('feeds');
+				}
 
-							if($sp_item->get_title()) {
-								$this->db->set('itm_title', $sp_item->get_title());
-							} else {
-								$this->db->set('itm_title', '-');
-							}
+				foreach($sp_feed->get_items() as $sp_item) {
+					$query = $this->db->query('SELECT * FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_link = ? GROUP BY itm.itm_id', array($sp_item->get_link()));
+					if($query->num_rows() == 0) {
+						$this->db->set('fed_id', $fed->fed_id);
 
-							if($author = $sp_item->get_author()) {
-								$this->db->set('itm_author', $author->get_name());
-							}
-
-							$this->db->set('itm_link', $sp_item->get_link());
-
-							if($sp_item->get_content()) {
-								$this->db->set('itm_content', $sp_item->get_content());
-							} else {
-								$this->db->set('itm_content', '-');
-							}
-
-							$sp_itm_date = $sp_item->get_gmdate('Y-m-d H:i:s');
-							if($sp_itm_date) {
-								$this->db->set('itm_date', $sp_itm_date);
-							} else {
-								$this->db->set('itm_date', date('Y-m-d H:i:s'));
-							}
-
-							$this->db->set('itm_datecreated', date('Y-m-d H:i:s'));
-
-							$this->db->insert('items');
+						if($sp_item->get_title()) {
+							$this->db->set('itm_title', $sp_item->get_title());
 						} else {
-							break;
+							$this->db->set('itm_title', '-');
 						}
-						unset($sp_item);
+
+						if($author = $sp_item->get_author()) {
+							$this->db->set('itm_author', $author->get_name());
+						}
+
+						$this->db->set('itm_link', $sp_item->get_link());
+
+						if($sp_item->get_content()) {
+							$this->db->set('itm_content', $sp_item->get_content());
+						} else {
+							$this->db->set('itm_content', '-');
+						}
+
+						$sp_itm_date = $sp_item->get_gmdate('Y-m-d H:i:s');
+						if($sp_itm_date) {
+							$this->db->set('itm_date', $sp_itm_date);
+						} else {
+							$this->db->set('itm_date', date('Y-m-d H:i:s'));
+						}
+
+						$this->db->set('itm_datecreated', date('Y-m-d H:i:s'));
+
+						$this->db->insert('items');
+					} else {
+						break;
 					}
+					unset($sp_item);
 				}
 				$sp_feed->__destruct();
 				unset($feed);
