@@ -1,13 +1,14 @@
+# Screenshots
+
+![Home](medias/home.png)
+![Home with full screen](medias/home_fullscreen.png)
+
+# Third party
+
 * [CodeIgniter](http://ellislab.com/codeigniter/)
 * [SimplePie](http://simplepie.org)
 * [Bootstrap](http://twitter.github.com/bootstrap/)
 * [jQuery](http://jquery.com/)
-
-# Screenshots
-
-![Large size](medias/large.png)
-![Medium size](medias/medium.png)
-![Small size](medias/small.png)
 
 # Setup
 
@@ -89,7 +90,8 @@ CREATE TABLE IF NOT EXISTS `members` (
   `token_password` char(40) DEFAULT NULL,
   `mbr_datecreated` datetime NOT NULL,
   PRIMARY KEY (`mbr_id`),
-  UNIQUE KEY `mbr_email` (`mbr_email`)
+  UNIQUE KEY `mbr_email` (`mbr_email`),
+  UNIQUE KEY `token_password` (`token_password`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `subscriptions` (
@@ -122,4 +124,3 @@ CREATE TABLE IF NOT EXISTS `tags` (
   KEY `tag_title` (`tag_title`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
  ```
- 
