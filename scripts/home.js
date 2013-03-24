@@ -50,7 +50,7 @@ function set_read(ref) {
 	}
 }
 function load_items(url) {
-	$('#items').html('<div class="ajax-loader"><img src="' + base_url + 'medias/ajax-loader.gif"></div>');
+	$('#items-display').html('<div class="ajax-loader"><img src="' + base_url + 'medias/ajax-loader.gif"></div>');
 	params = [];
 	params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
 	$.ajax({
@@ -71,7 +71,7 @@ function load_items(url) {
 				} else {
 					content += data_return.noitems;
 				}
-				$('#items').html(content);
+				$('#items-display').html(content);
 				$('.timeago').timeago();
 			}
 		},
@@ -80,7 +80,7 @@ function load_items(url) {
 	});
 }
 function add_items(url) {
-	$('#items').append('<div class="ajax-loader"><img src="' + base_url + 'medias/ajax-loader.gif"></div>');
+	$('#items-display').append('<div class="ajax-loader"><img src="' + base_url + 'medias/ajax-loader.gif"></div>');
 	params = [];
 	params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
 	$.ajax({
@@ -98,7 +98,7 @@ function add_items(url) {
 					}
 				}
 				$('.ajax-loader').remove();
-				$('#items').append(content);
+				$('#items-display').append(content);
 				$('.timeago').timeago();
 			}
 		},
@@ -110,6 +110,7 @@ function set_positions() {
 	_position = $('#items').position();
 	_height = $(window).height() - _position.top;
 	$('#items').css({ 'height': _height});
+	$('#items-display').css({ 'padding-bottom': _height});
 
 	_position = $('.sidebar-nav').position();
 	_height = $(window).height() - _position.top - 40;
@@ -163,7 +164,7 @@ $(document).ready(function() {
 			var ref = $('#' + itm_id);
 			if($('#items').scrollTop() > 0) {
 				set_read(ref);
-				last = $('#items').find('.item:last').attr('id');
+				last = $('#items-display').find('.item:last').attr('id');
 				if(last == itm_id) {
 					add_items( $('.sidebar-nav').find('li.active').find('a').attr('href') );
 				}
@@ -187,7 +188,7 @@ $(document).ready(function() {
 		if(next) {
 			set_read($('#' + next));
 			location.hash = '#' + next;
-			last = $('#items').find('.item:last').attr('id');
+			last = $('#items-display').find('.item:last').attr('id');
 			if(last == next) {
 				add_items( $('.sidebar-nav').find('li.active').find('a').attr('href') );
 			}

@@ -44,6 +44,8 @@
 				</div>
 			</div>
 			<div id="items">
+				<div id="items-display">
+				</div>
 			</div>
 		</div>
 	</div>
