@@ -28,10 +28,10 @@ class Import extends CI_Controller {
 					$content .= '<div class="container-fluid">';
 
 					if(count($this->tags) > 0) {
-						$content .= '<h2>Tags ('.count($this->tags).')</h2>';
+						$content .= '<h2>'.$this->lang->line('tags').' ('.count($this->tags).')</h2>';
 						$content .= '<table class="table table-condensed table-hover">';
 						$content .= '<thead>';
-						$content .= '<tr><th>&nbsp;</th><th>Title</th></tr>';
+						$content .= '<tr><th>&nbsp;</th><th>'.$this->lang->line('title').'</th></tr>';
 						$content .= '</thead>';
 						$content .= '<tbody>';
 						$tags = array();
@@ -44,11 +44,11 @@ class Import extends CI_Controller {
 								$this->db->insert('tags');
 								$tag_id = $this->db->insert_id();
 								$tags[$value] = $tag_id;
-								$content .= '<tr><td><span class="label label-success">Added</span></td><td>'.$value.'</td></tr>';
+								$content .= '<tr><td><span class="label label-success">'.$this->lang->line('added').'</span></td><td>'.$value.'</td></tr>';
 							} else {
 								$tag = $query->row();
 								$tags[$value] = $tag->tag_id;
-								$content .= '<tr><td><span class="label label-warning">Found</span></td><td>'.$value.'</td></tr>';
+								$content .= '<tr><td><span class="label label-warning">'.$this->lang->line('found').'</span></td><td>'.$value.'</td></tr>';
 							}
 						}
 						$content .= '</tbody>';
@@ -56,14 +56,17 @@ class Import extends CI_Controller {
 					}
 
 					if(count($this->feeds) > 0) {
-						$content .= '<h2>Subscriptions ('.count($this->feeds).')</h2>';
+						$content .= '<h2>'.$this->lang->line('subscriptions').' ('.count($this->feeds).')</h2>';
 						$content .= '<table class="table table-condensed table-hover">';
 						$content .= '<thead>';
-						$content .= '<tr><th>&nbsp;</th><th>Title</th><th>URL</th></tr>';
+						$content .= '<tr><th>&nbsp;</th><th>'.$this->lang->line('title').'</th><th>'.$this->lang->line('url').'</th><th>'.$this->lang->line('tag').'</th></tr>';
 						$content .= '</thead>';
 						$content .= '<tbody>';
 						foreach($this->feeds as $obj) {
-							$query = $this->db->query('SELECT fed.*, IF(sub.sub_id IS NULL, 0, 1) AS subscription FROM '.$this->db->dbprefix('feeds').' AS fed LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = fed.fed_id AND sub.mbr_id = ? WHERE fed.fed_link = ? GROUP BY fed.fed_id', array($this->member->mbr_id, $obj->xmlUrl));
+
+							$content .= '<tr>';
+
+							$query = $this->db->query('SELECT fed.*, sub.sub_id FROM '.$this->db->dbprefix('feeds').' AS fed LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = fed.fed_id AND sub.mbr_id = ? WHERE fed.fed_link = ? GROUP BY fed.fed_id', array($this->member->mbr_id, $obj->xmlUrl));
 							if($query->num_rows() == 0) {
 								$this->db->set('fed_title', $obj->title);
 								$this->db->set('fed_url', $obj->htmlUrl);
@@ -74,37 +77,44 @@ class Import extends CI_Controller {
 
 								$this->db->set('mbr_id', $this->member->mbr_id);
 								$this->db->set('fed_id', $fed_id);
+								if($obj->tag && array_key_exists($obj->tag, $tags)) {
+									$this->db->set('tag_id', $tags[$obj->tag]);
+								}
 								$this->db->set('sub_datecreated', date('Y-m-d H:i:s'));
 								$this->db->insert('subscriptions');
 								$sub_id = $this->db->insert_id();
 
-								if($obj->tag && array_key_exists($obj->tag, $tags)) {
-									$this->db->set('sub_id', $sub_id);
-									$this->db->set('tag_id', $tags[$obj->tag]);
-									$this->db->set('sub_tag_datecreated', date('Y-m-d H:i:s'));
-									$this->db->insert('subscriptions_tags');
-								}
-								$content .= '<tr><td><span class="label label-success">Added</span></td><td>'.$obj->title.'</td><td>'.$obj->xmlUrl.'</td></tr>';
+								$content .= '<td><span class="label label-success">'.$this->lang->line('added').'</span></td><td>'.$obj->title.'</td><td>'.$obj->xmlUrl.'</td>';
 							} else {
 								$fed = $query->row();
-								if($fed->subscription == 0) {
+								if($fed->sub_id) {
+									if($obj->tag && array_key_exists($obj->tag, $tags)) {
+										$this->db->set('tag_id', $tags[$obj->tag]);
+										$this->db->where('mbr_id', $this->member->mbr_id);
+										$this->db->where('sub_id', $fed->sub_id);
+										$this->db->update('subscriptions');
+									}
+
+									$content .= '<td><span class="label label-warning">'.$this->lang->line('found').'</span></td><td>'.$obj->title.'</td><td>'.$obj->xmlUrl.'</td>';
+								} else {
 									$this->db->set('mbr_id', $this->member->mbr_id);
 									$this->db->set('fed_id', $fed->fed_id);
+									if($obj->tag && array_key_exists($obj->tag, $tags)) {
+										$this->db->set('tag_id', $tags[$obj->tag]);
+									}
 									$this->db->set('sub_datecreated', date('Y-m-d H:i:s'));
 									$this->db->insert('subscriptions');
 									$sub_id = $this->db->insert_id();
 
-									if($obj->tag && array_key_exists($obj->tag, $tags)) {
-										$this->db->set('sub_id', $sub_id);
-										$this->db->set('tag_id', $tags[$obj->tag]);
-										$this->db->set('sub_tag_datecreated', date('Y-m-d H:i:s'));
-										$this->db->insert('subscriptions_tags');
-									}
-									$content .= '<tr><td><span class="label label-success">Added</span></td><td>'.$obj->title.'</td><td>'.$obj->xmlUrl.'</td></tr>';
-								} else {
-									$content .= '<tr><td><span class="label label-warning">Found</span></td><td>'.$obj->title.'</td><td>'.$obj->xmlUrl.'</td></tr>';
+									$content .= '<td><span class="label label-success">'.$this->lang->line('added').'</span></td><td>'.$obj->title.'</td><td>'.$obj->xmlUrl.'</td>';
 								}
 							}
+							if($obj->tag && array_key_exists($obj->tag, $tags)) {
+								$content .= '<td>'.$obj->tag.'</td>';
+							} else {
+								$content .= '<td>'.$this->lang->line('no_tag').'</td>';
+							}
+							$content .= '</tr>';
 						}
 					}
 					$content .= '</tbody>';

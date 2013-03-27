@@ -19,8 +19,7 @@ class Refresh extends CI_Controller {
 
 			$sql = 'SELECT tag.tag_id, COUNT(DISTINCT(itm.itm_id)) AS count
 			FROM '.$this->db->dbprefix('tags').' AS tag
-			LEFT JOIN '.$this->db->dbprefix('subscriptions_tags').' AS sub_tag ON sub_tag.tag_id = tag.tag_id
-			LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.sub_id = sub_tag.sub_id AND sub.mbr_id = ?
+			LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.tag_id = tag.tag_id AND sub.mbr_id = ?
 			LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id
 			LEFT JOIN '.$this->db->dbprefix('history').' AS hst ON hst.itm_id = itm.itm_id AND hst.mbr_id = ?
 			WHERE hst.hst_id IS NULL GROUP BY tag.tag_id';
@@ -34,10 +33,9 @@ class Refresh extends CI_Controller {
 
 			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
 			FROM '.$this->db->dbprefix('subscriptions').' AS sub
-			LEFT JOIN '.$this->db->dbprefix('subscriptions_tags').' AS sub_tag ON sub_tag.sub_id = sub.sub_id
 			LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id
 			LEFT JOIN '.$this->db->dbprefix('history').' AS hst ON hst.itm_id = itm.itm_id AND hst.mbr_id = ?
-			WHERE hst.hst_id IS NULL AND sub_tag.sub_tag_id IS NULL AND sub.mbr_id = ?';
+			WHERE hst.hst_id IS NULL AND sub.tag_id IS NULL AND sub.mbr_id = ?';
 			$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
 
 			$content['count']['notag'] = $query->row()->count;

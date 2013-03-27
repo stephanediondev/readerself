@@ -9,7 +9,7 @@ class Tags extends CI_Controller {
 			redirect(base_url());
 		}
 
-		$query = $this->db->query('SELECT tag.*, (SELECT COUNT(DISTINCT(count_sub_tag.sub_id)) FROM '.$this->db->dbprefix('subscriptions_tags').' AS count_sub_tag WHERE count_sub_tag.tag_id = tag.tag_id) AS subscriptions FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? GROUP BY tag.tag_id ORDER BY tag.tag_title ASC', array($this->member->mbr_id));
+		$query = $this->db->query('SELECT tag.*, (SELECT COUNT(DISTINCT(count_sub.sub_id)) FROM '.$this->db->dbprefix('subscriptions').' AS count_sub WHERE count_sub.tag_id = tag.tag_id) AS subscriptions FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? GROUP BY tag.tag_id ORDER BY tag.tag_title ASC', array($this->member->mbr_id));
 
 		$data = array();
 		$data['tags'] = $query->result();

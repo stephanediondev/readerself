@@ -106,20 +106,11 @@ CREATE TABLE IF NOT EXISTS `subscriptions` (
   `sub_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `mbr_id` bigint(20) unsigned NOT NULL,
   `fed_id` bigint(20) unsigned NOT NULL,
+  `tag_id` bigint(20) unsigned NULL,
   `sub_datecreated` datetime NOT NULL,
   PRIMARY KEY (`sub_id`),
   KEY `mbr_id` (`mbr_id`),
   KEY `fed_id` (`fed_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `subscriptions_tags` (
-  `sub_tag_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `sub_id` bigint(20) unsigned NOT NULL,
-  `tag_id` bigint(20) unsigned NOT NULL,
-  `sub_tag_datecreated` datetime NOT NULL,
-  PRIMARY KEY (`sub_tag_id`),
-  KEY `sub_id` (`sub_id`),
-  KEY `tag_id` (`tag_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `tags` (

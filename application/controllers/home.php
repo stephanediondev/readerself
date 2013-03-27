@@ -105,7 +105,7 @@ class Home extends CI_Controller {
 			}
 
 			if($is_tag) {
-				$where[] = 'sub_tag.tag_id = ?';
+				$where[] = 'sub.tag_id = ?';
 				$bindings[] = $is_tag;
 			}
 
@@ -115,7 +115,7 @@ class Home extends CI_Controller {
 			}
 
 			if($mode == 'notag') {
-				$where[] = 'sub_tag.tag_id IS NULL';
+				$where[] = 'sub.tag_id IS NULL';
 			}
 
 			$where[] = 'sub.mbr_id = ?';
@@ -124,8 +124,7 @@ class Home extends CI_Controller {
 			$sql = 'SELECT sub.sub_id, tag.tag_id, tag.tag_title, itm.*, fed.*, DATE_ADD(itm.itm_date, INTERVAL ? HOUR) AS itm_date, IF(fav.fav_id IS NULL, 0, 1) AS star, IF(hst.hst_id IS NULL, \'unread\', \'read\') AS history
 			FROM '.$this->db->dbprefix('items').' AS itm
 			LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id AND sub.mbr_id = ?
-			LEFT JOIN '.$this->db->dbprefix('subscriptions_tags').' AS sub_tag ON sub_tag.sub_id = sub.sub_id
-			LEFT JOIN '.$this->db->dbprefix('tags').' AS tag ON tag.tag_id = sub_tag.tag_id
+			LEFT JOIN '.$this->db->dbprefix('tags').' AS tag ON tag.tag_id = sub.tag_id
 			LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id
 			LEFT JOIN '.$this->db->dbprefix('favorites').' AS fav ON fav.itm_id = itm.itm_id AND fav.mbr_id = ?
 			LEFT JOIN '.$this->db->dbprefix('history').' AS hst ON hst.itm_id = itm.itm_id AND hst.mbr_id = ?
@@ -260,7 +259,7 @@ class Home extends CI_Controller {
 					$where[] = 'fav.fav_id IS NOT NULL';
 				}
 				if($is_tag) {
-					$where[] = 'sub_tag.tag_id = ?';
+					$where[] = 'sub.tag_id = ?';
 					$bindings[] = $is_tag;
 				}
 				if($is_sub) {
@@ -268,7 +267,7 @@ class Home extends CI_Controller {
 					$bindings[] = $is_sub;
 				}
 				if($this->session->userdata('items-mode') == 'notag') {
-					$where[] = 'sub_tag.tag_id IS NULL';
+					$where[] = 'sub.tag_id IS NULL';
 				}
 
 				$where[] = 'sub.mbr_id = ?';
@@ -291,8 +290,7 @@ class Home extends CI_Controller {
 				SELECT itm.itm_id AS itm_id, ? AS mbr_id, ? AS hst_datecreated
 				FROM '.$this->db->dbprefix('items').' AS itm
 				LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id AND sub.mbr_id = ?
-				LEFT JOIN '.$this->db->dbprefix('subscriptions_tags').' AS sub_tag ON sub_tag.sub_id = sub.sub_id
-				LEFT JOIN '.$this->db->dbprefix('tags').' AS tag ON tag.tag_id = sub_tag.tag_id
+				LEFT JOIN '.$this->db->dbprefix('tags').' AS tag ON tag.tag_id = sub.tag_id
 				LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id
 				LEFT JOIN '.$this->db->dbprefix('favorites').' AS fav ON fav.itm_id = itm.itm_id AND fav.mbr_id = ?
 				LEFT JOIN '.$this->db->dbprefix('history').' AS hst ON hst.itm_id = itm.itm_id AND hst.mbr_id = ?
