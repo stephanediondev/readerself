@@ -9,6 +9,7 @@ $lang['home'] = 'Home';
 $lang['profile'] = 'Profile';
 $lang['subscriptions'] = 'Subscriptions';
 $lang['tags'] = 'Tags';
+$lang['tag'] = 'Tag';
 $lang['settings'] = 'Settings';
 $lang['subscribe'] = 'Subscribe';
 $lang['refresh'] = 'Refresh';
