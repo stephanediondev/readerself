@@ -24,7 +24,7 @@ function refresh() {
 }
 function set_read(ref) {
 	if(ref.hasClass('unread')) {
-	} else if(ref.hasClass('read')) {
+	} else if(ref.hasClass('read')) {
 	} else {
 		params = [];
 		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
