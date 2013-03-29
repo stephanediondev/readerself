@@ -9,7 +9,6 @@ example
 # Screenshots
 
 ![Home](medias/home.png)
-![Home with full screen](medias/home_fullscreen.png)
 
 # Third party
 
