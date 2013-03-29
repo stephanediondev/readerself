@@ -1,57 +1,50 @@
-body {
-	overflow: hidden;
-}
-.container-fluid {
-	padding-left: 10px;
-	padding-right: 0px;
+#content {
+	margin: 10px 0px 0px 230px;
 }
 #items {
-	clear: both;
-	overflow-x: visible;
-	overflow-y: auto;
-	padding-right: 10px;
-	position: relative;
-}
-.navbar {
-	margin-bottom: 5px;
-}
-.sidebar-nav {
-	clear: both;
-	overflow-x: visible;
+	height: auto;
+	overflow-x: hidden;
 	overflow-y: auto;
 	position: relative;
 }
-.sidebar-nav li form {
-	margin-bottom: 0px;
-	margin-left: -10px;
+#items .item {
+	background-color: #F5F5F5;
+	border: 1px solid #E3E3E3;
+	border-radius: 3px 3px 3px 3px;
+	padding: 10px;
+	margin: 0px 10px 10px 0px;
 }
-.nav-list > li > a, .nav-list .nav-header {
-	padding: 3px 5px;
+#sidebar {
+	float: left;
+	height: auto;
+	margin: 10px 0px 0px 10px;
+	width: 200px;
 }
-#content h1 {
-	font-size: 22px;
+#sidebar-display {
+	background-color: #F5F5F5;
+	border: 1px solid #E3E3E3;
+	border-radius: 3px 3px 3px 3px;
+	padding: 10px;
 }
-#content h2 {
-	font-size: 20px;
+.hide-desktop {
+	display: none;
 }
-#content h3 {
-	font-size: 18px;
+@media (max-width:1024px) {
+	.hide-tablet {
+		display: none !important;
+	}
+	#content {
+		margin: 10px 0px 0px 10px;
+	}
+	#sidebar {
+		display: none;
+	}
 }
-#content h1, #content h2, #content h3 {
-	line-height: 25px;
-}
-#content h4 {
-	font-size: 16px;
-}
-#content h5 {
-	font-size: 14px;
-}
-#content h6 {
-	font-size: 12px;
-}
-#content h4, #content h5, #content h6 {
-	line-height: 20px;
-}
-.ajax-loader {
-	margin: 5px 0px 50px 0px;
+@media (max-width:320px) {
+	.hide-tablet {
+		display: none !important;
+	}
+	.hide-phone {
+		display: none !important;
+	}
 }

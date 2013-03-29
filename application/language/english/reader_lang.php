@@ -53,3 +53,6 @@ $lang['opml_file'] = 'OPML file';
 $lang['setup'] = 'Setup';
 $lang['added'] = 'Added';
 $lang['found'] = 'Found';
+$lang['unstar'] = 'Unstar';
+$lang['up'] = 'Up';
+$lang['down'] = 'Down';

@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div id="content">
 	<h2><?php echo $this->lang->line('password'); ?></h2>
 
 	<?php echo validation_errors(); ?>

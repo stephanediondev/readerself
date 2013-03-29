@@ -15,7 +15,6 @@ example
 
 * [CodeIgniter](http://ellislab.com/codeigniter/)
 * [SimplePie](http://simplepie.org)
-* [Bootstrap](http://twitter.github.com/bootstrap/)
 * [jQuery](http://jquery.com/)
 
 # Setup

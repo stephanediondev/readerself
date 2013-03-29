@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div id="content">
 	<h2><?php echo $this->lang->line('tags'); ?> (<span><?php echo count($tags); ?></span>)</h2>
 
 	<div class="btn-toolbar">

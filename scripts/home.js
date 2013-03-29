@@ -107,14 +107,13 @@ function add_items(url) {
 	});
 }
 function set_positions() {
+	_window_height = $(window).height();
+
 	_position = $('#items').position();
-	_height = $(window).height() - _position.top;
+	_height = _window_height - _position.top - 40;
 	$('#items').css({ 'height': _height});
 	$('#items-display').css({ 'padding-bottom': _height});
 
-	_position = $('.sidebar-nav').position();
-	_height = $(window).height() - _position.top - 40;
-	$('.sidebar-nav').css({ 'height': _height});
 }
 function display_alert(alert) {
 	content = '<div class="alert alert-' + alert.type + '">';
@@ -124,31 +123,9 @@ function display_alert(alert) {
 	$('.navbar-inner').find('.alert').remove();
 	$('.navbar-inner').append(content);
 }
-function set_fullscreen_off() {
-	$('.navbar').show();
-	$('#sidebar').show();
-	$('#content').addClass('span10');
-	$('#content-toolbar .btn').removeClass('btn-mini');
-	//$('.item .btn').removeClass('btn-mini');
-	set_positions();
-}
-function set_fullscreen_on() {
-	$('.navbar').hide();
-	$('#sidebar').hide();
-	$('#content').removeClass('span10');
-	$('#content-toolbar .btn').addClass('btn-mini');
-	//$('.item .btn').addClass('btn-mini');
-	set_positions();
-}
 $(document).ready(function() {
 	refresh();
 	setInterval(refresh, 5000);
-
-	_window_width = $(window).width();
-	if(_window_width < 1024) {
-		set_fullscreen_on();
-		$('#full-screen').hide();
-	}
 
 	set_positions();
 
@@ -195,10 +172,10 @@ $(document).ready(function() {
 		}
 	});
 
-	$('.item').live('click', function(event) {
+	/*$('.item').live('click', function(event) {
 		var ref = $(this);
 		set_read(ref);
-    });
+    });*/
 
 	$('.sidebar-nav a').live('click', function(event) {
 		event.preventDefault();
@@ -231,19 +208,11 @@ $(document).ready(function() {
 
 		$('.sidebar-nav li').removeClass('active');
 
-		$('.nav-list').find('.result').remove();
+		$('#sidebar .menu').find('.result').remove();
 		content = '<li class="result active"><a id="load-sub-' + ref.data('sub_id') + '-items" href="' + base_url + 'home/items/sub/' + ref.data('sub_id') + '">' + ref.text() + ' (<span>0</span>)</a></li>';
-		$('.nav-list').append(content);
+		$('#sidebar .menu').append(content);
 
 		load_items(ref.attr('href'));
-	});
-
-	$('#full-screen').bind('click', function(event) {
-		if($(this).hasClass('active')) {
-			set_fullscreen_off();
-		} else {
-			set_fullscreen_on();
-		}
 	});
 
 	$('#refresh-items').bind('click', function(event) {
@@ -265,11 +234,11 @@ $(document).ready(function() {
 			statusCode: {
 				200: function(data_return, textStatus, jqXHR) {
 					if(data_return.subscriptions) {
-						$('.nav-list').find('.result').remove();
+						$('#sidebar .menu').find('.result').remove();
 						for(i in data_return.subscriptions) {
 							sub = data_return.subscriptions[i];
 							content = '<li class="result"><a id="load-sub-' + sub.sub_id + '-items" href="' + base_url + 'home/items/sub/' + sub.sub_id + '">' + sub.fed_title + ' (<span>0</span>)</a></li>';
-							$('.nav-list').append(content);
+							$('#sidebar .menu').append(content);
 						}
 					}
 				}
@@ -298,12 +267,12 @@ $(document).ready(function() {
 			statusCode: {
 				200: function(data_return, textStatus, jqXHR) {
 					if(data_return.status == 'star') {
-						ref.find('i').removeClass('icon-star-empty');
-						ref.find('i').addClass('icon-star');
+						ref.find('.star').hide();
+						ref.find('.unstar').show();
 					}
 					if(data_return.status == 'unstar') {
-						ref.find('i').removeClass('icon-star');
-						ref.find('i').addClass('icon-star-empty');
+						ref.find('.unstar').hide();
+						ref.find('.star').show();
 					}
 				}
 			},
@@ -332,16 +301,12 @@ $(document).ready(function() {
 					}
 					if(data_return.mode == 'toggle') {
 						if(data_return.status == 'read') {
-							ref.find('i').removeClass('icon-ok');
-							ref.find('i').addClass('icon-remove');
 							ref.find('.read').hide();
 							ref.find('.unread').show();
 							$('#item_' + data_return.itm_id).removeClass('unread');
 							$('#item_' + data_return.itm_id).addClass('read');
 						}
 						if(data_return.status == 'unread') {
-							ref.find('i').removeClass('icon-remove');
-							ref.find('i').addClass('icon-ok');
 							ref.find('.unread').hide();
 							ref.find('.read').show();
 							$('#item_' + data_return.itm_id).removeClass('read');

@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div id="content">
 	<h2><?php echo $this->lang->line('subscriptions'); ?> (<span><?php echo count($subscriptions); ?></span>)</h2>
 
 	<?php if($subscriptions) { ?>

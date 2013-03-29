@@ -31,7 +31,7 @@ $(document).ready(function() {
 
 	$('.modal_call').live('click', function(event) {
 		event.preventDefault();
-		var ref = $(this);
+		/*var ref = $(this);
 		params = [];
 		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
 		$.ajax({
@@ -48,7 +48,7 @@ $(document).ready(function() {
 			},
 			type: 'POST',
 			url: ref.attr('href')
-		});
+		});*/
 	});
 
 	$('#modal_call form').live('submit', function(event) {
