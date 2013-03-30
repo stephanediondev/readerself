@@ -22,6 +22,7 @@ class Subscribe extends CI_Controller {
 			$this->form_validation->set_rules('url', 'lang:url', 'required');
 
 			if($this->form_validation->run() == FALSE) {
+				$content['modal'] = $this->load->view('subscribe_index', $data, TRUE);
 			} else {
 				$query = $this->db->query('SELECT fed.*, sub.sub_id, IF(sub.sub_id IS NULL, 0, 1) AS subscription FROM '.$this->db->dbprefix('feeds').' AS fed LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = fed.fed_id AND sub.mbr_id = ? WHERE fed.fed_link = ? GROUP BY fed.fed_id', array($this->member->mbr_id, $this->input->post('url')));
 				if($query->num_rows() == 0) {
@@ -55,7 +56,8 @@ class Subscribe extends CI_Controller {
 						$sub_id = $this->db->insert_id();
 
 						$data['alert'] = array('type'=>'success', 'message'=>'Added');
-						$content['result_subscribe'] = array('sub_id'=>$sub_id, 'fed_title'=>$sp_feed->get_title());
+						$data['sub_id'] = $sub_id;
+						$data['fed_title'] = $sp_feed->get_title();
 
 						foreach($sp_feed->get_items() as $sp_item) {
 							$query = $this->db->query('SELECT * FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_link = ? GROUP BY itm.itm_id', array($sp_item->get_link()));
@@ -110,10 +112,11 @@ class Subscribe extends CI_Controller {
 						$sub_id = $fed->sub_id;
 					}
 					$data['alert'] = array('type'=>'success', 'message'=>'Added');
-					$content['result_subscribe'] = array('sub_id'=>$sub_id, 'fed_title'=>$fed->fed_title);
+					$data['sub_id'] = $sub_id;
+					$data['fed_title'] = $fed->fed_title;
 				}
+				$content['modal'] = $this->load->view('subscribe_confirm', $data, TRUE);
 			}
-			$content['modal'] = $this->load->view('subscribe_index', $data, TRUE);
 		} else {
 			$this->output->set_status_header(403);
 		}

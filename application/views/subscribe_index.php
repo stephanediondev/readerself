@@ -1,8 +1,6 @@
-<div class="modal-header">
-	<button type="button" class="close" data-dismiss="modal">×</button>
-	<h3>Subscribe</h3>
-</div>
-<div class="modal-body">
+<div id="modal-display">
+	<h1>Subscribe</h1>
+
 	<?php echo validation_errors(); ?>
 
 	<?php echo form_open(current_url()); ?>
@@ -20,7 +18,4 @@
 	<button type="submit" class="btn btn-primary"><?php echo $this->lang->line('send'); ?></button>
 	</p>
 	<?php echo form_close(); ?>
-</div>
-<div class="modal-footer">
-	<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 </div>

@@ -1,6 +1,6 @@
 <div id="sidebar">
 	<ul class="actions">
-		<li><a href="<?php echo base_url(); ?>subscribe" class="btn btn-small btn-inverse modal_call"><i class="icon-plus icon-white"></i> <?php echo $this->lang->line('subscribe'); ?></a></li>
+		<li><a href="<?php echo base_url(); ?>subscribe" class="modal_show"><?php echo $this->lang->line('subscribe'); ?></a></li>
 	</ul>
 	<div class="sidebar-nav">
 		<ul class="menu">

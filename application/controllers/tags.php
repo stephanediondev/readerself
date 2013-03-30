@@ -98,8 +98,9 @@ class Tags extends CI_Controller {
 				$this->db->where('tag_id', $tag_id);
 				$this->db->delete('tags');
 
-				$this->db->where('tag_id', $tag_id);
-				$this->db->delete('subscriptions_tags');
+				$this->db->set('tag_id', '');
+				$this->db->where('mbr_id', $this->member->mbr_id);
+				$this->db->update('subscriptions');
 
 				$content['modal'] = $this->load->view('tags_delete_confirm', $data, TRUE);
 			}

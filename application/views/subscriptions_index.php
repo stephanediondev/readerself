@@ -1,5 +1,5 @@
 <div id="content">
-	<h2><?php echo $this->lang->line('subscriptions'); ?> (<span><?php echo count($subscriptions); ?></span>)</h2>
+	<h1><?php echo $this->lang->line('subscriptions'); ?> (<span><?php echo count($subscriptions); ?></span>)</h1>
 
 	<?php if($subscriptions) { ?>
 	<div class="btn-toolbar" id="content-toolbar">
@@ -19,9 +19,9 @@
 	<td><?php echo $sub->fed_link; ?></td>
 	<td><?php echo $sub->subscribers; ?></td>
 	<td class="tag-title"><?php if($sub->tag_title) { ?><?php echo $sub->tag_title; ?><?php } else { ?><em><?php echo $this->lang->line('no_tag'); ?></em><?php } ?></td>
-	<td>
+	<th>
 		<div class="btn-group">
-			<button class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-tag"></i> <?php echo $this->lang->line('tag'); ?>...</button>
+			<button class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $this->lang->line('tag'); ?>...</button>
 			<ul class="dropdown-menu">
 			<li><a class="tag-toggle" href="<?php echo base_url(); ?>subscriptions/tag/<?php echo $sub->sub_id; ?>/0"><em><?php echo $this->lang->line('no_tag'); ?></em></a></li>
 			<?php if($tags) { ?>
@@ -31,7 +31,8 @@
 			<?php } ?>
 			</ul>
 		</div>
-		<a class="btn btn-mini modal_call" href="<?php echo base_url(); ?>subscriptions/delete/<?php echo $sub->sub_id; ?>"><i class="icon-trash"></i> <?php echo $this->lang->line('delete'); ?></a></td>
+		<a class="modal_show" href="<?php echo base_url(); ?>subscriptions/delete/<?php echo $sub->sub_id; ?>"><?php echo $this->lang->line('delete'); ?></a>
+	</th>
 	</tr>
 	<?php } ?>
 	</tbody>

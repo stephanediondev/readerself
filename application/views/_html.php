@@ -64,9 +64,6 @@ var uri_string = '<?php echo $this->uri->uri_string(); ?>';
 <script src="<?php echo base_url(); ?>scripts/<?php echo $this->router->class; ?>.js"></script>
 <?php } ?>
 
-<div id="modal_call" class="modal hide">
-</div>
-
 <?php echo $this->reader_library->get_debug(); ?>
 
 </body>

@@ -63,8 +63,6 @@ body {
 #content{height:auto;margin:10px 0px 0px 10px;position:relative;}
 a:link, a:visited{color:#777777;text-decoration:underline;}
 a:hover{color:#111111;}
-h1{font-size:16px;font-weight:bold;}
-h1 a:link, h1 a:visited{text-decoration:none;}
 h2{font-size:15px;}
 h3{font-size:14px;}
 h4{font-size:13px;}
@@ -93,9 +91,10 @@ label{cursor:text;display:block;margin-bottom:2px;position:relative;}
 	display: inline-block;
 	margin: 5px 5px 5px 0px;
 }
-.actions a:link, .actions a:visited {
+tbody th a:link, tbody th a:visited, .actions a:link, .actions a:visited {
 	background-color:#BD6295;color:#FFFFFF;display:inline;line-height:10px;margin:0px;padding:3px 3px 1px 3px;position:relative;text-decoration:none;vertical-align:top;
 }
+tbody th a:link, tbody th a:visited{margin-right:3px;}
 #nav .actions a:link, #nav .actions a:visited {
 	background-color:#CC7C5A;
 }
@@ -109,8 +108,15 @@ label{cursor:text;display:block;margin-bottom:2px;position:relative;}
 	vertical-align: top;
 }
 .menu li {
-	margin: 10px 0px;
+	margin: 0px 0px 15px 0px;
 }
 .menu li.active {
 	font-weight: bold;
 }
+.item h2{font-size:16px;font-weight:bold;}
+.item h2 a:link, .item h2 a:visited{text-decoration:none;}
+
+#overlay, #modal{left:0px;position:absolute;top:0px;z-index:10000;}
+#modal{background-color:#FFFFFF;z-index:20000;width:300px;}
+#modal-display{padding:10px;}
+#overlay{background-color:#000000;opacity:0.7;}

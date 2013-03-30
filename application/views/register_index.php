@@ -1,5 +1,5 @@
 <div id="content">
-	<h2><?php echo $this->lang->line('register'); ?></h2>
+	<h1><?php echo $this->lang->line('register'); ?></h1>
 
 	<?php echo validation_errors(); ?>
 
