@@ -32,7 +32,7 @@
 			<?php } ?>
 			</ul>
 		</div>
--->		<a class="modal_show" href="<?php echo base_url(); ?>subscriptions/delete/<?php echo $sub->sub_id; ?>"><i class="icon-remove"></i><?php echo $this->lang->line('delete'); ?>...</a>
+-->		<a class="modal_show" href="<?php echo base_url(); ?>subscriptions/delete/<?php echo $sub->sub_id; ?>"><i class="icon-trash"></i><?php echo $this->lang->line('delete'); ?>...</a>
 	</th>
 	</tr>
 	<?php } ?>

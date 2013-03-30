@@ -138,7 +138,7 @@ class Home extends CI_Controller {
 				foreach($query->result() as $itm) {
 					list($itm->explode_date, $itm->explode_time) = explode(' ', $itm->itm_date);
 
-					$itm->itm_content = strip_tags($itm->itm_content, '<dt><dd><dl><table><caption><tr><th><td><tbody><thead><h2><h3><h4><h5><h6><strong><em><code><pre><blockquote><p><ul><li><ol><br><del><a><img><figure><figcaption><cite><time><abbr>');
+					//$itm->itm_content = strip_tags($itm->itm_content, '<dt><dd><dl><table><caption><tr><th><td><tbody><thead><h2><h3><h4><h5><h6><strong><em><code><pre><blockquote><p><ul><li><ol><br><del><a><img><figure><figcaption><cite><time><abbr>');
 
 					preg_match_all('/<a[^>]+>/i', $itm->itm_content, $result);
 					foreach($result[0] as $tag_a) {

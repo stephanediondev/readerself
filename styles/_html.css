@@ -114,7 +114,6 @@ tbody th a:link, tbody th a:visited{margin-right:3px;}
 .menu li a {
 	text-decoration: none;
 }
-
 #overlay, #modal{left:0px;position:absolute;top:0px;z-index:10000;}
 #modal{background-color:#FFFFFF;z-index:20000;width:300px;}
 #modal-display{padding:10px;}
@@ -129,12 +128,23 @@ a:link span, a:visited span {
 	display: inline-block;
 	vertical-align: top;
 }
+.show-phone {
+	display: none !important;
+}
 @media (max-width:1024px) {
 	.hide-tablet {
 		display: none !important;
 	}
 }
 @media (max-width:400px) {
+	.show-phone {
+		display: inline-block !important;
+	}
+	#nav {
+		position: absolute;
+		right: 5px;
+		top: 0px;
+	}
 	a:link i, a:visited i {
 		/*display: none;*/
 	}

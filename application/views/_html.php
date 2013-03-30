@@ -18,10 +18,10 @@
 		<li class="hide-phone"><a href="<?php echo base_url(); ?>subscriptions"><i class="icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?></a></li>
 		<li class="hide-phone"><a href="<?php echo base_url(); ?>tags"><i class="icon-tags"></i><?php echo $this->lang->line('tags'); ?></a></li>
 		<li class="hide-phone hide-tablet"><a href="<?php echo base_url(); ?>import"><i class="icon-download-alt"></i><?php echo $this->lang->line('import'); ?></a></li>
-		<li><a href="<?php echo base_url(); ?>profile"><i class="icon-user"></i><?php echo $this->lang->line('profile'); ?></a></li>
-		<li><a href="<?php echo base_url(); ?>logout"><i class="icon-off"></i><?php echo $this->lang->line('logout'); ?></a></li>
+		<li class="hide-phone"><a href="<?php echo base_url(); ?>profile"><i class="icon-user"></i><?php echo $this->lang->line('profile'); ?></a></li>
+		<li><a href="<?php echo base_url(); ?>logout"><i class="icon-signout"></i><?php echo $this->lang->line('logout'); ?></a></li>
 		<?php } else { ?>
-		<li><a href="<?php echo base_url(); ?>login"><i class="icon-lock"></i><?php echo $this->lang->line('login'); ?></a></li>
+		<li><a href="<?php echo base_url(); ?>login"><i class="icon-signin"></i><?php echo $this->lang->line('login'); ?></a></li>
 		<li><a href="<?php echo base_url(); ?>password"><i class="icon-key"></i><?php echo $this->lang->line('password'); ?></a></li>
 		<?php } ?>
 	</ul>
