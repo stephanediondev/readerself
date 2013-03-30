@@ -4,14 +4,14 @@
 	</ul>
 	<div class="sidebar-nav">
 		<ul class="menu">
-			<li class="active"><a id="load-all-items" href="<?php echo base_url(); ?>home/items/all"><?php echo $this->lang->line('all_items'); ?> (<span>0</span>)</a></li>
-			<li><a id="load-starred-items" href="<?php echo base_url(); ?>home/items/starred"><?php echo $this->lang->line('starred_items'); ?> (<span>0</span>)</a></li>
+			<li class="active"><a id="load-all-items" href="<?php echo base_url(); ?>home/items/all"><i class="icon-asterisk"></i><?php echo $this->lang->line('all_items'); ?> (<span>0</span>)</a></li>
+			<li><a id="load-starred-items" href="<?php echo base_url(); ?>home/items/starred"><i class="icon-star"></i><?php echo $this->lang->line('starred_items'); ?> (<span>0</span>)</a></li>
 			<?php if($tags) { ?>
 			<?php foreach($tags as $tag) { ?>
-			<li><a id="load-tag-<?php echo $tag->tag_id; ?>-items" href="<?php echo base_url(); ?>home/items/tag/<?php echo $tag->tag_id; ?>"><?php echo $tag->tag_title; ?> (<span>0</span>)</a></li>
+			<li><a id="load-tag-<?php echo $tag->tag_id; ?>-items" href="<?php echo base_url(); ?>home/items/tag/<?php echo $tag->tag_id; ?>"><i class="icon-tag"></i><?php echo $tag->tag_title; ?> (<span>0</span>)</a></li>
 			<?php } ?>
 			<?php } ?>
-			<li><a id="load-notag-items" href="<?php echo base_url(); ?>home/items/notag"><em><?php echo $this->lang->line('no_tag'); ?></em> (<span>0</span>)</a></li>
+			<li><a id="load-notag-items" href="<?php echo base_url(); ?>home/items/notag"><i class="icon-tag"></i><em><?php echo $this->lang->line('no_tag'); ?></em> (<span>0</span>)</a></li>
 			<li><?php echo $this->lang->line('subscriptions'); ?></li>
 			<li>
 			<?php echo form_open(base_url().'home/subscriptions'); ?>

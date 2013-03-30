@@ -209,7 +209,7 @@ $(document).ready(function() {
 		$('.sidebar-nav li').removeClass('active');
 
 		$('#sidebar .menu').find('.result').remove();
-		content = '<li class="result active"><a id="load-sub-' + ref.data('sub_id') + '-items" href="' + base_url + 'home/items/sub/' + ref.data('sub_id') + '">' + ref.text() + ' (<span>0</span>)</a></li>';
+		content = '<li class="result active"><a id="load-sub-' + ref.data('sub_id') + '-items" href="' + base_url + 'home/items/sub/' + ref.data('sub_id') + '"><i class="icon-rss"></i>' + ref.text() + ' (<span>0</span>)</a></li>';
 		$('#sidebar .menu').append(content);
 
 		load_items(ref.attr('href'));
@@ -237,7 +237,7 @@ $(document).ready(function() {
 						$('#sidebar .menu').find('.result').remove();
 						for(i in data_return.subscriptions) {
 							sub = data_return.subscriptions[i];
-							content = '<li class="result"><a id="load-sub-' + sub.sub_id + '-items" href="' + base_url + 'home/items/sub/' + sub.sub_id + '">' + sub.fed_title + ' (<span>0</span>)</a></li>';
+							content = '<li class="result"><a id="load-sub-' + sub.sub_id + '-items" href="' + base_url + 'home/items/sub/' + sub.sub_id + '"><i class="icon-rss"></i>' + sub.fed_title + ' (<span>0</span>)</a></li>';
 							$('#sidebar .menu').append(content);
 						}
 					}

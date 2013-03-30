@@ -30,8 +30,18 @@
 .item h2{font-size:16px;font-weight:bold;margin: 5px 0px;}
 .item h2 a:link, .item h2 a:visited{text-decoration:none;}
 
+.item .actions {
+	float: right;
+}
 .item .actions a:link, .item .actions a:visited {
 	background-color: #5660D1;
+}
+.item-details li {
+	display: inline-block;
+	margin-right: 5px;
+}
+.item-details li a:link, .item-details li a:visited {
+	text-decoration: none;
 }
 
 .hide-desktop {
