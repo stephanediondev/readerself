@@ -3,6 +3,7 @@
 <head>
 <title>(0)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link href="<?php echo base_url(); ?>thirdparty/fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link href="<?php echo base_url(); ?>styles/_html.css" rel="stylesheet" type="text/css">
 <?php if(file_exists('styles/'.$this->router->class.'.css')) { ?>
 <link href="<?php echo base_url(); ?>styles/<?php echo $this->router->class; ?>.css" rel="stylesheet" type="text/css">
@@ -13,15 +14,15 @@
 <div id="nav">
 	<ul class="actions">
 		<?php if($this->session->userdata('logged_member')) { ?>
-		<li class="hide-phone"><a href="<?php echo base_url(); ?>home"><?php echo $this->lang->line('home'); ?></a></li>
-		<li class="hide-phone"><a href="<?php echo base_url(); ?>subscriptions"><?php echo $this->lang->line('subscriptions'); ?></a></li>
-		<li class="hide-phone"><a href="<?php echo base_url(); ?>tags"><?php echo $this->lang->line('tags'); ?></a></li>
-		<li class="hide-phone hide-tablet"><a href="<?php echo base_url(); ?>import"><?php echo $this->lang->line('import'); ?></a></li>
-		<li><a href="<?php echo base_url(); ?>profile"><?php echo $this->lang->line('profile'); ?></a></li>
-		<li><a href="<?php echo base_url(); ?>logout"><?php echo $this->lang->line('logout'); ?></a></li>
+		<li class="hide-phone"><a href="<?php echo base_url(); ?>home"><i class="icon-home"></i><?php echo $this->lang->line('home'); ?></a></li>
+		<li class="hide-phone"><a href="<?php echo base_url(); ?>subscriptions"><i class="icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?></a></li>
+		<li class="hide-phone"><a href="<?php echo base_url(); ?>tags"><i class="icon-tags"></i><?php echo $this->lang->line('tags'); ?></a></li>
+		<li class="hide-phone hide-tablet"><a href="<?php echo base_url(); ?>import"><i class="icon-download-alt"></i><?php echo $this->lang->line('import'); ?></a></li>
+		<li><a href="<?php echo base_url(); ?>profile"><i class="icon-user"></i><?php echo $this->lang->line('profile'); ?></a></li>
+		<li><a href="<?php echo base_url(); ?>logout"><i class="icon-off"></i><?php echo $this->lang->line('logout'); ?></a></li>
 		<?php } else { ?>
-		<li><a href="<?php echo base_url(); ?>login"><?php echo $this->lang->line('login'); ?></a></li>
-		<li><a href="<?php echo base_url(); ?>password"><?php echo $this->lang->line('password'); ?></a></li>
+		<li><a href="<?php echo base_url(); ?>login"><i class="icon-lock"></i><?php echo $this->lang->line('login'); ?></a></li>
+		<li><a href="<?php echo base_url(); ?>password"><i class="icon-key"></i><?php echo $this->lang->line('password'); ?></a></li>
 		<?php } ?>
 	</ul>
 	<?php if($this->session->userdata('alert')) { ?>

@@ -1,6 +1,6 @@
 <div id="sidebar">
 	<ul class="actions">
-		<li><a href="<?php echo base_url(); ?>subscribe" class="modal_show"><?php echo $this->lang->line('subscribe'); ?></a></li>
+		<li><a href="<?php echo base_url(); ?>subscribe" class="modal_show"><i class="icon-plus"></i><?php echo $this->lang->line('subscribe'); ?>...</a></li>
 	</ul>
 	<div class="sidebar-nav">
 		<ul class="menu">
@@ -23,8 +23,8 @@
 </div>
 <div id="content">
 	<ul class="actions">
-		<li><a href="#" id="refresh-items" class="btn btn-small"><?php echo $this->lang->line('refresh'); ?></a></li>
-		<li><a href="#" class="btn btn-small dropdown-toggle" data-toggle="dropdown"><?php echo $this->lang->line('mark_all_as_read'); ?>...</a></li>
+		<li><a href="#" id="refresh-items"><i class="icon-refresh"></i><?php echo $this->lang->line('refresh'); ?></a></li>
+		<li><a href="#"><i class="icon-ok"></i><?php echo $this->lang->line('mark_all_as_read'); ?>...</a></li>
 		<!--<ul class="dropdown-menu">-->
 		<!--<li><a class="history" href="<?php echo base_url(); ?>home/history/massive-read/all"><?php echo $this->lang->line('all_items'); ?></a></li>-->
 		<!--<li><a class="history" href="<?php echo base_url(); ?>home/history/massive-read/one-day"><?php echo $this->lang->line('items_older_than_a_day'); ?></a></li>-->

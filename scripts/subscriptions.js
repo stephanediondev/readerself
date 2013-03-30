@@ -28,13 +28,13 @@ $(document).ready(function() {
 	});
 
 	$('#filter-all').bind('click', function(event) {
-		$('tr.line-all td').show();
-		$('tr.line-error td').show();
-		$('h2').find('span').html(count_all);
+		$('tr.line-all td, tr.line-all th').show();
+		$('tr.line-error td, tr.line-error th').show();
+		$('h1').find('span').html(count_all);
 	});
 	$('#filter-error').bind('click', function(event) {
-		$('tr.line-all td').hide();
-		$('tr.line-error td').show();
-		$('h2').find('span').html(count_error);
+		$('tr.line-all td, tr.line-all th').hide();
+		$('tr.line-error td, tr.line-error th').show();
+		$('h1').find('span').html(count_error);
 	});
 });

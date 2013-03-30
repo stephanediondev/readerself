@@ -25,11 +25,11 @@ class Import extends CI_Controller {
 					$this->feeds = array();
 					$this->import_opml($obj->body);
 
-					$content .= '<div class="container-fluid">';
+					$content .= '<div id="content">';
 
 					if(count($this->tags) > 0) {
-						$content .= '<h2>'.$this->lang->line('tags').' ('.count($this->tags).')</h2>';
-						$content .= '<table class="table table-condensed table-hover">';
+						$content .= '<h1>'.$this->lang->line('tags').' ('.count($this->tags).')</h1>';
+						$content .= '<table>';
 						$content .= '<thead>';
 						$content .= '<tr><th>&nbsp;</th><th>'.$this->lang->line('title').'</th></tr>';
 						$content .= '</thead>';
@@ -56,8 +56,8 @@ class Import extends CI_Controller {
 					}
 
 					if(count($this->feeds) > 0) {
-						$content .= '<h2>'.$this->lang->line('subscriptions').' ('.count($this->feeds).')</h2>';
-						$content .= '<table class="table table-condensed table-hover">';
+						$content .= '<h1>'.$this->lang->line('subscriptions').' ('.count($this->feeds).')</h1>';
+						$content .= '<table>';
 						$content .= '<thead>';
 						$content .= '<tr><th>&nbsp;</th><th>'.$this->lang->line('title').'</th><th>'.$this->lang->line('url').'</th><th>'.$this->lang->line('tag').'</th></tr>';
 						$content .= '</thead>';
