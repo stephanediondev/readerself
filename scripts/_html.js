@@ -29,6 +29,9 @@ function modal_show(href) {
 
 					if($('#overlay').is(':visible')) {
 					} else {
+						document_height = $(document).height();
+						document_top = $(document).scrollTop();
+						$('#overlay').css({'height': document_height, 'width': window_width});
 						$('#overlay').fadeIn(800);
 					}
 
@@ -51,7 +54,9 @@ function set_positions_modal() {
 	window_width = $(window).width();
 	window_height = $(window).height();
 
-	$('#overlay').css({'height': document_height, 'width': window_width});
+	if($('#overlay').is(':visible')) {
+		$('#overlay').css({'height': document_height, 'width': window_width});
+	}
 
 	width = $('#modal').width();
 	height = $('#modal').height();

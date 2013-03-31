@@ -39,6 +39,20 @@
 .item .actions a:link, .item .actions a:visited {
 	background-color: #5660D1;
 }
+.item .detect-visible {
+	margin-top: 10px;
+}
+.item .detect-visible .actions {
+	float: none;
+	font-size: 12px;
+}
+.item .detect-visible .actions li {
+	margin: 5px 5px 0px 0px;
+}
+
+.item .detect-visible .actions a:link, .item .detect-visible .actions a:visited {
+	background-color: #7109AA;;
+}
 .item-details li {
 	display: inline-block;
 	font-size: 13px;
@@ -47,7 +61,11 @@
 .item-details li a:link, .item-details li a:visited {
 	text-decoration: none;
 }
-@media (max-width:1024px) {
+.item table td {
+	background-color: transparent !important;
+	border: none;
+}
+}@media (max-width:1024px) {
 	#content {
 		margin: 10px 0px 0px 10px;
 	}

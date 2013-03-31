@@ -17,14 +17,11 @@
 	<div class=item_content">
 		<?php echo $itm->itm_content; ?>
 	</div>
-	<div class="btn-toolbar detect-visible" data-itm_id="item_<?php echo $itm->itm_id; ?>">
-		<!--<div class="btn-group dropup">-->
-		<!--	<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $this->lang->line('share'); ?>...</a>-->
-		<!--	<ul class="dropdown-menu">-->
-		<!--	<li><a target="_blank" href="https://www.facebook.com/sharer.php?u=<?php echo urlencode($itm->itm_link); ?>">Facebook</a></li>-->
-		<!--	<li><a target="_blank" href="https://plus.google.com/share?url=<?php echo urlencode($itm->itm_link); ?>">Google</a></li>-->
-		<!--	<li><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text=<?php echo urlencode($itm->itm_link); ?>">Twitter</a></li>-->
-		<!--	</ul>-->
-		<!--</div> -->
+	<div class="detect-visible" data-itm_id="item_<?php echo $itm->itm_id; ?>">
+		<ul class="actions">
+			<li><a target="_blank" href="https://www.facebook.com/sharer.php?u=<?php echo urlencode($itm->itm_link); ?>"><i class="icon-facebook"></i>Facebook</a></li>
+			<li><a target="_blank" href="https://plus.google.com/share?url=<?php echo urlencode($itm->itm_link); ?>"><i class="icon-google-plus"></i>Google</a></li>
+			<li><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text=<?php echo urlencode($itm->itm_link); ?>"><i class="icon-twitter"></i>Twitter</a></li>
+		</ul>
 	</div>
 </div>

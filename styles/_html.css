@@ -76,14 +76,15 @@ strong{font-weight:bold;}
 del{text-decoration:line-through;}
 ins{font-style:italic;font-weight:bold;}
 pre{border:1px dashed #000000;padding:5px;}
-table{border-collapse:collapse;border-spacing:0px;clear:both;margin:5px 0px;width:100%;}
-table th, table td{border-bottom:1px solid #E7E7E7;font-size:12px;padding:4px 6px 4px 0px;text-align:left;vertical-align:middle;}
+table{border-collapse:collapse;border-spacing:0px;clear:both;margin:5px 0px;}
+table th, table td{border-bottom:1px solid #E7E7E7;font-size:12px;padding:4px 10px 4px 0px;text-align:left;vertical-align:middle;}
 thead th{font-family:"Lucida Grande","Century Gothic",sans-serif;white-space:nowrap;}
 thead tr th.sort_asc span, thead tr th.sort_asc a:link, thead tr th.sort_asc a:visited{background-color:#777777;color:#FFFFFF;padding:2px;text-decoration:none;}
 thead tr th.sort_asc a:hover{background-color:#333333;}
 thead tr th.sort_desc span, thead tr th.sort_desc a:link, thead tr th.sort_desc a:visited{background-color:#333333;color:#FFFFFF;padding:2px;text-decoration:none;}
 thead tr th.sort_desc a:hover{background-color:#777777;}
-tbody th{padding-right:0px;white-space:nowrap;}
+tbody th{white-space:nowrap;}
+tbody th a{float:left;}
 tbody tr:nth-child(odd) th, tbody tr:nth-child(odd) td{background-color:#FFFFFF;}
 tbody tr:nth-child(even) th, tbody tr:nth-child(even) td{background-color:#FAFAFA;}
 table tbody tr:hover th, table tbody tr:hover td{background-color:#E7E7E7;}
@@ -93,7 +94,7 @@ label{cursor:text;display:block;margin-bottom:2px;position:relative;}
 	margin: 5px 5px 5px 0px;
 }
 button, tbody th a:link, tbody th a:visited, .actions a:link, .actions a:visited {
-	background-color:#BD6295;border:none;color:#FFFFFF;display:inline;line-height:10px;margin:0px;padding:3px 3px 1px 3px;position:relative;text-decoration:none;vertical-align:top;
+	background-color:#BD6295;border:none;color:#FFFFFF;display:inline;line-height:10px;margin:0px;padding:3px 3px 3px 3px;position:relative;text-decoration:none;vertical-align:top;
 }
 tbody th a:link, tbody th a:visited{margin-right:3px;}
 #nav .actions a:link, #nav .actions a:visited {
@@ -101,6 +102,9 @@ tbody th a:link, tbody th a:visited{margin-right:3px;}
 }
 button {
 	background-color:#9EA64B;
+}
+.actions {
+	overflow: hidden;
 }
 .actions a:hover {
 	background-color:#333333;
