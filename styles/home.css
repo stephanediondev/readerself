@@ -65,7 +65,7 @@
 	background-color: transparent !important;
 	border: none;
 }
-}@media (max-width:1024px) {
+@media (max-width:1024px) {
 	#content {
 		margin: 10px 0px 0px 10px;
 	}
