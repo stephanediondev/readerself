@@ -104,6 +104,7 @@ button {
 	background-color:#9EA64B;
 }
 .actions {
+	font-size: 12px;
 	overflow: hidden;
 }
 .actions a:hover {

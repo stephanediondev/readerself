@@ -32,6 +32,7 @@
 
 .item .actions {
 	float: right;
+	font-size: 12px;
 }
 .item .actions li {
 	margin: 5px 0px 5px 5px;
