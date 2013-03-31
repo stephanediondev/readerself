@@ -1,5 +1,5 @@
 <div id="modal-display">
-	<h1><?php echo $this->lang->line('tags'); ?></h1>
+	<h1><i class="icon-plus"></i> <?php echo $this->lang->line('tags'); ?></h1>
 
 	<?php echo validation_errors(); ?>
 

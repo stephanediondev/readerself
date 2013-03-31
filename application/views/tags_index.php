@@ -1,5 +1,5 @@
 <div id="content">
-	<h1><?php echo $this->lang->line('tags'); ?> (<span><?php echo count($tags); ?></span>)</h1>
+	<h1><i class="icon-tags"></i> <?php echo $this->lang->line('tags'); ?> (<span><?php echo count($tags); ?></span>)</h1>
 
 	<div class="actions">
 		<ul>

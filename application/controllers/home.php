@@ -217,7 +217,9 @@ class Home extends CI_Controller {
 			redirect(base_url());
 		}
 
-		$modes = array('massive-read', 'toggle');
+		$modes = array('dialog', 'toggle');
+
+		$data = array();
 
 		$content = array();
 
@@ -225,79 +227,88 @@ class Home extends CI_Controller {
 			$this->reader_library->set_template('_json');
 			$this->reader_library->set_content_type('application/json');
 
-			if($mode == 'massive-read' && $this->session->userdata('items-mode')) {
-				$modes = array('all', 'starred', 'notag', 'tag', 'sub');
+			if($mode == 'dialog' && $this->session->userdata('items-mode')) {
+				$this->load->library(array('form_validation'));
 
-				$is_tag = FALSE;
-				if($this->session->userdata('items-mode') == 'tag') {
-					$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? AND tag.tag_id = ? GROUP BY tag.tag_id', array($this->member->mbr_id, $this->session->userdata('items-id')));
-					if($query->num_rows() > 0) {
-						$is_tag = $this->session->userdata('items-id');
+				$this->form_validation->set_rules('age', 'lang:age', 'required');
+
+				if($this->form_validation->run() == FALSE) {
+					$content['modal'] = $this->load->view('home_history', $data, TRUE);
+				} else {
+
+					$is_tag = FALSE;
+					if($this->session->userdata('items-mode') == 'tag') {
+						$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? AND tag.tag_id = ? GROUP BY tag.tag_id', array($this->member->mbr_id, $this->session->userdata('items-id')));
+						if($query->num_rows() > 0) {
+							$is_tag = $this->session->userdata('items-id');
+						}
 					}
-				}
 
-				$is_sub = FALSE;
-				if($this->session->userdata('items-mode') == 'sub') {
-					$query = $this->db->query('SELECT sub.* FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.mbr_id = ? AND sub.sub_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $this->session->userdata('items-id')));
-					if($query->num_rows() > 0) {
-						$is_sub = $this->session->userdata('items-id');
+					$is_sub = FALSE;
+					if($this->session->userdata('items-mode') == 'sub') {
+						$query = $this->db->query('SELECT sub.* FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.mbr_id = ? AND sub.sub_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $this->session->userdata('items-id')));
+						if($query->num_rows() > 0) {
+							$is_sub = $this->session->userdata('items-id');
+						}
 					}
-				}
 
-				$where = array();
-				$bindings = array();
+					$where = array();
+					$bindings = array();
 
-				$where[] = 'hst.hst_id IS NULL';
+					$where[] = 'hst.hst_id IS NULL';
 
-				$bindings[] = $this->member->mbr_id;
-				$bindings[] = date('Y-m-d H:i:s');
-				$bindings[] = $this->member->mbr_id;
-				$bindings[] = $this->member->mbr_id;
-				$bindings[] = $this->member->mbr_id;
-
-				if($this->session->userdata('items-mode') == 'starred') {
-					$where[] = 'fav.fav_id IS NOT NULL';
-				}
-				if($is_tag) {
-					$where[] = 'sub.tag_id = ?';
-					$bindings[] = $is_tag;
-				}
-				if($is_sub) {
-					$where[] = 'sub.sub_id = ?';
-					$bindings[] = $is_sub;
-				}
-				if($this->session->userdata('items-mode') == 'notag') {
-					$where[] = 'sub.tag_id IS NULL';
-				}
-
-				$where[] = 'sub.mbr_id = ?';
-				$bindings[] = $this->member->mbr_id;
-
-				if($id == 'one-day') {
-					$where[] = 'DATE_ADD(itm.itm_date, INTERVAL 1 DAY) < ?';
+					$bindings[] = $this->member->mbr_id;
 					$bindings[] = date('Y-m-d H:i:s');
-				}
-				if($id == 'one-week') {
-					$where[] = 'DATE_ADD(itm.itm_date, INTERVAL 1 WEEK) < ?';
-					$bindings[] = date('Y-m-d H:i:s');
-				}
-				if($id == 'two-weeks') {
-					$where[] = 'DATE_ADD(itm.itm_date, INTERVAL 2 WEEK) < ?';
-					$bindings[] = date('Y-m-d H:i:s');
-				}
+					$bindings[] = $this->member->mbr_id;
+					$bindings[] = $this->member->mbr_id;
+					$bindings[] = $this->member->mbr_id;
 
-				$sql = 'INSERT INTO '.$this->db->dbprefix('history').' (itm_id, mbr_id, hst_datecreated)
-				SELECT itm.itm_id AS itm_id, ? AS mbr_id, ? AS hst_datecreated
-				FROM '.$this->db->dbprefix('items').' AS itm
-				LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id AND sub.mbr_id = ?
-				LEFT JOIN '.$this->db->dbprefix('tags').' AS tag ON tag.tag_id = sub.tag_id
-				LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id
-				LEFT JOIN '.$this->db->dbprefix('favorites').' AS fav ON fav.itm_id = itm.itm_id AND fav.mbr_id = ?
-				LEFT JOIN '.$this->db->dbprefix('history').' AS hst ON hst.itm_id = itm.itm_id AND hst.mbr_id = ?
-				WHERE '.implode(' AND ', $where).'
-				GROUP BY itm.itm_id';
-				$query = $this->db->query($sql, $bindings);
-				$content['alert'] = array('type'=>'success', 'message'=>$this->db->affected_rows().' items marked as read');
+					if($this->session->userdata('items-mode') == 'starred') {
+						$where[] = 'fav.fav_id IS NOT NULL';
+					}
+					if($is_tag) {
+						$where[] = 'sub.tag_id = ?';
+						$bindings[] = $is_tag;
+					}
+					if($is_sub) {
+						$where[] = 'sub.sub_id = ?';
+						$bindings[] = $is_sub;
+					}
+					if($this->session->userdata('items-mode') == 'notag') {
+						$where[] = 'sub.tag_id IS NULL';
+					}
+
+					$where[] = 'sub.mbr_id = ?';
+					$bindings[] = $this->member->mbr_id;
+
+					if($this->input->post('age') == 'one-day') {
+						$where[] = 'DATE_ADD(itm.itm_date, INTERVAL 1 DAY) < ?';
+						$bindings[] = date('Y-m-d H:i:s');
+					}
+					if($this->input->post('age') == 'one-week') {
+						$where[] = 'DATE_ADD(itm.itm_date, INTERVAL 1 WEEK) < ?';
+						$bindings[] = date('Y-m-d H:i:s');
+					}
+					if($this->input->post('age') == 'two-weeks') {
+						$where[] = 'DATE_ADD(itm.itm_date, INTERVAL 2 WEEK) < ?';
+						$bindings[] = date('Y-m-d H:i:s');
+					}
+
+					$sql = 'INSERT INTO '.$this->db->dbprefix('history').' (itm_id, mbr_id, hst_datecreated)
+					SELECT itm.itm_id AS itm_id, ? AS mbr_id, ? AS hst_datecreated
+					FROM '.$this->db->dbprefix('items').' AS itm
+					LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id AND sub.mbr_id = ?
+					LEFT JOIN '.$this->db->dbprefix('tags').' AS tag ON tag.tag_id = sub.tag_id
+					LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id
+					LEFT JOIN '.$this->db->dbprefix('favorites').' AS fav ON fav.itm_id = itm.itm_id AND fav.mbr_id = ?
+					LEFT JOIN '.$this->db->dbprefix('history').' AS hst ON hst.itm_id = itm.itm_id AND hst.mbr_id = ?
+					WHERE '.implode(' AND ', $where).'
+					GROUP BY itm.itm_id';
+					$query = $this->db->query($sql, $bindings);
+					$content['alert'] = array('type'=>'success', 'message'=>$this->db->affected_rows().' items marked as read');
+
+					$content['modal'] = $this->load->view('home_history_confirm', $data, TRUE);
+				}
 			}
 
 			if($mode == 'toggle') {

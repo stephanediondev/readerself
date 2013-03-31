@@ -24,13 +24,7 @@
 <div id="content">
 	<ul class="actions">
 		<li><a href="#" id="refresh-items"><i class="icon-refresh"></i><?php echo $this->lang->line('refresh'); ?></a></li>
-		<li class="hide-phone"><a href="#"><i class="icon-ok"></i><?php echo $this->lang->line('mark_all_as_read'); ?>...</a></li>
-		<!--<ul class="dropdown-menu">-->
-		<!--<li><a class="history" href="<?php echo base_url(); ?>home/history/massive-read/all"><?php echo $this->lang->line('all_items'); ?></a></li>-->
-		<!--<li><a class="history" href="<?php echo base_url(); ?>home/history/massive-read/one-day"><?php echo $this->lang->line('items_older_than_a_day'); ?></a></li>-->
-		<!--<li><a class="history" href="<?php echo base_url(); ?>home/history/massive-read/one-week"><?php echo $this->lang->line('items_older_than_a_week'); ?></a></li>-->
-		<!--<li><a class="history" href="<?php echo base_url(); ?>home/history/massive-read/two-weeks"><?php echo $this->lang->line('items_older_than_two_weeks'); ?></a></li>-->
-		<!--</ul>-->
+		<li class="hide-phone"><a href="<?php echo base_url(); ?>home/history/dialog" class="modal_show"><i class="icon-ok"></i><?php echo $this->lang->line('mark_all_as_read'); ?>...</a></li>
 	</ul>
 	<div id="items">
 		<div id="items-display">

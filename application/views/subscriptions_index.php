@@ -1,5 +1,5 @@
 <div id="content">
-	<h1><?php echo $this->lang->line('subscriptions'); ?> (<span><?php echo count($subscriptions); ?></span>)</h1>
+	<h1><i class="icon-rss"></i> <?php echo $this->lang->line('subscriptions'); ?> (<span><?php echo count($subscriptions); ?></span>)</h1>
 
 	<?php if($subscriptions) { ?>
 	<div class="btn-toolbar" id="content-toolbar">

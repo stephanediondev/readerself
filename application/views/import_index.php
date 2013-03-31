@@ -1,5 +1,5 @@
 <div id="content">
-	<h1><?php echo $this->lang->line('import'); ?></h1>
+	<h1><i class="icon-download-alt"></i> <?php echo $this->lang->line('import'); ?></h1>
 
 	<?php echo validation_errors(); ?>
 

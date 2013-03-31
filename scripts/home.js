@@ -182,10 +182,8 @@ $(document).ready(function() {
 		var ref = $(this);
 		if(ref.attr('id') == 'load-starred-items') {
 			$('#massive-read').hide();
-			$('#filter-items').hide();
 		} else {
 			$('#massive-read').show();
-			$('#filter-items').show();
 		}
 		$('.sidebar-nav li').removeClass('active');
 		ref.parent().addClass('active');
@@ -293,12 +291,6 @@ $(document).ready(function() {
 			dataType: 'json',
 			statusCode: {
 				200: function(data_return, textStatus, jqXHR) {
-					if(data_return.alert) {
-						display_alert(data_return.alert)
-					}
-					if(data_return.mode == 'massive-read') {
-						load_items( $('.sidebar-nav').find('li.active').find('a').attr('href') );
-					}
 					if(data_return.mode == 'toggle') {
 						if(data_return.status == 'read') {
 							ref.find('.read').hide();

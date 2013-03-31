@@ -14,10 +14,6 @@ class Subscriptions extends CI_Controller {
 		$data = array();
 		$data['subscriptions'] = $query->result();
 
-		$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? GROUP BY tag.tag_id ORDER BY tag.tag_title ASC', array($this->member->mbr_id));
-
-		$data['tags'] = $query->result();
-
 		$content = $this->load->view('subscriptions_index', $data, TRUE);
 		$this->reader_library->set_content($content);
 	}
@@ -72,32 +68,58 @@ class Subscriptions extends CI_Controller {
 		}
 		$this->reader_library->set_content($content);
 	}
-	public function tag($sub_id, $tag_id) {
+	public function tag($sub_id) {
 		if(!$this->session->userdata('logged_member')) {
 			redirect(base_url());
 		}
 
+		$data = array();
 		$content = array();
-		$content['sub_id'] = $sub_id;
 
 		if($this->input->is_ajax_request()) {
 			$this->reader_library->set_template('_json');
 			$this->reader_library->set_content_type('application/json');
 
-			$query = $this->db->query('SELECT fed.*, sub.sub_id FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.sub_id = ? AND fed.fed_id IS NOT NULL GROUP BY sub.sub_id', array($this->member->mbr_id, $sub_id));
+			$query = $this->db->query('SELECT fed.*, sub.sub_id, sub.tag_id FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.sub_id = ? AND fed.fed_id IS NOT NULL GROUP BY sub.sub_id', array($this->member->mbr_id, $sub_id));
 			if($query->num_rows() > 0) {
-				if($tag_id == 0) {
-					$this->db->set('tag_id', '');
-					$this->db->where('sub_id', $sub_id);
-					$this->db->update('subscriptions');
-				} else {
-					$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? AND tag.tag_id = ? GROUP BY tag.tag_id', array($this->member->mbr_id, $tag_id));
-					if($query->num_rows() > 0) {
-						$this->db->set('tag_id', $tag_id);
-						$this->db->where('sub_id', $sub_id);
-						$this->db->update('subscriptions');
+				$data['sub'] = $query->row();
+
+				$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? GROUP BY tag.tag_id ORDER BY tag.tag_title ASC', array($this->member->mbr_id));
+				$data['tags'] = array();
+				$data['tags'][0] = $this->lang->line('no_tag');
+				if($query->num_rows() > 0) {
+					foreach($query->result() as $tag) {
+						$data['tags'][$tag->tag_id] = $tag->tag_title;
 					}
 				}
+
+				$this->load->library(array('form_validation'));
+
+				$this->form_validation->set_rules('tag', 'lang:tag', 'required');
+
+				if($this->form_validation->run() == FALSE) {
+					$content['modal'] = $this->load->view('subscriptions_tag', $data, TRUE);
+				} else {
+					if($this->input->post('tag') == 0) {
+						$this->db->set('tag_id', '');
+						$this->db->where('sub_id', $sub_id);
+						$this->db->update('subscriptions');
+
+						$data['title'] = '<em>'.$this->lang->line('no_tag').'</em>';
+					} else {
+						$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? AND tag.tag_id = ? GROUP BY tag.tag_id', array($this->member->mbr_id, $this->input->post('tag')));
+						if($query->num_rows() > 0) {
+							$this->db->set('tag_id', $this->input->post('tag'));
+							$this->db->where('sub_id', $sub_id);
+							$this->db->update('subscriptions');
+
+							$data['title'] = $query->row()->tag_title;
+						}
+					}
+					$content['modal'] = $this->load->view('subscriptions_tag_confirm', $data, TRUE);
+				}
+			} else {
+				$this->output->set_status_header(403);
 			}
 		} else {
 			$this->output->set_status_header(403);

@@ -1,5 +1,5 @@
 <div id="content">
-	<h1><?php echo $this->lang->line('login'); ?></h1>
+	<h1><i class="icon-signin"></i> <?php echo $this->lang->line('login'); ?></h1>
 
 	<?php echo validation_errors(); ?>
 
