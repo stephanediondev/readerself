@@ -92,12 +92,15 @@ label{cursor:text;display:block;margin-bottom:2px;position:relative;}
 	display: inline-block;
 	margin: 5px 5px 5px 0px;
 }
-tbody th a:link, tbody th a:visited, .actions a:link, .actions a:visited {
-	background-color:#BD6295;color:#FFFFFF;display:inline;line-height:10px;margin:0px;padding:3px 3px 1px 3px;position:relative;text-decoration:none;vertical-align:top;
+button, tbody th a:link, tbody th a:visited, .actions a:link, .actions a:visited {
+	background-color:#BD6295;border:none;color:#FFFFFF;display:inline;line-height:10px;margin:0px;padding:3px 3px 1px 3px;position:relative;text-decoration:none;vertical-align:top;
 }
 tbody th a:link, tbody th a:visited{margin-right:3px;}
 #nav .actions a:link, #nav .actions a:visited {
 	background-color:#CC7C5A;
+}
+button {
+	background-color:#9EA64B;
 }
 .actions a:hover {
 	background-color:#333333;

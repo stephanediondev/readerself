@@ -13,7 +13,7 @@
 	</p>
 
 	<p>
-	<button type="submit" class="btn btn-primary"><?php echo $this->lang->line('send'); ?></button>
+	<button type="submit" class="btn btn-primary"><i class="icon-save"></i> <?php echo $this->lang->line('save'); ?></button>
 	</p>
 	<?php echo form_close(); ?>
 </div>
