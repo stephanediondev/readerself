@@ -120,6 +120,7 @@ button {
 	font-weight: bold;
 }
 .menu li a {
+	display: block;
 	text-decoration: none;
 }
 #overlay, #modal{left:0px;position:absolute;top:0px;z-index:10000;}

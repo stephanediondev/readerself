@@ -47,7 +47,7 @@ class Reader_library {
 			$key = 'errors ('.count($this->errors).')'; 
 			$debug[$key] = array();
 			foreach($this->errors as $error) {
-				$debug['errors ('.count($this->errors).')'][] = $error;
+				$debug[$key][] = $error; 
 			}
 			$key = 'queries ('.count($this->CI->db->queries).')';
 			$debug[$key] = array();
