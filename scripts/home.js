@@ -85,8 +85,8 @@ function add_items(url) {
 function set_positions() {
 	_window_height = $(window).height();
 
-	_position = $('#items').position();
-	_height = _window_height - _position.top - 40;
+	_offset = $('#items').offset();
+	_height = _window_height - _offset.top;
 	$('#items').css({ 'height': _height});
 	$('#items-display').css({ 'padding-bottom': _height});
 

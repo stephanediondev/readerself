@@ -75,6 +75,7 @@ input{border: 1px solid #777777;padding:5px;}
 .actions{font-size:12px;margin-bottom:5px;}
 th .actions{margin-bottom:0px;}
 .actions li{display:inline-block;margin:5px 5px 5px 0px;}
+.actions a span{display:inline-block;}
 button, .actions a:link, .actions a:visited{background-color:#BD6295;border:none;color:#FFFFFF;margin:0px;padding:3px 3px 3px 3px;position:relative;text-decoration:none;vertical-align:top;}
 #nav .actions a:link, #nav .actions a:visited{background-color:#CC7C5A;}
 button{background-color:#9EA64B;margin-top:10px;}
