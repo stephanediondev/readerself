@@ -1,5 +1,5 @@
 <div id="modal-display">
-	<h1><i class="icon-rss"></i> <?php echo $sub->fed_title; ?></h1>
+	<h1><i class="icon icon-rss"></i><?php echo $sub->fed_title; ?></h1>
 
 	<?php if($sub->fed_description) { ?><p><?php echo $sub->fed_description; ?></p><?php } ?>
 
@@ -13,7 +13,7 @@
 	</p>
 
 	<p>
-	<button type="submit" class="btn btn-primary"><i class="icon-save"></i> <?php echo $this->lang->line('save'); ?></button>
+	<button type="submit"><?php echo $this->lang->line('send'); ?></button>
 	</p>
 	<?php echo form_close(); ?>
 </div>

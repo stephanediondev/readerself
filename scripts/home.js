@@ -1,27 +1,3 @@
-function refresh() {
-	params = [];
-	params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
-	$.ajax({
-		async: true,
-		cache: true,
-		data: params,
-		dataType: 'json',
-		statusCode: {
-			200: function(data_return, textStatus, jqXHR) {
-				if( (is_logged == true && data_return.is_logged == false) || (is_logged == false && data_return.is_logged == true) ) {
-					window.location.href = base_url;
-				}
-				is_logged = data_return.is_logged;
-				for(i in data_return.count) {
-					$('#load-' + i + '-items').find('span').html(data_return.count[i]);
-				}
-				window.document.title = '(' + data_return.count.all + ')';
-			}
-		},
-		type: 'POST',
-		url: base_url + 'refresh/client'
-	});
-}
 function set_read(ref) {
 	if(ref.hasClass('unread')) {
 	} else if(ref.hasClass('read')) {
@@ -124,9 +100,6 @@ function display_alert(alert) {
 	$('.navbar-inner').append(content);
 }
 $(document).ready(function() {
-	refresh();
-	setInterval(refresh, 5000);
-
 	set_positions();
 
 	load_items($('#load-all-items').attr('href'));
@@ -143,7 +116,7 @@ $(document).ready(function() {
 				set_read(ref);
 				last = $('#items-display').find('.item:last').attr('id');
 				if(last == itm_id) {
-					add_items( $('.sidebar-nav').find('li.active').find('a').attr('href') );
+					add_items( $('.menu').find('li.active').find('a').attr('href') );
 				}
 			}
 		}
@@ -167,7 +140,7 @@ $(document).ready(function() {
 			location.hash = '#' + next;
 			last = $('#items-display').find('.item:last').attr('id');
 			if(last == next) {
-				add_items( $('.sidebar-nav').find('li.active').find('a').attr('href') );
+				add_items( $('.menu').find('li.active').find('a').attr('href') );
 			}
 		}
 	});
@@ -177,7 +150,7 @@ $(document).ready(function() {
 		set_read(ref);
     });*/
 
-	$('.sidebar-nav a').live('click', function(event) {
+	$('.menu a').live('click', function(event) {
 		event.preventDefault();
 		var ref = $(this);
 		if(ref.attr('id') == 'load-starred-items') {
@@ -185,7 +158,7 @@ $(document).ready(function() {
 		} else {
 			$('#massive-read').show();
 		}
-		$('.sidebar-nav li').removeClass('active');
+		$('.menu li').removeClass('active');
 		ref.parent().addClass('active');
 		load_items(ref.attr('href'));
 	});
@@ -194,7 +167,7 @@ $(document).ready(function() {
 		event.preventDefault();
 		var ref = $(this);
 
-		$('.sidebar-nav li').removeClass('active');
+		$('.menu li').removeClass('active');
 
 		$('#load-tag-' + ref.data('tag_id') + '-items').parent().addClass('active');
 		load_items(ref.attr('href'));
@@ -204,10 +177,10 @@ $(document).ready(function() {
 		event.preventDefault();
 		var ref = $(this);
 
-		$('.sidebar-nav li').removeClass('active');
+		$('.menu li').removeClass('active');
 
 		$('#sidebar .menu').find('.result').remove();
-		content = '<li class="result active"><a id="load-sub-' + ref.data('sub_id') + '-items" href="' + base_url + 'home/items/sub/' + ref.data('sub_id') + '"><i class="icon-rss"></i>' + ref.text() + ' (<span>0</span>)</a></li>';
+		content = '<li class="result active"><a id="load-sub-' + ref.data('sub_id') + '-items" href="' + base_url + 'home/items/sub/' + ref.data('sub_id') + '"><i class="icon icon-rss"></i>' + ref.text() + ' (<span>0</span>)</a></li>';
 		$('#sidebar .menu').append(content);
 
 		load_items(ref.attr('href'));
@@ -215,10 +188,10 @@ $(document).ready(function() {
 
 	$('#refresh-items').bind('click', function(event) {
 		event.preventDefault();
-		load_items( $('.sidebar-nav').find('li.active').find('a').attr('href') );
+		load_items( $('.menu').find('li.active').find('a').attr('href') );
 	});
 
-	$('.sidebar-nav form').bind('submit', function(event) {
+	$('.menu form').bind('submit', function(event) {
 		event.preventDefault();
 		var ref = $(this);
 		params = [];
@@ -235,7 +208,7 @@ $(document).ready(function() {
 						$('#sidebar .menu').find('.result').remove();
 						for(i in data_return.subscriptions) {
 							sub = data_return.subscriptions[i];
-							content = '<li class="result"><a id="load-sub-' + sub.sub_id + '-items" href="' + base_url + 'home/items/sub/' + sub.sub_id + '"><i class="icon-rss"></i>' + sub.fed_title + ' (<span>0</span>)</a></li>';
+							content = '<li class="result"><a id="load-sub-' + sub.sub_id + '-items" href="' + base_url + 'home/items/sub/' + sub.sub_id + '"><i class="icon icon-rss"></i>' + sub.fed_title + ' (<span>0</span>)</a></li>';
 							$('#sidebar .menu').append(content);
 						}
 					}

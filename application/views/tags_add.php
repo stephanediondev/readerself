@@ -1,5 +1,5 @@
 <div id="modal-display">
-	<h1><i class="icon-tags"></i> <?php echo $this->lang->line('tags'); ?></h1>
+	<h1><i class="icon icon-tag"></i><?php echo $this->lang->line('add_tag'); ?></h1>
 
 	<?php echo validation_errors(); ?>
 
@@ -15,7 +15,7 @@
 	</p>
 
 	<p>
-	<button type="submit" class="btn btn-primary"><i class="icon-plus"></i> <?php echo $this->lang->line('add'); ?></button>
+	<button type="submit"><?php echo $this->lang->line('send'); ?></button>
 	</p>
 	<?php echo form_close(); ?>
 </div>

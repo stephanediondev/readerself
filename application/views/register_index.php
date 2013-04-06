@@ -26,7 +26,7 @@
 	</p>
 
 	<p>
-	<button type="submit" class="btn btn-primary"><?php echo $this->lang->line('send'); ?></button>
+	<button type="submit"><?php echo $this->lang->line('send'); ?></button>
 	</p>
 
 	<?php echo form_close(); ?>

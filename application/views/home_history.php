@@ -1,5 +1,5 @@
 <div id="modal-display">
-	<h1><i class="icon-ok"></i> <?php echo $this->lang->line('mark_all_as_read'); ?></h1>
+	<h1><i class="icon icon-ok"></i><?php echo $this->lang->line('mark_all_as_read'); ?></h1>
 
 	<?php echo validation_errors(); ?>
 
@@ -11,7 +11,7 @@
 	</p>
 
 	<p>
-	<button type="submit" class="btn btn-primary"><?php echo $this->lang->line('send'); ?></button>
+	<button type="submit"><?php echo $this->lang->line('send'); ?></button>
 	</p>
 	<?php echo form_close(); ?>
 </div>

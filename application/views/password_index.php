@@ -1,5 +1,5 @@
 <div id="content">
-	<h1><i class="icon-key"></i> <?php echo $this->lang->line('password'); ?></h1>
+	<h1><i class="icon icon-key"></i><?php echo $this->lang->line('password'); ?></h1>
 
 	<?php echo validation_errors(); ?>
 
@@ -11,7 +11,7 @@
 	</p>
 
 	<p>
-	<button type="submit" class="btn btn-primary"><?php echo $this->lang->line('send'); ?></button>
+	<button type="submit"><?php echo $this->lang->line('send'); ?></button>
 	</p>
 
 	<?php echo form_close(); ?>

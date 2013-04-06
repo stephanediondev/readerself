@@ -1,11 +1,9 @@
 <div id="content">
-	<h1><i class="icon-tags"></i> <?php echo $this->lang->line('tags'); ?> (<span><?php echo count($tags); ?></span>)</h1>
+	<h1><i class="icon icon-tags"></i><?php echo $this->lang->line('tags'); ?> (<span><?php echo count($tags); ?></span>)</h1>
 
-	<div class="actions">
-		<ul>
-			<li><a href="<?php echo base_url(); ?>tags/add" class="modal_show"><i class="icon-plus"></i><?php echo $this->lang->line('add'); ?>...</a></li>
-		</ul>
-	</div>
+	<ul class="actions">
+		<li><a href="<?php echo base_url(); ?>tags/add" class="modal_show"><i class="icon icon-plus"></i><?php echo $this->lang->line('add'); ?>...</a></li>
+	</ul>
 
 	<?php if($tags) { ?>
 	<table>
@@ -17,7 +15,11 @@
 	<tr id="tag_<?php echo $tag->tag_id; ?>">
 	<td><?php echo $tag->tag_title; ?></td>
 	<td><?php echo $tag->subscriptions; ?></td>
-	<th><a class="modal_show" href="<?php echo base_url(); ?>tags/delete/<?php echo $tag->tag_id; ?>"><i class="icon-trash"></i> <?php echo $this->lang->line('delete'); ?>...</a></th>
+	<th>
+		<ul class="actions">
+			<li><a class="modal_show" href="<?php echo base_url(); ?>tags/delete/<?php echo $tag->tag_id; ?>"><i class="icon icon-trash"></i><?php echo $this->lang->line('delete'); ?>...</a></li>
+		</ul>
+	</th>
 	</tr>
 	<?php } ?>
 	</tbody>
