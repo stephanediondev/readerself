@@ -25,11 +25,6 @@
 		<li><a href="<?php echo base_url(); ?>password"><i class="icon icon-key"></i><?php echo $this->lang->line('password'); ?></a></li>
 		<?php } ?>
 	</ul>
-	<?php if($this->session->userdata('alert')) { ?>
-	<?php $alert = unserialize($this->session->userdata('alert')); ?>
-	<div class="alert alert-<?php echo $alert['type']; ?>"><button data-dismiss="alert" class="close" type="button">×</button><?php echo $alert['message']; ?></div>
-	<?php $this->session->unset_userdata('alert'); ?>
-	<?php } ?>
 </div>
 
 <?php if(isset($content) == 1) { echo $content; } ?>
