@@ -18,10 +18,12 @@
 		<?php echo $itm->itm_content; ?>
 	</div>
 	<div class="detect-visible" data-itm_id="item_<?php echo $itm->itm_id; ?>">
+		<?php if($this->config->item('social')) { ?>
 		<ul class="actions">
 			<li><a target="_blank" href="https://www.facebook.com/sharer.php?u=<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-facebook"></i>Facebook</a></li>
 			<li><a target="_blank" href="https://plus.google.com/share?url=<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-google-plus"></i>Google</a></li>
 			<li><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text=<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-twitter"></i>Twitter</a></li>
 		</ul>
+		<?php } ?>
 	</div>
 </div>
