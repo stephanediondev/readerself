@@ -2,8 +2,8 @@
 	<ul class="actions">
 		<li><a class="history" href="<?php echo base_url(); ?>home/history/toggle/<?php echo $itm->itm_id; ?>"><span class="unread"<?php if($itm->history == 'unread') { ?> style="display:none;"<?php } ?>><i class="icon icon-remove"></i><?php echo $this->lang->line('keep_unread'); ?></span><span class="read"<?php if($itm->history == 'read') { ?> style="display:none;"<?php } ?>><i class="icon icon-ok"></i><?php echo $this->lang->line('mark_as_read'); ?></span></a></li>
 		<li><a class="star" href="<?php echo base_url(); ?>home/star/<?php echo $itm->itm_id; ?>"><span class="unstar"<?php if($itm->star == 0) { ?> style="display:none;"<?php } ?>><i class="icon icon-star"></i><?php echo $this->lang->line('unstar'); ?></span><span class="star"<?php if($itm->star == 1) { ?> style="display:none;"<?php } ?>><i class="icon icon-star-empty"></i><?php echo $this->lang->line('star'); ?></span></a></li>
-		<li><a href="#" class="item-up" data-itm_id="item_<?php echo $itm->itm_id; ?>"><i class="icon icon-angle-up"></i><?php echo $this->lang->line('up'); ?></a></li>
-		<li><a href="#" class="item-down" data-itm_id="item_<?php echo $itm->itm_id; ?>"><i class="icon icon-angle-down"></i><?php echo $this->lang->line('down'); ?></a></li>
+		<li><a href="#" class="item-up" data-itm_id="item_<?php echo $itm->itm_id; ?>"><i class="icon icon-chevron-up"></i><?php echo $this->lang->line('up'); ?></a></li>
+		<li><a href="#" class="item-down" data-itm_id="item_<?php echo $itm->itm_id; ?>"><i class="icon icon-chevron-down"></i><?php echo $this->lang->line('down'); ?></a></li>
 	</ul>
 	<h2><a target="_blank" href="<?php echo $itm->itm_link; ?>"><?php echo $itm->itm_title; ?></a></h2>
 	<ul class="item-details">
