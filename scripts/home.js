@@ -93,6 +93,9 @@ function set_positions() {
 	$('#items').css({ 'height': _height});
 	$('#items-display').css({ 'padding-bottom': _height});
 
+	_offset = $('#sidebar').offset();
+	_height = _window_height - _offset.top;
+	$('#sidebar').css({ 'height': _height});
 }
 function display_alert(alert) {
 	content = '<div class="alert alert-' + alert.type + '">';
@@ -213,6 +216,7 @@ $(document).ready(function() {
 							sub = data_return.subscriptions[i];
 							content = '<li class="result"><a id="load-sub-' + sub.sub_id + '-items" href="' + base_url + 'home/items/sub/' + sub.sub_id + '"><i class="icon icon-rss"></i>' + sub.fed_title + ' (<span>0</span>)</a></li>';
 							$('#sidebar .menu').append(content);
+							refresh();
 						}
 					}
 				}
