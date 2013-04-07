@@ -92,8 +92,10 @@ button{background-color:#9EA64B;margin-top:10px;}
 .hide-tablet{display:none !important;}
 }
 @media (max-width:400px) {
-.show-phone{display:inline-block !important;}
 #nav{position:absolute;right:5px;top:0px;}
+#content{margin-top:5px !important;}
+#nav .actions li{margin-top:0px !important;}
+.show-phone{display:inline-block !important;}
 .hide-tablet{display:none !important;}
 .hide-phone{display:none !important;}
 }
