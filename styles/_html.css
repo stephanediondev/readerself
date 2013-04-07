@@ -78,6 +78,7 @@ th .actions{margin-bottom:0px;}
 .actions a span{display:inline-block;}
 button, .actions a:link, .actions a:visited{background-color:#BD6295;border:none;color:#FFFFFF;margin:0px;padding:3px 3px 3px 3px;position:relative;text-decoration:none;vertical-align:top;}
 #nav .actions a:link, #nav .actions a:visited{background-color:#CC7C5A;}
+#sidebar .actions a:link, #sidebar .actions a:visited{background-color:#008F8C;}
 button{background-color:#9EA64B;margin-top:10px;}
 .menu li{margin:5px 0px 10px 0px;}
 .menu li.active{font-weight:bold;}
