@@ -19,6 +19,7 @@ example
 # Status
 
 * CSS: 90%
+* HTML: 90%
 * JavaScript: 75%
 * PHP: 70%
 
