@@ -78,7 +78,6 @@ th .actions{margin-bottom:0px;}
 .actions a span{display:inline-block;}
 button, .actions a:link, .actions a:visited{background-color:#BD6295;border:none;color:#FFFFFF;margin:0px;padding:3px 3px 3px 3px;position:relative;text-decoration:none;vertical-align:top;}
 #nav .actions a:link, #nav .actions a:visited{background-color:#CC7C5A;}
-#sidebar .actions a:link, #sidebar .actions a:visited{background-color:#008F8C;}
 button{background-color:#9EA64B;margin-top:10px;}
 .menu li{margin:5px 0px 10px 0px;}
 .menu li.active{font-weight:bold;}
@@ -89,10 +88,10 @@ button{background-color:#9EA64B;margin-top:10px;}
 #overlay{background-color:#000000;opacity:0.7;z-index:10000;}
 .icon{line-height:inherit !important;margin-right:3px;vertical-align:top;}
 .show-phone{display:none !important;}
-@media (max-width:1024px) {
+@media (max-width:1024px){
 .hide-tablet{display:none !important;}
 }
-@media (max-width:400px) {
+@media (max-width:400px){
 #nav{position:absolute;right:5px;top:0px;}
 #content{margin-top:5px !important;}
 #nav .actions li{margin-top:0px !important;}
