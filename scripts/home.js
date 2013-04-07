@@ -17,6 +17,7 @@ function set_read(ref) {
 						ref.find('.history').find('i').addClass('icon-remove');
 						ref.find('.history').find('.read').hide();
 						ref.find('.history').find('.unread').show();
+						refresh();
 					}
 				}
 			},
@@ -49,6 +50,7 @@ function load_items(url) {
 				}
 				$('#items-display').html(content);
 				$('.timeago').timeago();
+				refresh();
 			}
 		},
 		type: 'POST',
@@ -76,6 +78,7 @@ function add_items(url) {
 				$('.ajax-loader').remove();
 				$('#items-display').append(content);
 				$('.timeago').timeago();
+				refresh();
 			}
 		},
 		type: 'POST',
@@ -219,12 +222,6 @@ $(document).ready(function() {
 		});
 	});
 
-	$('.share-facebook').live('click', function(event) {
-		event.preventDefault();
-		var ref = $(this);
-		fb_share(ref.attr('href'));
-	});
-
 	$('.star').live('click', function(event) {
 		event.preventDefault();
 		var ref = $(this);
@@ -245,6 +242,7 @@ $(document).ready(function() {
 						ref.find('.unstar').hide();
 						ref.find('.star').show();
 					}
+					refresh();
 				}
 			},
 			type: 'POST',
@@ -278,6 +276,7 @@ $(document).ready(function() {
 							$('#item_' + data_return.itm_id).addClass('unread');
 						}
 					}
+					refresh();
 				}
 			},
 			type: 'POST',

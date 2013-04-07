@@ -97,7 +97,7 @@ function refresh() {
 $(document).ready(function() {
 	if(is_logged) {
 		refresh();
-		setInterval(refresh, 5000);
+		setInterval(refresh, 10000*6*10);
 	}
 
 	set_positions_modal();
