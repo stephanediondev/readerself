@@ -16,6 +16,12 @@ example
 * [SimplePie](http://simplepie.org)
 * [jQuery](http://jquery.com/)
 
+# Status
+
+* CSS: 90%
+* JavaScript: 75%
+* PHP: 70%
+
 # Setup
 
 Edit /application/config/reader_config.php to define "salt_password" (some letters and numbers to secure your password)
