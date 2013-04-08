@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>(0)</title>
+<title>Reader</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link href="<?php echo base_url(); ?>thirdparty/fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link href="<?php echo base_url(); ?>styles/_html.css" rel="stylesheet" type="text/css">
@@ -54,7 +54,6 @@ var uri_string = '<?php echo $this->uri->uri_string(); ?>';
 <script src="<?php echo base_url(); ?>thirdparty/jquery/jquery.min.js"></script>
 <script src="<?php echo base_url(); ?>thirdparty/jquery/jquery.cookie.min.js"></script>
 <script src="<?php echo base_url(); ?>thirdparty/jquery/jquery.timeago.js"></script>
-<script src="<?php echo base_url(); ?>thirdparty/jquery/jquery.inview.min.js"></script>
 
 <script src="<?php echo base_url(); ?>scripts/_html.js"></script>
 <?php if(file_exists('scripts/'.$this->router->class.'.js')) { ?>
