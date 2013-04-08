@@ -150,6 +150,7 @@ $(document).ready(function() {
 				} else {
 					modal_show($('#add_subscribe').attr('href'));
 				}
+
 			//r
 			} else if(keycode == 82) {
 				load_items( $('.menu').find('li.active').find('a').attr('href') );

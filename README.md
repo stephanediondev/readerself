@@ -23,6 +23,16 @@ example
 * JavaScript: 75%
 * PHP: 70%
 
+# Keyboard shortcuts
+
+* esc: close modal window
+* r: refresh
+* a: add a subscription
+* shift+a: mark all as read
+* g then a: go to all items
+* g then s: go to starred items
+
+
 # Setup
 
 Edit /application/config/reader_config.php to define "salt_password" (some letters and numbers to secure your password)
