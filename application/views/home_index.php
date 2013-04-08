@@ -1,6 +1,6 @@
 <div id="sidebar">
 	<ul class="actions">
-		<li><a href="<?php echo base_url(); ?>subscribe" class="modal_show"><i class="icon icon-plus"></i><?php echo $this->lang->line('subscribe'); ?>...</a></li>
+		<li><a id="add_subscribe" href="<?php echo base_url(); ?>subscribe" class="modal_show"><i class="icon icon-plus"></i><?php echo $this->lang->line('subscribe'); ?>...</a></li>
 	</ul>
 	<ul class="menu">
 		<li class="active"><a id="load-all-items" href="<?php echo base_url(); ?>home/items/all"><i class="icon icon-asterisk"></i><?php echo $this->lang->line('all_items'); ?> (<span>0</span>)</a></li>
@@ -22,7 +22,7 @@
 <div id="content">
 	<ul class="actions">
 		<li><a href="#" id="refresh-items"><i class="icon icon-refresh"></i><?php echo $this->lang->line('refresh'); ?></a></li>
-		<li class="hide-phone"><a href="<?php echo base_url(); ?>home/history/dialog" class="modal_show"><i class="icon icon-ok"></i><?php echo $this->lang->line('mark_all_as_read'); ?>...</a></li>
+		<li class="hide-phone"><a href="<?php echo base_url(); ?>home/history/dialog" id="read_all" class="modal_show"><i class="icon icon-ok"></i><?php echo $this->lang->line('mark_all_as_read'); ?>...</a></li>
 	</ul>
 	<div id="items">
 		<div id="items-display">

@@ -129,11 +129,8 @@ $(document).ready(function() {
 	$('body').append('<div id="modal"></div>');
 
 	$(document).bind('keydown', function(event) {
-		if(event == null) {
-			keycode = event.keyCode;
-		} else {
-			keycode = event.which;
-		}
+		var keycode = event.which || event.keyCode;
+		//esc
 		if(keycode == 27) {
 			modal_hide();
 		}
