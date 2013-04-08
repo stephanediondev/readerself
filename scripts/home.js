@@ -164,15 +164,18 @@ $(document).ready(function() {
 
 	$('#items').bind('scroll', function(event) {
 		$('#items').find('.item').not('.read').each(function(index) {
-			position = $(this).offset()
-			if(position.top + 40 < 0) {
-				var itm_id = $(this).attr('id');
-				var ref = $('#' + itm_id);
+			var itm_id = $(this).attr('id');
+			var ref = $('#' + itm_id);
+			offset = $(this).offset()
+			if(offset.top + ref.height() - 40 < 0) {
 				set_read(ref);
 				last = $('#items-display').find('.item:last').attr('id');
 				if(last == itm_id) {
 					add_items( $('.menu').find('li.active').find('a').attr('href') );
 				}
+				return true;
+			} else {
+				return false;
 			}
 		});
     });
