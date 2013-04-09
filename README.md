@@ -8,7 +8,8 @@ example
 
 # Screenshots
 
-![Home](medias/home.png)
+![Desktop](medias/desktop.png)
+![Tablet](medias/tablet.png)
 ![Mobile](medias/mobile.png)
 
 # Third party
