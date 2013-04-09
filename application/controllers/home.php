@@ -133,8 +133,8 @@ class Home extends CI_Controller {
 			ORDER BY itm.itm_date DESC
 			LIMIT 0,10';
 			$query = $this->db->query($sql, $bindings);
+			$content['total'] = $query->num_rows();
 			if($query->num_rows() > 0) {
-				$content['total'] = $query->num_rows();
 				foreach($query->result() as $itm) {
 					list($itm->explode_date, $itm->explode_time) = explode(' ', $itm->itm_date);
 
