@@ -52,7 +52,7 @@ class Home extends CI_Controller {
 		}
 		$this->reader_library->set_content($content);
 	}
-	public function items($mode, $id = false) {
+	public function items($mode, $id = FALSE) {
 		if(!$this->session->userdata('logged_member')) {
 			redirect(base_url());
 		}
@@ -212,7 +212,7 @@ class Home extends CI_Controller {
 		}
 		$this->reader_library->set_content($content);
 	}
-	public function history($mode, $id) {
+	public function history($mode, $id, $auto = FALSE) {
 		if(!$this->session->userdata('logged_member')) {
 			redirect(base_url());
 		}
@@ -314,10 +314,14 @@ class Home extends CI_Controller {
 			if($mode == 'toggle') {
 				$query = $this->db->query('SELECT * FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.itm_id = ? AND hst.mbr_id = ? GROUP BY hst.hst_id', array($id, $this->member->mbr_id));
 				if($query->num_rows() > 0) {
-					$this->db->where('itm_id', $id);
-					$this->db->where('mbr_id', $this->member->mbr_id);
-					$this->db->delete('history');
-					$content['status'] = 'unread';
+					if(!$auto) {
+						$this->db->where('itm_id', $id);
+						$this->db->where('mbr_id', $this->member->mbr_id);
+						$this->db->delete('history');
+						$content['status'] = 'unread';
+					} else {
+						$content['status'] = 'read';
+					}
 				} else {
 					$this->db->set('itm_id', $id);
 					$this->db->set('mbr_id', $this->member->mbr_id);

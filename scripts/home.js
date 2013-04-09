@@ -23,7 +23,7 @@ function set_read(ref) {
 				}
 			},
 			type: 'POST',
-			url: ref.find('.history').attr('href')
+			url: ref.find('.history').attr('href') + '/auto'
 		});
 	}
 }
@@ -163,11 +163,14 @@ $(document).ready(function() {
 	});
 
 	$('#items').bind('scroll', function(event) {
-		$('#items').find('.item').not('.read').each(function(index) {
+		$('#items').find('.item').each(function(index) {
 			var itm_id = $(this).attr('id');
 			var ref = $('#' + itm_id);
+			$('#items .item-selected').removeClass('item-selected');
+			ref.addClass('item-selected');
+			//$('#sidebar input').val(itm_id);
 			offset = $(this).offset()
-			if(offset.top + ref.height() - 40 < 0) {
+			if(offset.top + ref.height() - 50 < 0) {
 				set_read(ref);
 				last = $('#items-display').find('.item:last').attr('id');
 				if(last == itm_id) {
