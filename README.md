@@ -9,6 +9,7 @@ example
 # Screenshots
 
 ![Home](medias/home.png)
+![Mobile](medias/mobile.png)
 
 # Third party
 
