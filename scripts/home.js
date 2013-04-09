@@ -166,16 +166,19 @@ $(document).ready(function() {
 		$('#items').find('.item').each(function(index) {
 			var itm_id = $(this).attr('id');
 			var ref = $('#' + itm_id);
+
 			$('#items .item-selected').removeClass('item-selected');
 			ref.addClass('item-selected');
+
+			last = $('#items-display').find('.item:last').attr('id');
+			if(last == itm_id) {
+				add_items( $('.menu').find('li.active').find('a').attr('href') );
+			}
+
 			//$('#sidebar input').val(itm_id);
 			offset = $(this).offset()
 			if(offset.top + ref.height() - 50 < 0) {
 				set_read(ref);
-				last = $('#items-display').find('.item:last').attr('id');
-				if(last == itm_id) {
-					add_items( $('.menu').find('li.active').find('a').attr('href') );
-				}
 				return true;
 			} else {
 				return false;
