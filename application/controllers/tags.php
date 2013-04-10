@@ -5,7 +5,7 @@ class Tags extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('logged_member') || !$this->config->item('tags')) {
 			redirect(base_url());
 		}
 

@@ -12,12 +12,12 @@
 		<?php if($itm->itm_author) { ?><li class="hide-phone"><i class="icon icon-user"></i><?php echo $itm->itm_author; ?></li><?php } ?>
 		<li class="hide-phone"><a class="from" data-sub_id="<?php echo $itm->sub_id; ?>" href="<?php echo base_url(); ?>home/items/sub/<?php echo $itm->sub_id; ?>"><i class="icon icon-rss"></i><?php echo $itm->fed_title; ?></a></li>
 		<li class="show-phone"><i class="icon icon-rss"></i><?php echo $itm->fed_title; ?></li>
-		<?php if($itm->tag_id) { ?><li class="hide-phone"><a class="tag" data-tag_id="<?php echo $itm->tag_id; ?>" href="<?php echo base_url(); ?>home/items/tag/<?php echo $itm->tag_id; ?>"><i class="icon icon-tag"></i><?php echo $itm->tag_title; ?></a></li><?php } ?>
+		<?php if($itm->tag_id && $this->config->item('tags')) { ?><li class="hide-phone"><a class="tag" data-tag_id="<?php echo $itm->tag_id; ?>" href="<?php echo base_url(); ?>home/items/tag/<?php echo $itm->tag_id; ?>"><i class="icon icon-tag"></i><?php echo $itm->tag_title; ?></a></li><?php } ?>
 	</ul>
 	<div class="item-content">
 		<?php echo $itm->itm_content; ?>
 	</div>
-	<div class="detect-visible" data-itm_id="item_<?php echo $itm->itm_id; ?>">
+	<div class="item-footer">
 		<?php if($this->config->item('social')) { ?>
 		<ul class="actions">
 			<li><a target="_blank" href="https://www.facebook.com/sharer.php?u=<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-facebook"></i>Facebook</a></li>

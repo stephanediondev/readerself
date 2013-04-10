@@ -12,10 +12,10 @@
 .item .actions li{margin:5px 0px 5px 5px;}
 .item .actions a:link,.item .actions a:visited{background-color:#5660d1;}
 .item-content{line-height:1.4;}
-.item .detect-visible{margin-top:10px;}
-.item .detect-visible .actions{float:none;}
-.item .detect-visible .actions li{margin:5px 5px 0px 0px;}
-.item .detect-visible .actions a:link,.item .detect-visible .actions a:visited{background-color:#7109aa;}
+.item .item-footer{margin-top:10px;}
+.item .item-footer .actions{float:none;}
+.item .item-footer .actions li{margin:5px 5px 0px 0px;}
+.item .item-footer .actions a:link,.item .item-footer .actions a:visited{background-color:#7109aa;}
 .item-details{margin-bottom:10px;}
 .item-details li{display:inline-block;font-size:13px;margin-right:5px;}
 .item-details li a:link,.item-details li a:visited{text-decoration:none;}

@@ -20,9 +20,8 @@ class Refresh extends CI_Controller {
 			$sql = 'SELECT tag.tag_id, COUNT(DISTINCT(itm.itm_id)) AS count
 			FROM '.$this->db->dbprefix('tags').' AS tag
 			LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.tag_id = tag.tag_id AND sub.mbr_id = ?
-			LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id
-			LEFT JOIN '.$this->db->dbprefix('history').' AS hst ON hst.itm_id = itm.itm_id AND hst.mbr_id = ?
-			WHERE hst.hst_id IS NULL GROUP BY tag.tag_id';
+			LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id AND itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?)
+			GROUP BY tag.tag_id';
 			$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
 
 			if($query->num_rows() > 0) {
@@ -33,19 +32,15 @@ class Refresh extends CI_Controller {
 
 			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
 			FROM '.$this->db->dbprefix('subscriptions').' AS sub
-			LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id
-			LEFT JOIN '.$this->db->dbprefix('history').' AS hst ON hst.itm_id = itm.itm_id AND hst.mbr_id = ?
-			WHERE hst.hst_id IS NULL AND sub.tag_id IS NULL AND sub.mbr_id = ?';
+			LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id AND itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?)
+			WHERE sub.tag_id IS NULL AND sub.mbr_id = ?';
 			$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
 
 			$content['count']['notag'] = $query->row()->count;
 
-			$sql = 'SELECT sub.sub_id, (
-				SELECT COUNT(DISTINCT(itm.itm_id)) FROM '.$this->db->dbprefix('items').' AS itm
-				LEFT JOIN '.$this->db->dbprefix('history').' AS hst ON hst.itm_id = itm.itm_id AND hst.mbr_id = ?
-				WHERE hst.hst_id IS NULL AND itm.fed_id = sub.fed_id
-			) AS count
+			$sql = 'SELECT sub.sub_id, COUNT(DISTINCT(itm.itm_id)) AS count
 			FROM '.$this->db->dbprefix('subscriptions').' AS sub
+			LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id AND itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?)
 			WHERE sub.mbr_id = ? GROUP BY sub.sub_id';
 			$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
 

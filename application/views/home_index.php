@@ -5,12 +5,12 @@
 	<ul class="menu">
 		<li class="active"><a id="load-all-items" href="<?php echo base_url(); ?>home/items/all"><i class="icon icon-asterisk"></i><?php echo $this->lang->line('all_items'); ?> (<span>0</span>)</a></li>
 		<li><a id="load-starred-items" href="<?php echo base_url(); ?>home/items/starred"><i class="icon icon-star"></i><?php echo $this->lang->line('starred_items'); ?> (<span>0</span>)</a></li>
-		<?php if($tags) { ?>
+		<?php if($tags && $this->config->item('tags')) { ?>
 		<?php foreach($tags as $tag) { ?>
 		<li><a id="load-tag-<?php echo $tag->tag_id; ?>-items" href="<?php echo base_url(); ?>home/items/tag/<?php echo $tag->tag_id; ?>"><i class="icon icon-tag"></i><?php echo $tag->tag_title; ?> (<span>0</span>)</a></li>
 		<?php } ?>
-		<?php } ?>
 		<li><a id="load-notag-items" href="<?php echo base_url(); ?>home/items/notag"><i class="icon icon-tag"></i><em><?php echo $this->lang->line('no_tag'); ?></em> (<span>0</span>)</a></li>
+		<?php } ?>
 		<li><?php echo $this->lang->line('subscriptions'); ?></li>
 		<li>
 		<?php echo form_open(base_url().'home/subscriptions'); ?>

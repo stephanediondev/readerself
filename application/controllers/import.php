@@ -28,12 +28,12 @@ class Import extends CI_Controller {
 					$content .= '<div id="content">';
 
 					if(count($this->tags) > 0) {
-						$content .= '<h1>'.$this->lang->line('tags').' ('.count($this->tags).')</h1>';
-						$content .= '<table>';
-						$content .= '<thead>';
-						$content .= '<tr><th>&nbsp;</th><th>'.$this->lang->line('title').'</th></tr>';
-						$content .= '</thead>';
-						$content .= '<tbody>';
+						$content_tags = '<h1><i class="icon icon-tags"></i>'.$this->lang->line('tags').' ('.count($this->tags).')</h1>';
+						$content_tags .= '<table>';
+						$content_tags .= '<thead>';
+						$content_tags .= '<tr><th>&nbsp;</th><th>'.$this->lang->line('title').'</th></tr>';
+						$content_tags .= '</thead>';
+						$content_tags .= '<tbody>';
 						$tags = array();
 						foreach($this->tags as $value) {
 							$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.tag_title = ? AND tag.mbr_id = ? GROUP BY tag.tag_id', array($value, $this->member->mbr_id));
@@ -44,25 +44,40 @@ class Import extends CI_Controller {
 								$this->db->insert('tags');
 								$tag_id = $this->db->insert_id();
 								$tags[$value] = $tag_id;
-								$content .= '<tr><td><span class="label label-success">'.$this->lang->line('added').'</span></td><td>'.$value.'</td></tr>';
+								$content_tags .= '<tr><td><span class="label label-success">'.$this->lang->line('added').'</span></td><td>'.$value.'</td></tr>';
 							} else {
 								$tag = $query->row();
 								$tags[$value] = $tag->tag_id;
-								$content .= '<tr><td><span class="label label-warning">'.$this->lang->line('found').'</span></td><td>'.$value.'</td></tr>';
+								$content_tags .= '<tr><td><span class="label label-warning">'.$this->lang->line('found').'</span></td><td>'.$value.'</td></tr>';
 							}
 						}
-						$content .= '</tbody>';
-						$content .= '</table>';
+						$content_tags .= '</tbody>';
+						$content_tags .= '</table>';
+						if($this->config->item('tags')) {
+							$content .= $content_tags;
+						}
 					}
 
 					if(count($this->feeds) > 0) {
-						$content .= '<h1>'.$this->lang->line('subscriptions').' ('.count($this->feeds).')</h1>';
+						$content .= '<h1><i class="icon icon-rss"></i>'.$this->lang->line('subscriptions').' ('.count($this->feeds).')</h1>';
 						$content .= '<table>';
 						$content .= '<thead>';
-						$content .= '<tr><th>&nbsp;</th><th>'.$this->lang->line('title').'</th><th>'.$this->lang->line('url').'</th><th>'.$this->lang->line('tag').'</th></tr>';
+						$content .= '<tr><th>&nbsp;</th><th>'.$this->lang->line('title').'</th><th>'.$this->lang->line('url').'</th>';
+						if($this->config->item('tags')) {
+							$content .= '<th>'.$this->lang->line('tag').'</th></tr>';
+						}
 						$content .= '</thead>';
 						$content .= '<tbody>';
 						foreach($this->feeds as $obj) {
+							if(!$obj->title && $obj->text) {
+								$obj->title = $obj->text;
+							}
+							if(!$obj->xmlUrl && $obj->url) {
+								$obj->xmlUrl = $obj->url;
+							}
+							if(!$obj->htmlUrl && $obj->url) {
+								$obj->htmlUrl = $obj->url;
+							}
 
 							$content .= '<tr>';
 
@@ -84,7 +99,7 @@ class Import extends CI_Controller {
 								$this->db->insert('subscriptions');
 								$sub_id = $this->db->insert_id();
 
-								$content .= '<td><span class="label label-success">'.$this->lang->line('added').'</span></td><td>'.$obj->title.'</td><td>'.$obj->xmlUrl.'</td>';
+								$content .= '<td>'.$this->lang->line('added').'</td><td>'.$obj->title.'</td><td>'.$obj->xmlUrl.'</td>';
 							} else {
 								$fed = $query->row();
 								if($fed->sub_id) {
@@ -95,7 +110,7 @@ class Import extends CI_Controller {
 										$this->db->update('subscriptions');
 									}
 
-									$content .= '<td><span class="label label-warning">'.$this->lang->line('found').'</span></td><td>'.$obj->title.'</td><td>'.$obj->xmlUrl.'</td>';
+									$content .= '<td>'.$this->lang->line('found').'</td><td>'.$obj->title.'</td><td>'.$obj->xmlUrl.'</td>';
 								} else {
 									$this->db->set('mbr_id', $this->member->mbr_id);
 									$this->db->set('fed_id', $fed->fed_id);
@@ -106,13 +121,15 @@ class Import extends CI_Controller {
 									$this->db->insert('subscriptions');
 									$sub_id = $this->db->insert_id();
 
-									$content .= '<td><span class="label label-success">'.$this->lang->line('added').'</span></td><td>'.$obj->title.'</td><td>'.$obj->xmlUrl.'</td>';
+									$content .= '<td>'.$this->lang->line('added').'</td><td>'.$obj->title.'</td><td>'.$obj->xmlUrl.'</td>';
 								}
 							}
-							if($obj->tag && array_key_exists($obj->tag, $tags)) {
-								$content .= '<td>'.$obj->tag.'</td>';
-							} else {
-								$content .= '<td>'.$this->lang->line('no_tag').'</td>';
+							if($this->config->item('tags')) {
+								if($obj->tag && array_key_exists($obj->tag, $tags)) {
+									$content .= '<td>'.$obj->tag.'</td>';
+								} else {
+									$content .= '<td>'.$this->lang->line('no_tag').'</td>';
+								}
 							}
 							$content .= '</tr>';
 						}
@@ -133,8 +150,13 @@ class Import extends CI_Controller {
 				if(isset($outline->outline) == 1) {
 					//echo $outline->attributes()->title;
 					//print_r($outline);
-					$tag = strval($outline->attributes()->title);
-					$this->tags[] = $tag;
+					if($outline->attributes()->title) {
+						$tag = strval($outline->attributes()->title);
+						$this->tags[] = $tag;
+					} else if($outline->attributes()->text) {
+						$tag = strval($outline->attributes()->text);
+						$this->tags[] = $tag;
+					}
 					$this->import_opml($outline, $tag);
 					//array_merge($feeds, $this->import_opml($outline));
 				} else {
