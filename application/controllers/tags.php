@@ -99,6 +99,7 @@ class Tags extends CI_Controller {
 				$this->db->delete('tags');
 
 				$this->db->set('tag_id', '');
+				$this->db->where('tag_id', $tag_id);
 				$this->db->where('mbr_id', $this->member->mbr_id);
 				$this->db->update('subscriptions');
 
