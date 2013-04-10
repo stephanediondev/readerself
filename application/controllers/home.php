@@ -11,7 +11,7 @@ class Home extends CI_Controller {
 
 		$this->load->library('form_validation');
 
-		$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? GROUP BY tag.tag_id ORDER BY tag.tag_title ASC', array($this->member->mbr_id));
+		$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? GROUP BY tag.tag_id HAVING (SELECT COUNT(DISTINCT(count_sub.sub_id)) FROM '.$this->db->dbprefix('subscriptions').' AS count_sub WHERE count_sub.tag_id = tag.tag_id) > 0 ORDER BY tag.tag_title ASC', array($this->member->mbr_id));
 
 		$data = array();
 		$data['tags'] = $query->result();
