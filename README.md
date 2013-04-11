@@ -27,12 +27,13 @@ example
 
 # Features
 
+* Responsive desktop, tablet and mobile
 * Add a feed
 * Import OPML from Google Reader
 * Get items (cron)
-* Tags
+* Tags (optional)
 * Starred items
-* Share to Facebook, Google and Twitter
+* Share to Facebook, Google and Twitter (optional)
 * Search subscriptions
 * Main keyboard shortcuts from Google Reader
 
