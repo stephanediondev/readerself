@@ -337,4 +337,23 @@ class Home extends CI_Controller {
 		}
 		$this->reader_library->set_content($content);
 	}
+	public function shortcuts() {
+		if(!$this->session->userdata('logged_member')) {
+			redirect(base_url());
+		}
+
+		$data = array();
+
+		$content = array();
+
+		if($this->input->is_ajax_request()) {
+			$this->reader_library->set_template('_json');
+			$this->reader_library->set_content_type('application/json');
+
+			$content['modal'] = $this->load->view('home_shortcuts', $data, TRUE);
+		} else {
+			$this->output->set_status_header(403);
+		}
+		$this->reader_library->set_content($content);
+	}
 }

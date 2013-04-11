@@ -110,13 +110,86 @@ function set_positions() {
 	_height = _window_height - _offset.top;
 	$('#sidebar').css({ 'height': _height});
 }
-function display_alert(alert) {
-	content = '<div class="alert alert-' + alert.type + '">';
-	content += '<button type="button" class="close" data-dismiss="alert">&times;</button>';
-	content += alert.message;
-	content += '</div>';
-	$('.navbar-inner').find('.alert').remove();
-	$('.navbar-inner').append(content);
+function item_up() {
+	var itm_id = $('#items .item-selected').attr('id');
+	prev = $('#' + itm_id).prev().attr('id');
+	if(prev) {
+		location.hash = '#' + prev;
+	}
+}
+function item_down() {
+	if($('#items .item-selected').length == 0) {
+		var itm_id = $('#items-display').find('.item:first').attr('id');
+		next = $('#' + itm_id).attr('id');
+		$('#' + itm_id).addClass('item-selected');
+	} else {
+		var itm_id = $('#items .item-selected').attr('id');
+		next = $('#' + itm_id).next().attr('id');
+	}
+	if(next) {
+		set_read($('#' + next));
+		location.hash = '#' + next;
+		last = $('#items-display').find('.item:last').attr('id');
+		if(last == next) {
+			add_items( $('.menu').find('li.active').find('a').attr('href') );
+		}
+	}
+}
+function item_star(ref) {
+	params = [];
+	params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
+	$.ajax({
+		async: true,
+		cache: true,
+		data: params,
+		dataType: 'json',
+		statusCode: {
+			200: function(data_return, textStatus, jqXHR) {
+				if(data_return.status == 'star') {
+					ref.find('.star').hide();
+					ref.find('.unstar').show();
+				}
+				if(data_return.status == 'unstar') {
+					ref.find('.unstar').hide();
+					ref.find('.star').show();
+				}
+				refresh();
+			}
+		},
+		type: 'POST',
+		url: ref.attr('href')
+	});
+}
+function item_history(ref) {
+	params = [];
+	params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
+	$.ajax({
+		async: true,
+		cache: true,
+		data: params,
+		dataType: 'json',
+		statusCode: {
+			200: function(data_return, textStatus, jqXHR) {
+				if(data_return.mode == 'toggle') {
+					if(data_return.status == 'read') {
+						ref.find('.read').hide();
+						ref.find('.unread').show();
+						$('#item_' + data_return.itm_id).removeClass('unread');
+						$('#item_' + data_return.itm_id).addClass('read');
+					}
+					if(data_return.status == 'unread') {
+						ref.find('.unread').hide();
+						ref.find('.read').show();
+						$('#item_' + data_return.itm_id).removeClass('read');
+						$('#item_' + data_return.itm_id).addClass('unread');
+					}
+				}
+				refresh();
+			}
+		},
+		type: 'POST',
+		url: ref.attr('href')
+	});
 }
 $(document).ready(function() {
 	set_positions();
@@ -150,6 +223,29 @@ $(document).ready(function() {
 				$('#load-starred-items').parent().addClass('active');
 				load_items( $('.menu').find('li.active').find('a').attr('href') );
 
+			//m
+			} else if(keycode == 77) {
+				if($('#items .item-selected').length > 0) {
+					item_history($('#items .item-selected').find('.history'));
+				}
+
+			//s
+			} else if(keycode == 83) {
+				if($('#items .item-selected').length > 0) {
+					item_star($('#items .item-selected').find('.star'));
+				}
+
+			//o or enter
+			} else if(keycode == 79 || keycode == 13) {
+				if($('#items .item-selected').length > 0) {
+					ref = $('#items .item-selected').find('.item-content');
+					if(ref.is(':visible')) {
+						ref.hide();
+					} else {
+						ref.show();
+					}
+				}
+
 			} else if(keycode == 65) {
 				//shift + a
 				if(event.shiftKey) {
@@ -158,6 +254,14 @@ $(document).ready(function() {
 				} else {
 					modal_show($('#add_subscribe').attr('href'));
 				}
+
+			//k or p or shift + space
+			} else if(keycode == 75 || keycode == 80 || (keycode == 32 && event.shiftKey)) {
+				item_up();
+
+			//j or n or space
+			} else if(keycode == 74 || keycode == 78|| keycode == 32) {
+				item_down();
 
 			//r
 			} else if(keycode == 82) {
@@ -194,27 +298,14 @@ $(document).ready(function() {
 		});
     });
 
-	$('.item-up').live('click', function(event) {
+	$('#item-up').live('click', function(event) {
 		event.preventDefault();
-		var itm_id = $(this).data('itm_id');
-		prev = $('#' + itm_id).prev().attr('id');
-		if(prev) {
-			location.hash = '#' + prev;
-		}
+		item_up();
 	});
 
-	$('.item-down').live('click', function(event) {
+	$('#item-down').live('click', function(event) {
 		event.preventDefault();
-		var itm_id = $(this).data('itm_id');
-		next = $('#' + itm_id).next().attr('id');
-		if(next) {
-			set_read($('#' + next));
-			location.hash = '#' + next;
-			last = $('#items-display').find('.item:last').attr('id');
-			if(last == next) {
-				add_items( $('.menu').find('li.active').find('a').attr('href') );
-			}
-		}
+		item_down();
 	});
 
 	$('.item h2 a, .item-content a').live('click', function(event) {
@@ -294,63 +385,12 @@ $(document).ready(function() {
 
 	$('.star').live('click', function(event) {
 		event.preventDefault();
-		var ref = $(this);
-		params = [];
-		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
-		$.ajax({
-			async: true,
-			cache: true,
-			data: params,
-			dataType: 'json',
-			statusCode: {
-				200: function(data_return, textStatus, jqXHR) {
-					if(data_return.status == 'star') {
-						ref.find('.star').hide();
-						ref.find('.unstar').show();
-					}
-					if(data_return.status == 'unstar') {
-						ref.find('.unstar').hide();
-						ref.find('.star').show();
-					}
-					refresh();
-				}
-			},
-			type: 'POST',
-			url: ref.attr('href')
-		});
+		item_star($(this));
 	});
 
 	$('.history').live('click', function(event) {
 		event.preventDefault();
 		var ref = $(this);
-		params = [];
-		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
-		$.ajax({
-			async: true,
-			cache: true,
-			data: params,
-			dataType: 'json',
-			statusCode: {
-				200: function(data_return, textStatus, jqXHR) {
-					if(data_return.mode == 'toggle') {
-						if(data_return.status == 'read') {
-							ref.find('.read').hide();
-							ref.find('.unread').show();
-							$('#item_' + data_return.itm_id).removeClass('unread');
-							$('#item_' + data_return.itm_id).addClass('read');
-						}
-						if(data_return.status == 'unread') {
-							ref.find('.unread').hide();
-							ref.find('.read').show();
-							$('#item_' + data_return.itm_id).removeClass('read');
-							$('#item_' + data_return.itm_id).addClass('unread');
-						}
-					}
-					refresh();
-				}
-			},
-			type: 'POST',
-			url: ref.attr('href')
-		});
+		item_history($(this));
 	});
 });

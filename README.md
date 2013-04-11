@@ -25,15 +25,16 @@ example
 * JavaScript: 75%
 * PHP: 70%
 
-# Keyboard shortcuts
+# Features
 
-* esc: close modal window
-* r: refresh
-* a: add a subscription
-* shift+a: mark all as read
-* g then a: go to all items
-* g then s: go to starred items
-
+* Add a feed
+* Import OPML from Google Reader
+* Get items (cron)
+* Tags
+* Starred items
+* Share to Facebook, Google and Twitter
+* Search subscriptions
+* Main keyboard shortcuts from Google Reader
 
 # Setup
 

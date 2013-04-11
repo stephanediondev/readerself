@@ -58,3 +58,4 @@ $lang['unstar'] = 'Unstar';
 $lang['up'] = 'Up';
 $lang['down'] = 'Down';
 $lang['age'] = 'Age';
+$lang['shortcuts'] = 'Shortcuts';
