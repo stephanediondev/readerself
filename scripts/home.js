@@ -217,10 +217,10 @@ $(document).ready(function() {
 		}
 	});
 
-	/*$('.item').live('click', function(event) {
-		var ref = $(this);
+	$('.item h2 a, .item-content a').live('click', function(event) {
+		var ref = $(this).parents('.item');
 		set_read(ref);
-    });*/
+    });
 
 	$('.menu a').live('click', function(event) {
 		event.preventDefault();
