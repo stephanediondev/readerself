@@ -19,13 +19,15 @@
 		</li>
 	</ul>
 </div>
-<div id="content">
+<div id="actions-main">
 	<ul class="actions">
 		<li><a href="#" id="refresh-items"><i class="icon icon-refresh"></i><?php echo $this->lang->line('refresh'); ?></a></li>
 		<li class="hide-phone"><a href="<?php echo base_url(); ?>home/history/dialog" id="read_all" class="modal_show"><i class="icon icon-ok"></i><?php echo $this->lang->line('mark_all_as_read'); ?>...</a></li>
 		<li><a href="#" id="item-up"><i class="icon icon-chevron-up"></i><?php echo $this->lang->line('up'); ?></a></li>
 		<li><a href="#" id="item-down"><i class="icon icon-chevron-down"></i><?php echo $this->lang->line('down'); ?></a></li>
 	</ul>
+</div>
+<div id="content">
 	<div id="items">
 		<div id="items-display">
 		</div>
