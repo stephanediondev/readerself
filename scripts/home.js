@@ -223,6 +223,10 @@ $(document).ready(function() {
 				$('#load-starred-items').parent().addClass('active');
 				load_items( $('.menu').find('li.active').find('a').attr('href') );
 
+			//v
+			} else if(keycode == 86) {
+				//TODO
+
 			//m
 			} else if(keycode == 77) {
 				if($('#items .item-selected').length > 0) {

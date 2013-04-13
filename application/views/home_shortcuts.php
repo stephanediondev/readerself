@@ -7,6 +7,7 @@
 		<li>a: add a subscription</li>
 		<li>k or p or shift + space: up / previous item</li>
 		<li>j or n or space: down / next item</li>
+		<!--<li>v: view original selected item</li>-->
 		<li>m: read / unread selected item</li>
 		<li>s: star / unstar selected item</li>
 		<li>o or enter: expand / collapse selected item</li>
