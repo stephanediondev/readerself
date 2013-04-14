@@ -82,7 +82,7 @@ class Refresh extends CI_Controller {
 			foreach($query->result() as $fed) {
 
 				$sp_feed = new SimplePie();
-				$sp_feed->set_feed_url($fed->fed_link);
+				$sp_feed->set_feed_url(convert_to_ascii($fed->fed_link));
 				$sp_feed->enable_cache(false);
 				$sp_feed->set_timeout(60);
 				$sp_feed->force_feed(true);

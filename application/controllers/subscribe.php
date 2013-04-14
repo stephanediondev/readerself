@@ -30,7 +30,7 @@ class Subscribe extends CI_Controller {
 					include_once('thirdparty/simplepie/idn/idna_convert.class.php');
 
 					$sp_feed = new SimplePie();
-					$sp_feed->set_feed_url($this->input->post('url'));
+					$sp_feed->set_feed_url(convert_to_ascii($this->input->post('url')));
 					$sp_feed->enable_cache(false);
 					$sp_feed->set_timeout(60);
 					$sp_feed->force_feed(true);
@@ -38,7 +38,7 @@ class Subscribe extends CI_Controller {
 					$sp_feed->handle_content_type();
 
 					if($sp_feed->error()) {
-						$data['alert'] = array('type'=>'error', 'message'=>$sp_feed->error());
+						$content['alert'] = array('type'=>'error', 'message'=>$sp_feed->error());
 
 					} else {
 						$this->db->set('fed_title', $sp_feed->get_title());
@@ -55,7 +55,6 @@ class Subscribe extends CI_Controller {
 						$this->db->insert('subscriptions');
 						$sub_id = $this->db->insert_id();
 
-						$data['alert'] = array('type'=>'success', 'message'=>'Added');
 						$data['sub_id'] = $sub_id;
 						$data['fed_title'] = $sp_feed->get_title();
 
@@ -111,7 +110,6 @@ class Subscribe extends CI_Controller {
 					} else {
 						$sub_id = $fed->sub_id;
 					}
-					$data['alert'] = array('type'=>'success', 'message'=>'Added');
 					$data['sub_id'] = $sub_id;
 					$data['fed_title'] = $fed->fed_title;
 				}

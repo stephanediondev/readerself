@@ -1,5 +1,19 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+
+if( ! function_exists('convert_to_ascii')) {
+	function convert_to_ascii($url) {
+		$parts = parse_url($url);
+		if(!isset($parts['host'])) {
+			return $url;
+		}
+		if(mb_detect_encoding($parts['host']) != 'ASCII') {
+			$url = str_replace($parts['host'], idn_to_ascii($parts['host']), $url);
+		}
+		return $url;
+	}
+}
+
 if( ! function_exists('generate_string')) {
 	function generate_string($size=8, $with_numbers=true, $with_tiny_letters=true, $with_capital_letters=false) { 
 		$string = '';
