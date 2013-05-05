@@ -6,6 +6,7 @@ function set_read(ref) {
 	if(ref.hasClass('unread')) {
 	} else if(ref.hasClass('read')) {
 	} else {
+		ref.addClass('read');
 		params = [];
 		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
 		$.ajax({
@@ -16,7 +17,6 @@ function set_read(ref) {
 			statusCode: {
 				200: function(data_return, textStatus, jqXHR) {
 					if(data_return.status == 'read') {
-						ref.addClass('read');
 						ref.find('.history').find('.read').hide();
 						ref.find('.history').find('.unread').show();
 						refresh();
@@ -64,6 +64,7 @@ function load_items(url) {
 function add_items(url) {
 	if(!lock_add_items && !no_more_items) {
 		lock_add_items = true;
+		lock_refresh = true;
 		$('#items-display').append('<div class="ajax-loader"><img src="' + base_url + 'medias/ajax-loader.gif"></div>');
 		params = [];
 		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
@@ -90,6 +91,7 @@ function add_items(url) {
 					$('#items-display').append(content);
 					$('.timeago').timeago();
 					lock_add_items = false;
+					lock_refresh = false;
 					refresh();
 				}
 			},

@@ -1,3 +1,5 @@
+var lock_refresh = false;
+
 function debug(data) {
 	if(window.console && console.debug) {
 		console.debug(data);
@@ -71,28 +73,30 @@ function set_positions_modal() {
 	$('#modal').css({'margin-left': margin_left, 'top': _top});
 }
 function refresh() {
-	params = [];
-	params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
-	$.ajax({
-		async: true,
-		cache: true,
-		data: params,
-		dataType: 'json',
-		statusCode: {
-			200: function(data_return, textStatus, jqXHR) {
-				if( (is_logged == true && data_return.is_logged == false) || (is_logged == false && data_return.is_logged == true) ) {
-					window.location.href = base_url;
+	if(!lock_refresh) {
+		params = [];
+		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
+		$.ajax({
+			async: true,
+			cache: true,
+			data: params,
+			dataType: 'json',
+			statusCode: {
+				200: function(data_return, textStatus, jqXHR) {
+					if( (is_logged == true && data_return.is_logged == false) || (is_logged == false && data_return.is_logged == true) ) {
+						window.location.href = base_url;
+					}
+					is_logged = data_return.is_logged;
+					for(i in data_return.count) {
+						$('#load-' + i + '-items').find('span').html(data_return.count[i]);
+					}
+					window.document.title = '(' + data_return.count.all + ')';
 				}
-				is_logged = data_return.is_logged;
-				for(i in data_return.count) {
-					$('#load-' + i + '-items').find('span').html(data_return.count[i]);
-				}
-				window.document.title = '(' + data_return.count.all + ')';
-			}
-		},
-		type: 'POST',
-		url: base_url + 'refresh/client'
-	});
+			},
+			type: 'POST',
+			url: base_url + 'refresh/client'
+		});
+	}
 }
 $(document).ready(function() {
 	if(is_logged) {
