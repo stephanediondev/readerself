@@ -129,7 +129,8 @@ CREATE TABLE IF NOT EXISTS `subscriptions` (
   `sub_datecreated` datetime NOT NULL,
   PRIMARY KEY (`sub_id`),
   KEY `mbr_id` (`mbr_id`),
-  KEY `fed_id` (`fed_id`)
+  KEY `fed_id` (`fed_id`),
+  KEY `tag_id` (`tag_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `tags` (
