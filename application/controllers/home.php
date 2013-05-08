@@ -133,7 +133,7 @@ class Home extends CI_Controller {
 					$sql = 'SELECT fed.* FROM feeds AS fed WHERE fed.fed_id = ? GROUP BY fed.fed_id';
 					$itm->fed = $this->db->query($sql, array($itm->fed_id))->row();
 
-					$sql = 'SELECT tag.tag_id, tag.tag_title FROM subscriptions AS sub LEFT JOIN '.$this->db->dbprefix('tags').' AS tag ON tag.tag_id = sub.tag_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
+					$sql = 'SELECT sub.sub_id, tag.tag_id, tag.tag_title FROM subscriptions AS sub LEFT JOIN '.$this->db->dbprefix('tags').' AS tag ON tag.tag_id = sub.tag_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
 					$itm->sub = $this->db->query($sql, array($itm->fed_id, $this->member->mbr_id))->row();
 
 					$sql = 'SELECT hst.* FROM history AS hst WHERE hst.itm_id = ? GROUP BY hst.hst_id';
