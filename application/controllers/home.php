@@ -94,40 +94,34 @@ class Home extends CI_Controller {
 			} else {
 				$bindings[] = 0;
 			}
-			$bindings[] = $this->member->mbr_id;
-			$bindings[] = $this->member->mbr_id;
+
+			$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
 			$bindings[] = $this->member->mbr_id;
 
 			if($mode == 'starred') {
-				$where[] = 'fav.fav_id IS NOT NULL';
+				$where[] = 'itm.itm_id IN ( SELECT fav.itm_id FROM favorites AS fav WHERE fav.itm_id = itm.itm_id AND fav.mbr_id = ? )';
+				$bindings[] = $this->member->mbr_id;
 			} else {
-				$where[] = 'hst.hst_id IS NULL';
+				$where[] = 'itm.itm_id NOT IN ( SELECT hst.itm_id FROM history AS hst WHERE hst.itm_id = itm.itm_id AND hst.mbr_id = ? )';
+				$bindings[] = $this->member->mbr_id;
 			}
 
 			if($is_tag) {
-				$where[] = 'sub.tag_id = ?';
+				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.tag_id = ? )';
 				$bindings[] = $is_tag;
 			}
 
 			if($is_sub) {
-				$where[] = 'sub.sub_id = ?';
+				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
 				$bindings[] = $is_sub;
 			}
 
 			if($mode == 'notag') {
-				$where[] = 'sub.tag_id IS NULL';
+				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.tag_id IS NULL )';
 			}
 
-			$where[] = 'sub.mbr_id = ?';
-			$bindings[] = $this->member->mbr_id;
-
-			$sql = 'SELECT sub.sub_id, tag.tag_id, tag.tag_title, itm.*, fed.*, DATE_ADD(itm.itm_date, INTERVAL ? HOUR) AS itm_date, IF(fav.fav_id IS NULL, 0, 1) AS star, IF(hst.hst_id IS NULL, \'unread\', \'read\') AS history
-			FROM '.$this->db->dbprefix('items').' AS itm
-			LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id AND sub.mbr_id = ?
-			LEFT JOIN '.$this->db->dbprefix('tags').' AS tag ON tag.tag_id = sub.tag_id
-			LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id
-			LEFT JOIN '.$this->db->dbprefix('favorites').' AS fav ON fav.itm_id = itm.itm_id AND fav.mbr_id = ?
-			LEFT JOIN '.$this->db->dbprefix('history').' AS hst ON hst.itm_id = itm.itm_id AND hst.mbr_id = ?
+			$sql = 'SELECT itm.*, DATE_ADD(itm.itm_date, INTERVAL ? HOUR) AS itm_date
+			FROM items AS itm
 			WHERE '.implode(' AND ', $where).'
 			GROUP BY itm.itm_id
 			ORDER BY itm.itm_date DESC
@@ -136,6 +130,28 @@ class Home extends CI_Controller {
 			$content['total'] = $query->num_rows();
 			if($query->num_rows() > 0) {
 				foreach($query->result() as $itm) {
+					$sql = 'SELECT fed.* FROM feeds AS fed WHERE fed.fed_id = ? GROUP BY fed.fed_id';
+					$itm->fed = $this->db->query($sql, array($itm->fed_id))->row();
+
+					$sql = 'SELECT tag.tag_id, tag.tag_title FROM subscriptions AS sub LEFT JOIN '.$this->db->dbprefix('tags').' AS tag ON tag.tag_id = sub.tag_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
+					$itm->sub = $this->db->query($sql, array($itm->fed_id, $this->member->mbr_id))->row();
+
+					$sql = 'SELECT hst.* FROM history AS hst WHERE hst.itm_id = ? GROUP BY hst.hst_id';
+					$query = $this->db->query($sql, array($itm->itm_id));
+					if($query->num_rows > 0) {
+						$itm->history = 'read';
+					} else {
+						$itm->history = 'unread';
+					}
+
+					$sql = 'SELECT fav.* FROM favorites AS fav WHERE fav.itm_id = ? GROUP BY fav.fav_id';
+					$query = $this->db->query($sql, array($itm->itm_id));
+					if($query->num_rows > 0) {
+						$itm->star = 1;
+					} else {
+						$itm->star = 0;
+					}
+
 					list($itm->explode_date, $itm->explode_time) = explode(' ', $itm->itm_date);
 
 					//$itm->itm_content = strip_tags($itm->itm_content, '<dt><dd><dl><table><caption><tr><th><td><tbody><thead><h2><h3><h4><h5><h6><strong><em><code><pre><blockquote><p><ul><li><ol><br><del><a><img><figure><figcaption><cite><time><abbr>');
@@ -255,31 +271,30 @@ class Home extends CI_Controller {
 					$where = array();
 					$bindings = array();
 
-					$where[] = 'hst.hst_id IS NULL';
-
 					$bindings[] = $this->member->mbr_id;
 					$bindings[] = date('Y-m-d H:i:s');
+
+					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
 					$bindings[] = $this->member->mbr_id;
-					$bindings[] = $this->member->mbr_id;
+
+					$where[] = 'itm.itm_id NOT IN ( SELECT hst.itm_id FROM history AS hst WHERE hst.itm_id = itm.itm_id AND hst.mbr_id = ? )';
 					$bindings[] = $this->member->mbr_id;
 
 					if($this->session->userdata('items-mode') == 'starred') {
-						$where[] = 'fav.fav_id IS NOT NULL';
+						$where[] = 'itm.itm_id IN ( SELECT fav.itm_id FROM favorites AS fav WHERE fav.itm_id = itm.itm_id AND fav.mbr_id = ? )';
+						$bindings[] = $this->member->mbr_id;
 					}
 					if($is_tag) {
-						$where[] = 'sub.tag_id = ?';
+						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.tag_id = ? )';
 						$bindings[] = $is_tag;
 					}
 					if($is_sub) {
-						$where[] = 'sub.sub_id = ?';
+						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
 						$bindings[] = $is_sub;
 					}
 					if($this->session->userdata('items-mode') == 'notag') {
-						$where[] = 'sub.tag_id IS NULL';
+						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.tag_id IS NULL )';
 					}
-
-					$where[] = 'sub.mbr_id = ?';
-					$bindings[] = $this->member->mbr_id;
 
 					if($this->input->post('age') == 'one-day') {
 						$where[] = 'DATE_ADD(itm.itm_date, INTERVAL 1 DAY) < ?';
@@ -297,11 +312,6 @@ class Home extends CI_Controller {
 					$sql = 'INSERT INTO '.$this->db->dbprefix('history').' (itm_id, mbr_id, hst_datecreated)
 					SELECT itm.itm_id AS itm_id, ? AS mbr_id, ? AS hst_datecreated
 					FROM '.$this->db->dbprefix('items').' AS itm
-					LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id AND sub.mbr_id = ?
-					LEFT JOIN '.$this->db->dbprefix('tags').' AS tag ON tag.tag_id = sub.tag_id
-					LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id
-					LEFT JOIN '.$this->db->dbprefix('favorites').' AS fav ON fav.itm_id = itm.itm_id AND fav.mbr_id = ?
-					LEFT JOIN '.$this->db->dbprefix('history').' AS hst ON hst.itm_id = itm.itm_id AND hst.mbr_id = ?
 					WHERE '.implode(' AND ', $where).'
 					GROUP BY itm.itm_id';
 					$query = $this->db->query($sql, $bindings);
