@@ -22,8 +22,9 @@ example
 
 * CSS: 90%
 * HTML: 90%
-* JavaScript: 75%
-* PHP: 70%
+* JavaScript: 80%
+* PHP: 80%
+* SQL: 80%
 
 # Features
 
