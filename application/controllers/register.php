@@ -5,7 +5,7 @@ class Register extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
-		if($this->reader_model->count_members() > 0) {
+		if($this->reader_model->count_members() > 0 && !$this->config->item('register_multi')) {
 			redirect(base_url());
 		}
 		if($this->session->userdata('logged_member')) {
