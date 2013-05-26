@@ -37,18 +37,19 @@ example
 * Share to Facebook, Google and Twitter (optional)
 * Search subscriptions
 * Main keyboard shortcuts from Google Reader
+* Register multi-users (optional)
 
 # Setup
 
-Edit /application/config/reader_config.php to define "salt_password" (some letters and numbers to secure your password)
+Edit [/application/config/reader_config.php](/application/config/reader_config.php) to define "salt_password" (some letters and numbers to secure your password)
 
-Edit /application/config/database.php to define "username", "password" and "database" ("hostname" if necessary)
+Edit [/application/config/database.php](/application/config/database.php) to define "username", "password" and "database" ("hostname" if necessary)
 
 Load SQL commands below in your database
 
 Launch in a browser to register an account
 
-Add to cron at least hourly index.php refresh items
+Add to cron (hourly) => cd /path-to-installation && php index.php refresh items
 
 ```sql
 CREATE TABLE IF NOT EXISTS `connections` (
