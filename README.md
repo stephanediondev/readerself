@@ -1,4 +1,4 @@
-# Demo
+### Demo
 
 http://sdion.net/reader/
 ```text
@@ -6,19 +6,19 @@ example@example.com
 example
 ```
 
-# Screenshots
+### Screenshots
 
 ![Desktop](medias/desktop.png)
 ![Tablet](medias/tablet.png)
 ![Mobile](medias/mobile.png)
 
-# Third party
+### Third party
 
 * [CodeIgniter](http://ellislab.com/codeigniter/)
 * [SimplePie](http://simplepie.org)
 * [jQuery](http://jquery.com/)
 
-# Status
+### Status
 
 * CSS: 90%
 * HTML: 90%
@@ -26,7 +26,7 @@ example
 * PHP: 80%
 * SQL: 80%
 
-# Features
+### Features
 
 * Responsive desktop, tablet and mobile
 * Add a feed
@@ -39,7 +39,7 @@ example
 * Main keyboard shortcuts from Google Reader
 * Register multi-users (optional)
 
-# Setup
+### Setup
 
 Edit [/application/config/reader_config.php](/application/config/reader_config.php) to define "salt_password" (some letters and numbers to secure your password)
 
