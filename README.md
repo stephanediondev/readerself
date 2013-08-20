@@ -31,6 +31,7 @@ example
 * Responsive desktop, tablet and mobile
 * Add a feed
 * Import OPML from Google Reader
+* Export OPML
 * Get items (cron)
 * Tags (optional)
 * Starred items
