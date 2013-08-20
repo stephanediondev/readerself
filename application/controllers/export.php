@@ -9,29 +9,21 @@ class Export extends CI_Controller {
 			redirect(base_url());
 		}
 
-	}
-	function import_opml($obj, $tag = false) {
-		$feeds = array();
-		if(isset($obj->outline) == 1) {
-			foreach($obj->outline as $outline) {
-				if(isset($outline->outline) == 1) {
-					//echo $outline->attributes()->title;
-					//print_r($outline);
-					$tag = strval($outline->attributes()->title);
-					$this->tags[] = $tag;
-					$this->import_opml($outline, $tag);
-					//array_merge($feeds, $this->import_opml($outline));
-				} else {
-					//print_r($outline->attributes()->title);
-					$feed = new stdClass();
-					foreach($outline->attributes() as $k => $attribute) {
-						$feed->{$k} = strval($attribute);
-					}
-					$feed->tag = $tag;
-					$this->feeds[] = $feed;
-				}
+		$this->reader_library->set_template('_opml');
+		$this->reader_library->set_content_type('application/xml');
+
+		$subscriptions = array();
+		$query = $this->db->query('SELECT fed.*, sub.sub_id, sub.tag_id, tag.tag_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('tags').' AS tag ON tag.tag_id = sub.tag_id WHERE sub.mbr_id = ? AND fed.fed_id IS NOT NULL GROUP BY sub.sub_id ORDER BY tag.tag_title ASC, fed.fed_title ASC', array($this->member->mbr_id));
+		if($query->num_rows() > 0) {
+			foreach($query->result() as $sub) {
+				$subscriptions[$sub->tag_title][] = $sub;
 			}
 		}
-		return $feeds;
+
+		$data = array();
+		$data['subscriptions'] = $subscriptions;
+
+		$content = $this->load->view('export_index', $data, TRUE);
+		$this->reader_library->set_content($content);
 	}
 }
