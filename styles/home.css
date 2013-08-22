@@ -29,5 +29,7 @@
 #sidebar{display:none;}
 }
 @media(max-width:400px){
+#content{margin-top:10px !important;}
+#actions-main{margin:5px 5px 0px 10px;}
 .item h2{clear:both;font-size:14px;}
 }
