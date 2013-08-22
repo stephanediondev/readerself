@@ -227,7 +227,9 @@ $(document).ready(function() {
 
 			//v
 			} else if(keycode == 86) {
-				//TODO
+				href = $('#items .item-selected').find('h2').find('a').attr('href');
+				name = $('#items .item-selected').attr('id');
+				window.open(href, 'window_' + name);
 
 			//m
 			} else if(keycode == 77) {

@@ -10,6 +10,7 @@
 		<!--<li>v: view original selected item</li>-->
 		<li>m: read / unread selected item</li>
 		<li>s: star / unstar selected item</li>
+		<li>v: view original selected item</li>
 		<li>o or enter: expand / collapse selected item</li>
 		<li>shift + a: mark all as read</li>
 		<li>g then a: go to all items</li>
