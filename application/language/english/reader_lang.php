@@ -8,6 +8,7 @@ $lang['error404'] = 'Page not found';
 $lang['home'] = 'Home';
 $lang['profile'] = 'Profile';
 $lang['subscriptions'] = 'Subscriptions';
+$lang['trends'] = 'Trends';
 $lang['tags'] = 'Tags';
 $lang['tag'] = 'Tag';
 $lang['add_tag'] = 'Add tag';
