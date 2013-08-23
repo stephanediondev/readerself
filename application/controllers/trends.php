@@ -72,7 +72,7 @@ class Trends extends CI_Controller {
 
 		$legend = array();
 		$values = array();
-		$query = $this->db->query('SELECT SUBSTRING(hst.hst_datecreated, 1, 7) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,12', array($this->member->mbr_id));
+		$query = $this->db->query('SELECT SUBSTRING(hst.hst_datecreated, 1, 7) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,12', array($this->member->mbr_id));
 		if($query->num_rows() > 0) {
 			foreach($query->result() as $row) {
 				$legend[] = $row->ref;
