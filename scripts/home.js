@@ -58,6 +58,9 @@ function load_items(url) {
 					content += data_return.noitems;
 				}
 				$('#items-display').html(content);
+				if($('#display-items').find('.expand').is(':visible')) {
+					$('.item-content, .item-footer').hide();
+				}
 				$('.timeago').timeago();
 				refresh();
 			}
