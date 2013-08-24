@@ -88,6 +88,19 @@ button{background-color:#9EA64B;cursor:pointer;margin-top:10px;}
 #overlay{background-color:#000000;opacity:0.7;z-index:10000;}
 .icon{line-height:inherit !important;margin-right:3px;vertical-align:top;}
 .show-phone{display:none !important;}
+
+.filters{border-bottom:1px solid #E7E7E7;margin:0px 0px 5px 0px;overflow:hidden;}
+.filters div{float:left;height:30px;margin:5px 10px 5px 0px;overflow:hidden;position:relative;white-space:nowrap;}
+.filters label{display:inline;padding-right:5px;}
+.filters .inputtext{width:100px;}
+.filters .inputtext.numeric{width:60px;}
+.filters .inputtext.date{width:80px;}
+
+.paging{clear:both;font-size:11px;padding:5px 5px 5px 0px;}
+.paging strong, .paging a:link, .paging a:visited{border:1px solid #999999;margin:0px 2px 0px 0px;padding:1px 3px 1px 4px;text-decoration:none;}
+.paging strong{background-color:#777777;color:#FFFFFF;font-weight:normal;text-decoration:none;}
+.paging a:hover{background-color:#E7E7E7;}
+
 @media (max-width:1024px){
 .hide-tablet{display:none !important;}
 }

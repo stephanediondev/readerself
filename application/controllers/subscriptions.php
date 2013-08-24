@@ -9,121 +9,100 @@ class Subscriptions extends CI_Controller {
 			redirect(base_url());
 		}
 
-		$query = $this->db->query('SELECT fed.*, sub.sub_id, sub.tag_id, tag.tag_title, (SELECT COUNT(DISTINCT(count_sub.mbr_id)) FROM '.$this->db->dbprefix('subscriptions').' AS count_sub WHERE count_sub.fed_id = sub.fed_id) AS subscribers FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('tags').' AS tag ON tag.tag_id = sub.tag_id WHERE sub.mbr_id = ? AND fed.fed_id IS NOT NULL GROUP BY sub.sub_id ORDER BY fed.fed_title ASC', array($this->member->mbr_id));
-
 		$data = array();
-		$data['subscriptions'] = $query->result();
+
+		$filters = array();
+		$filters[$this->router->class.'_subscriptions_fed_title'] = array('fed.fed_title', 'like');
+		$flt = $this->reader_library->build_filters($filters);
+		$flt[] = 'sub.mbr_id = \''.$this->member->mbr_id.'\'';
+		$flt[] = 'fed.fed_id IS NOT NULL';
+		$columns = array();
+		$columns[] = 'fed.fed_title';
+		$columns[] = 'fed.fed_url';
+		$columns[] = 'subscribers';
+		if($this->config->item('tags')) {
+			$columns[] = 'tag.tag_title';
+		}
+		$col = $this->reader_library->build_columns($this->router->class.'_subscriptions', $columns, 'fed.fed_title', 'ASC');
+		$results = $this->reader_model->get_subscriptions_total($flt);
+		$build_pagination = $this->reader_library->build_pagination($results->count, 20, $this->router->class.'_subscriptions');
+		$data = array();
+		$data['columns'] = $col;
+		$data['pagination'] = $build_pagination['output'];
+		$data['position'] = $build_pagination['position'];
+		$data['subscriptions'] = $this->reader_model->get_subscriptions_rows($flt, $build_pagination['limit'], $build_pagination['start'], $this->router->class.'_subscriptions');
 
 		$content = $this->load->view('subscriptions_index', $data, TRUE);
 		$this->reader_library->set_content($content);
 	}
+
+	public function update($sub_id) {
+		if(!$this->session->userdata('logged_member')) {
+			redirect(base_url());
+		}
+
+		$this->load->library('form_validation');
+		$data = array();
+		$data['sub'] = $this->reader_model->get_subscription_row($sub_id);
+		if($data['sub']) {
+			$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? GROUP BY tag.tag_id ORDER BY tag.tag_title ASC', array($this->member->mbr_id));
+			$data['tags'] = array();
+			$data['tags'][0] = $this->lang->line('no_tag');
+			if($query->num_rows() > 0) {
+				foreach($query->result() as $tag) {
+					$data['tags'][$tag->tag_id] = $tag->tag_title;
+				}
+			}
+
+			$this->form_validation->set_rules('tag', 'lang:tag', 'required');
+			if($this->form_validation->run() == FALSE) {
+				$content = $this->load->view('subscriptions_update', $data, TRUE);
+				$this->reader_library->set_content($content);
+			} else {
+				if($this->input->post('tag') == 0) {
+					$this->db->set('tag_id', '');
+					$this->db->where('sub_id', $sub_id);
+					$this->db->update('subscriptions');
+
+				} else {
+					$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? AND tag.tag_id = ? GROUP BY tag.tag_id', array($this->member->mbr_id, $this->input->post('tag')));
+					if($query->num_rows() > 0) {
+						$this->db->set('tag_id', $this->input->post('tag'));
+						$this->db->where('sub_id', $sub_id);
+						$this->db->update('subscriptions');
+
+					}
+				}
+
+				//$this->read($sub_id);
+				redirect(base_url().'subscriptions');
+			}
+		} else {
+			$this->index();
+		}
+	}
+
 	public function delete($sub_id) {
 		if(!$this->session->userdata('logged_member')) {
 			redirect(base_url());
 		}
 
+		$this->load->library('form_validation');
 		$data = array();
-
-		$content = array();
-
-		if($this->input->is_ajax_request()) {
-			$this->reader_library->set_template('_json');
-			$this->reader_library->set_content_type('application/json');
-
-			$query = $this->db->query('SELECT fed.*, sub.sub_id FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.sub_id = ? AND fed.fed_id IS NOT NULL GROUP BY sub.sub_id', array($this->member->mbr_id, $sub_id));
-			if($query->num_rows() > 0) {
-				$data['sub'] = $query->row();
-
-				$content['modal'] = $this->load->view('subscriptions_delete', $data, TRUE);
-			}
-		} else {
-			$this->output->set_status_header(403);
-		}
-		$this->reader_library->set_content($content);
-	}
-	public function delete_confirm($sub_id) {
-		if(!$this->session->userdata('logged_member')) {
-			redirect(base_url());
-		}
-
-		$data = array();
-
-		$content = array();
-
-		if($this->input->is_ajax_request()) {
-			$this->reader_library->set_template('_json');
-			$this->reader_library->set_content_type('application/json');
-
-			$query = $this->db->query('SELECT fed.*, sub.sub_id FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.sub_id = ? AND fed.fed_id IS NOT NULL GROUP BY sub.sub_id', array($this->member->mbr_id, $sub_id));
-			if($query->num_rows() > 0) {
-				$data['sub'] = $query->row();
-
+		$data['sub'] = $this->reader_model->get_subscription_row($sub_id);
+		if($data['sub']) {
+			$this->form_validation->set_rules('confirm', 'lang:confirm', 'required');
+			if($this->form_validation->run() == FALSE) {
+				$content = $this->load->view('subscriptions_delete', $data, TRUE);
+				$this->reader_library->set_content($content);
+			} else {
 				$this->db->where('sub_id', $sub_id);
 				$this->db->delete('subscriptions');
 
-				$content['modal'] = $this->load->view('subscriptions_delete_confirm', $data, TRUE);
+				redirect(base_url().'subscriptions');
 			}
 		} else {
-			$this->output->set_status_header(403);
+			$this->index();
 		}
-		$this->reader_library->set_content($content);
-	}
-	public function tag($sub_id) {
-		if(!$this->session->userdata('logged_member')) {
-			redirect(base_url());
-		}
-
-		$data = array();
-		$content = array();
-
-		if($this->input->is_ajax_request()) {
-			$this->reader_library->set_template('_json');
-			$this->reader_library->set_content_type('application/json');
-
-			$query = $this->db->query('SELECT fed.*, sub.sub_id, sub.tag_id FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.sub_id = ? AND fed.fed_id IS NOT NULL GROUP BY sub.sub_id', array($this->member->mbr_id, $sub_id));
-			if($query->num_rows() > 0) {
-				$data['sub'] = $query->row();
-
-				$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? GROUP BY tag.tag_id ORDER BY tag.tag_title ASC', array($this->member->mbr_id));
-				$data['tags'] = array();
-				$data['tags'][0] = $this->lang->line('no_tag');
-				if($query->num_rows() > 0) {
-					foreach($query->result() as $tag) {
-						$data['tags'][$tag->tag_id] = $tag->tag_title;
-					}
-				}
-
-				$this->load->library(array('form_validation'));
-
-				$this->form_validation->set_rules('tag', 'lang:tag', 'required');
-
-				if($this->form_validation->run() == FALSE) {
-					$content['modal'] = $this->load->view('subscriptions_tag', $data, TRUE);
-				} else {
-					if($this->input->post('tag') == 0) {
-						$this->db->set('tag_id', '');
-						$this->db->where('sub_id', $sub_id);
-						$this->db->update('subscriptions');
-
-						$data['title'] = '<em>'.$this->lang->line('no_tag').'</em>';
-					} else {
-						$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? AND tag.tag_id = ? GROUP BY tag.tag_id', array($this->member->mbr_id, $this->input->post('tag')));
-						if($query->num_rows() > 0) {
-							$this->db->set('tag_id', $this->input->post('tag'));
-							$this->db->where('sub_id', $sub_id);
-							$this->db->update('subscriptions');
-
-							$data['title'] = $query->row()->tag_title;
-						}
-					}
-					$content['modal'] = $this->load->view('subscriptions_tag_confirm', $data, TRUE);
-				}
-			} else {
-				$this->output->set_status_header(403);
-			}
-		} else {
-			$this->output->set_status_header(403);
-		}
-		$this->reader_library->set_content($content);
 	}
 }

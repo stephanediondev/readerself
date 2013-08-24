@@ -1,7 +1,10 @@
-<div id="modal-display">
+<div id="content">
 	<h1><i class="icon icon-rss"></i><?php echo $sub->fed_title; ?></h1>
 
 	<?php if($sub->fed_description) { ?><p><?php echo $sub->fed_description; ?></p><?php } ?>
+	<ul>
+	<li><a class="index" href="<?php echo base_url(); ?>subscriptions"><?php echo $this->lang->line('subscriptions'); ?></a></li>
+	</ul>
 
 	<?php echo validation_errors(); ?>
 

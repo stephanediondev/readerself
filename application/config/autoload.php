@@ -64,7 +64,7 @@ $autoload['libraries'] = array('database', 'session', 'reader_library');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url', 'reader_helper');
+$autoload['helper'] = array('url', 'form', 'reader_helper');
 
 
 /*

@@ -7,9 +7,9 @@
 		<li><a id="load-starred-items" href="<?php echo base_url(); ?>home/items/starred"><i class="icon icon-star"></i><?php echo $this->lang->line('starred_items'); ?> (<span>0</span>)</a></li>
 		<?php if($tags && $this->config->item('tags')) { ?>
 		<?php foreach($tags as $tag) { ?>
-		<li><a id="load-tag-<?php echo $tag->tag_id; ?>-items" href="<?php echo base_url(); ?>home/items/tag/<?php echo $tag->tag_id; ?>"><i class="icon icon-tag"></i><?php echo $tag->tag_title; ?> (<span>0</span>)</a></li>
+		<li><a id="load-tag-<?php echo $tag->tag_id; ?>-items" href="<?php echo base_url(); ?>home/items/tag/<?php echo $tag->tag_id; ?>"><i class="icon icon-folder-close"></i><?php echo $tag->tag_title; ?> (<span>0</span>)</a></li>
 		<?php } ?>
-		<li><a id="load-notag-items" href="<?php echo base_url(); ?>home/items/notag"><i class="icon icon-tag"></i><em><?php echo $this->lang->line('no_tag'); ?></em> (<span>0</span>)</a></li>
+		<li><a id="load-notag-items" href="<?php echo base_url(); ?>home/items/notag"><i class="icon icon-folder-close"></i><em><?php echo $this->lang->line('no_tag'); ?></em> (<span>0</span>)</a></li>
 		<?php } ?>
 		<li><?php echo $this->lang->line('subscriptions'); ?></li>
 		<li>

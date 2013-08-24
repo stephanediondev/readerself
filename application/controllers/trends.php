@@ -118,7 +118,7 @@ class Trends extends CI_Controller {
 				$values[] = $row->nb;
 			}
 		}
-		$data['tables'] .= build_table_repartition('Items read by tag*', $values, $legend);
+		$data['tables'] .= build_table_repartition('Items read by folder*', $values, $legend);
 
 		$legend = array();
 		$values = array();

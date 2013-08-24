@@ -28,7 +28,7 @@ class Import extends CI_Controller {
 					$content .= '<div id="content">';
 
 					if(count($this->tags) > 0) {
-						$content_tags = '<h1><i class="icon icon-tags"></i>'.$this->lang->line('tags').' ('.count($this->tags).')</h1>';
+						$content_tags = '<h1><i class="icon icon-folder-close"></i>'.$this->lang->line('tags').' ('.count($this->tags).')</h1>';
 						$content_tags .= '<table>';
 						$content_tags .= '<thead>';
 						$content_tags .= '<tr><th>&nbsp;</th><th>'.$this->lang->line('title').'</th></tr>';

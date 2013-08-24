@@ -1,5 +1,5 @@
 <div id="content">
-	<h1><i class="icon icon-tags"></i><?php echo $this->lang->line('tags'); ?> (<span><?php echo count($tags); ?></span>)</h1>
+	<h1><i class="icon icon-folder-close"></i><?php echo $this->lang->line('tags'); ?> (<span><?php echo count($tags); ?></span>)</h1>
 
 	<ul class="actions">
 		<li><a href="<?php echo base_url(); ?>tags/add" class="modal_show"><i class="icon icon-plus"></i><?php echo $this->lang->line('add'); ?>...</a></li>

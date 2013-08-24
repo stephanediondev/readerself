@@ -1,5 +1,5 @@
 <div id="modal-display">
-	<h1><i class="icon icon-tag"></i><?php echo $this->lang->line('add_tag'); ?></h1>
+	<h1><i class="icon icon-folder-close"></i><?php echo $this->lang->line('add_tag'); ?></h1>
 
 	<?php echo validation_errors(); ?>
 
