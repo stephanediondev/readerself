@@ -414,9 +414,11 @@ $(document).ready(function() {
 
 	$('.menu #search_items_form').bind('submit', function(event) {
 		event.preventDefault();
-		var ref = $(this);
-		$('#search_items').blur();
-		load_items( ref.attr('action') + '/' + encodeURI( $('#search_items').val() ) );
+		if($('#search_items').val() != '') {
+			var ref = $(this);
+			$('#search_items').blur();
+			load_items( ref.attr('action') + '/' + encodeURI( $('#search_items').val() ) );
+		}
 	});
 
 	$('.menu #search_subscriptions_form').bind('submit', function(event) {
