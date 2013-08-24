@@ -36,7 +36,8 @@ example
 * Get items (cron)
 * Folders (optional)
 * Trends
-* Switch unread only / Read and unread
+* Switch Unread only / Read and unread
+* Expand / Collapse items
 * Starred items
 * Share to Facebook, Google and Twitter (optional)
 * Search subscriptions
