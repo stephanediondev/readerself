@@ -11,6 +11,7 @@ example
 ![Desktop](medias/desktop.png)
 ![Tablet](medias/tablet.png)
 ![Mobile](medias/mobile.png)
+![Trends](medias/trends.png)
 
 ### Third party
 
@@ -92,10 +93,12 @@ CREATE TABLE IF NOT EXISTS `history` (
   `hst_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `mbr_id` bigint(20) unsigned NOT NULL,
   `itm_id` bigint(20) unsigned NOT NULL,
+  `hst_real` tinyint(1) unsigned NOT NULL DEFAULT '1',
   `hst_datecreated` datetime NOT NULL,
   PRIMARY KEY (`hst_id`),
   KEY `mbr_id` (`mbr_id`),
-  KEY `itm_id` (`itm_id`)
+  KEY `itm_id` (`itm_id`),
+  KEY `hst_real` (`hst_real`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `items` (
@@ -145,4 +148,13 @@ CREATE TABLE IF NOT EXISTS `tags` (
   KEY `mbr_id` (`mbr_id`),
   KEY `tag_title` (`tag_title`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
- ```
+```
+
+#### Update
+
+##### 2013-08-24
+
+```sql
+ALTER TABLE `history` ADD `hst_real` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '1' AFTER `itm_id`;
+ALTER TABLE `history` ADD INDEX ( `hst_real` );
+```

@@ -106,8 +106,8 @@ if( ! function_exists('build_table_progression')) {
 			$content .= '</tr>';
 		}
 		$total_lines = count($lines);
-		if($total_lines < 12) {
-			$reste = 12 - $total_lines;
+		/*if($total_lines < 24) {
+			$reste = 24 - $total_lines;
 			if($reste > 0) {
 				for($i=0;$i<$reste;$i++) {
 					$content .= '<tr>';
@@ -118,10 +118,10 @@ if( ! function_exists('build_table_progression')) {
 					$content .= '</tr>';
 				}
 			}
-		}
+		}*/
 		$content .= '<tr>';
 		if($total) {
-			$content .= '<td>Total sur '.$total_lines.'</td>';
+			$content .= '<td>Total on '.$total_lines.'</td>';
 			if($suffix_data) {
 				$content .= '<td class="result"><strong>'.$total_resume.$suffix_data.'</strong></td>';
 			} else {
@@ -175,8 +175,8 @@ if( ! function_exists('build_table_repartition')) {
 			$content .= '</tr>';
 		}
 		$total_lines = count($lines);
-		if($total_lines < 12) {
-			$reste = 12 - $total_lines;
+		/*if($total_lines < 24) {
+			$reste = 24 - $total_lines;
 			if($reste > 0) {
 				for($i=0;$i<$reste;$i++) {
 					$content .= '<tr>';
@@ -187,9 +187,9 @@ if( ! function_exists('build_table_repartition')) {
 					$content .= '</tr>';
 				}
 			}
-		}
+		}*/
 		$content .= '<tr>';
-		$content .= '<td>Total sur '.$total_lines.'</td>';
+		$content .= '<td>Total on '.$total_lines.'</td>';
 		if($suffix_data) {
 			$content .= '<td class="result"><strong>'.$total_resume.$suffix_data.'</strong></td>';
 		} else {

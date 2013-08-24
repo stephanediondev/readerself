@@ -309,8 +309,8 @@ class Home extends CI_Controller {
 						$bindings[] = date('Y-m-d H:i:s');
 					}
 
-					$sql = 'INSERT INTO '.$this->db->dbprefix('history').' (itm_id, mbr_id, hst_datecreated)
-					SELECT itm.itm_id AS itm_id, ? AS mbr_id, ? AS hst_datecreated
+					$sql = 'INSERT INTO '.$this->db->dbprefix('history').' (itm_id, mbr_id, hst_real, hst_datecreated)
+					SELECT itm.itm_id AS itm_id, ? AS mbr_id, \'0\' AS hst_real, ? AS hst_datecreated
 					FROM '.$this->db->dbprefix('items').' AS itm
 					WHERE '.implode(' AND ', $where).'
 					GROUP BY itm.itm_id';
