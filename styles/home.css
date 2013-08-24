@@ -24,6 +24,7 @@
 .item-details li a:link,.item-details li a:visited{text-decoration:none;}
 .item table td{background-color:transparent!important;border:none;}
 #mode-items .unread_only{display:none;}
+#display-items .expand{display:none;}
 @media(max-width:1024px){
 #content{margin:10px 0px 0px 10px;}
 #actions-main{margin:5px 20px 0px 10px;}

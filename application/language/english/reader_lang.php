@@ -68,3 +68,5 @@ $lang['shortcuts'] = 'Shortcuts';
 $lang['confirm'] = 'Confirm';
 $lang['unread_only'] = 'Unread only';
 $lang['read_and_unread'] = 'Read and unread';
+$lang['collapse'] = 'Collapse';
+$lang['expand'] = 'Expand';

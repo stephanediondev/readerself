@@ -18,6 +18,7 @@ example
 * [CodeIgniter](http://ellislab.com/codeigniter/)
 * [SimplePie](http://simplepie.org)
 * [jQuery](http://jquery.com/)
+* [Font Awesome](http://fortawesome.github.io/Font-Awesome/)
 
 ### Status
 
