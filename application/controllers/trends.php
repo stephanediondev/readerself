@@ -129,7 +129,7 @@ class Trends extends CI_Controller {
 				$values[] = $row->nb;
 			}
 		}
-		$data['tables'] .= build_table_progression('Items read per month', $values, $legend);
+		$data['tables'] .= build_table_progression('Items read by month', $values, $legend);
 
 		$legend = array();
 		$values = array();
