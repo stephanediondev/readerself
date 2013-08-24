@@ -2,10 +2,10 @@
 	<h1><i class="icon icon-rss"></i><?php echo $sub->fed_title; ?></h1>
 	<ul class="actions">
 		<li><a href="<?php echo base_url(); ?>subscriptions"><i class="icon icon-step-backward"></i><?php echo $this->lang->line('back'); ?></a></li>
+		<li><a href="<?php echo base_url(); ?>subscriptions/update/<?php echo $sub->sub_id; ?>"><i class="icon icon-pencil"></i><?php echo $this->lang->line('update'); ?></a></li>
+		<li><a href="<?php echo base_url(); ?>subscriptions/delete/<?php echo $sub->sub_id; ?>"><i class="icon icon-trash"></i><?php echo $this->lang->line('delete'); ?></a></li>
 	</ul>
-	<?php echo form_open(current_url()); ?>
-	<h2><?php echo $this->lang->line('delete'); ?></h2>
-	<?php echo validation_errors(); ?>
+
 	<p>
 	<span class="label"><?php echo $this->lang->line('title'); ?></span>
 	<?php echo $sub->fed_title; ?>
@@ -35,13 +35,11 @@
 		</p>
 	<?php } ?>
 
-	<p>
-	<?php echo form_label($this->lang->line('confirm').' *', 'confirm'); ?>
-	<?php echo form_checkbox('confirm', '1', FALSE, 'id="confirm" class="inputcheckbox"'); ?>
-	</p>
+	<?php if($sub->sub_title) { ?>
+		<p>
+		<span class="label"><?php echo $this->lang->line('title_alternative'); ?></span>
+		<?php echo $sub->sub_title; ?>
+		</p>
+	<?php } ?>
 
-	<p>
-	<button type="submit"><?php echo $this->lang->line('send'); ?></button>
-	</p>
-	<?php echo form_close(); ?>
 </div>

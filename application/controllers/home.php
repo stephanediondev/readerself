@@ -42,7 +42,7 @@ class Home extends CI_Controller {
 			$content = array();
 
 			if($this->input->post('fed_title')) {
-				$query = $this->db->query('SELECT sub.sub_id, fed.* FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND fed.fed_title LIKE ? GROUP BY fed.fed_id ORDER BY fed.fed_title ASC', array($this->member->mbr_id, '%'.$this->input->post('fed_title').'%'));
+				$query = $this->db->query('SELECT sub.sub_id, sub.sub_title, fed.* FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND (fed.fed_title LIKE ? OR sub.sub_title LIKE ?) GROUP BY fed.fed_id ORDER BY fed.fed_title ASC', array($this->member->mbr_id, '%'.$this->input->post('fed_title').'%', '%'.$this->input->post('fed_title').'%'));
 				$content['subscriptions'] = $query->result();
 			} else {
 				$content['subscriptions'] = array();
@@ -57,7 +57,7 @@ class Home extends CI_Controller {
 			redirect(base_url());
 		}
 
-		$modes = array('all', 'starred', 'notag', 'tag', 'sub');
+		$modes = array('all', 'starred', 'notag', 'tag', 'sub', 'search');
 
 		$content = array();
 
@@ -102,8 +102,17 @@ class Home extends CI_Controller {
 				$where[] = 'itm.itm_id IN ( SELECT fav.itm_id FROM favorites AS fav WHERE fav.itm_id = itm.itm_id AND fav.mbr_id = ? )';
 				$bindings[] = $this->member->mbr_id;
 			} else {
-				$where[] = 'itm.itm_id NOT IN ( SELECT hst.itm_id FROM history AS hst WHERE hst.itm_id = itm.itm_id AND hst.mbr_id = ? )';
-				$bindings[] = $this->member->mbr_id;
+				if($mode == 'search') {
+					$search = urldecode($id);
+					$words = explode(' ', $search);
+					foreach($words as $word) {
+						$where[] = 'itm.itm_title LIKE ?';
+						$bindings[] = '%'.$word.'%';
+					}
+				} else if($this->input->get('mode-items') == 'unread_only') {
+					$where[] = 'itm.itm_id NOT IN ( SELECT hst.itm_id FROM history AS hst WHERE hst.itm_id = itm.itm_id AND hst.mbr_id = ? )';
+					$bindings[] = $this->member->mbr_id;
+				}
 			}
 
 			if($is_tag) {
@@ -124,8 +133,18 @@ class Home extends CI_Controller {
 			FROM items AS itm
 			WHERE '.implode(' AND ', $where).'
 			GROUP BY itm.itm_id
-			ORDER BY itm.itm_date DESC
-			LIMIT 0,10';
+			ORDER BY itm.itm_date DESC';
+			if($mode == 'starred') {
+				$sql .= ' LIMIT '.intval($this->input->post('pagination')).',10';
+			} else {
+				if($mode == 'search') {
+					$sql .= ' LIMIT '.intval($this->input->post('pagination')).',10';
+				} else if($this->input->get('mode-items') == 'unread_only') {
+					$sql .= ' LIMIT 0,10';
+				} else {
+					$sql .= ' LIMIT '.intval($this->input->post('pagination')).',10';
+				}
+			}
 			$query = $this->db->query($sql, $bindings);
 			$content['total'] = $query->num_rows();
 			if($query->num_rows() > 0) {
@@ -133,7 +152,7 @@ class Home extends CI_Controller {
 					$sql = 'SELECT fed.* FROM feeds AS fed WHERE fed.fed_id = ? GROUP BY fed.fed_id';
 					$itm->fed = $this->db->query($sql, array($itm->fed_id))->row();
 
-					$sql = 'SELECT sub.sub_id, tag.tag_id, tag.tag_title FROM subscriptions AS sub LEFT JOIN '.$this->db->dbprefix('tags').' AS tag ON tag.tag_id = sub.tag_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
+					$sql = 'SELECT sub.sub_id, sub.sub_title, tag.tag_id, tag.tag_title FROM subscriptions AS sub LEFT JOIN '.$this->db->dbprefix('tags').' AS tag ON tag.tag_id = sub.tag_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
 					$itm->sub = $this->db->query($sql, array($itm->fed_id, $this->member->mbr_id))->row();
 
 					$sql = 'SELECT hst.* FROM history AS hst WHERE hst.itm_id = ? AND hst.mbr_id = ? GROUP BY hst.hst_id';
@@ -188,11 +207,7 @@ class Home extends CI_Controller {
 					$content['items'][$itm->itm_id] = array('itm_id' => $itm->itm_id, 'itm_content' => $this->load->view('item', array('itm'=>$itm), TRUE));
 				}
 			} else {
-				if($mode == 'starred') {
-					$content['noitems'] = '<div class="alert alert-info alert-block">No starred items</div>';
-				} else {
-					$content['noitems'] = '<div class="alert alert-info alert-block">No unread items</div>';
-				}
+				$content['noitems'] = '<div class="alert alert-info alert-block">No more items</div>';
 			}
 		} else {
 			$this->output->set_status_header(403);

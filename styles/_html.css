@@ -47,6 +47,7 @@ table {
 	border-spacing: 0;
 }
 body{background-color:#FFFFFF;color:#333333;font-family:Helvetica,Arial,sans-serif;font-size:14px;margin:0px;}
+body.error{background-color:#FF9090;}
 a:link, a:visited{color:#777777;text-decoration:underline;}
 a:hover{color:#111111;}
 h1{font-size:16px;font-weight:bold;margin:15px 0px;}
@@ -68,7 +69,8 @@ thead th{font-weight:bold;white-space:nowrap;}
 tbody tr:nth-child(odd) th, tbody tr:nth-child(odd) td{background-color:#FFFFFF;}
 tbody tr:nth-child(even) th, tbody tr:nth-child(even) td{background-color:#FAFAFA;}
 table tbody tr:hover th, table tbody tr:hover td{background-color:#E7E7E7;}
-label{cursor:text;display:block;padding-bottom:2px;padding-top:5px;position:relative;}
+table tbody th{white-space:nowrap;}
+label,.label{cursor:text;display:block;padding-bottom:2px;padding-top:5px;position:relative;}
 input{border: 1px solid #777777;padding:5px;}
 #nav{height:20px;margin:10px 0px 0px 10px;}
 #content{height:auto;margin:10px 0px 0px 10px;position:relative;}
@@ -82,6 +84,7 @@ button{background-color:#9EA64B;cursor:pointer;margin-top:10px;}
 .menu li{margin:5px 0px 10px 0px;}
 .menu li.active{font-weight:bold;}
 .menu li a{display:block;padding:5px 0px;text-decoration:none;}
+.menu li label{display:block;padding:0px 0px 0px 0px;text-decoration:none;}
 #overlay, #modal{left:0px;position:absolute;top:0px;}
 #modal{background-color:#FFFFFF;z-index:20000;width:300px;}
 #modal-display{padding:10px;}
@@ -92,6 +95,7 @@ button{background-color:#9EA64B;cursor:pointer;margin-top:10px;}
 .filters{border-bottom:1px solid #E7E7E7;margin:0px 0px 5px 0px;overflow:hidden;}
 .filters div{float:left;height:30px;margin:5px 10px 5px 0px;overflow:hidden;position:relative;white-space:nowrap;}
 .filters label{display:inline;padding-right:5px;}
+.filters button{vertical-align:top;}
 .filters .inputtext{width:100px;}
 .filters .inputtext.numeric{width:60px;}
 .filters .inputtext.date{width:80px;}

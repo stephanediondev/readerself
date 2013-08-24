@@ -9,7 +9,7 @@
 <link href="<?php echo base_url(); ?>styles/<?php echo $this->router->class; ?>.css" rel="stylesheet" type="text/css">
 <?php } ?>
 </head>
-<body>
+<body<?php if(count($this->reader_library->errors) > 0) { ?> class="error"<?php } ?>>
 
 <div id="nav">
 	<ul class="actions">

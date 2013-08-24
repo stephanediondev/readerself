@@ -5,109 +5,107 @@ class Tags extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
-		if(!$this->session->userdata('logged_member') || !$this->config->item('tags')) {
-			redirect(base_url());
-		}
-
-		$query = $this->db->query('SELECT tag.*, (SELECT COUNT(DISTINCT(count_sub.sub_id)) FROM '.$this->db->dbprefix('subscriptions').' AS count_sub WHERE count_sub.tag_id = tag.tag_id) AS subscriptions FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? GROUP BY tag.tag_id ORDER BY tag.tag_title ASC', array($this->member->mbr_id));
-
-		$data = array();
-		$data['tags'] = $query->result();
-		$content = $this->load->view('tags_index', $data, TRUE);
-		$this->reader_library->set_content($content);
-	}
-	public function add() {
 		if(!$this->session->userdata('logged_member')) {
 			redirect(base_url());
 		}
 
 		$data = array();
 
-		$content = array();
+		$filters = array();
+		$filters[$this->router->class.'_tags_tag_title'] = array('tag.tag_title', 'like');
+		$flt = $this->reader_library->build_filters($filters);
+		$flt[] = 'tag.mbr_id = \''.$this->member->mbr_id.'\'';
+		$columns = array();
+		$columns[] = 'tag.tag_title';
+		$columns[] = 'subscriptions';
+		$col = $this->reader_library->build_columns($this->router->class.'_tags', $columns, 'tag.tag_title', 'ASC');
+		$results = $this->reader_model->get_tags_total($flt);
+		$build_pagination = $this->reader_library->build_pagination($results->count, 20, $this->router->class.'_tags');
+		$data = array();
+		$data['columns'] = $col;
+		$data['pagination'] = $build_pagination['output'];
+		$data['position'] = $build_pagination['position'];
+		$data['tags'] = $this->reader_model->get_tags_rows($flt, $build_pagination['limit'], $build_pagination['start'], $this->router->class.'_tags');
 
-		if($this->input->is_ajax_request()) {
-			$this->reader_library->set_template('_json');
-			$this->reader_library->set_content_type('application/json');
-
-			$this->load->library(array('form_validation'));
-
-			$this->form_validation->set_rules('tag_title', 'Title', 'required');
-
-			if($this->form_validation->run() == FALSE) {
-			} else {
-				$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? AND tag.tag_title = ? GROUP BY tag.tag_id', array($this->member->mbr_id, $this->input->post('tag_title')));
-				if($query->num_rows() == 0) {
-					$this->db->set('mbr_id', $this->member->mbr_id);
-					$this->db->set('tag_title', $this->input->post('tag_title'));
-					$this->db->set('tag_datecreated', date('Y-m-d H:i:s'));
-					$this->db->insert('tags');
-					$tag_id = $this->db->insert_id();
-
-					$data['alert'] = array('type'=>'success', 'message'=>'Added');
-				} else {
-					$data['alert'] = array('type'=>'error', 'message'=>'Already exists');
-				}
-			}
-			$content['modal'] = $this->load->view('tags_add', $data, TRUE);
-		} else {
-			$this->output->set_status_header(403);
-		}
+		$content = $this->load->view('tags_index', $data, TRUE);
 		$this->reader_library->set_content($content);
 	}
+
+	public function create() {
+		if(!$this->session->userdata('logged_member')) {
+			redirect(base_url());
+		}
+
+		$data = array();
+		$this->load->library(array('form_validation'));
+		$this->form_validation->set_rules('tag_title', 'Title', 'required');
+		if($this->form_validation->run() == FALSE) {
+			$content = $this->load->view('tags_create', $data, TRUE);
+			$this->reader_library->set_content($content);
+		} else {
+			$this->db->set('mbr_id', $this->member->mbr_id);
+			$this->db->set('tag_title', $this->input->post('tag_title'));
+			$this->db->set('tag_datecreated', date('Y-m-d H:i:s'));
+			$this->db->insert('tags');
+			$tag_id = $this->db->insert_id();
+
+			//$this->read($tag_id);
+			redirect(base_url().'tags');
+		}
+	}
+
+	public function update($tag_id) {
+		if(!$this->session->userdata('logged_member')) {
+			redirect(base_url());
+		}
+
+		$this->load->library('form_validation');
+		$data = array();
+		$data['tag'] = $this->reader_model->get_tag_row($tag_id);
+		if($data['tag']) {
+			$this->form_validation->set_rules('tag_title', 'lang:tag_title', 'required');
+			if($this->form_validation->run() == FALSE) {
+				$content = $this->load->view('tags_update', $data, TRUE);
+				$this->reader_library->set_content($content);
+			} else {
+				$this->db->set('tag_title', $this->input->post('tag_title'));
+				$this->db->where('tag_id', $tag_id);
+				$this->db->update('tags');
+
+				//$this->read($tag_id);
+				redirect(base_url().'tags');
+			}
+		} else {
+			$this->index();
+		}
+	}
+
 	public function delete($tag_id) {
 		if(!$this->session->userdata('logged_member')) {
 			redirect(base_url());
 		}
 
+		$this->load->library('form_validation');
 		$data = array();
-
-		$content = array();
-
-		if($this->input->is_ajax_request()) {
-			$this->reader_library->set_template('_json');
-			$this->reader_library->set_content_type('application/json');
-
-			$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? AND tag.tag_id = ? GROUP BY tag.tag_id', array($this->member->mbr_id, $tag_id));
-			if($query->num_rows() > 0) {
-				$data['tag'] = $query->row();
-
-				$content['modal'] = $this->load->view('tags_delete', $data, TRUE);
-			}
-		} else {
-			$this->output->set_status_header(403);
-		}
-		$this->reader_library->set_content($content);
-	}
-	public function delete_confirm($tag_id) {
-		if(!$this->session->userdata('logged_member')) {
-			redirect(base_url());
-		}
-
-		$data = array();
-
-		$content = array();
-
-		if($this->input->is_ajax_request()) {
-			$this->reader_library->set_template('_json');
-			$this->reader_library->set_content_type('application/json');
-
-			$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? AND tag.tag_id = ? GROUP BY tag.tag_id', array($this->member->mbr_id, $tag_id));
-			if($query->num_rows() > 0) {
-				$data['tag'] = $query->row();
-
-				$this->db->where('tag_id', $tag_id);
-				$this->db->delete('tags');
-
+		$data['tag'] = $this->reader_model->get_tag_row($tag_id);
+		if($data['tag']) {
+			$this->form_validation->set_rules('confirm', 'lang:confirm', 'required');
+			if($this->form_validation->run() == FALSE) {
+				$content = $this->load->view('tags_delete', $data, TRUE);
+				$this->reader_library->set_content($content);
+			} else {
 				$this->db->set('tag_id', '');
 				$this->db->where('tag_id', $tag_id);
 				$this->db->where('mbr_id', $this->member->mbr_id);
 				$this->db->update('subscriptions');
 
-				$content['modal'] = $this->load->view('tags_delete_confirm', $data, TRUE);
+				$this->db->where('tag_id', $tag_id);
+				$this->db->delete('tags');
+
+				redirect(base_url().'tags');
 			}
 		} else {
-			$this->output->set_status_header(403);
+			$this->index();
 		}
-		$this->reader_library->set_content($content);
 	}
 }

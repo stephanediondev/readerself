@@ -31,13 +31,15 @@ example
 
 * Responsive desktop, tablet and mobile
 * Add a feed
-* Import OPML from Google Reader
-* Export OPML
+* Import and export OPML
 * Get items (cron)
-* Tags (optional)
+* Folders (optional)
+* Trends
+* Switch unread only / Read and unread
 * Starred items
 * Share to Facebook, Google and Twitter (optional)
 * Search subscriptions
+* Search items (title only right now)
 * Main keyboard shortcuts from Google Reader
 * Register multi-users (optional)
 
@@ -131,7 +133,8 @@ CREATE TABLE IF NOT EXISTS `subscriptions` (
   `sub_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `mbr_id` bigint(20) unsigned NOT NULL,
   `fed_id` bigint(20) unsigned NOT NULL,
-  `tag_id` bigint(20) unsigned NULL,
+  `tag_id` bigint(20) unsigned DEFAULT NULL,
+  `sub_title` varchar(255) DEFAULT NULL,
   `sub_datecreated` datetime NOT NULL,
   PRIMARY KEY (`sub_id`),
   KEY `mbr_id` (`mbr_id`),
@@ -157,4 +160,5 @@ CREATE TABLE IF NOT EXISTS `tags` (
 ```sql
 ALTER TABLE `history` ADD `hst_real` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '1' AFTER `itm_id`;
 ALTER TABLE `history` ADD INDEX ( `hst_real` );
+ALTER TABLE `subscriptions` ADD `sub_title` VARCHAR( 255 ) NULL AFTER `tag_id`;
 ```

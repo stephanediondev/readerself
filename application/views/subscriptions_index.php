@@ -8,7 +8,7 @@
 			<?php echo form_input($this->router->class.'_subscriptions_fed_title', set_value($this->router->class.'_subscriptions_fed_title', $this->session->userdata($this->router->class.'_subscriptions_fed_title')), 'id="subscriptions_fed_title" class="inputtext"'); ?>
 		</div>
 		<div>
-			<?php echo form_submit('submit', $this->lang->line('send'), 'class="inputsubmit"'); ?>
+			<button type="submit"><?php echo $this->lang->line('send'); ?></button>
 		</div>
 	</div>
 	<?php echo form_close(); ?>
@@ -18,6 +18,7 @@
 		<tr>
 		<?php $i = 0; ?>
 		<?php $this->reader_library->display_column($this->router->class.'_subscriptions', $columns[$i++], $this->lang->line('title')); ?>
+		<?php $this->reader_library->display_column($this->router->class.'_subscriptions', $columns[$i++], $this->lang->line('description')); ?>
 		<?php $this->reader_library->display_column($this->router->class.'_subscriptions', $columns[$i++], $this->lang->line('url')); ?>
 		<?php $this->reader_library->display_column($this->router->class.'_subscriptions', $columns[$i++], $this->lang->line('subscribers')); ?>
 		<?php if($this->config->item('tags')) { ?>
@@ -29,7 +30,8 @@
 		<tbody>
 		<?php foreach($subscriptions as $sub) { ?>
 		<tr>
-		<td><?php if($sub->fed_lasterror) { ?><i class="icon icon-bell"></i><?php } ?><?php echo $sub->fed_title; ?></td>
+		<td><a href="<?php echo base_url(); ?>subscriptions/read/<?php echo $sub->sub_id; ?>"><?php echo $sub->fed_title; ?></a><?php if($sub->sub_title) { ?><br> <em><?php echo $sub->sub_title; ?></em><?php } ?><?php if($sub->fed_lasterror) { ?> <i class="icon icon-bell"></i><?php } ?></td>
+		<td><?php echo $sub->fed_description; ?></td>
 		<td><?php echo $sub->fed_link; ?></td>
 		<td><?php echo $sub->subscribers; ?></td>
 		<?php if($this->config->item('tags')) { ?>

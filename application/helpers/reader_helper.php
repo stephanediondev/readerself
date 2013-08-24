@@ -155,7 +155,11 @@ if( ! function_exists('build_table_repartition')) {
 		$lines = array();
 		foreach($legend as $k => $v) {
 			$total_resume += $data[$k];
-			$percent = ($data[$k] * 100) / $total;
+			if($total > 0) {
+				$percent = ($data[$k] * 100) / $total;
+			} else {
+				$percent = 0;
+			}
 			$percent_resume += $percent;
 
 			$lines[] = array($legend[$k], $data[$k], round($percent, 1));
