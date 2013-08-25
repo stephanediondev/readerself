@@ -3,6 +3,7 @@
 <head>
 <title>Reader Self</title>
 <meta property="og:description" content="Self-hosted (php/mysql) feeds aggregator to replace Google Reader">
+<meta property="og:image" content="http://readerself.com/medias/readerself_200x200.png">
 <meta property="og:site_name" content="Reader Self">
 <meta property="og:title" content="Reader Self">
 <meta property="og:type" content="website">
