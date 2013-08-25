@@ -27,15 +27,14 @@
 		<?php if($this->config->item('register_multi')) { ?><li class="hide-phone"><a href="<?php echo base_url(); ?>explore"><i class="icon icon-group"></i><?php echo $this->lang->line('explore'); ?></a></li><?php } ?>
 		<li class="hide-phone hide-tablet"><a href="<?php echo base_url(); ?>trends"><i class="icon icon-bar-chart"></i><?php echo $this->lang->line('trends'); ?></a></li>
 		<li class="hide-phone"><a href="<?php echo base_url(); ?>profile"><i class="icon icon-user"></i><?php echo $this->lang->line('profile'); ?></a></li>
-		<li class="hide-phone"><a href="<?php echo base_url(); ?>logout"><i class="icon icon-signout"></i><?php echo $this->lang->line('logout'); ?></a></li>
 		<?php } else { ?>
 		<li><a href="<?php echo base_url(); ?>login"><i class="icon icon-signin"></i><?php echo $this->lang->line('login'); ?></a></li>
 		<li><a href="<?php echo base_url(); ?>password"><i class="icon icon-key"></i><?php echo $this->lang->line('password'); ?></a></li>
 		<?php if($this->config->item('register_multi')) { ?><li><a href="<?php echo base_url(); ?>register"><i class="icon icon-cloud"></i><?php echo $this->lang->line('register'); ?></a></li><?php } ?>
-		<?php } ?>
-		<?php if($this->router->class == 'home') { ?><li class="hide-phone hide-tablet"><a class="modal_show" href="<?php echo base_url(); ?>home/shortcuts"><i class="icon icon-plane"></i><?php echo $this->lang->line('shortcuts'); ?></a></li><?php } ?>
 		<li class="hide-phone hide-tablet"><a target="_blank" href="https://github.com/readerself"><i class="icon icon-github"></i>GitHub</a></li>
 		<li class="hide-phone hide-tablet"><a target="_blank" href="https://www.facebook.com/readerself"><i class="icon icon-facebook-sign"></i>Facebook</a></li>
+		<?php } ?>
+		<?php if($this->router->class == 'home') { ?><li class="hide-phone hide-tablet"><a class="modal_show" href="<?php echo base_url(); ?>home/shortcuts"><i class="icon icon-plane"></i><?php echo $this->lang->line('shortcuts'); ?></a></li><?php } ?>
 	</ul>
 </div>
 
