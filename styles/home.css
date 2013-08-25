@@ -23,12 +23,12 @@
 .item-details li{display:inline-block;font-size:13px;margin-right:5px;}
 .item-details li a:link,.item-details li a:visited{text-decoration:none;}
 .item table td{background-color:transparent!important;border:none;}
-#mode-items .unread_only{display:none;}
+.mode-items .unread_only{display:none;}
 #display-items .expand{display:none;}
 @media(max-width:1024px){
 #content{margin:10px 0px 0px 10px;}
 #actions-main{margin:5px 20px 0px 10px;}
-#sidebar{display:none;}
+#sidebar{display:none;background-color:#FFFFFF;left:0px;position:absolute;top:25px;width:100%;z-index:1000;}
 }
 @media(max-width:400px){
 #content{margin-top:10px !important;}

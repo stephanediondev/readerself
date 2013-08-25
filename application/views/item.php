@@ -8,8 +8,7 @@
 		<li><i class="icon icon-calendar"></i><?php echo $itm->explode_date; ?></li>
 		<li><i class="icon icon-time"></i><?php echo $itm->explode_time; ?> (<span class="timeago" title="<?php echo $itm->itm_date; ?>"></span>)</li>
 		<?php if($itm->itm_author) { ?><li class="hide-phone"><i class="icon icon-user"></i><?php echo $itm->itm_author; ?></li><?php } ?>
-		<li class="hide-phone"><a class="from" data-sub_id="<?php echo $itm->sub->sub_id; ?>" href="<?php echo base_url(); ?>home/items/sub/<?php echo $itm->sub->sub_id; ?>"><i class="icon icon-rss"></i><?php if($itm->sub->sub_title) { ?><?php echo $itm->sub->sub_title; ?><?php } else { ?><?php echo $itm->fed->fed_title; ?><?php } ?></a></li>
-		<li class="show-phone"><i class="icon icon-rss"></i><?php if($itm->sub->sub_title) { ?><?php echo $itm->sub->sub_title; ?><?php } else { ?><?php echo $itm->fed->fed_title; ?><?php } ?></li>
+		<li><a class="from" data-sub_id="<?php echo $itm->sub->sub_id; ?>" href="<?php echo base_url(); ?>home/items/sub/<?php echo $itm->sub->sub_id; ?>"><i class="icon icon-rss"></i><?php if($itm->sub->sub_title) { ?><?php echo $itm->sub->sub_title; ?><?php } else { ?><?php echo $itm->fed->fed_title; ?><?php } ?></a></li>
 		<?php if($itm->sub->tag_id && $this->config->item('tags')) { ?><li class="hide-phone"><a class="tag" data-tag_id="<?php echo $itm->sub->tag_id; ?>" href="<?php echo base_url(); ?>home/items/tag/<?php echo $itm->sub->tag_id; ?>"><i class="icon icon-folder-close"></i><?php echo $itm->sub->tag_title; ?></a></li><?php } ?>
 	</ul>
 	<div class="item-content">

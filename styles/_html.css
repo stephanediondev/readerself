@@ -76,7 +76,7 @@ input{border: 1px solid #777777;padding:5px;}
 #content{height:auto;margin:10px 0px 0px 10px;position:relative;}
 .actions{font-size:12px;margin-bottom:5px;}
 th .actions{margin-bottom:0px;}
-.actions li{display:inline-block;margin:5px 5px 5px 0px;}
+.actions li{display:inline-block;margin:5px 5px 5px 0px;white-space:nowrap;}
 .actions a span{display:inline-block;}
 button, .actions a:link, .actions a:visited{background-color:#A4374F;border:none;color:#EEEEEE;margin:0px;padding:3px 3px 3px 3px;position:relative;text-decoration:none;vertical-align:top;}
 #nav .actions a:link, #nav .actions a:visited{background-color:#582C1D;}
@@ -91,6 +91,7 @@ button{background-color:#9EA64B;cursor:pointer;margin-top:10px;}
 #overlay{background-color:#000000;opacity:0.7;z-index:10000;}
 .icon{line-height:inherit !important;margin-right:3px;vertical-align:top;}
 .show-phone{display:none !important;}
+.show-tablet{display:none !important;}
 
 .filters{border-bottom:1px solid #E7E7E7;margin:0px 0px 5px 0px;overflow:hidden;}
 .filters div{float:left;height:30px;margin:5px 10px 5px 0px;overflow:hidden;position:relative;white-space:nowrap;}
@@ -107,6 +108,7 @@ button{background-color:#9EA64B;cursor:pointer;margin-top:10px;}
 
 @media (max-width:1024px){
 .hide-tablet{display:none !important;}
+.show-tablet{display:inline-block !important;}
 }
 @media (max-width:400px){
 #nav{position:absolute;left:0px;top:0px;}

@@ -54,6 +54,7 @@ $lang['settings'] = 'Settings';
 $lang['setup'] = 'Setup';
 $lang['share'] = 'Share';
 $lang['shortcuts'] = 'Shortcuts';
+$lang['sidebar'] = 'Sidebar';
 $lang['star'] = 'Star';
 $lang['starred_items'] = 'Starred items';
 $lang['subject_password'] = 'Get your new password';
