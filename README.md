@@ -93,16 +93,15 @@ CREATE TABLE IF NOT EXISTS `favorites` (
 
 CREATE TABLE IF NOT EXISTS `feeds` (
   `fed_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `fed_title` varchar(255) NOT NULL,
-  `fed_url` varchar(255) NOT NULL,
+  `fed_title` varchar(255) DEFAULT NULL,
+  `fed_url` varchar(255) DEFAULT NULL,
   `fed_link` varchar(255) NOT NULL,
   `fed_image` varchar(255) DEFAULT NULL,
   `fed_description` text,
   `fed_lasterror` varchar(255) DEFAULT NULL,
   `fed_datecreated` datetime NOT NULL,
   PRIMARY KEY (`fed_id`),
-  KEY `fed_link` (`fed_link`),
-  KEY `fed_lasterror` (`fed_lasterror`)
+  KEY `fed_link` (`fed_link`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `history` (
@@ -190,4 +189,7 @@ CREATE TABLE IF NOT EXISTS `enclosures` (
   PRIMARY KEY (`enr_id`),
   KEY `itm_id` (`itm_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+ALTER TABLE `feeds` CHANGE `fed_title` `fed_title` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+CHANGE `fed_url` `fed_url` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+ALTER TABLE `feeds` DROP INDEX `fed_lasterror`;
 ```
