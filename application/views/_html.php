@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Reader</title>
+<title>Reader Self</title>
+<meta property="og:description" content="Self-hosted (php/mysql) feeds aggregator to replace Google Reader">
+<meta property="og:site_name" content="Reader Self">
+<meta property="og:title" content="Reader Self">
+<meta property="og:type" content="website">
+<meta property="og:url" content="http://readerself.com/">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link href="<?php echo base_url(); ?>thirdparty/fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link href="<?php echo base_url(); ?>styles/_html.css" rel="stylesheet" type="text/css">
@@ -28,7 +33,8 @@
 		<?php if($this->config->item('register_multi')) { ?><li><a href="<?php echo base_url(); ?>register"><i class="icon icon-cloud"></i><?php echo $this->lang->line('register'); ?></a></li><?php } ?>
 		<?php } ?>
 		<?php if($this->router->class == 'home') { ?><li class="hide-phone hide-tablet"><a class="modal_show" href="<?php echo base_url(); ?>home/shortcuts"><i class="icon icon-plane"></i><?php echo $this->lang->line('shortcuts'); ?></a></li><?php } ?>
-		<li class="hide-phone hide-tablet"><a target="_blank" href="https://github.com/project29k/reader"><i class="icon icon-github"></i>GitHub</a></li>
+		<li class="hide-phone hide-tablet"><a target="_blank" href="https://github.com/readerself"><i class="icon icon-github"></i>GitHub</a></li>
+		<li class="hide-phone hide-tablet"><a target="_blank" href="https://www.facebook.com/readerself"><i class="icon icon-facebook"></i>Facebook</a></li>
 	</ul>
 </div>
 
