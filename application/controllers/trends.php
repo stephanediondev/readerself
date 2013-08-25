@@ -67,7 +67,7 @@ class Trends extends CI_Controller {
 		$legend = array();
 		$values = array();
 		$temp = array();
-		$query = $this->db->query('SELECT DATE_FORMAT(hst.hst_datecreated, \'%H\') AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? GROUP BY ref ORDER BY ref ASC', array(1, $date_ref, $this->member->mbr_id));
+		$query = $this->db->query('SELECT DATE_FORMAT(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), \'%H\') AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? GROUP BY ref ORDER BY ref ASC', array($this->session->userdata('timezone'), 1, $date_ref, $this->member->mbr_id));
 		if($query->num_rows() > 0) {
 			foreach($query->result() as $row) {
 				$temp[intval($row->ref)] = $row->nb;
@@ -88,7 +88,7 @@ class Trends extends CI_Controller {
 		$legend = array();
 		$values = array();
 		$temp = array();
-		$query = $this->db->query('SELECT IF(DATE_FORMAT(hst.hst_datecreated, \'%w\') = 0, 7, DATE_FORMAT(hst.hst_datecreated, \'%w\')) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? GROUP BY ref ORDER BY ref ASC', array(1, $date_ref, $this->member->mbr_id));
+		$query = $this->db->query('SELECT IF(DATE_FORMAT(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), \'%w\') = 0, 7, DATE_FORMAT(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), \'%w\')) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? GROUP BY ref ORDER BY ref ASC', array($this->session->userdata('timezone'), $this->session->userdata('timezone'), 1, $date_ref, $this->member->mbr_id));
 		if($query->num_rows() > 0) {
 			foreach($query->result() as $row) {
 				$temp[$row->ref] = $row->nb;
@@ -122,7 +122,7 @@ class Trends extends CI_Controller {
 
 		$legend = array();
 		$values = array();
-		$query = $this->db->query('SELECT SUBSTRING(hst.hst_datecreated, 1, 7) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.mbr_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,12', array(1, $this->member->mbr_id));
+		$query = $this->db->query('SELECT SUBSTRING(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), 1, 7) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.mbr_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,12', array($this->session->userdata('timezone'), 1, $this->member->mbr_id));
 		if($query->num_rows() > 0) {
 			foreach($query->result() as $row) {
 				$legend[] = date('F, Y', strtotime($row->ref));
@@ -133,7 +133,7 @@ class Trends extends CI_Controller {
 
 		$legend = array();
 		$values = array();
-		$query = $this->db->query('SELECT SUBSTRING(fav.fav_datecreated, 1, 7) AS ref, COUNT(DISTINCT(fav.itm_id)) AS nb FROM '.$this->db->dbprefix('favorites').' AS fav WHERE fav.mbr_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,12', array($this->member->mbr_id));
+		$query = $this->db->query('SELECT SUBSTRING(DATE_ADD(fav.fav_datecreated, INTERVAL ? HOUR), 1, 7) AS ref, COUNT(DISTINCT(fav.itm_id)) AS nb FROM '.$this->db->dbprefix('favorites').' AS fav WHERE fav.mbr_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,12', array($this->session->userdata('timezone'), $this->member->mbr_id));
 		if($query->num_rows() > 0) {
 			foreach($query->result() as $row) {
 				$legend[] = date('F, Y', strtotime($row->ref));

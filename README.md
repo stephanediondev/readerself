@@ -38,6 +38,7 @@ example
 * Trends
 * Switch Unread only / Read and unread
 * Expand / Collapse items
+* Display image enclosures
 * Starred items
 * Share to Facebook, Google and Twitter (optional)
 * Search subscriptions
@@ -70,6 +71,16 @@ CREATE TABLE IF NOT EXISTS `connections` (
   KEY `mbr_id` (`mbr_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `enclosures` (
+  `enr_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `itm_id` bigint(20) unsigned NOT NULL,
+  `enr_link` varchar(255) NOT NULL,
+  `enr_type` varchar(255) NOT NULL,
+  `enr_datecreated` datetime NOT NULL,
+  PRIMARY KEY (`enr_id`),
+  KEY `itm_id` (`itm_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `favorites` (
   `fav_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `mbr_id` bigint(20) unsigned NOT NULL,
@@ -85,6 +96,7 @@ CREATE TABLE IF NOT EXISTS `feeds` (
   `fed_title` varchar(255) NOT NULL,
   `fed_url` varchar(255) NOT NULL,
   `fed_link` varchar(255) NOT NULL,
+  `fed_image` varchar(255) DEFAULT NULL,
   `fed_description` text,
   `fed_lasterror` varchar(255) DEFAULT NULL,
   `fed_datecreated` datetime NOT NULL,
@@ -163,4 +175,19 @@ CREATE TABLE IF NOT EXISTS `tags` (
 ALTER TABLE `history` ADD `hst_real` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '1' AFTER `itm_id`;
 ALTER TABLE `history` ADD INDEX ( `hst_real` );
 ALTER TABLE `subscriptions` ADD `sub_title` VARCHAR( 255 ) NULL AFTER `tag_id`;
+```
+
+##### 2013-08-25
+
+```sql
+ALTER TABLE `feeds` ADD `fed_image` VARCHAR( 255 ) NULL AFTER `fed_link`;
+CREATE TABLE IF NOT EXISTS `enclosures` (
+  `enr_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `itm_id` bigint(20) unsigned NOT NULL,
+  `enr_link` varchar(255) NOT NULL,
+  `enr_type` varchar(255) NOT NULL,
+  `enr_datecreated` datetime NOT NULL,
+  PRIMARY KEY (`enr_id`),
+  KEY `itm_id` (`itm_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 ```

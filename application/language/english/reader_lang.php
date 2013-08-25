@@ -56,6 +56,7 @@ $lang['url_site'] = 'Site URL';
 $lang['import'] = 'Import';
 $lang['export'] = 'Export';
 $lang['opml_file'] = 'OPML file';
+$lang['image'] = 'Image';
 $lang['setup'] = 'Setup';
 $lang['added'] = 'Added';
 $lang['found'] = 'Found';

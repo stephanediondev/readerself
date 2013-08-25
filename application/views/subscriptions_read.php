@@ -21,6 +21,13 @@
 	<?php echo $sub->fed_url; ?>
 	</p>
 
+	<?php if($sub->fed_image) { ?>
+		<p>
+		<span class="label"><?php echo $this->lang->line('image'); ?></span>
+		<img src="<?php echo $sub->fed_image; ?>" alt="">
+		</p>
+	<?php } ?>
+
 	<?php if($sub->fed_description) { ?>
 		<p>
 		<span class="label"><?php echo $this->lang->line('description'); ?></span>

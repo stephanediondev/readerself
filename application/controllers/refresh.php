@@ -68,7 +68,7 @@ class Refresh extends CI_Controller {
 			$this->output->set_status_header(403);
 		}
 	}
-	public function feeds() {
+	public function items() {
 		$this->reader_library->set_template('_plain');
 		$this->reader_library->set_content_type('text/plain');
 
@@ -84,45 +84,6 @@ class Refresh extends CI_Controller {
 				$sp_feed = new SimplePie();
 				$sp_feed->set_feed_url(convert_to_ascii($fed->fed_link));
 				$sp_feed->enable_cache(false);
-				$sp_feed->set_timeout(60);
-				$sp_feed->force_feed(true);
-				$sp_feed->init();
-				$sp_feed->handle_content_type();
-
-				if($sp_feed->error()) {
-					$this->db->set('fed_lasterror', $sp_feed->error());
-				} else {
-					$this->db->set('fed_lasterror', '');
-				}
-				$this->db->set('fed_title', $sp_feed->get_title());
-				$this->db->set('fed_url', $sp_feed->get_link());
-				$this->db->set('fed_description', $sp_feed->get_description());
-				$this->db->set('fed_link', $sp_feed->subscribe_url());
-				$this->db->where('fed_id', $fed->fed_id);
-				$this->db->update('feeds');
-
-				$sp_feed->__destruct();
-				unset($feed);
-			}
-		}
-		$this->reader_library->set_content($content);
-	}
-	public function items() {
-		$this->reader_library->set_template('_plain');
-		$this->reader_library->set_content_type('text/plain');
-
-		$content = '';
-
-		include_once('thirdparty/simplepie/autoloader.php');
-		include_once('thirdparty/simplepie/idn/idna_convert.class.php');
-
-		$query = $this->db->query('SELECT fed.* FROM '.$this->db->dbprefix('feeds').' AS fed GROUP BY fed.fed_id HAVING (SELECT COUNT(DISTINCT(sub.mbr_id)) FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = fed.fed_id) > 0');
-		if($query->num_rows() > 0) {
-			foreach($query->result() as $fed) {
-
-				$sp_feed = new SimplePie();
-				$sp_feed->set_feed_url($fed->fed_link);
-				$sp_feed->enable_cache(false);
 				$sp_feed->set_timeout(5);
 				$sp_feed->force_feed(true);
 				$sp_feed->init();
@@ -130,13 +91,18 @@ class Refresh extends CI_Controller {
 
 				if($sp_feed->error()) {
 					$this->db->set('fed_lasterror', $sp_feed->error());
-					$this->db->where('fed_id', $fed->fed_id);
-					$this->db->update('feeds');
-				} if($fed->fed_lasterror) {
+				} else {
+					$this->db->set('fed_title', $sp_feed->get_title());
+					$this->db->set('fed_url', $sp_feed->get_link());
+					$this->db->set('fed_link', $sp_feed->subscribe_url());
+					if($sp_feed->get_image_url()) {
+						$this->db->set('fed_image', $sp_feed->get_image_url());
+					}
+					$this->db->set('fed_description', $sp_feed->get_description());
 					$this->db->set('fed_lasterror', '');
-					$this->db->where('fed_id', $fed->fed_id);
-					$this->db->update('feeds');
 				}
+				$this->db->where('fed_id', $fed->fed_id);
+				$this->db->update('feeds');
 
 				foreach($sp_feed->get_items() as $sp_item) {
 					$query = $this->db->query('SELECT * FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_link = ? GROUP BY itm.itm_id', array($sp_item->get_link()));
@@ -171,6 +137,18 @@ class Refresh extends CI_Controller {
 						$this->db->set('itm_datecreated', date('Y-m-d H:i:s'));
 
 						$this->db->insert('items');
+
+						$itm_id = $this->db->insert_id();
+
+						foreach($sp_item->get_enclosures() as $enclosure) {
+							if($enclosure->get_link() && $enclosure->get_type()) {
+								$this->db->set('itm_id', $itm_id);
+								$this->db->set('enr_link', $enclosure->get_link());
+								$this->db->set('enr_type', $enclosure->get_type());
+								$this->db->set('enr_datecreated', date('Y-m-d H:i:s'));
+								$this->db->insert('enclosures');
+							}
+						}
 					} else {
 						break;
 					}

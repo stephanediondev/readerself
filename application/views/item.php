@@ -14,6 +14,13 @@
 	</ul>
 	<div class="item-content">
 		<?php echo $itm->itm_content; ?>
+		<?php if($itm->enclosures) { ?>
+			<div class="item-enclosures">
+				<?php foreach($itm->enclosures as $enr) { ?>
+					<img src="<?php echo $enr->enr_link; ?>" alt="">
+				<?php } ?>
+			</div>
+		<?php } ?>
 	</div>
 	<div class="item-footer">
 		<?php if($this->config->item('social')) { ?>
