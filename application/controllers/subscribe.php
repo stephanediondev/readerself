@@ -19,7 +19,7 @@ class Subscribe extends CI_Controller {
 
 			$this->load->library(array('form_validation'));
 
-			$this->form_validation->set_rules('url', 'lang:url', 'required');
+			$this->form_validation->set_rules('url', 'lang:url_feed', 'required');
 
 			if($this->form_validation->run() == FALSE) {
 				$content['modal'] = $this->load->view('subscribe_index', $data, TRUE);

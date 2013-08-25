@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Reader Self</title>
+<title><?php echo $this->config->item('title'); ?></title>
 <meta property="og:description" content="Self-hosted (php/mysql) feeds aggregator to replace Google Reader">
 <meta property="og:image" content="http://readerself.com/medias/readerself_200x200.png">
 <meta property="og:site_name" content="Reader Self">
@@ -23,6 +23,7 @@
 		<li class="hide-phone"><a href="<?php echo base_url(); ?>home"><i class="icon icon-home"></i><?php echo $this->lang->line('home'); ?></a></li>
 		<li class="hide-phone"><a href="<?php echo base_url(); ?>subscriptions"><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?></a></li>
 		<?php if($this->config->item('tags')) { ?><li class="hide-phone"><a href="<?php echo base_url(); ?>tags"><i class="icon icon-folder-close"></i><?php echo $this->lang->line('tags'); ?></a></li><?php } ?>
+		<?php if($this->config->item('register_multi')) { ?><li><a href="<?php echo base_url(); ?>explore"><i class="icon icon-group"></i><?php echo $this->lang->line('explore'); ?></a></li><?php } ?>
 		<li class="hide-phone hide-tablet"><a href="<?php echo base_url(); ?>import"><i class="icon icon-download-alt"></i><?php echo $this->lang->line('import'); ?></a></li>
 		<li class="hide-phone hide-tablet"><a href="<?php echo base_url(); ?>export"><i class="icon icon-upload-alt"></i><?php echo $this->lang->line('export'); ?></a></li>
 		<li class="hide-phone hide-tablet"><a href="<?php echo base_url(); ?>trends"><i class="icon icon-bar-chart"></i><?php echo $this->lang->line('trends'); ?></a></li>

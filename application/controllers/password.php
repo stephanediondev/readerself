@@ -31,7 +31,7 @@ class Password extends CI_Controller {
 				$this->db->update('members');
 
 				$to = $member->mbr_email;
-				$subject = $this->lang->line('subject_password');
+				$subject = $this->config->item('title').' / '.$this->lang->line('subject_password');
 				$message = base_url().'password/token/'.$token_password;
 
 				$this->load->library('email');

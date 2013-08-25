@@ -10,7 +10,7 @@
 	<?php } ?>
 
 	<p>
-	<?php echo form_label($this->lang->line('url'), 'url'); ?>
+	<?php echo form_label($this->lang->line('url_feed'), 'url'); ?>
 	<?php echo form_input('url', set_value('url'), 'id="url" class="input-xlarge required"'); ?>
 	</p>
 
