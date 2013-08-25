@@ -25,8 +25,6 @@
 		<li class="hide-phone"><a href="<?php echo base_url(); ?>subscriptions"><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?></a></li>
 		<?php if($this->config->item('tags')) { ?><li class="hide-phone"><a href="<?php echo base_url(); ?>tags"><i class="icon icon-folder-close"></i><?php echo $this->lang->line('tags'); ?></a></li><?php } ?>
 		<?php if($this->config->item('register_multi')) { ?><li class="hide-phone"><a href="<?php echo base_url(); ?>explore"><i class="icon icon-group"></i><?php echo $this->lang->line('explore'); ?></a></li><?php } ?>
-		<li class="hide-phone hide-tablet"><a href="<?php echo base_url(); ?>import"><i class="icon icon-download-alt"></i><?php echo $this->lang->line('import'); ?></a></li>
-		<li class="hide-phone hide-tablet"><a href="<?php echo base_url(); ?>export"><i class="icon icon-upload-alt"></i><?php echo $this->lang->line('export'); ?></a></li>
 		<li class="hide-phone hide-tablet"><a href="<?php echo base_url(); ?>trends"><i class="icon icon-bar-chart"></i><?php echo $this->lang->line('trends'); ?></a></li>
 		<li class="hide-phone"><a href="<?php echo base_url(); ?>profile"><i class="icon icon-user"></i><?php echo $this->lang->line('profile'); ?></a></li>
 		<li class="hide-phone"><a href="<?php echo base_url(); ?>logout"><i class="icon icon-signout"></i><?php echo $this->lang->line('logout'); ?></a></li>

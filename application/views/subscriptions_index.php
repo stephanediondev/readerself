@@ -1,5 +1,9 @@
 <div id="content">
 	<h1><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?> (<?php echo $position; ?>)</h1>
+	<ul class="actions">
+		<li><a href="<?php echo base_url(); ?>import"><i class="icon icon-download-alt"></i><?php echo $this->lang->line('import'); ?></a></li>
+		<li><a href="<?php echo base_url(); ?>export"><i class="icon icon-upload-alt"></i><?php echo $this->lang->line('export'); ?></a></li>
+	</ul>
 
 	<?php echo form_open(current_url()); ?>
 	<div class="filters">
