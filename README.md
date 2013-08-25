@@ -1,6 +1,6 @@
 ### Demo
 
-http://sdion.net/reader/
+http://readerself.com/
 ```text
 example@example.com
 example
