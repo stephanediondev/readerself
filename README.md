@@ -47,6 +47,7 @@ example
 * Search items (title only right now)
 * Main keyboard shortcuts from Google Reader
 * Register multi-users (optional)
+* Live unread counter in title bar / tab
 
 ### Setup
 
