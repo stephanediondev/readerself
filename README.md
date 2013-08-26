@@ -1,5 +1,4 @@
 ![Reader Self](medias/readerself_200x200.png)
-
 ### Demo
 
 http://readerself.com/
