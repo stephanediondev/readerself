@@ -3,11 +3,12 @@
 <head>
 <title><?php echo $this->config->item('title'); ?></title>
 <meta property="og:description" content="Self-hosted (php/mysql) feeds aggregator to replace Google Reader">
-<meta property="og:image" content="http://readerself.com/medias/readerself_200x200.png">
+<meta property="og:image" content="<?php echo base_url(); ?>medias/readerself_200x200.png">
 <meta property="og:site_name" content="Reader Self">
 <meta property="og:title" content="Reader Self">
 <meta property="og:type" content="website">
-<meta property="og:url" content="http://readerself.com/">
+<meta property="og:url" content="<?php echo base_url(); ?>">
+<link rel="apple-touch-icon" href="<?php echo base_url(); ?>medias/readerself_200x200.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link href="<?php echo base_url(); ?>thirdparty/fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link href="<?php echo base_url(); ?>styles/_html.css" rel="stylesheet" type="text/css">
