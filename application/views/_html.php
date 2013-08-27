@@ -34,7 +34,7 @@
 		<li class="hide-phone hide-tablet"><a target="_blank" href="https://github.com/readerself"><i class="icon icon-github"></i>GitHub</a></li>
 		<li class="hide-phone hide-tablet"><a target="_blank" href="https://www.facebook.com/readerself"><i class="icon icon-facebook-sign"></i>Facebook</a></li>
 		<?php } ?>
-		<?php if($this->router->class == 'home') { ?><li class="hide-phone hide-tablet"><a class="modal_show" href="<?php echo base_url(); ?>home/shortcuts"><i class="icon icon-plane"></i><?php echo $this->lang->line('shortcuts'); ?></a></li><?php } ?>
+		<?php if($this->router->class == 'home') { ?><li class="hide-phone hide-tablet"><a class="modal_show" href="<?php echo base_url(); ?>home/shortcuts"><i class="icon icon-keyboard"></i><?php echo $this->lang->line('shortcuts'); ?></a></li><?php } ?>
 	</ul>
 </div>
 

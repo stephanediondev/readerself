@@ -1,5 +1,5 @@
 <div id="modal-display">
-	<h1><i class="icon icon-plane"></i><?php echo $this->lang->line('shortcuts'); ?></h1>
+	<h1><i class="icon icon-keyboard"></i><?php echo $this->lang->line('shortcuts'); ?></h1>
 
 	<ul id="shortcuts">
 		<li>esc: close modal window</li>
