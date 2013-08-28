@@ -242,6 +242,26 @@ $(document).ready(function() {
 				$('#load-starred-items').parent().addClass('active');
 				load_items( $('.menu').find('li.active').find('a').attr('href') );
 
+			//1
+			} else if(keycode == 49) {
+				event.preventDefault();
+				ref = $('#display-items');
+				if(ref.find('.collapse').is(':visible')) {
+					ref.find('.collapse').hide();
+					ref.find('.expand').show();
+					$('.item-content, .item-footer').hide();
+				}
+
+			//2
+			} else if(keycode == 50) {
+				event.preventDefault();
+				ref = $('#display-items');
+				if(ref.find('.expand').is(':visible')) {
+					ref.find('.expand').hide();
+					ref.find('.collapse').show();
+					$('.item-content, .item-footer').show();
+				}
+
 			//v
 			} else if(keycode == 86) {
 				href = $('#items .item-selected').find('h2').find('a').attr('href');
