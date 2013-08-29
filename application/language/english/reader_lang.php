@@ -71,3 +71,6 @@ $lang['update'] = 'Update';
 $lang['url_site'] = 'Site URL';
 $lang['url'] = 'URL';
 $lang['url_feed'] = 'URL (atom/rss)';
+$lang['share'] = 'Share';
+$lang['shared_items'] = 'Shared items';
+$lang['unshare'] = 'Unshare';

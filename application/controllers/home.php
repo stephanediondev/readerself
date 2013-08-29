@@ -57,7 +57,7 @@ class Home extends CI_Controller {
 			redirect(base_url());
 		}
 
-		$modes = array('all', 'starred', 'nofolder', 'folder', 'subscription', 'search');
+		$modes = array('all', 'starred', 'shared', 'nofolder', 'folder', 'subscription', 'search');
 
 		$content = array();
 
@@ -102,6 +102,9 @@ class Home extends CI_Controller {
 			if($mode == 'starred') {
 				$where[] = 'itm.itm_id IN ( SELECT fav.itm_id FROM favorites AS fav WHERE fav.itm_id = itm.itm_id AND fav.mbr_id = ? )';
 				$bindings[] = $this->member->mbr_id;
+			} else if($mode == 'shared') {
+				$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM share AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
+				$bindings[] = $this->member->mbr_id;
 			} else {
 				if($mode == 'search') {
 					$search = urldecode($id);
@@ -137,6 +140,8 @@ class Home extends CI_Controller {
 			ORDER BY itm.itm_date DESC';
 			if($mode == 'starred') {
 				$sql .= ' LIMIT '.intval($this->input->post('pagination')).',10';
+			} else if($mode == 'shared') {
+				$sql .= ' LIMIT '.intval($this->input->post('pagination')).',10';
 			} else {
 				if($mode == 'search') {
 					$sql .= ' LIMIT '.intval($this->input->post('pagination')).',10';
@@ -167,12 +172,24 @@ class Home extends CI_Controller {
 						$itm->history = 'unread';
 					}
 
-					$sql = 'SELECT fav.* FROM favorites AS fav WHERE fav.itm_id = ? AND fav.mbr_id = ? GROUP BY fav.fav_id';
-					$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
-					if($query->num_rows > 0) {
-						$itm->star = 1;
-					} else {
-						$itm->star = 0;
+					if($this->config->item('star')) {
+						$sql = 'SELECT fav.* FROM favorites AS fav WHERE fav.itm_id = ? AND fav.mbr_id = ? GROUP BY fav.fav_id';
+						$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
+						if($query->num_rows > 0) {
+							$itm->star = 1;
+						} else {
+							$itm->star = 0;
+						}
+					}
+
+					if($this->config->item('share')) {
+						$sql = 'SELECT shr.* FROM share AS shr WHERE shr.itm_id = ? AND shr.mbr_id = ? GROUP BY shr.shr_id';
+						$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
+						if($query->num_rows > 0) {
+							$itm->share = 1;
+						} else {
+							$itm->share = 0;
+						}
 					}
 
 					list($itm->explode_date, $itm->explode_time) = explode(' ', $itm->itm_date);
@@ -241,6 +258,35 @@ class Home extends CI_Controller {
 				$this->db->set('fav_datecreated', date('Y-m-d H:i:s'));
 				$this->db->insert('favorites');
 				$content['status'] = 'star';
+			}
+		} else {
+			$this->output->set_status_header(403);
+		}
+		$this->reader_library->set_content($content);
+	}
+	public function share($itm_id) {
+		if(!$this->session->userdata('logged_member')) {
+			redirect(base_url());
+		}
+
+		$content = array();
+
+		if($this->input->is_ajax_request()) {
+			$this->reader_library->set_template('_json');
+			$this->reader_library->set_content_type('application/json');
+
+			$query = $this->db->query('SELECT * FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = ? AND shr.mbr_id = ? GROUP BY shr.shr_id', array($itm_id, $this->member->mbr_id));
+			if($query->num_rows() > 0) {
+				$this->db->where('itm_id', $itm_id);
+				$this->db->where('mbr_id', $this->member->mbr_id);
+				$this->db->delete('share');
+				$content['status'] = 'unshare';
+			} else {
+				$this->db->set('itm_id', $itm_id);
+				$this->db->set('mbr_id', $this->member->mbr_id);
+				$this->db->set('shr_datecreated', date('Y-m-d H:i:s'));
+				$this->db->insert('share');
+				$content['status'] = 'share';
 			}
 		} else {
 			$this->output->set_status_header(403);

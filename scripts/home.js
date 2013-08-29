@@ -179,6 +179,31 @@ function item_star(ref) {
 		url: ref.attr('href')
 	});
 }
+function item_share(ref) {
+	params = [];
+	params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
+	$.ajax({
+		async: true,
+		cache: true,
+		data: params,
+		dataType: 'json',
+		statusCode: {
+			200: function(data_return, textStatus, jqXHR) {
+				if(data_return.status == 'share') {
+					ref.find('.share').hide();
+					ref.find('.unshare').show();
+				}
+				if(data_return.status == 'unshare') {
+					ref.find('.unshare').hide();
+					ref.find('.share').show();
+				}
+				refresh();
+			}
+		},
+		type: 'POST',
+		url: ref.attr('href')
+	});
+}
 function item_history(ref) {
 	params = [];
 	params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
@@ -484,6 +509,11 @@ $(document).ready(function() {
 	$('.star').live('click', function(event) {
 		event.preventDefault();
 		item_star($(this));
+	});
+
+	$('.share').live('click', function(event) {
+		event.preventDefault();
+		item_share($(this));
 	});
 
 	$('.history').live('click', function(event) {

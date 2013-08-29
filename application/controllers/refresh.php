@@ -17,26 +17,28 @@ class Refresh extends CI_Controller {
 
 			$content['count']['all'] = $query->row()->count;
 
-			$sql = 'SELECT flr.flr_id, COUNT(DISTINCT(itm.itm_id)) AS count
-			FROM '.$this->db->dbprefix('folders').' AS flr
-			LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.flr_id = flr.flr_id AND sub.mbr_id = ?
-			LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id AND itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?)
-			GROUP BY flr.flr_id';
-			$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
+			if($this->config->item('folders')) {
+				$sql = 'SELECT flr.flr_id, COUNT(DISTINCT(itm.itm_id)) AS count
+				FROM '.$this->db->dbprefix('folders').' AS flr
+				LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.flr_id = flr.flr_id AND sub.mbr_id = ?
+				LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id AND itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?)
+				GROUP BY flr.flr_id';
+				$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
 
-			if($query->num_rows() > 0) {
-				foreach($query->result() as $flr) {
-					$content['count']['folder-'.$flr->flr_id] = $flr->count;
+				if($query->num_rows() > 0) {
+					foreach($query->result() as $flr) {
+						$content['count']['folder-'.$flr->flr_id] = $flr->count;
+					}
 				}
+
+				$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
+				FROM '.$this->db->dbprefix('subscriptions').' AS sub
+				LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id AND itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?)
+				WHERE sub.flr_id IS NULL AND sub.mbr_id = ?';
+				$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
+
+				$content['count']['nofolder'] = $query->row()->count;
 			}
-
-			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
-			FROM '.$this->db->dbprefix('subscriptions').' AS sub
-			LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id AND itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?)
-			WHERE sub.flr_id IS NULL AND sub.mbr_id = ?';
-			$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
-
-			$content['count']['nofolder'] = $query->row()->count;
 
 			$sql = 'SELECT sub.sub_id, COUNT(DISTINCT(itm.itm_id)) AS count
 			FROM '.$this->db->dbprefix('subscriptions').' AS sub
@@ -50,12 +52,23 @@ class Refresh extends CI_Controller {
 				}
 			}
 
-			$sql = 'SELECT COUNT(DISTINCT(fav.fav_id)) AS count
-			FROM '.$this->db->dbprefix('favorites').' AS fav
-			WHERE fav.mbr_id = ?';
-			$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
+			if($this->config->item('star')) {
+				$sql = 'SELECT COUNT(DISTINCT(fav.fav_id)) AS count
+				FROM '.$this->db->dbprefix('favorites').' AS fav
+				WHERE fav.mbr_id = ?';
+				$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
 
-			$content['count']['starred'] = $query->row()->count;
+				$content['count']['starred'] = $query->row()->count;
+			}
+
+			if($this->config->item('share')) {
+				$sql = 'SELECT COUNT(DISTINCT(shr.shr_id)) AS count
+				FROM '.$this->db->dbprefix('share').' AS shr
+				WHERE shr.mbr_id = ?';
+				$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
+
+				$content['count']['shared'] = $query->row()->count;
+			}
 
 			if($this->session->userdata('logged_member')) {
 				$content['is_logged'] = TRUE;

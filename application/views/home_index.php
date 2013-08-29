@@ -6,7 +6,12 @@
 	</ul>
 	<ul class="menu">
 		<li class="active"><a id="load-all-items" href="<?php echo base_url(); ?>home/items/all"><i class="icon icon-asterisk"></i><?php echo $this->lang->line('all_items'); ?> (<span>0</span>)</a></li>
+		<?php if($this->config->item('star')) { ?>
 		<li><a id="load-starred-items" href="<?php echo base_url(); ?>home/items/starred"><i class="icon icon-star"></i><?php echo $this->lang->line('starred_items'); ?> (<span>0</span>)</a></li>
+		<?php } ?>
+		<?php if($this->config->item('share')) { ?>
+		<li><a id="load-shared-items" href="<?php echo base_url(); ?>home/items/shared"><i class="icon icon-heart"></i><?php echo $this->lang->line('shared_items'); ?> (<span>0</span>)</a></li>
+		<?php } ?>
 		<?php if($folders && $this->config->item('folders')) { ?>
 		<?php foreach($folders as $folder) { ?>
 		<li><a id="load-folder-<?php echo $folder->flr_id; ?>-items" href="<?php echo base_url(); ?>home/items/folder/<?php echo $folder->flr_id; ?>"><i class="icon icon-folder-close"></i><?php echo $folder->flr_title; ?> (<span>0</span>)</a></li>

@@ -154,6 +154,16 @@ CREATE TABLE IF NOT EXISTS `members` (
   UNIQUE KEY `token_password` (`token_password`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `share` (
+  `shr_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `mbr_id` bigint(20) unsigned NOT NULL,
+  `itm_id` bigint(20) unsigned NOT NULL,
+  `shr_datecreated` datetime NOT NULL,
+  PRIMARY KEY (`shr_id`),
+  KEY `mbr_id` (`mbr_id`),
+  KEY `itm_id` (`itm_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `subscriptions` (
   `sub_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `mbr_id` bigint(20) unsigned NOT NULL,
@@ -204,4 +214,13 @@ ALTER TABLE `folders` CHANGE `tag_id` `flr_id` BIGINT( 20 ) UNSIGNED NOT NULL AU
 CHANGE `tag_title` `flr_title` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
 CHANGE `tag_datecreated` `flr_datecreated` DATETIME NOT NULL;
 ALTER TABLE `subscriptions` CHANGE `tag_id` `flr_id` BIGINT( 20 ) UNSIGNED NULL DEFAULT NULL;
+CREATE TABLE IF NOT EXISTS `share` (
+  `shr_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `mbr_id` bigint(20) unsigned NOT NULL,
+  `itm_id` bigint(20) unsigned NOT NULL,
+  `shr_datecreated` datetime NOT NULL,
+  PRIMARY KEY (`shr_id`),
+  KEY `mbr_id` (`mbr_id`),
+  KEY `itm_id` (`itm_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
  ```
