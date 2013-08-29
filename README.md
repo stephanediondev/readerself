@@ -106,6 +106,16 @@ CREATE TABLE IF NOT EXISTS `feeds` (
   KEY `fed_link` (`fed_link`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `folders` (
+  `flr_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `mbr_id` bigint(20) unsigned NOT NULL,
+  `flr_title` varchar(255) NOT NULL,
+  `flr_datecreated` datetime NOT NULL,
+  PRIMARY KEY (`flr_id`),
+  KEY `mbr_id` (`mbr_id`),
+  KEY `flr_title` (`flr_title`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `history` (
   `hst_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `mbr_id` bigint(20) unsigned NOT NULL,
@@ -155,16 +165,6 @@ CREATE TABLE IF NOT EXISTS `subscriptions` (
   KEY `mbr_id` (`mbr_id`),
   KEY `fed_id` (`fed_id`),
   KEY `flr_id` (`flr_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `folders` (
-  `flr_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `mbr_id` bigint(20) unsigned NOT NULL,
-  `flr_title` varchar(255) NOT NULL,
-  `flr_datecreated` datetime NOT NULL,
-  PRIMARY KEY (`flr_id`),
-  KEY `mbr_id` (`mbr_id`),
-  KEY `flr_title` (`flr_title`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 ```
 
