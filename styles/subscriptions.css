@@ -1,0 +1,10 @@
+.color, a.color:link, a.color:visited{color:#000000;display:inline-block;margin-right:5px;width:20px;}
+.color_1red{background-color:#FF3366!important;}
+.color_2green{background-color:#66CC00!important;}
+.color_3orange{background-color:#FF9900!important;}
+.color_4yellow{background-color:#FFFF66!important;}
+.color_5gray{background-color:#CCCCCC!important;}
+.color_percent{background-color:#CCCC99!important;}
+.data_table{float:left;margin:0px 10px 10px 0px;}
+.data_table table td{padding:4px 5px 4px 4px;}
+.data_table table td.result{text-align:center;}

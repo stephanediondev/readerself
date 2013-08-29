@@ -49,4 +49,9 @@
 		</p>
 	<?php } ?>
 
+	<h1><i class="icon icon-bar-chart"></i><?php echo $this->lang->line('trends'); ?></h1>
+	<div style="margin-top:20px;">
+		<?php echo $tables; ?>
+	</div>
+
 </div>
