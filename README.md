@@ -40,7 +40,7 @@ example
 * Switch Unread only / Read and unread
 * Expand / Collapse items
 * Display image enclosures
-* Starred items
+* Starred items (optional)
 * Share to Facebook, Google and Twitter (optional)
 * Search subscriptions
 * Search items (title only right now)
