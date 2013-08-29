@@ -6,7 +6,7 @@
 #sidebar{float:left;height:auto;margin:10px 0px 0px 10px;overflow-x:hidden;overflow-y:auto;width:200px;}
 #sidebar .actions a:link, #sidebar .actions a:visited{background-color:#21634C;}
 #sidebar .menu li.result{margin:0px 0px 0px 0px;}
-.item{background-color:#f5f5f5;border:1px solid #e3e3e3;border-radius:3px 3px 3px 3px;padding:5px 10px 5px 10px;margin:0px 10px 15px 0px;max-width:1200px;}
+.item{background-color:#f5f5f5;border:1px solid #e3e3e3;border-radius:3px 3px 3px 3px;clear:both;padding:5px 10px 5px 10px;margin:0px 10px 15px 0px;max-width:1200px;overflow:hidden;}
 .item-selected{border:1px solid #000000;}
 .item h2{font-size:16px;font-weight:bold;margin:5px 0px;}
 .item h2 a:link,.item h2 a:visited{text-decoration:none;}
@@ -24,6 +24,10 @@
 .item table td{background-color:transparent!important;border:none;}
 .mode-items .unread_only{display:none;}
 #display-items .expand{display:none;}
+.item.collapse .item-content,.item.collapse .item-footer{display:none;}
+.item.collapse .actions{margin-top:10px;}
+.item.collapse h2{font-size:13px;}
+.item.collapse .item-details{margin-bottom:5px;}
 @media(max-width:1024px){
 #content{margin:10px 0px 0px 10px;}
 #actions-main{margin:5px 20px 0px 10px;}
