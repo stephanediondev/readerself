@@ -13,10 +13,10 @@ class Export extends CI_Controller {
 		$this->reader_library->set_content_type('application/xml');
 
 		$subscriptions = array();
-		$query = $this->db->query('SELECT fed.*, sub.sub_id, sub.tag_id, tag.tag_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('tags').' AS tag ON tag.tag_id = sub.tag_id WHERE sub.mbr_id = ? AND fed.fed_id IS NOT NULL GROUP BY sub.sub_id ORDER BY tag.tag_title ASC, fed.fed_title ASC', array($this->member->mbr_id));
+		$query = $this->db->query('SELECT fed.*, sub.sub_id, sub.flr_id, flr.flr_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.mbr_id = ? AND fed.fed_id IS NOT NULL GROUP BY sub.sub_id ORDER BY flr.flr_title ASC, fed.fed_title ASC', array($this->member->mbr_id));
 		if($query->num_rows() > 0) {
 			foreach($query->result() as $sub) {
-				$subscriptions[$sub->tag_title][] = $sub;
+				$subscriptions[$sub->flr_title][] = $sub;
 			}
 		}
 

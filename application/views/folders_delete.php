@@ -1,7 +1,7 @@
 <div id="content">
-	<h1><i class="icon icon-folder-close"></i><?php echo $tag->tag_title; ?></h1>
+	<h1><i class="icon icon-folder-close"></i><?php echo $folder->flr_title; ?></h1>
 	<ul class="actions">
-		<li><a href="<?php echo base_url(); ?>tags"><i class="icon icon-step-backward"></i><?php echo $this->lang->line('back'); ?></a></li>
+		<li><a href="<?php echo base_url(); ?>folders"><i class="icon icon-step-backward"></i><?php echo $this->lang->line('back'); ?></a></li>
 	</ul>
 	<?php echo form_open(current_url()); ?>
 	<h2><?php echo $this->lang->line('delete'); ?></h2>

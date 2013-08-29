@@ -26,8 +26,8 @@
 		<?php $this->reader_library->display_column($this->router->class.'_subscriptions', $columns[$i++], $this->lang->line('url')); ?>
 		<th><?php echo $this->lang->line('image'); ?></th>
 		<?php $this->reader_library->display_column($this->router->class.'_subscriptions', $columns[$i++], $this->lang->line('subscribers')); ?>
-		<?php if($this->config->item('tags')) { ?>
-			<?php $this->reader_library->display_column($this->router->class.'_subscriptions', $columns[$i++], $this->lang->line('tag')); ?>
+		<?php if($this->config->item('folders')) { ?>
+			<?php $this->reader_library->display_column($this->router->class.'_subscriptions', $columns[$i++], $this->lang->line('folder')); ?>
 		<?php } ?>
 		<th>&nbsp;</th>
 		</tr>
@@ -40,8 +40,8 @@
 		<td><?php echo $sub->fed_link; ?></td>
 		<td><?php if($sub->fed_image) { ?><img src="<?php echo $sub->fed_image; ?>" alt=""><?php } else { ?>-<?php } ?></td>
 		<td><?php echo $sub->subscribers; ?></td>
-		<?php if($this->config->item('tags')) { ?>
-			<td><?php if($sub->tag_title) { ?><?php echo $sub->tag_title; ?><?php } else { ?><em><?php echo $this->lang->line('no_tag'); ?></em><?php } ?></td>
+		<?php if($this->config->item('folders')) { ?>
+			<td><?php if($sub->flr_title) { ?><?php echo $sub->flr_title; ?><?php } else { ?><em><?php echo $this->lang->line('no_folder'); ?></em><?php } ?></td>
 		<?php } ?>
 		<th>
 		<ul class="actions">

@@ -21,40 +21,40 @@ class Import extends CI_Controller {
 			if(isset($_FILES['file']) == 1 && $_FILES['file']['error'] == 0) {
 				$obj = simplexml_load_file($_FILES['file']['tmp_name']);
 				if($obj) {
-					$this->tags = array();
+					$this->folders = array();
 					$this->feeds = array();
 					$this->import_opml($obj->body);
 
 					$content .= '<div id="content">';
 
-					if(count($this->tags) > 0) {
-						$content_tags = '<h1><i class="icon icon-folder-close"></i>'.$this->lang->line('tags').' ('.count($this->tags).')</h1>';
-						$content_tags .= '<table>';
-						$content_tags .= '<thead>';
-						$content_tags .= '<tr><th>&nbsp;</th><th>'.$this->lang->line('title').'</th></tr>';
-						$content_tags .= '</thead>';
-						$content_tags .= '<tbody>';
-						$tags = array();
-						foreach($this->tags as $value) {
-							$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.tag_title = ? AND tag.mbr_id = ? GROUP BY tag.tag_id', array($value, $this->member->mbr_id));
+					if(count($this->folders) > 0) {
+						$content_folders = '<h1><i class="icon icon-folder-close"></i>'.$this->lang->line('folders').' ('.count($this->folders).')</h1>';
+						$content_folders .= '<table>';
+						$content_folders .= '<thead>';
+						$content_folders .= '<tr><th>&nbsp;</th><th>'.$this->lang->line('title').'</th></tr>';
+						$content_folders .= '</thead>';
+						$content_folders .= '<tbody>';
+						$folders = array();
+						foreach($this->folders as $value) {
+							$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.flr_title = ? AND flr.mbr_id = ? GROUP BY flr.flr_id', array($value, $this->member->mbr_id));
 							if($query->num_rows() == 0) {
 								$this->db->set('mbr_id', $this->member->mbr_id);
-								$this->db->set('tag_title', $value);
-								$this->db->set('tag_datecreated', date('Y-m-d H:i:s'));
-								$this->db->insert('tags');
-								$tag_id = $this->db->insert_id();
-								$tags[$value] = $tag_id;
-								$content_tags .= '<tr><td><span class="label label-success">'.$this->lang->line('added').'</span></td><td>'.$value.'</td></tr>';
+								$this->db->set('flr_title', $value);
+								$this->db->set('flr_datecreated', date('Y-m-d H:i:s'));
+								$this->db->insert('folders');
+								$flr_id = $this->db->insert_id();
+								$folders[$value] = $flr_id;
+								$content_folders .= '<tr><td><i class="icon icon-plus"></i></td><td>'.$value.'</td></tr>';
 							} else {
-								$tag = $query->row();
-								$tags[$value] = $tag->tag_id;
-								$content_tags .= '<tr><td><span class="label label-warning">'.$this->lang->line('found').'</span></td><td>'.$value.'</td></tr>';
+								$flr = $query->row();
+								$folders[$value] = $flr->flr_id;
+								$content_folders .= '<tr><td><i class="icon icon-repeat"></i></td><td>'.$value.'</td></tr>';
 							}
 						}
-						$content_tags .= '</tbody>';
-						$content_tags .= '</table>';
-						if($this->config->item('tags')) {
-							$content .= $content_tags;
+						$content_folders .= '</tbody>';
+						$content_folders .= '</table>';
+						if($this->config->item('folders')) {
+							$content .= $content_folders;
 						}
 					}
 
@@ -63,19 +63,19 @@ class Import extends CI_Controller {
 						$content .= '<table>';
 						$content .= '<thead>';
 						$content .= '<tr><th>&nbsp;</th><th>'.$this->lang->line('title').'</th><th>'.$this->lang->line('url').'</th>';
-						if($this->config->item('tags')) {
-							$content .= '<th>'.$this->lang->line('tag').'</th></tr>';
+						if($this->config->item('folders')) {
+							$content .= '<th>'.$this->lang->line('folder').'</th></tr>';
 						}
 						$content .= '</thead>';
 						$content .= '<tbody>';
 						foreach($this->feeds as $obj) {
-							if(!$obj->title && $obj->text) {
+							if(!$obj->title && isset($obj->text) == 1) {
 								$obj->title = $obj->text;
 							}
-							if(!$obj->xmlUrl && $obj->url) {
+							if(!$obj->xmlUrl && isset($obj->url) == 1) {
 								$obj->xmlUrl = $obj->url;
 							}
-							if(!$obj->htmlUrl && $obj->url) {
+							if(!$obj->htmlUrl && isset($obj->url) == 1) {
 								$obj->htmlUrl = $obj->url;
 							}
 
@@ -92,43 +92,43 @@ class Import extends CI_Controller {
 
 								$this->db->set('mbr_id', $this->member->mbr_id);
 								$this->db->set('fed_id', $fed_id);
-								if($obj->tag && array_key_exists($obj->tag, $tags)) {
-									$this->db->set('tag_id', $tags[$obj->tag]);
+								if($obj->flr && array_key_exists($obj->flr, $folders)) {
+									$this->db->set('flr_id', $folders[$obj->flr]);
 								}
 								$this->db->set('sub_datecreated', date('Y-m-d H:i:s'));
 								$this->db->insert('subscriptions');
 								$sub_id = $this->db->insert_id();
 
-								$content .= '<td>'.$this->lang->line('added').'</td><td>'.$obj->title.'</td><td>'.$obj->xmlUrl.'</td>';
+								$content .= '<td><i class="icon icon-plus"></i></td><td>'.$obj->title.'</td><td>'.$obj->xmlUrl.'</td>';
 							} else {
 								$fed = $query->row();
 								if($fed->sub_id) {
-									if($obj->tag && array_key_exists($obj->tag, $tags)) {
-										$this->db->set('tag_id', $tags[$obj->tag]);
+									if($obj->flr && array_key_exists($obj->flr, $folders)) {
+										$this->db->set('flr_id', $folders[$obj->flr]);
 										$this->db->where('mbr_id', $this->member->mbr_id);
 										$this->db->where('sub_id', $fed->sub_id);
 										$this->db->update('subscriptions');
 									}
 
-									$content .= '<td>'.$this->lang->line('found').'</td><td>'.$obj->title.'</td><td>'.$obj->xmlUrl.'</td>';
+									$content .= '<td><i class="icon icon-repeat"></i></td><td>'.$obj->title.'</td><td>'.$obj->xmlUrl.'</td>';
 								} else {
 									$this->db->set('mbr_id', $this->member->mbr_id);
 									$this->db->set('fed_id', $fed->fed_id);
-									if($obj->tag && array_key_exists($obj->tag, $tags)) {
-										$this->db->set('tag_id', $tags[$obj->tag]);
+									if($obj->flr && array_key_exists($obj->flr, $folders)) {
+										$this->db->set('flr_id', $folders[$obj->flr]);
 									}
 									$this->db->set('sub_datecreated', date('Y-m-d H:i:s'));
 									$this->db->insert('subscriptions');
 									$sub_id = $this->db->insert_id();
 
-									$content .= '<td>'.$this->lang->line('added').'</td><td>'.$obj->title.'</td><td>'.$obj->xmlUrl.'</td>';
+									$content .= '<td><i class="icon icon-plus"></i></td><td>'.$obj->title.'</td><td>'.$obj->xmlUrl.'</td>';
 								}
 							}
-							if($this->config->item('tags')) {
-								if($obj->tag && array_key_exists($obj->tag, $tags)) {
-									$content .= '<td>'.$obj->tag.'</td>';
+							if($this->config->item('folders')) {
+								if($obj->flr && array_key_exists($obj->flr, $folders)) {
+									$content .= '<td>'.$obj->flr.'</td>';
 								} else {
-									$content .= '<td>'.$this->lang->line('no_tag').'</td>';
+									$content .= '<td><em>'.$this->lang->line('no_folder').'</em></td>';
 								}
 							}
 							$content .= '</tr>';
@@ -143,7 +143,7 @@ class Import extends CI_Controller {
 		}
 		$this->reader_library->set_content($content);
 	}
-	function import_opml($obj, $tag = false) {
+	function import_opml($obj, $flr = false) {
 		$feeds = array();
 		if(isset($obj->outline) == 1) {
 			foreach($obj->outline as $outline) {
@@ -151,13 +151,13 @@ class Import extends CI_Controller {
 					//echo $outline->attributes()->title;
 					//print_r($outline);
 					if($outline->attributes()->title) {
-						$tag = strval($outline->attributes()->title);
-						$this->tags[] = $tag;
+						$flr = strval($outline->attributes()->title);
+						$this->folders[] = $flr;
 					} else if($outline->attributes()->text) {
-						$tag = strval($outline->attributes()->text);
-						$this->tags[] = $tag;
+						$flr = strval($outline->attributes()->text);
+						$this->folders[] = $flr;
 					}
-					$this->import_opml($outline, $tag);
+					$this->import_opml($outline, $flr);
 					//array_merge($feeds, $this->import_opml($outline));
 				} else {
 					//print_r($outline->attributes()->title);
@@ -165,7 +165,7 @@ class Import extends CI_Controller {
 					foreach($outline->attributes() as $k => $attribute) {
 						$feed->{$k} = strval($attribute);
 					}
-					$feed->tag = $tag;
+					$feed->flr = $flr;
 					$this->feeds[] = $feed;
 				}
 			}

@@ -148,23 +148,23 @@ CREATE TABLE IF NOT EXISTS `subscriptions` (
   `sub_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `mbr_id` bigint(20) unsigned NOT NULL,
   `fed_id` bigint(20) unsigned NOT NULL,
-  `tag_id` bigint(20) unsigned DEFAULT NULL,
+  `flr_id` bigint(20) unsigned DEFAULT NULL,
   `sub_title` varchar(255) DEFAULT NULL,
   `sub_datecreated` datetime NOT NULL,
   PRIMARY KEY (`sub_id`),
   KEY `mbr_id` (`mbr_id`),
   KEY `fed_id` (`fed_id`),
-  KEY `tag_id` (`tag_id`)
+  KEY `flr_id` (`flr_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `tags` (
-  `tag_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `folders` (
+  `flr_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `mbr_id` bigint(20) unsigned NOT NULL,
-  `tag_title` varchar(255) NOT NULL,
-  `tag_datecreated` datetime NOT NULL,
-  PRIMARY KEY (`tag_id`),
+  `flr_title` varchar(255) NOT NULL,
+  `flr_datecreated` datetime NOT NULL,
+  PRIMARY KEY (`flr_id`),
   KEY `mbr_id` (`mbr_id`),
-  KEY `tag_title` (`tag_title`)
+  KEY `flr_title` (`flr_title`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 ```
 
@@ -195,3 +195,13 @@ ALTER TABLE `feeds` CHANGE `fed_title` `fed_title` VARCHAR( 255 ) CHARACTER SET 
 CHANGE `fed_url` `fed_url` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
 ALTER TABLE `feeds` DROP INDEX `fed_lasterror`;
 ```
+
+##### 2013-08-29
+
+```sql
+RENAME TABLE `tags` TO `folders`;
+ALTER TABLE `folders` CHANGE `tag_id` `flr_id` BIGINT( 20 ) UNSIGNED NOT NULL AUTO_INCREMENT,
+CHANGE `tag_title` `flr_title` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+CHANGE `tag_datecreated` `flr_datecreated` DATETIME NOT NULL;
+ALTER TABLE `subscriptions` CHANGE `tag_id` `flr_id` BIGINT( 20 ) UNSIGNED NULL DEFAULT NULL;
+ ```

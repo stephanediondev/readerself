@@ -5,5 +5,5 @@ $config['salt_password'] = '';
 $config['sender_email'] = 'noreply@reader.com';
 $config['sender_name'] = 'reader';
 $config['social'] = TRUE;
-$config['tags'] = TRUE;
+$config['folders'] = TRUE;
 $config['title'] = 'Reader Self';

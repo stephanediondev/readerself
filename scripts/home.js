@@ -375,13 +375,13 @@ $(document).ready(function() {
 		load_items(ref.attr('href'));
 	});
 
-	$('.item a.tag').live('click', function(event) {
+	$('.item a.folder').live('click', function(event) {
 		event.preventDefault();
 		var ref = $(this);
 
 		$('.menu li').removeClass('active');
 
-		$('#load-tag-' + ref.data('tag_id') + '-items').parent().addClass('active');
+		$('#load-folder-' + ref.data('flr_id') + '-items').parent().addClass('active');
 		load_items(ref.attr('href'));
 	});
 
@@ -392,7 +392,7 @@ $(document).ready(function() {
 		$('.menu li').removeClass('active');
 
 		$('#sidebar .menu').find('.result').remove();
-		content = '<li class="result active"><a id="load-sub-' + ref.data('sub_id') + '-items" href="' + base_url + 'home/items/sub/' + ref.data('sub_id') + '"><i class="icon icon-rss"></i>' + ref.text() + ' (<span>0</span>)</a></li>';
+		content = '<li class="result active"><a id="load-sub-' + ref.data('sub_id') + '-items" href="' + base_url + 'home/items/subscription/' + ref.data('sub_id') + '"><i class="icon icon-rss"></i>' + ref.text() + ' (<span>0</span>)</a></li>';
 		$('#sidebar .menu').append(content);
 
 		load_items(ref.attr('href'));
@@ -469,7 +469,7 @@ $(document).ready(function() {
 							} else {
 								title = sub.fed_title;
 							}
-							content = '<li class="result"><a id="load-sub-' + sub.sub_id + '-items" href="' + base_url + 'home/items/sub/' + sub.sub_id + '"><i class="icon icon-rss"></i>' + title + ' (<span>0</span>)</a></li>';
+							content = '<li class="result"><a id="load-sub-' + sub.sub_id + '-items" href="' + base_url + 'home/items/subscription/' + sub.sub_id + '"><i class="icon icon-rss"></i>' + title + ' (<span>0</span>)</a></li>';
 							$('#sidebar .menu').append(content);
 							refresh();
 						}

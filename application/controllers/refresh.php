@@ -17,26 +17,26 @@ class Refresh extends CI_Controller {
 
 			$content['count']['all'] = $query->row()->count;
 
-			$sql = 'SELECT tag.tag_id, COUNT(DISTINCT(itm.itm_id)) AS count
-			FROM '.$this->db->dbprefix('tags').' AS tag
-			LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.tag_id = tag.tag_id AND sub.mbr_id = ?
+			$sql = 'SELECT flr.flr_id, COUNT(DISTINCT(itm.itm_id)) AS count
+			FROM '.$this->db->dbprefix('folders').' AS flr
+			LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.flr_id = flr.flr_id AND sub.mbr_id = ?
 			LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id AND itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?)
-			GROUP BY tag.tag_id';
+			GROUP BY flr.flr_id';
 			$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
 
 			if($query->num_rows() > 0) {
-				foreach($query->result() as $tag) {
-					$content['count']['tag-'.$tag->tag_id] = $tag->count;
+				foreach($query->result() as $flr) {
+					$content['count']['folder-'.$flr->flr_id] = $flr->count;
 				}
 			}
 
 			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
 			FROM '.$this->db->dbprefix('subscriptions').' AS sub
 			LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id AND itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?)
-			WHERE sub.tag_id IS NULL AND sub.mbr_id = ?';
+			WHERE sub.flr_id IS NULL AND sub.mbr_id = ?';
 			$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
 
-			$content['count']['notag'] = $query->row()->count;
+			$content['count']['nofolder'] = $query->row()->count;
 
 			$sql = 'SELECT sub.sub_id, COUNT(DISTINCT(itm.itm_id)) AS count
 			FROM '.$this->db->dbprefix('subscriptions').' AS sub

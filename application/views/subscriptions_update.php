@@ -43,8 +43,8 @@
 	</p>
 
 	<p>
-	<?php echo form_label($this->lang->line('tag'), 'tag'); ?>
-	<?php echo form_dropdown('tag', $tags, set_value('tag', $sub->tag_id), 'id="tag" class="select required numeric"'); ?>
+	<?php echo form_label($this->lang->line('folder'), 'folder'); ?>
+	<?php echo form_dropdown('folder', $folders, set_value('folder', $sub->flr_id), 'id="folder" class="select required numeric"'); ?>
 	</p>
 
 	<p>

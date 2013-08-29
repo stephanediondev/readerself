@@ -11,10 +11,10 @@ class Home extends CI_Controller {
 
 		$this->load->library('form_validation');
 
-		$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? GROUP BY tag.tag_id HAVING (SELECT COUNT(DISTINCT(count_sub.sub_id)) FROM '.$this->db->dbprefix('subscriptions').' AS count_sub WHERE count_sub.tag_id = tag.tag_id) > 0 ORDER BY tag.tag_title ASC', array($this->member->mbr_id));
+		$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? GROUP BY flr.flr_id HAVING (SELECT COUNT(DISTINCT(count_sub.sub_id)) FROM '.$this->db->dbprefix('subscriptions').' AS count_sub WHERE count_sub.flr_id = flr.flr_id) > 0 ORDER BY flr.flr_title ASC', array($this->member->mbr_id));
 
 		$data = array();
-		$data['tags'] = $query->result();
+		$data['folders'] = $query->result();
 		$content = $this->load->view('home_index', $data, TRUE);
 		$this->reader_library->set_content($content);
 	}
@@ -57,29 +57,30 @@ class Home extends CI_Controller {
 			redirect(base_url());
 		}
 
-		$modes = array('all', 'starred', 'notag', 'tag', 'sub', 'search');
+		$modes = array('all', 'starred', 'nofolder', 'folder', 'subscription', 'search');
 
 		$content = array();
 
-		$is_tag = FALSE;
-		if($mode == 'tag') {
-			$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? AND tag.tag_id = ? GROUP BY tag.tag_id', array($this->member->mbr_id, $id));
+		$is_folder = FALSE;
+		if($mode == 'folder') {
+			$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? AND flr.flr_id = ? GROUP BY flr.flr_id', array($this->member->mbr_id, $id));
 			if($query->num_rows() > 0) {
-				$is_tag = $id;
+				$is_folder = $id;
 			}
 		}
 
 		$is_sub = FALSE;
-		if($mode == 'sub') {
+		if($mode == 'subscription') {
 			$query = $this->db->query('SELECT sub.* FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.mbr_id = ? AND sub.sub_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $id));
 			if($query->num_rows() > 0) {
 				$is_sub = $id;
 			}
 		}
 
+		$this->reader_library->set_template('_json');
+		$this->reader_library->set_content_type('application/json');
+
 		if($this->input->is_ajax_request() && in_array($mode, $modes)) {
-			$this->reader_library->set_template('_json');
-			$this->reader_library->set_content_type('application/json');
 
 			$this->session->set_userdata('items-mode', $mode);
 			$this->session->set_userdata('items-id', $id);
@@ -115,9 +116,9 @@ class Home extends CI_Controller {
 				}
 			}
 
-			if($is_tag) {
-				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.tag_id = ? )';
-				$bindings[] = $is_tag;
+			if($is_folder) {
+				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id = ? )';
+				$bindings[] = $is_folder;
 			}
 
 			if($is_sub) {
@@ -125,8 +126,8 @@ class Home extends CI_Controller {
 				$bindings[] = $is_sub;
 			}
 
-			if($mode == 'notag') {
-				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.tag_id IS NULL )';
+			if($mode == 'nofolder') {
+				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id IS NULL )';
 			}
 
 			$sql = 'SELECT itm.*, DATE_ADD(itm.itm_date, INTERVAL ? HOUR) AS itm_date
@@ -152,7 +153,7 @@ class Home extends CI_Controller {
 					$sql = 'SELECT fed.* FROM feeds AS fed WHERE fed.fed_id = ? GROUP BY fed.fed_id';
 					$itm->fed = $this->db->query($sql, array($itm->fed_id))->row();
 
-					$sql = 'SELECT sub.sub_id, sub.sub_title, tag.tag_id, tag.tag_title FROM subscriptions AS sub LEFT JOIN '.$this->db->dbprefix('tags').' AS tag ON tag.tag_id = sub.tag_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
+					$sql = 'SELECT sub.sub_id, sub.sub_title, flr.flr_id, flr.flr_title FROM subscriptions AS sub LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
 					$itm->sub = $this->db->query($sql, array($itm->fed_id, $this->member->mbr_id))->row();
 
 					$sql = 'SELECT enr.* FROM enclosures AS enr WHERE enr.itm_id = ? AND enr.enr_type LIKE ? GROUP BY enr.enr_id';
@@ -179,31 +180,31 @@ class Home extends CI_Controller {
 					//$itm->itm_content = strip_tags($itm->itm_content, '<dt><dd><dl><table><caption><tr><th><td><tbody><thead><h2><h3><h4><h5><h6><strong><em><code><pre><blockquote><p><ul><li><ol><br><del><a><img><figure><figcaption><cite><time><abbr>');
 
 					preg_match_all('/<a[^>]+>/i', $itm->itm_content, $result);
-					foreach($result[0] as $tag_a) {
-						if(!preg_match('/(target)=("[^"]*")/i', $tag_a, $result)) {
-							$itm->itm_content = str_replace($tag_a, str_replace('<a', '<a target="_blank"', $tag_a), $itm->itm_content);
+					foreach($result[0] as $flr_a) {
+						if(!preg_match('/(target)=("[^"]*")/i', $flr_a, $result)) {
+							$itm->itm_content = str_replace($flr_a, str_replace('<a', '<a target="_blank"', $flr_a), $itm->itm_content);
 						}
 					}
 
 					preg_match_all('/<img[^>]+>/i', $itm->itm_content, $result);
-					foreach($result[0] as $tag_img) {
+					foreach($result[0] as $flr_img) {
 						$attribute_src = false;
-						if(preg_match('/(src)=("[^"]*")/i', $tag_img, $result)) {
+						if(preg_match('/(src)=("[^"]*")/i', $flr_img, $result)) {
 							$attribute_src = str_replace('"', '', $result[2]);
 						}
 
 						$attribute_width = false;
-						if(preg_match('/(width)=("[^"]*")/i', $tag_img, $result)) {
+						if(preg_match('/(width)=("[^"]*")/i', $flr_img, $result)) {
 							$attribute_width = str_replace('"', '', $result[2]);
 						}
 
 						$attribute_height = false;
-						if(preg_match('/(height)=("[^"]*")/i', $tag_img, $result)) {
+						if(preg_match('/(height)=("[^"]*")/i', $flr_img, $result)) {
 							$attribute_height = str_replace('"', '', $result[2]);
 						}
 
 						if($attribute_width == 1 || $attribute_height == 1 || stristr($attribute_src, 'feedsportal.com') || stristr($attribute_src, 'feedburner.com')) {
-							$itm->itm_content = str_replace($tag_img, '', $itm->itm_content);
+							$itm->itm_content = str_replace($flr_img, '', $itm->itm_content);
 						}
 					}
 
@@ -270,16 +271,16 @@ class Home extends CI_Controller {
 					$content['modal'] = $this->load->view('home_history', $data, TRUE);
 				} else {
 
-					$is_tag = FALSE;
-					if($this->session->userdata('items-mode') == 'tag') {
-						$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? AND tag.tag_id = ? GROUP BY tag.tag_id', array($this->member->mbr_id, $this->session->userdata('items-id')));
+					$is_folder = FALSE;
+					if($this->session->userdata('items-mode') == 'folder') {
+						$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? AND flr.flr_id = ? GROUP BY flr.flr_id', array($this->member->mbr_id, $this->session->userdata('items-id')));
 						if($query->num_rows() > 0) {
-							$is_tag = $this->session->userdata('items-id');
+							$is_folder = $this->session->userdata('items-id');
 						}
 					}
 
 					$is_sub = FALSE;
-					if($this->session->userdata('items-mode') == 'sub') {
+					if($this->session->userdata('items-mode') == 'subscription') {
 						$query = $this->db->query('SELECT sub.* FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.mbr_id = ? AND sub.sub_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $this->session->userdata('items-id')));
 						if($query->num_rows() > 0) {
 							$is_sub = $this->session->userdata('items-id');
@@ -302,16 +303,16 @@ class Home extends CI_Controller {
 						$where[] = 'itm.itm_id IN ( SELECT fav.itm_id FROM favorites AS fav WHERE fav.itm_id = itm.itm_id AND fav.mbr_id = ? )';
 						$bindings[] = $this->member->mbr_id;
 					}
-					if($is_tag) {
-						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.tag_id = ? )';
-						$bindings[] = $is_tag;
+					if($is_folder) {
+						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id = ? )';
+						$bindings[] = $is_folder;
 					}
 					if($is_sub) {
 						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
 						$bindings[] = $is_sub;
 					}
-					if($this->session->userdata('items-mode') == 'notag') {
-						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.tag_id IS NULL )';
+					if($this->session->userdata('items-mode') == 'nofolder') {
+						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id IS NULL )';
 					}
 
 					if($this->input->post('age') == 'one-day') {

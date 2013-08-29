@@ -21,8 +21,8 @@ class Subscriptions extends CI_Controller {
 		$columns[] = 'fed.fed_description';
 		$columns[] = 'fed.fed_url';
 		$columns[] = 'subscribers';
-		if($this->config->item('tags')) {
-			$columns[] = 'tag.tag_title';
+		if($this->config->item('folders')) {
+			$columns[] = 'flr.flr_title';
 		}
 		$col = $this->reader_library->build_columns($this->router->class.'_subscriptions', $columns, 'fed.fed_title', 'ASC');
 		$results = $this->reader_model->get_subscriptions_total($flt);
@@ -61,28 +61,28 @@ class Subscriptions extends CI_Controller {
 		$data = array();
 		$data['sub'] = $this->reader_model->get_subscription_row($sub_id);
 		if($data['sub']) {
-			$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? GROUP BY tag.tag_id ORDER BY tag.tag_title ASC', array($this->member->mbr_id));
-			$data['tags'] = array();
-			$data['tags'][0] = $this->lang->line('no_tag');
+			$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? GROUP BY flr.flr_id ORDER BY flr.flr_title ASC', array($this->member->mbr_id));
+			$data['folders'] = array();
+			$data['folders'][0] = $this->lang->line('no_folder');
 			if($query->num_rows() > 0) {
-				foreach($query->result() as $tag) {
-					$data['tags'][$tag->tag_id] = $tag->tag_title;
+				foreach($query->result() as $flr) {
+					$data['folders'][$flr->flr_id] = $flr->flr_title;
 				}
 			}
 
 			$this->form_validation->set_rules('sub_title', 'lang:sub_title', '');
-			$this->form_validation->set_rules('tag', 'lang:tag', 'required');
+			$this->form_validation->set_rules('folder', 'lang:folder', 'required');
 			if($this->form_validation->run() == FALSE) {
 				$content = $this->load->view('subscriptions_update', $data, TRUE);
 				$this->reader_library->set_content($content);
 			} else {
 				$this->db->set('sub_title', $this->input->post('sub_title'));
-				if($this->input->post('tag') == 0) {
-					$this->db->set('tag_id', '');
+				if($this->input->post('folder') == 0) {
+					$this->db->set('flr_id', '');
 				} else {
-					$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.mbr_id = ? AND tag.tag_id = ? GROUP BY tag.tag_id', array($this->member->mbr_id, $this->input->post('tag')));
+					$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? AND flr.flr_id = ? GROUP BY flr.flr_id', array($this->member->mbr_id, $this->input->post('folder')));
 					if($query->num_rows() > 0) {
-						$this->db->set('tag_id', $this->input->post('tag'));
+						$this->db->set('flr_id', $this->input->post('folder'));
 					}
 				}
 				$this->db->where('sub_id', $sub_id);

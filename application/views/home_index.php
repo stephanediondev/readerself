@@ -7,11 +7,11 @@
 	<ul class="menu">
 		<li class="active"><a id="load-all-items" href="<?php echo base_url(); ?>home/items/all"><i class="icon icon-asterisk"></i><?php echo $this->lang->line('all_items'); ?> (<span>0</span>)</a></li>
 		<li><a id="load-starred-items" href="<?php echo base_url(); ?>home/items/starred"><i class="icon icon-star"></i><?php echo $this->lang->line('starred_items'); ?> (<span>0</span>)</a></li>
-		<?php if($tags && $this->config->item('tags')) { ?>
-		<?php foreach($tags as $tag) { ?>
-		<li><a id="load-tag-<?php echo $tag->tag_id; ?>-items" href="<?php echo base_url(); ?>home/items/tag/<?php echo $tag->tag_id; ?>"><i class="icon icon-folder-close"></i><?php echo $tag->tag_title; ?> (<span>0</span>)</a></li>
+		<?php if($folders && $this->config->item('folders')) { ?>
+		<?php foreach($folders as $folder) { ?>
+		<li><a id="load-folder-<?php echo $folder->flr_id; ?>-items" href="<?php echo base_url(); ?>home/items/folder/<?php echo $folder->flr_id; ?>"><i class="icon icon-folder-close"></i><?php echo $folder->flr_title; ?> (<span>0</span>)</a></li>
 		<?php } ?>
-		<li><a id="load-notag-items" href="<?php echo base_url(); ?>home/items/notag"><i class="icon icon-folder-close"></i><em><?php echo $this->lang->line('no_tag'); ?></em> (<span>0</span>)</a></li>
+		<li><a id="load-nofolder-items" href="<?php echo base_url(); ?>home/items/nofolder"><i class="icon icon-folder-close"></i><em><?php echo $this->lang->line('no_folder'); ?></em> (<span>0</span>)</a></li>
 		<?php } ?>
 		<li><label for="search_items"><i class="icon icon-search"></i><?php echo $this->lang->line('items'); ?></label></li>
 		<li>

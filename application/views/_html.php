@@ -24,7 +24,7 @@
 		<li class="show-phone show-tablet"><a id="toggle-sidebar" href="#"><i class="icon icon-reorder"></i><?php echo $this->lang->line('sidebar'); ?></a></li>
 		<li class="hide-phone"><a href="<?php echo base_url(); ?>home"><i class="icon icon-home"></i><?php echo $this->lang->line('home'); ?></a></li>
 		<li class="hide-phone"><a href="<?php echo base_url(); ?>subscriptions"><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?></a></li>
-		<?php if($this->config->item('tags')) { ?><li class="hide-phone"><a href="<?php echo base_url(); ?>tags"><i class="icon icon-folder-close"></i><?php echo $this->lang->line('tags'); ?></a></li><?php } ?>
+		<?php if($this->config->item('folders')) { ?><li class="hide-phone"><a href="<?php echo base_url(); ?>folders"><i class="icon icon-folder-close"></i><?php echo $this->lang->line('folders'); ?></a></li><?php } ?>
 		<?php if($this->config->item('register_multi')) { ?><li class="hide-phone"><a href="<?php echo base_url(); ?>explore"><i class="icon icon-group"></i><?php echo $this->lang->line('explore'); ?></a></li><?php } ?>
 		<li class="hide-phone hide-tablet"><a href="<?php echo base_url(); ?>trends"><i class="icon icon-bar-chart"></i><?php echo $this->lang->line('trends'); ?></a></li>
 		<li class="hide-phone"><a href="<?php echo base_url(); ?>profile"><i class="icon icon-user"></i><?php echo $this->lang->line('profile'); ?></a></li>
