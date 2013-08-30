@@ -7,13 +7,15 @@
 		<li>a: add a subscription</li>
 		<li>k or p or shift + space: up / previous item</li>
 		<li>j or n or space: down / next item</li>
-		<li>v: view original selected item</li>
+		<li>v: view original from selected item</li>
 		<li>m: read / unread selected item</li>
 		<li>s: star / unstar selected item</li>
+		<li>shift + s: share / unshare selected item</li>
 		<li>o or enter: expand / collapse selected item</li>
 		<li>shift + a: mark all as read</li>
 		<li>g then a: go to all items</li>
 		<li>g then s: go to starred items</li>
+		<li>g then shift + s: go to shared items</li>
 		<li>1: collapse all items</li>
 		<li>2: expand all items</li>
 	</ul>

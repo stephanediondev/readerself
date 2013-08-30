@@ -273,6 +273,12 @@ $(document).ready(function() {
 				$('#load-all-items').parent().addClass('active');
 				load_items( $('.menu').find('li.active').find('a').attr('href') );
 
+			//g then shift + s
+			} else if(g_key && event.shiftKey && keycode == 83) {
+				$('.menu li').removeClass('active');
+				$('#load-shared-items').parent().addClass('active');
+				load_items( $('.menu').find('li.active').find('a').attr('href') );
+
 			//g then s
 			} else if(g_key && keycode == 83) {
 				$('.menu li').removeClass('active');
