@@ -158,6 +158,7 @@ class Refresh extends CI_Controller {
 								$this->db->set('itm_id', $itm_id);
 								$this->db->set('enr_link', $enclosure->get_link());
 								$this->db->set('enr_type', $enclosure->get_type());
+								$this->db->set('enr_length', $enclosure->get_length());
 								$this->db->set('enr_datecreated', date('Y-m-d H:i:s'));
 								$this->db->insert('enclosures');
 							}

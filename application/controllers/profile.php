@@ -9,6 +9,14 @@ class Profile extends CI_Controller {
 			redirect(base_url());
 		}
 
+		if(!$this->member->token_share) {
+			$token_share = sha1(uniqid($this->member->mbr_id, 1).mt_rand());
+			$this->db->set('token_share', $token_share);
+			$this->db->where('mbr_id', $this->member->mbr_id);
+			$this->db->update('members');
+			$this->member = $this->reader_model->get($this->session->userdata('logged_member'));
+		}
+
 		$this->load->library(array('form_validation'));
 
 		$this->form_validation->set_rules('mbr_email', 'lang:mbr_email', 'required|valid_email|max_length[255]|callback_email');

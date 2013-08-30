@@ -78,6 +78,7 @@ CREATE TABLE IF NOT EXISTS `enclosures` (
   `itm_id` bigint(20) unsigned NOT NULL,
   `enr_link` varchar(255) NOT NULL,
   `enr_type` varchar(255) NOT NULL,
+  `enr_length` int(10) unsigned NOT NULL,
   `enr_datecreated` datetime NOT NULL,
   PRIMARY KEY (`enr_id`),
   KEY `itm_id` (`itm_id`)
@@ -148,6 +149,7 @@ CREATE TABLE IF NOT EXISTS `members` (
   `mbr_email` varchar(255) NOT NULL,
   `mbr_password` char(40) NOT NULL,
   `token_password` char(40) DEFAULT NULL,
+  `token_share` char(40) DEFAULT NULL,
   `mbr_datecreated` datetime NOT NULL,
   PRIMARY KEY (`mbr_id`),
   UNIQUE KEY `mbr_email` (`mbr_email`),
@@ -223,4 +225,11 @@ CREATE TABLE IF NOT EXISTS `share` (
   KEY `mbr_id` (`mbr_id`),
   KEY `itm_id` (`itm_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
- ```
+```
+
+##### 2013-08-30
+
+```sql
+ALTER TABLE `enclosures` ADD `enr_length` INT UNSIGNED NOT NULL AFTER `enr_type`;
+ALTER TABLE `members` ADD `token_share` CHAR( 40 ) NULL DEFAULT NULL AFTER `token_password`;
+```

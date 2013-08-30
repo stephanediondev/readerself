@@ -91,6 +91,20 @@ class Subscribe extends CI_Controller {
 								$this->db->set('itm_datecreated', date('Y-m-d H:i:s'));
 
 								$this->db->insert('items');
+
+								$itm_id = $this->db->insert_id();
+
+								foreach($sp_item->get_enclosures() as $enclosure) {
+									if($enclosure->get_link() && $enclosure->get_type()) {
+										$this->db->set('itm_id', $itm_id);
+										$this->db->set('enr_link', $enclosure->get_link());
+										$this->db->set('enr_type', $enclosure->get_type());
+										$this->db->set('enr_length', $enclosure->get_length());
+										$this->db->set('enr_datecreated', date('Y-m-d H:i:s'));
+										$this->db->insert('enclosures');
+									}
+								}
+
 							} else {
 								break;
 							}

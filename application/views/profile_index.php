@@ -30,4 +30,7 @@
 	</p>
 
 	<?php echo form_close(); ?>
+
+	<h1><i class="icon icon-heart"></i><?php echo $this->lang->line('share_url'); ?></h1>
+	<p><?php echo base_url(); ?>share/<?php echo $this->member->token_share; ?></p>
 </div>
