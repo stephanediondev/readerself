@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Trends extends CI_Controller {
+class Statistics extends CI_Controller {
 	function __construct() {
 		parent::__construct();
 	}
@@ -142,7 +142,7 @@ class Trends extends CI_Controller {
 		}
 		$data['tables'] .= build_table_progression('Items starred by month', $values, $legend);
 
-		$content = $this->load->view('trends_index', $data, TRUE);
+		$content = $this->load->view('statistics_index', $data, TRUE);
 		$this->reader_library->set_content($content);
 	}
 }

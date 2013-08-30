@@ -1,5 +1,5 @@
 <div id="content">
-	<h1><i class="icon icon-bar-chart"></i><?php echo $this->lang->line('trends'); ?></h1>
+	<h1><i class="icon icon-bar-chart"></i><?php echo $this->lang->line('statistics'); ?></h1>
 
 	<p>From your <strong><?php echo $subscriptions_total; ?> subscriptions,</strong> over the <strong>last 30 days</strong> you <strong>read <?php echo $read_items_30; ?> items</strong> and <strong>starred <?php echo $starred_items_30; ?> items</strong>.</p>
 
