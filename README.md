@@ -88,7 +88,7 @@ example
 <td>No</td><!-- Digg Reader -->
 <td>Yes</td><!-- Feedly -->
 <td>No</td><!-- Feedspot -->
-<td>No (link only)</td><!-- InoReader-->
+<td>No<br> (link only)</td><!-- InoReader-->
 <td>No</td><!-- SilverReader -->
 <td>Yes</td><!-- The Old Reader -->
 </tr>
@@ -139,7 +139,7 @@ example
 
 <tr>
 <th>Search items</th>
-<td>No</td>
+<td>Yes</td>
 <td>No</td><!-- Digg Reader -->
 <td>Paid version</td><!-- Feedly -->
 <td>Yes</td><!-- Feedspot -->
