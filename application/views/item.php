@@ -35,7 +35,7 @@
 			<li><a target="_blank" href="https://www.facebook.com/sharer.php?u=<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-facebook-sign"></i>Facebook</a></li>
 			<li><a target="_blank" href="https://plus.google.com/share?url=<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-google-plus-sign"></i>Google</a></li>
 			<li><a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-linkedin-sign"></i>LinkedIn</a></li>
-			<li><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text=<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-twitter-sign"></i>Twitter</a></li>
+			<li><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text=<?php echo urlencode($itm->itm_title.' '.$itm->itm_link); ?>"><i class="icon icon-twitter-sign"></i>Twitter</a></li>
 		</ul>
 		<?php } ?>
 	</div>
