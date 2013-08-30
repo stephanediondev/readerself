@@ -155,7 +155,29 @@
 <td>No</td><!-- The Old Reader -->
 </tr>
 
+<tr>
+<th>Responsive</th>
+<td>Yes</td>
+<td>No</td><!-- Digg Reader -->
+<td>No</td><!-- Feedly -->
+<td>No</td><!-- Feedspot -->
+<td>No</td><!-- InoReader-->
+<td>No</td><!-- SilverReader -->
+<td>Yes</td><!-- The Old Reader -->
+</tr>
+
+<tr>
+<th>Shared items with public feed</th>
+<td>Yes</td>
+<td>Yes</td><!-- Digg Reader -->
+<td>No</td><!-- Feedly -->
+<td>No<sup>1</sup></td><!-- Feedspot -->
+<td>No</td><!-- InoReader-->
+<td>No</td><!-- SilverReader -->
+<td>Yes</td><!-- The Old Reader -->
+</tr>
+
 </table>
 
-<p><sup>(1)</sup> available on paid version</p>
+<p><sup>(1)</sup> available on the paid version</p>
 <p><sup>(2)</sup> if installed on a https host</p>

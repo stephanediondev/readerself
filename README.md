@@ -25,6 +25,7 @@ example
 * Expand / Collapse items
 * Display image enclosures
 * Starred items (optional)
+* Shared items with public feed (optional)
 * Share to Facebook, Google and Twitter (optional)
 * Search subscriptions
 * Search items (title only right now)
