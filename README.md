@@ -1,6 +1,8 @@
-[Install](/INSTALL.md)
-[Update](/UPDATE.md)
-[Comparative table](/COMPARISON.md)
+### Self-hosted (php/mysql) feeds aggregator to replace Google Reader
+
+* [Install](/INSTALL.md)
+* [Update](/UPDATE.md)
+* [Comparative table](/COMPARISON.md)
 
 ![Reader Self](medias/readerself.png)
 
