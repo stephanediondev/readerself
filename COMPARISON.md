@@ -4,12 +4,23 @@
 <tr>
 <th>&nbsp;</th>
 <th>Reader Self</th>
-<th><a href="http://digg.com/reader">Digg Reader</a></th>
-<th><a href="http://cloud.feedly.com/">Feedly</a></th>
+<th><a href="https://digg.com/reader">Digg Reader</a></th>
+<th><a href="https://cloud.feedly.com/">Feedly</a></th>
 <th><a href="http://www.feedspot.com/">Feedspot</a></th>
-<th><a href="http://inoreader.com/">InoReader</a></th>
-<th><a href="http://silverreader.com/">SilverReader</a></th>
+<th><a href="https://inoreader.com/">InoReader</a></th>
+<th><a href="https://silverreader.com/">SilverReader</a></th>
 <th><a href="https://theoldreader.com">The Old Reader</a></th>
+</tr>
+
+<tr>
+<th>Type</th>
+<td>Self-hosted</td>
+<td>Online service</td><!-- Digg Reader -->
+<td>Online service</td><!-- Feedly -->
+<td>Online service</td><!-- Feedspot -->
+<td>Online service</td><!-- InoReader-->
+<td>Online service</td><!-- SilverReader -->
+<td>Online service</td><!-- The Old Reader -->
 </tr>
 
 <tr>
@@ -130,6 +141,17 @@
 <td>Yes</td><!-- Feedspot -->
 <td>No</td><!-- InoReader-->
 <td>No</td><!-- SilverReader -->
+<td>No</td><!-- The Old Reader -->
+</tr>
+
+<tr>
+<th>https</th>
+<td>-</td>
+<td>Yes</td><!-- Digg Reader -->
+<td>Yes</td><!-- Feedly -->
+<td>No</td><!-- Feedspot -->
+<td>Yes</td><!-- InoReader-->
+<td>Yes</td><!-- SilverReader -->
 <td>No</td><!-- The Old Reader -->
 </tr>
 
