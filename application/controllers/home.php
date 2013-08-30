@@ -161,6 +161,18 @@ class Home extends CI_Controller {
 					$sql = 'SELECT sub.sub_id, sub.sub_title, flr.flr_id, flr.flr_title FROM subscriptions AS sub LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
 					$itm->sub = $this->db->query($sql, array($itm->fed_id, $this->member->mbr_id))->row();
 
+					$itm->categories = false;
+					if($this->config->item('tags')) {
+						$sql = 'SELECT cat.* FROM categories AS cat WHERE cat.itm_id = ? GROUP BY cat.cat_id';
+						$categories = $this->db->query($sql, array($itm->itm_id))->result();
+						if($categories) {
+							$itm->categories = array();
+							foreach($categories as $cat) {
+								$itm->categories[] = $cat->cat_title;
+							}
+						}
+					}
+
 					$sql = 'SELECT enr.* FROM enclosures AS enr WHERE enr.itm_id = ? AND enr.enr_type LIKE ? GROUP BY enr.enr_id';
 					$itm->enclosures = $this->db->query($sql, array($itm->itm_id, 'image/%'))->result();
 

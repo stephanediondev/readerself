@@ -61,6 +61,15 @@ Launch in a browser to register an account
 Add to cron (hourly) => cd /path-to-installation && php index.php refresh items
 
 ```sql
+CREATE TABLE IF NOT EXISTS `categories` (
+  `cat_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `itm_id` bigint(20) unsigned NOT NULL,
+  `cat_title` varchar(255) NOT NULL,
+  `cat_datecreated` datetime NOT NULL,
+  PRIMARY KEY (`cat_id`),
+  KEY `itm_id` (`itm_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `connections` (
   `cnt_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `mbr_id` bigint(20) unsigned NOT NULL,
@@ -232,4 +241,12 @@ CREATE TABLE IF NOT EXISTS `share` (
 ```sql
 ALTER TABLE `enclosures` ADD `enr_length` INT UNSIGNED NOT NULL AFTER `enr_type`;
 ALTER TABLE `members` ADD `token_share` CHAR( 40 ) NULL DEFAULT NULL AFTER `token_password`;
+CREATE TABLE IF NOT EXISTS `categories` (
+  `cat_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `itm_id` bigint(20) unsigned NOT NULL,
+  `cat_title` varchar(255) NOT NULL,
+  `cat_datecreated` datetime NOT NULL,
+  PRIMARY KEY (`cat_id`),
+  KEY `itm_id` (`itm_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 ```

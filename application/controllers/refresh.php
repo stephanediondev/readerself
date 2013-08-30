@@ -153,8 +153,17 @@ class Refresh extends CI_Controller {
 
 						$itm_id = $this->db->insert_id();
 
+						foreach($sp_item->get_categories() as $category) {
+							if($category->get_label()) {
+								$this->db->set('itm_id', $itm_id);
+								$this->db->set('cat_title', $category->get_label());
+								$this->db->set('cat_datecreated', date('Y-m-d H:i:s'));
+								$this->db->insert('categories');
+							}
+						}
+
 						foreach($sp_item->get_enclosures() as $enclosure) {
-							if($enclosure->get_link() && $enclosure->get_type()) {
+							if($enclosure->get_link() && $enclosure->get_type() && $enclosure->get_length()) {
 								$this->db->set('itm_id', $itm_id);
 								$this->db->set('enr_link', $enclosure->get_link());
 								$this->db->set('enr_type', $enclosure->get_type());

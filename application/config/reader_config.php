@@ -8,4 +8,5 @@ $config['sender_name'] = 'reader';
 $config['share'] = TRUE;
 $config['social'] = TRUE;
 $config['star'] = TRUE;
+$config['tags'] = TRUE;
 $config['title'] = 'Reader Self';
