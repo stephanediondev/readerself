@@ -3,6 +3,7 @@
 * [Comparison](/COMPARISON.md)
 
 ![Reader Self](medias/readerself.png)
+![Database](medias/database.png)
 
 ### Demo
 
