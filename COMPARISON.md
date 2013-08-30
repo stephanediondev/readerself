@@ -14,13 +14,13 @@
 
 <tr>
 <th>Type</th>
-<td>Self-hosted</td>
-<td>Online service</td><!-- Digg Reader -->
-<td>Online service</td><!-- Feedly -->
-<td>Online service</td><!-- Feedspot -->
-<td>Online service</td><!-- InoReader-->
-<td>Online service</td><!-- SilverReader -->
-<td>Online service</td><!-- The Old Reader -->
+<td>Self<br> hosted</td>
+<td>Online<br> service</td><!-- Digg Reader -->
+<td>Online<br> service</td><!-- Feedly -->
+<td>Online<br> service</td><!-- Feedspot -->
+<td>Online<br> service</td><!-- InoReader-->
+<td>Online<br> service</td><!-- SilverReader -->
+<td>Online<br> service</td><!-- The Old Reader -->
 </tr>
 
 <tr>
@@ -104,7 +104,7 @@
 <th>Search items</th>
 <td>Yes</td>
 <td>No</td><!-- Digg Reader -->
-<td>Paid version</td><!-- Feedly -->
+<td>No<sup>1</sup></td><!-- Feedly -->
 <td>Yes</td><!-- Feedspot -->
 <td>Yes</td><!-- InoReader-->
 <td>No</td><!-- SilverReader -->
@@ -145,8 +145,8 @@
 </tr>
 
 <tr>
-<th>https</th>
-<td>-</td>
+<th>Https</th>
+<td>Yes<sup>2</sup></td>
 <td>Yes</td><!-- Digg Reader -->
 <td>Yes</td><!-- Feedly -->
 <td>No</td><!-- Feedspot -->
@@ -156,3 +156,6 @@
 </tr>
 
 </table>
+
+<p><sup>(1)</sup> available on paid version</p>
+<p><sup>(2)</sup> if installed on a https host</p>
