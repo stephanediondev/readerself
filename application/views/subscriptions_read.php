@@ -42,6 +42,13 @@
 		</p>
 	<?php } ?>
 
+	<?php if($sub->fed_lastcrawl) { ?>
+		<p>
+		<span class="label"><?php echo $this->lang->line('last_crawl'); ?></span>
+		<?php echo $sub->fed_lastcrawl; ?>
+		</p>
+	<?php } ?>
+
 	<?php if($sub->sub_title) { ?>
 		<p>
 		<span class="label"><?php echo $this->lang->line('title_alternative'); ?></span>

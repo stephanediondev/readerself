@@ -45,6 +45,7 @@ class Subscribe extends CI_Controller {
 						$this->db->set('fed_url', $sp_feed->get_link());
 						$this->db->set('fed_description', $sp_feed->get_description());
 						$this->db->set('fed_link', $sp_feed->subscribe_url());
+						$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
 						$this->db->set('fed_datecreated', date('Y-m-d H:i:s'));
 						$this->db->insert('feeds');
 						$fed_id = $this->db->insert_id();

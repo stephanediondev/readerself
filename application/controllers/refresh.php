@@ -114,6 +114,7 @@ class Refresh extends CI_Controller {
 					$this->db->set('fed_description', $sp_feed->get_description());
 					$this->db->set('fed_lasterror', '');
 				}
+				$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
 				$this->db->where('fed_id', $fed->fed_id);
 				$this->db->update('feeds');
 

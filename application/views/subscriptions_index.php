@@ -29,6 +29,7 @@
 		<?php if($this->config->item('folders')) { ?>
 			<?php $this->reader_library->display_column($this->router->class.'_subscriptions', $columns[$i++], $this->lang->line('folder')); ?>
 		<?php } ?>
+		<?php $this->reader_library->display_column($this->router->class.'_subscriptions', $columns[$i++], $this->lang->line('last_crawl')); ?>
 		<th>&nbsp;</th>
 		</tr>
 		</thead>
@@ -43,6 +44,7 @@
 		<?php if($this->config->item('folders')) { ?>
 			<td><?php if($sub->flr_title) { ?><?php echo $sub->flr_title; ?><?php } else { ?><em><?php echo $this->lang->line('no_folder'); ?></em><?php } ?></td>
 		<?php } ?>
+		<td><?php echo $sub->fed_lastcrawl; ?></td>
 		<th>
 		<ul class="actions">
 			<li><a href="<?php echo base_url(); ?>subscriptions/update/<?php echo $sub->sub_id; ?>"><i class="icon icon-pencil"></i><?php echo $this->lang->line('update'); ?></a></li>

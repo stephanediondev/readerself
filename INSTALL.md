@@ -61,6 +61,8 @@ CREATE TABLE IF NOT EXISTS `feeds` (
   `fed_image` varchar(255) DEFAULT NULL,
   `fed_description` text,
   `fed_lasterror` varchar(255) DEFAULT NULL,
+  `fed_lastcrawl` datetime DEFAULT NULL,
+  `fed_nextcrawl` datetime DEFAULT NULL,
   `fed_datecreated` datetime NOT NULL,
   PRIMARY KEY (`fed_id`),
   KEY `fed_link` (`fed_link`)

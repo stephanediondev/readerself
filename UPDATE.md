@@ -13,6 +13,8 @@ CREATE TABLE IF NOT EXISTS `categories` (
   PRIMARY KEY (`cat_id`),
   KEY `itm_id` (`itm_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+ALTER TABLE `feeds` ADD `fed_lastcrawl` DATETIME NULL DEFAULT NULL AFTER `fed_lasterror`;
+ALTER TABLE `feeds` ADD `fed_nextcrawl` DATETIME NULL DEFAULT NULL AFTER `fed_lastcrawl`;
 ```
 
 ##### 2013-08-29

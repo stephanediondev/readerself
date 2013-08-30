@@ -30,6 +30,7 @@ $lang['items_older_than_a_week'] = 'Items older than a week';
 $lang['items_older_than_two_weeks'] = 'Items older than two weeks';
 $lang['items'] = 'Items';
 $lang['keep_unread'] = 'Unread';
+$lang['last_crawl'] = 'Last crawl';
 $lang['login'] = 'Login';
 $lang['logout'] = 'Logout';
 $lang['mark_all_as_read'] = 'Read all';

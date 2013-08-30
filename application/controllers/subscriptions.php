@@ -24,6 +24,7 @@ class Subscriptions extends CI_Controller {
 		if($this->config->item('folders')) {
 			$columns[] = 'flr.flr_title';
 		}
+		$columns[] = 'fed.fed_lastcrawl';
 		$col = $this->reader_library->build_columns($this->router->class.'_subscriptions', $columns, 'fed.fed_title', 'ASC');
 		$results = $this->reader_model->get_subscriptions_total($flt);
 		$build_pagination = $this->reader_library->build_pagination($results->count, 20, $this->router->class.'_subscriptions');
