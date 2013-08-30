@@ -307,6 +307,12 @@ $(document).ready(function() {
 					item_history($('#items .item-selected').find('.history'));
 				}
 
+			//shift + s
+			} else if(event.shiftKey && keycode == 83) {
+				if($('#items .item-selected').length > 0) {
+					item_share($('#items .item-selected').find('.share'));
+				}
+
 			//s
 			} else if(keycode == 83) {
 				if($('#items .item-selected').length > 0) {
