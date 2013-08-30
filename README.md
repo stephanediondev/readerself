@@ -36,6 +36,7 @@ example
 * Import and export OPML
 * Get items (cron)
 * Folders (optional)
+* Automatic tags from item feed categories (optional)
 * Trends
 * Switch Unread only / Read and unread
 * Expand / Collapse items
