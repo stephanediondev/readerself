@@ -1,6 +1,6 @@
 * [Install](/INSTALL.md)
 * [Update](/UPDATE.md)
-* [Comparative table](/COMPARISON.md)
+* [Comparison](/COMPARISON.md)
 
 ![Reader Self](medias/readerself.png)
 
