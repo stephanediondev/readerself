@@ -19,7 +19,19 @@ class Subscribe extends CI_Controller {
 
 			$this->load->library(array('form_validation'));
 
+			$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? GROUP BY flr.flr_id ORDER BY flr.flr_title ASC', array($this->member->mbr_id));
+			$data['folders'] = array();
+			$data['folders'][0] = $this->lang->line('no_folder');
+			if($query->num_rows() > 0) {
+				foreach($query->result() as $flr) {
+					$data['folders'][$flr->flr_id] = $flr->flr_title;
+				}
+			}
+
 			$this->form_validation->set_rules('url', 'lang:url_feed', 'required');
+			$this->form_validation->set_rules('folder', 'lang:folder', 'required');
+
+			$data['error'] = false;
 
 			if($this->form_validation->run() == FALSE) {
 				$content['modal'] = $this->load->view('subscribe_index', $data, TRUE);
@@ -38,7 +50,7 @@ class Subscribe extends CI_Controller {
 					$sp_feed->handle_content_type();
 
 					if($sp_feed->error()) {
-						$content['alert'] = array('type'=>'error', 'message'=>$sp_feed->error());
+						$data['error'] = $sp_feed->error();
 
 					} else {
 						$this->db->set('fed_title', $sp_feed->get_title());
@@ -52,6 +64,14 @@ class Subscribe extends CI_Controller {
 
 						$this->db->set('mbr_id', $this->member->mbr_id);
 						$this->db->set('fed_id', $fed_id);
+						if($this->input->post('folder') == 0) {
+							$this->db->set('flr_id', '');
+						} else {
+							$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? AND flr.flr_id = ? GROUP BY flr.flr_id', array($this->member->mbr_id, $this->input->post('folder')));
+							if($query->num_rows() > 0) {
+								$this->db->set('flr_id', $this->input->post('folder'));
+							}
+						}
 						$this->db->set('sub_datecreated', date('Y-m-d H:i:s'));
 						$this->db->insert('subscriptions');
 						$sub_id = $this->db->insert_id();
@@ -128,6 +148,14 @@ class Subscribe extends CI_Controller {
 					if($fed->subscription == 0) {
 						$this->db->set('mbr_id', $this->member->mbr_id);
 						$this->db->set('fed_id', $fed->fed_id);
+						if($this->input->post('folder') == 0) {
+							$this->db->set('flr_id', '');
+						} else {
+							$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? AND flr.flr_id = ? GROUP BY flr.flr_id', array($this->member->mbr_id, $this->input->post('folder')));
+							if($query->num_rows() > 0) {
+								$this->db->set('flr_id', $this->input->post('folder'));
+							}
+						}
 						$this->db->set('sub_datecreated', date('Y-m-d H:i:s'));
 						$this->db->insert('subscriptions');
 						$sub_id = $this->db->insert_id();
@@ -137,7 +165,11 @@ class Subscribe extends CI_Controller {
 					$data['sub_id'] = $sub_id;
 					$data['fed_title'] = $fed->fed_title;
 				}
-				$content['modal'] = $this->load->view('subscribe_confirm', $data, TRUE);
+				if($data['error']) {
+					$content['modal'] = $this->load->view('subscribe_index', $data, TRUE);
+				} else {
+					$content['modal'] = $this->load->view('subscribe_confirm', $data, TRUE);
+				}
 			}
 		} else {
 			$this->output->set_status_header(403);

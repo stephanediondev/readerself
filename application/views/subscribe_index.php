@@ -5,13 +5,18 @@
 
 	<?php echo form_open(current_url()); ?>
 
-	<?php if($alert) { ?>
-	<div class="alert alert-<?php echo $alert['type']; ?>"><button data-dismiss="alert" class="close" type="button">×</button><?php echo $alert['message']; ?></div>
+	<?php if($error) { ?>
+		<p><?php echo $error; ?></p>
 	<?php } ?>
 
 	<p>
 	<?php echo form_label($this->lang->line('url_feed'), 'url'); ?>
 	<?php echo form_input('url', set_value('url'), 'id="url" class="input-xlarge required"'); ?>
+	</p>
+
+	<p>
+	<?php echo form_label($this->lang->line('folder'), 'folder'); ?>
+	<?php echo form_dropdown('folder', $folders, set_value('folder', ''), 'id="folder" class="select required numeric"'); ?>
 	</p>
 
 	<p>
