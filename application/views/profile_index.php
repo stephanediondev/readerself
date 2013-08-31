@@ -33,4 +33,37 @@
 
 	<h1><i class="icon icon-heart"></i><?php echo $this->lang->line('share_url'); ?></h1>
 	<p><?php echo base_url(); ?>share/<?php echo $this->member->token_share; ?></p>
+
+	<h1><i class="icon icon-signin"></i><?php echo $this->lang->line('connections'); ?></h1>
+	<?php if(count($connections) > 1) { ?>
+	<ul class="actions">
+	<li><a href="<?php echo base_url(); ?>profile/logout_purge"><i class="icon icon-signout"></i><?php echo $this->lang->line('logout_purge'); ?></a></li>
+	</ul>
+	<?php } ?>
+	<table class="table table-condensed table-hover">
+		<thead>
+		<tr>
+		<th><?php echo $this->lang->line('connection_agent'); ?></th>
+		<th><?php echo $this->lang->line('connection_platform'); ?></th>
+		<th><?php echo $this->lang->line('connection_browser'); ?></th>
+		<th><?php echo $this->lang->line('connection_version'); ?></th>
+		<th><?php echo $this->lang->line('connection_ip'); ?></th>
+		<th><?php echo $this->lang->line('connection_datecreated'); ?></th>
+		</tr>
+		</thead>
+		<tbody>
+		<?php foreach($connections as $cnt) { ?>
+		<?php $ua_info = parse_user_agent($cnt->cnt_agent); ?>
+		<tr>
+		<td><?php echo $cnt->cnt_agent; ?></td>
+		<td><?php echo $ua_info['platform']; ?></td>
+		<td><?php echo $ua_info['browser']; ?></td>
+		<td><?php echo $ua_info['version']; ?></td>
+		<td><?php echo $cnt->cnt_ip; ?><?php if($this->member->token_connection == $cnt->token_connection) { ?> *<?php } ?></td>
+		<td><?php echo $cnt->cnt_datecreated; ?> (<span class="timeago" title="<?php echo $cnt->cnt_datecreated; ?>"></span>)</td>
+		</tr>
+		<?php } ?>
+		</tbody>
+	</table>
+	<p>* <?php echo $this->lang->line('current_connection'); ?></p>
 </div>
