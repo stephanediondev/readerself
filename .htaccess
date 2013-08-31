@@ -16,7 +16,7 @@ FileETag None
 
 <IfModule mod_expires.c>
 	ExpiresActive On
-	<FilesMatch "\.(js|css|ico)$">
+	<FilesMatch "\.(js|css)$">
 		ExpiresDefault A2592000
 	</FilesMatch>
 </IfModule>
@@ -29,7 +29,7 @@ FileETag None
 		Header set P3P CP="STA"
 		Header unset X-Powered-By
 	</FilesMatch>
-	<FilesMatch "\.(js|css|ico)$">
+	<FilesMatch "\.(js|css)$">
 		Header set Cache-Control "max-age=2592000"
 		Header set Accept-Ranges "none"
 	</FilesMatch>
