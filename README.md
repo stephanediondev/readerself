@@ -2,7 +2,7 @@
 * [Update](/UPDATE.md)
 * [Comparison](/COMPARISON.md)
 
-![Reader Self](medias/readerself.png)
+![Screenshot](medias/screenshot.png)
 ![Database](medias/database.png)
 
 ### Demo
