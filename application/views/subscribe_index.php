@@ -14,10 +14,12 @@
 	<?php echo form_input('url', set_value('url'), 'id="url" class="input-xlarge required"'); ?>
 	</p>
 
-	<p>
-	<?php echo form_label($this->lang->line('folder'), 'folder'); ?>
-	<?php echo form_dropdown('folder', $folders, set_value('folder', ''), 'id="folder" class="select required numeric"'); ?>
-	</p>
+	<?php if($this->config->item('folders')) { ?>
+		<p>
+		<?php echo form_label($this->lang->line('folder'), 'folder'); ?>
+		<?php echo form_dropdown('folder', $folders, set_value('folder', ''), 'id="folder" class="select required numeric"'); ?>
+		</p>
+	<?php } ?>
 
 	<p>
 	<button type="submit"><?php echo $this->lang->line('send'); ?></button>
