@@ -410,6 +410,9 @@ $(document).ready(function() {
 		$('.menu li').removeClass('active');
 		ref.parent().addClass('active');
 		load_items(ref.attr('href'));
+		if($('#sidebar').css('position') == 'absolute') {
+			$('#sidebar').hide();
+		}
 	});
 
 	$('.item a.folder').live('click', function(event) {
@@ -481,6 +484,9 @@ $(document).ready(function() {
 			var ref = $(this);
 			$('#search_items').blur();
 			load_items( ref.attr('action') + '/' + encodeURI( $('#search_items').val() ) );
+			if($('#sidebar').css('position') == 'absolute') {
+				$('#sidebar').hide();
+			}
 		}
 	});
 
