@@ -26,7 +26,7 @@
 		<?php } else { ?>
 		<li><a href="<?php echo base_url(); ?>login"><i class="icon icon-signin"></i><?php echo $this->lang->line('login'); ?></a></li>
 		<li><a href="<?php echo base_url(); ?>password"><i class="icon icon-key"></i><?php echo $this->lang->line('password'); ?></a></li>
-		<?php if($this->config->item('register_multi')) { ?><li><a href="<?php echo base_url(); ?>register"><i class="icon icon-cloud"></i><?php echo $this->lang->line('register'); ?></a></li><?php } ?>
+		<?php if($this->config->item('register_multi')) { ?><li><a href="<?php echo base_url(); ?>register"><i class="icon icon-user"></i><?php echo $this->lang->line('register'); ?></a></li><?php } ?>
 		<li class="hide-phone hide-tablet"><a target="_blank" href="https://github.com/readerself"><i class="icon icon-github"></i>GitHub</a></li>
 		<li class="hide-phone hide-tablet"><a target="_blank" href="https://www.facebook.com/readerself"><i class="icon icon-facebook-sign"></i>Facebook</a></li>
 		<?php } ?>
@@ -60,6 +60,7 @@ var uri_string = '<?php echo $this->uri->uri_string(); ?>';
 <script src="<?php echo base_url(); ?>thirdparty/jquery/jquery.min.js"></script>
 <script src="<?php echo base_url(); ?>thirdparty/jquery/jquery.cookie.min.js"></script>
 <script src="<?php echo base_url(); ?>thirdparty/jquery/jquery.timeago.js"></script>
+<script src="<?php echo base_url(); ?>thirdparty/jquery/jquery.timeago.<?php echo $this->config->item('language'); ?>.js"></script>
 
 <script src="<?php echo base_url(); ?>scripts/_html.js"></script>
 <?php if(file_exists('scripts/'.$this->router->class.'.js')) { ?>

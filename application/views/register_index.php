@@ -1,5 +1,5 @@
 <div id="content">
-	<h1><i class="icon icon-cloud"></i><?php echo $this->lang->line('register'); ?></h1>
+	<h1><i class="icon icon-user"></i><?php echo $this->lang->line('register'); ?></h1>
 
 	<?php echo validation_errors(); ?>
 

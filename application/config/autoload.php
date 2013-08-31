@@ -96,7 +96,7 @@ $autoload['config'] = array('reader_config');
 |
 */
 
-$autoload['language'] = array('reader');
+$autoload['language'] = array();
 
 
 /*

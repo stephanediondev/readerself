@@ -3,6 +3,18 @@
 class Reader_hook {
 	public function post_controller_constructor() {
 		$this->CI =& get_instance();
+
+		$language = false;
+		if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) == 1) {
+			$language = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+		}
+		$languages = array('en', 'fr');
+		if(!in_array($language, $languages)) {
+			$language = 'en';
+		}
+		$this->CI->config->set_item('language', $language);
+		$this->CI->load->language('reader');
+
 		$this->CI->reader_library->set_content_type('text/html');
 		$this->CI->reader_library->set_charset('UTF-8');
 		$this->CI->reader_library->set_template('_html');

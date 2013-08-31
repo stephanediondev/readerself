@@ -86,7 +86,7 @@ button{background-color:#9EA64B;cursor:pointer;margin-top:10px;}
 .menu li a{display:block;padding:5px 0px;text-decoration:none;}
 .menu li label{display:block;padding:0px 0px 0px 0px;text-decoration:none;}
 #overlay, #modal{left:0px;position:absolute;top:0px;}
-#modal{background-color:#FFFFFF;z-index:20000;width:300px;}
+#modal{background-color:#FFFFFF;z-index:20000;width:350px;}
 #modal-display{padding:10px;}
 #overlay{background-color:#000000;opacity:0.7;z-index:10000;}
 .icon{line-height:inherit !important;margin-right:3px;vertical-align:top;}

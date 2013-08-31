@@ -240,7 +240,7 @@ class Home extends CI_Controller {
 					$content['items'][$itm->itm_id] = array('itm_id' => $itm->itm_id, 'itm_content' => $this->load->view('item', array('itm'=>$itm), TRUE));
 				}
 			} else {
-				$content['noitems'] = '<div class="alert alert-info alert-block">No more items</div>';
+				$content['noitems'] = '<div class="alert alert-info alert-block">'.$this->lang->line('no_more_items').'</div>';
 			}
 		} else {
 			$this->output->set_status_header(403);
