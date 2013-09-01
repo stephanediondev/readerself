@@ -76,6 +76,14 @@ class Refresh extends CI_Controller {
 				$content['is_logged'] = FALSE;
 			}
 
+			$lastcrawl = $this->db->query('SELECT DATE_ADD(crr.crr_datecreated, INTERVAL ? HOUR) AS crr_datecreated FROM '.$this->db->dbprefix('crawler').' AS crr GROUP BY crr.crr_id ORDER BY crr.crr_id DESC LIMIT 0,1', array($this->session->userdata('timezone')))->row();
+			if($lastcrawl) {
+				list($date, $time) = explode(' ', $lastcrawl->crr_datecreated);
+				$content['last_crawl'] = '<h2>'.$this->lang->line('last_crawl').'</h2><ul class="item-details"><li><i class="icon icon-calendar"></i>'.$date.'</li><li><i class="icon icon-time"></i>'.$time.' (<span class="timeago" title="'.$lastcrawl->crr_datecreated.'"></span>)</li></ul>';
+			} else {
+				$content['last_crawl'] = false;
+			}
+
 			$this->reader_library->set_content($content);
 		} else {
 			$this->output->set_status_header(403);

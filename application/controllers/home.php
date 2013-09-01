@@ -65,15 +65,15 @@ class Home extends CI_Controller {
 		if($mode == 'folder') {
 			$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? AND flr.flr_id = ? GROUP BY flr.flr_id', array($this->member->mbr_id, $id));
 			if($query->num_rows() > 0) {
-				$is_folder = $id;
+				$is_folder = $query->row();
 			}
 		}
 
 		$is_subscription = FALSE;
 		if($mode == 'subscription') {
-			$query = $this->db->query('SELECT sub.* FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.mbr_id = ? AND sub.sub_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $id));
+			$query = $this->db->query('SELECT sub.*, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS fed_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.sub_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $id));
 			if($query->num_rows() > 0) {
-				$is_subscription = $id;
+				$is_subscription = $query->row();
 			}
 		}
 
@@ -101,6 +101,8 @@ class Home extends CI_Controller {
 			$this->session->set_userdata('items-mode', $mode);
 			$this->session->set_userdata('items-id', $id);
 
+			$introduction_title = '<i class="icon icon-asterisk"></i>'.$this->lang->line('all_items');
+
 			$content['items'] = array();
 
 			$where = array();
@@ -116,14 +118,17 @@ class Home extends CI_Controller {
 			$bindings[] = $this->member->mbr_id;
 
 			if($mode == 'starred') {
+				$introduction_title = '<i class="icon icon-star"></i>'.$this->lang->line('starred_items');
 				$where[] = 'itm.itm_id IN ( SELECT fav.itm_id FROM favorites AS fav WHERE fav.itm_id = itm.itm_id AND fav.mbr_id = ? )';
 				$bindings[] = $this->member->mbr_id;
 			} else if($mode == 'shared') {
+				$introduction_title = '<i class="icon icon-heart"></i>'.$this->lang->line('shared_items');
 				$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM share AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
 				$bindings[] = $this->member->mbr_id;
 			} else {
 				if($mode == 'search') {
 					$search = urldecode($id);
+					$introduction_title = '<i class="icon icon-search"></i>'.$search;
 					$words = explode(' ', $search);
 					foreach($words as $word) {
 						$where[] = 'itm.itm_title LIKE ?';
@@ -136,26 +141,31 @@ class Home extends CI_Controller {
 			}
 
 			if($is_folder) {
+				$introduction_title = '<i class="icon icon-folder-close"></i>'.$is_folder->flr_title;
 				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id = ? )';
-				$bindings[] = $is_folder;
+				$bindings[] = $is_folder->flr_id;
 			}
 
 			if($is_subscription) {
+				$introduction_title = '<i class="icon icon-rss"></i>'.$is_subscription->fed_title;
 				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
-				$bindings[] = $is_subscription;
+				$bindings[] = $is_subscription->sub_id;
 			}
 
 			if($is_author) {
+				$introduction_title = '<i class="icon icon-user"></i>'.$is_author;
 				$where[] = 'itm.itm_author = ?';
 				$bindings[] = $is_author;
 			}
 
 			if($is_category) {
+				$introduction_title = '<i class="icon icon-tag"></i>'.$is_category;
 				$where[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM categories AS cat WHERE cat.cat_title = ? )';
 				$bindings[] = $is_category;
 			}
 
 			if($mode == 'nofolder') {
+				$introduction_title = '<i class="icon icon-folder-close"></i><em>'.$this->lang->line('no_folder').'</em>';
 				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id IS NULL )';
 			}
 
@@ -179,6 +189,13 @@ class Home extends CI_Controller {
 			}
 			$query = $this->db->query($sql, $bindings);
 			$content['total'] = $query->num_rows();
+
+			if($introduction_title) {
+				$content['begin'] = '<div id="introduction" class="neutral">';
+				$content['begin'] .= '<h2>'.$introduction_title.'</h2>';
+				$content['begin'] .= '</div>';
+			}
+
 			if($query->num_rows() > 0) {
 				foreach($query->result() as $itm) {
 					$sql = 'SELECT fed.* FROM feeds AS fed WHERE fed.fed_id = ? GROUP BY fed.fed_id';
@@ -267,15 +284,12 @@ class Home extends CI_Controller {
 				}
 			} else {
 				$lastcrawl = $this->db->query('SELECT DATE_ADD(crr.crr_datecreated, INTERVAL ? HOUR) AS crr_datecreated FROM '.$this->db->dbprefix('crawler').' AS crr GROUP BY crr.crr_id ORDER BY crr.crr_id DESC LIMIT 0,1', array($this->session->userdata('timezone')))->row();
-				$content['noitems'] = '<div class="neutral">';
-				//$content['noitems'] .= '<p>';
-				//$content['noitems'] .= $this->lang->line('no_more_items');
+				$content['end'] = '<div id="last_crawl" class="neutral">';
 				if($lastcrawl) {
 					list($date, $time) = explode(' ', $lastcrawl->crr_datecreated);
-					$content['noitems'] .= '<h2>'.$this->lang->line('last_crawl').'</h2><ul class="item-details"><li><i class="icon icon-calendar"></i>'.$date.'</li><li><i class="icon icon-time"></i>'.$time.' (<span class="timeago" title="'.$lastcrawl->crr_datecreated.'"></span>)</li></ul>';
+					$content['end'] .= '<h2>'.$this->lang->line('last_crawl').'</h2><ul class="item-details"><li><i class="icon icon-calendar"></i>'.$date.'</li><li><i class="icon icon-time"></i>'.$time.' (<span class="timeago" title="'.$lastcrawl->crr_datecreated.'"></span>)</li></ul>';
 				}
-				//$content['noitems'] .= '</p>';
-				$content['noitems'] .= '</div>';
+				$content['end'] .= '</div>';
 			}
 		} else {
 			$this->output->set_status_header(403);

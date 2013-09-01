@@ -46,6 +46,9 @@ function load_items(url) {
 		statusCode: {
 			200: function(data_return, textStatus, jqXHR) {
 				content = '';
+				if(data_return.begin) {
+					content += data_return.begin;
+				}
 				if(data_return.total > 0) {
 					no_more_items = false;
 					for(i in data_return.items) {
@@ -54,8 +57,9 @@ function load_items(url) {
 							content += itm.itm_content;
 						}
 					}
-				} else {
-					content += data_return.noitems;
+				}
+				if(data_return.end) {
+					content += data_return.end;
 				}
 				$('#items-display').html(content);
 				if($('#display-items').find('.expand').is(':visible')) {
@@ -99,7 +103,9 @@ function add_items(url) {
 						}
 					} else {
 						no_more_items = true;
-						content += data_return.noitems;
+					}
+					if(data_return.end) {
+						content += data_return.end;
 					}
 					$('.ajax-loader').remove();
 					$('#items-display').append(content);
@@ -146,11 +152,13 @@ function item_down() {
 		next = $('#' + itm_id).next().attr('id');
 	}
 	if(next) {
-		set_read($('#' + next));
 		location.hash = '#' + next;
-		last = $('#items-display').find('.item:last').attr('id');
-		if(last == next) {
-			add_items( $('.menu').find('li.active').find('a').attr('href') );
+		if($('#' + next).hasClass('item')) {
+			set_read($('#' + next));
+			last = $('#items-display').find('.item:last').attr('id');
+			if(last == next) {
+				add_items( $('.menu').find('li.active').find('a').attr('href') );
+			}
 		}
 	}
 }

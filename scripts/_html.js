@@ -91,6 +91,10 @@ function refresh() {
 						$('#load-' + i + '-items').find('span').html(data_return.count[i]);
 					}
 					window.document.title = '(' + data_return.count.all + ')';
+					if($('#last_crawl').length > 0 && data_return.last_crawl) {
+						$('#last_crawl').html(data_return.last_crawl);
+						$('#last_crawl').find('.timeago').timeago();
+					}
 				}
 			},
 			type: 'POST',
