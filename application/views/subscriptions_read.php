@@ -12,6 +12,20 @@
 	</p>
 
 	<p>
+	<span class="label"><?php echo $this->lang->line('folder'); ?></span>
+	<?php if($sub->flr_id) { ?>
+		<a href="<?php echo base_url(); ?>folders/read/<?php echo $sub->flr_id; ?>"><?php echo $sub->flr_title; ?></a>
+	<?php } else { ?>
+		<?php echo $this->lang->line('no_folder'); ?>
+	<?php } ?>
+	</p>
+
+	<p>
+	<span class="label"><?php echo $this->lang->line('subscribers'); ?></span>
+	<?php echo $sub->subscribers; ?>
+	</p>
+
+	<p>
 	<span class="label"><?php echo $this->lang->line('url'); ?></span>
 	<?php echo $sub->fed_link; ?>
 	</p>

@@ -27,7 +27,7 @@
 		<tbody>
 		<?php foreach($folders as $folder) { ?>
 		<tr>
-		<td><?php echo $folder->flr_title; ?></td>
+		<td><a href="<?php echo base_url(); ?>folders/read/<?php echo $folder->flr_id; ?>"><?php echo $folder->flr_title; ?></a></td>
 		<td><?php echo $folder->subscriptions; ?></td>
 		<th>
 		<ul class="actions">

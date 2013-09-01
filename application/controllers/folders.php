@@ -54,6 +54,74 @@ class Folders extends CI_Controller {
 		}
 	}
 
+	public function read($flr_id) {
+		if(!$this->session->userdata('logged_member')) {
+			redirect(base_url());
+		}
+
+		$data = array();
+		$data['flr'] = $this->reader_model->get_flr_row($flr_id);
+		if($data['flr']) {
+
+			$data['tables'] = '';
+
+			$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
+
+			$legend = array();
+			$values = array();
+			$query = $this->db->query('SELECT IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS ref, sub.sub_id AS id, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = fed.fed_id WHERE hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? AND sub.mbr_id = ? AND sub.flr_id = ? GROUP BY id ORDER BY nb DESC LIMIT 0,30', array(1, $date_ref, $this->member->mbr_id, $this->member->mbr_id, $flr_id));
+			if($query->num_rows() > 0) {
+				foreach($query->result() as $row) {
+					$legend[] = '<a href="'.base_url().'subscriptions/read/'.$row->id.'">'.$row->ref.'</a>';
+					$values[] = $row->nb;
+				}
+			}
+			$data['tables'] .= build_table_repartition('Items read by subscription*', $values, $legend);
+
+			if($this->config->item('tags')) {
+				$legend = array();
+				$values = array();
+				$query = $this->db->query('SELECT cat.cat_title AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? AND sub.flr_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,30', array(1, $date_ref, $this->member->mbr_id, $flr_id));
+				if($query->num_rows() > 0) {
+					foreach($query->result() as $row) {
+						$legend[] = $row->ref;
+						$values[] = $row->nb;
+					}
+				}
+				$data['tables'] .= build_table_repartition('Items read by tag*', $values, $legend);
+			}
+
+			$legend = array();
+			$values = array();
+			$query = $this->db->query('SELECT SUBSTRING(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), 1, 7) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id WHERE hst.hst_real = ? AND hst.mbr_id = ? AND sub.flr_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,12', array($this->session->userdata('timezone'), 1, $this->member->mbr_id, $flr_id));
+			if($query->num_rows() > 0) {
+				foreach($query->result() as $row) {
+					$legend[] = date('F, Y', strtotime($row->ref));
+					$values[] = $row->nb;
+				}
+			}
+			$data['tables'] .= build_table_progression('Items read by month', $values, $legend);
+
+			if($this->config->item('star')) {
+				$legend = array();
+				$values = array();
+				$query = $this->db->query('SELECT SUBSTRING(DATE_ADD(fav.fav_datecreated, INTERVAL ? HOUR), 1, 7) AS ref, COUNT(DISTINCT(fav.itm_id)) AS nb FROM '.$this->db->dbprefix('favorites').' AS fav LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = fav.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id WHERE fav.mbr_id = ? AND sub.flr_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,12', array($this->session->userdata('timezone'), $this->member->mbr_id, $flr_id));
+				if($query->num_rows() > 0) {
+					foreach($query->result() as $row) {
+						$legend[] = date('F, Y', strtotime($row->ref));
+						$values[] = $row->nb;
+					}
+				}
+				$data['tables'] .= build_table_progression('Items starred by month', $values, $legend);
+			}
+
+			$content = $this->load->view('folders_read', $data, TRUE);
+			$this->reader_library->set_content($content);
+		} else {
+			$this->index();
+		}
+	}
+
 	public function update($flr_id) {
 		if(!$this->session->userdata('logged_member')) {
 			redirect(base_url());
