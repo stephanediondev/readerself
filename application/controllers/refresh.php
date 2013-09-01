@@ -110,7 +110,7 @@ class Refresh extends CI_Controller {
 				} else {
 					$this->reader_library->crawl_items($fed->fed_id, $sp_feed->get_items());
 
-					$lastitem = $this->db->query('SELECT itm.itm_datecreated FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id ORDER BY itm.itm_id DESC LIMIT 0,1', array($fed->fed_id))->row()->itm_datecreated;
+					$lastitem = $this->db->query('SELECT itm.itm_datecreated FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id ORDER BY itm.itm_id DESC LIMIT 0,1', array($fed->fed_id))->row();
 
 					$this->db->set('fed_title', $sp_feed->get_title());
 					$this->db->set('fed_url', $sp_feed->get_link());
@@ -123,7 +123,7 @@ class Refresh extends CI_Controller {
 					$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
 					if($lastitem) {
 						$nextcrawl = '';
-						if($lastitem < date('Y-m-d H:i:s', time() - 3600 * 48)) {
+						if($lastitem->itm_datecreated < date('Y-m-d H:i:s', time() - 3600 * 48)) {
 							$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 12);
 						}
 						$this->db->set('fed_nextcrawl', $nextcrawl);
