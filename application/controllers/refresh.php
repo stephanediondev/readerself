@@ -92,8 +92,10 @@ class Refresh extends CI_Controller {
 
 		$query = $this->db->query('SELECT fed.* FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_nextcrawl IS NULL OR fed.fed_nextcrawl <= ? GROUP BY fed.fed_id HAVING (SELECT COUNT(DISTINCT(sub.mbr_id)) FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = fed.fed_id) > 0', array(date('Y-m-d H:i:s')));
 		if($query->num_rows() > 0) {
-			foreach($query->result() as $fed) {
 
+			$microtime_start = microtime(1);
+
+			foreach($query->result() as $fed) {
 				$sp_feed = new SimplePie();
 				$sp_feed->set_feed_url(convert_to_ascii($fed->fed_link));
 				$sp_feed->enable_cache(false);
@@ -139,6 +141,12 @@ class Refresh extends CI_Controller {
 				$sp_feed->__destruct();
 				unset($sp_feed);
 			}
+
+			$this->db->set('crr_time', microtime(1) - $microtime_start);
+			$this->db->set('crr_count', $query->num_rows());
+			$this->db->set('crr_datecreated', date('Y-m-d H:i:s'));
+			$this->db->insert('crawler');
+
 			$this->db->query('OPTIMIZE TABLE categories, connections, enclosures, favorites, feeds, folders, history, items, members, share, subscriptions');
 		}
 		$this->reader_library->set_content($content);

@@ -253,12 +253,15 @@ class Home extends CI_Controller {
 					$content['items'][$itm->itm_id] = array('itm_id' => $itm->itm_id, 'itm_content' => $this->load->view('item', array('itm'=>$itm), TRUE));
 				}
 			} else {
-				$lastcrawl = $this->db->query('SELECT DATE_ADD(MAX(fed.fed_lastcrawl), INTERVAL ? HOUR) AS fed_lastcrawl FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.mbr_id = ?) ?', array($this->session->userdata('timezone'), $this->member->mbr_id))->row();
-				$content['noitems'] = '<div class="alert alert-info alert-block">';
-				$content['noitems'] .= $this->lang->line('no_more_items');
+				$lastcrawl = $this->db->query('SELECT DATE_ADD(crr.crr_datecreated, INTERVAL ? HOUR) AS crr_datecreated FROM '.$this->db->dbprefix('crawler').' AS crr GROUP BY crr.crr_id ORDER BY crr.crr_id DESC LIMIT 0,1', array($this->session->userdata('timezone')))->row();
+				$content['noitems'] = '<div class="neutral">';
+				//$content['noitems'] .= '<p>';
+				//$content['noitems'] .= $this->lang->line('no_more_items');
 				if($lastcrawl) {
-					$content['noitems'] .= '<br>'.$this->lang->line('last_crawl').' '.$lastcrawl->fed_lastcrawl.' (<span class="timeago" title="'.$lastcrawl->fed_lastcrawl.'"></span>)';
+					list($date, $time) = explode(' ', $lastcrawl->crr_datecreated);
+					$content['noitems'] .= '<h2>'.$this->lang->line('last_crawl').'</h2><ul class="item-details"><li><i class="icon icon-calendar"></i>'.$date.'</li><li><i class="icon icon-time"></i>'.$time.' (<span class="timeago" title="'.$lastcrawl->crr_datecreated.'"></span>)</li></ul>';
 				}
+				//$content['noitems'] .= '</p>';
 				$content['noitems'] .= '</div>';
 			}
 		} else {

@@ -1,5 +1,17 @@
 #### Update
 
+##### 2013-09-01
+
+```sql
+CREATE TABLE IF NOT EXISTS `crawler` (
+  `crr_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `crr_time` double unsigned NOT NULL,
+  `crr_count` int(10) unsigned NOT NULL,
+  `crr_datecreated` datetime NOT NULL,
+  PRIMARY KEY (`crr_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+```
+
 ##### 2013-08-30
 
 ```sql

@@ -32,6 +32,14 @@ CREATE TABLE IF NOT EXISTS `connections` (
   KEY `mbr_id` (`mbr_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `crawler` (
+  `crr_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `crr_time` double unsigned NOT NULL,
+  `crr_count` int(10) unsigned NOT NULL,
+  `crr_datecreated` datetime NOT NULL,
+  PRIMARY KEY (`crr_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `enclosures` (
   `enr_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `itm_id` bigint(20) unsigned NOT NULL,
