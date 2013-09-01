@@ -438,6 +438,19 @@ $(document).ready(function() {
 		load_items(ref.attr('href'));
 	});
 
+	$('.item a.category').live('click', function(event) {
+		event.preventDefault();
+		var ref = $(this);
+
+		$('.menu li').removeClass('active');
+
+		$('#sidebar .menu').find('.result').remove();
+		content = '<li class="result active"><a id="load-category-' + ref.data('dat_id') + '-items" href="' + base_url + 'home/items/category/' + ref.data('cat_id') + '"><i class="icon icon-tag"></i>' + ref.text() + '</a></li>';
+		$('#sidebar .menu').append(content);
+
+		load_items(ref.attr('href'));
+	});
+
 	$('#refresh-items').bind('click', function(event) {
 		event.preventDefault();
 		load_items( $('.menu').find('li.active').find('a').attr('href') );

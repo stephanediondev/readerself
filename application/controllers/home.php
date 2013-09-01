@@ -57,7 +57,7 @@ class Home extends CI_Controller {
 			redirect(base_url());
 		}
 
-		$modes = array('all', 'starred', 'shared', 'nofolder', 'folder', 'subscription', 'search');
+		$modes = array('all', 'starred', 'shared', 'nofolder', 'folder', 'subscription', 'category', 'search');
 
 		$content = array();
 
@@ -69,11 +69,19 @@ class Home extends CI_Controller {
 			}
 		}
 
-		$is_sub = FALSE;
+		$is_subscription = FALSE;
 		if($mode == 'subscription') {
 			$query = $this->db->query('SELECT sub.* FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.mbr_id = ? AND sub.sub_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $id));
 			if($query->num_rows() > 0) {
-				$is_sub = $id;
+				$is_subscription = $id;
+			}
+		}
+
+		$is_category = FALSE;
+		if($mode == 'category') {
+			$query = $this->db->query('SELECT cat.* FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_id = ? GROUP BY cat.cat_id', array($id));
+			if($query->num_rows() > 0) {
+				$is_category = $query->row()->cat_title;
 			}
 		}
 
@@ -124,9 +132,14 @@ class Home extends CI_Controller {
 				$bindings[] = $is_folder;
 			}
 
-			if($is_sub) {
+			if($is_subscription) {
 				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
-				$bindings[] = $is_sub;
+				$bindings[] = $is_subscription;
+			}
+
+			if($is_category) {
+				$where[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM categories AS cat WHERE cat.cat_title = ? )';
+				$bindings[] = $is_category;
 			}
 
 			if($mode == 'nofolder') {
@@ -168,7 +181,7 @@ class Home extends CI_Controller {
 						if($categories) {
 							$itm->categories = array();
 							foreach($categories as $cat) {
-								$itm->categories[] = $cat->cat_title;
+								$itm->categories[] = '<a class="category" data-cat_id="'.$cat->cat_id.'" href="'.base_url().'home/items/category/'.$cat->cat_id.'">'.$cat->cat_title.'</a>';
 							}
 						}
 					}
@@ -343,11 +356,11 @@ class Home extends CI_Controller {
 						}
 					}
 
-					$is_sub = FALSE;
+					$is_subscription = FALSE;
 					if($this->session->userdata('items-mode') == 'subscription') {
 						$query = $this->db->query('SELECT sub.* FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.mbr_id = ? AND sub.sub_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $this->session->userdata('items-id')));
 						if($query->num_rows() > 0) {
-							$is_sub = $this->session->userdata('items-id');
+							$is_subscription = $this->session->userdata('items-id');
 						}
 					}
 
@@ -371,9 +384,9 @@ class Home extends CI_Controller {
 						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id = ? )';
 						$bindings[] = $is_folder;
 					}
-					if($is_sub) {
+					if($is_subscription) {
 						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
-						$bindings[] = $is_sub;
+						$bindings[] = $is_subscription;
 					}
 					if($this->session->userdata('items-mode') == 'nofolder') {
 						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id IS NULL )';
