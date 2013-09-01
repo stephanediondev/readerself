@@ -253,4 +253,77 @@ class Reader_library {
 		$this->CI->pagination->initialize($config);
 		return array('output'=>$this->CI->pagination->create_links(), 'start'=>$start, 'limit'=>$config['per_page'], 'position'=>$position);
 	}
+	function crawl_items($fed_id, $items) {
+		foreach($items as $sp_item) {
+			$query = $this->CI->db->query('SELECT * FROM '.$this->CI->db->dbprefix('items').' AS itm WHERE itm.itm_link = ? GROUP BY itm.itm_id', array($sp_item->get_link()));
+			if($query->num_rows() == 0) {
+				$this->CI->db->set('fed_id', $fed_id);
+
+				if($sp_item->get_title()) {
+					$this->CI->db->set('itm_title', $sp_item->get_title());
+				} else {
+					$this->CI->db->set('itm_title', '-');
+				}
+
+				if($author = $sp_item->get_author()) {
+					$this->CI->db->set('itm_author', $author->get_name());
+				}
+
+				$this->CI->db->set('itm_link', $sp_item->get_link());
+
+				if($sp_item->get_content()) {
+					$this->CI->db->set('itm_content', $sp_item->get_content());
+				} else {
+					$this->CI->db->set('itm_content', '-');
+				}
+
+				$sp_itm_date = $sp_item->get_gmdate('Y-m-d H:i:s');
+				if($sp_itm_date) {
+					$this->CI->db->set('itm_date', $sp_itm_date);
+				} else {
+					$this->CI->db->set('itm_date', date('Y-m-d H:i:s'));
+				}
+
+				$this->CI->db->set('itm_datecreated', date('Y-m-d H:i:s'));
+
+				$this->CI->db->insert('items');
+
+				$itm_id = $this->CI->db->insert_id();
+
+				foreach($sp_item->get_categories() as $category) {
+					if($category->get_label()) {
+						if(strstr($category->get_label(), ',')) {
+							$categories = explode(',', $category->get_label());
+							foreach($categories as $category_split) {
+								$category_split = trim( strip_tags( html_entity_decode( $category_split ) ) );
+								$this->CI->db->set('itm_id', $itm_id);
+								$this->CI->db->set('cat_title', $category_split);
+								$this->CI->db->set('cat_datecreated', date('Y-m-d H:i:s'));
+								$this->CI->db->insert('categories');
+							}
+						} else {
+							$this->CI->db->set('itm_id', $itm_id);
+							$this->CI->db->set('cat_title', trim( strip_tags( html_entity_decode( $category->get_label() ) ) ) );
+							$this->CI->db->set('cat_datecreated', date('Y-m-d H:i:s'));
+							$this->CI->db->insert('categories');
+						}
+					}
+				}
+
+				foreach($sp_item->get_enclosures() as $enclosure) {
+					if($enclosure->get_link() && $enclosure->get_type() && $enclosure->get_length()) {
+						$this->CI->db->set('itm_id', $itm_id);
+						$this->CI->db->set('enr_link', $enclosure->get_link());
+						$this->CI->db->set('enr_type', $enclosure->get_type());
+						$this->CI->db->set('enr_length', $enclosure->get_length());
+						$this->CI->db->set('enr_datecreated', date('Y-m-d H:i:s'));
+						$this->CI->db->insert('enclosures');
+					}
+				}
+			} else {
+				break;
+			}
+			unset($sp_item);
+		}
+	}
 }

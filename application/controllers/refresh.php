@@ -90,7 +90,7 @@ class Refresh extends CI_Controller {
 		include_once('thirdparty/simplepie/autoloader.php');
 		include_once('thirdparty/simplepie/idn/idna_convert.class.php');
 
-		$query = $this->db->query('SELECT fed.* FROM '.$this->db->dbprefix('feeds').' AS fed GROUP BY fed.fed_id HAVING (SELECT COUNT(DISTINCT(sub.mbr_id)) FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = fed.fed_id) > 0');
+		$query = $this->db->query('SELECT fed.* FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_nextcrawl IS NULL OR fed.fed_nextcrawl <= ? GROUP BY fed.fed_id HAVING (SELECT COUNT(DISTINCT(sub.mbr_id)) FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = fed.fed_id) > 0', array(date('Y-m-d H:i:s')));
 		if($query->num_rows() > 0) {
 			foreach($query->result() as $fed) {
 
@@ -104,7 +104,14 @@ class Refresh extends CI_Controller {
 
 				if($sp_feed->error()) {
 					$this->db->set('fed_lasterror', $sp_feed->error());
+					$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
+					$this->db->where('fed_id', $fed->fed_id);
+					$this->db->update('feeds');
 				} else {
+					$this->reader_library->crawl_items($fed->fed_id, $sp_feed->get_items());
+
+					$lastitem = $this->db->query('SELECT itm.itm_datecreated FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id ORDER BY itm.itm_id DESC LIMIT 0,1', array($fed->fed_id))->row()->itm_datecreated;
+
 					$this->db->set('fed_title', $sp_feed->get_title());
 					$this->db->set('fed_url', $sp_feed->get_link());
 					$this->db->set('fed_link', $sp_feed->subscribe_url());
@@ -113,74 +120,22 @@ class Refresh extends CI_Controller {
 					}
 					$this->db->set('fed_description', $sp_feed->get_description());
 					$this->db->set('fed_lasterror', '');
-				}
-				$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
-				$this->db->where('fed_id', $fed->fed_id);
-				$this->db->update('feeds');
-
-				foreach($sp_feed->get_items() as $sp_item) {
-					$query = $this->db->query('SELECT * FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_link = ? GROUP BY itm.itm_id', array($sp_item->get_link()));
-					if($query->num_rows() == 0) {
-						$this->db->set('fed_id', $fed->fed_id);
-
-						if($sp_item->get_title()) {
-							$this->db->set('itm_title', $sp_item->get_title());
-						} else {
-							$this->db->set('itm_title', '-');
+					$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
+					if($lastitem) {
+						$lastcrawl = '';
+						if($lastitem < date('Y-m-d H:i:s', time() - 3600 * 48)) {
+							$lastcrawl = date('Y-m-d H:i:s', time() + 3600 * 12);
 						}
-
-						if($author = $sp_item->get_author()) {
-							$this->db->set('itm_author', $author->get_name());
-						}
-
-						$this->db->set('itm_link', $sp_item->get_link());
-
-						if($sp_item->get_content()) {
-							$this->db->set('itm_content', $sp_item->get_content());
-						} else {
-							$this->db->set('itm_content', '-');
-						}
-
-						$sp_itm_date = $sp_item->get_gmdate('Y-m-d H:i:s');
-						if($sp_itm_date) {
-							$this->db->set('itm_date', $sp_itm_date);
-						} else {
-							$this->db->set('itm_date', date('Y-m-d H:i:s'));
-						}
-
-						$this->db->set('itm_datecreated', date('Y-m-d H:i:s'));
-
-						$this->db->insert('items');
-
-						$itm_id = $this->db->insert_id();
-
-						foreach($sp_item->get_categories() as $category) {
-							if($category->get_label()) {
-								$this->db->set('itm_id', $itm_id);
-								$this->db->set('cat_title', $category->get_label());
-								$this->db->set('cat_datecreated', date('Y-m-d H:i:s'));
-								$this->db->insert('categories');
-							}
-						}
-
-						foreach($sp_item->get_enclosures() as $enclosure) {
-							if($enclosure->get_link() && $enclosure->get_type() && $enclosure->get_length()) {
-								$this->db->set('itm_id', $itm_id);
-								$this->db->set('enr_link', $enclosure->get_link());
-								$this->db->set('enr_type', $enclosure->get_type());
-								$this->db->set('enr_length', $enclosure->get_length());
-								$this->db->set('enr_datecreated', date('Y-m-d H:i:s'));
-								$this->db->insert('enclosures');
-							}
-						}
-					} else {
-						break;
+						$this->db->set('fed_nextcrawl', $lastcrawl);
 					}
-					unset($sp_item);
+					$this->db->where('fed_id', $fed->fed_id);
+					$this->db->update('feeds');
 				}
+
 				$sp_feed->__destruct();
-				unset($feed);
+				unset($sp_feed);
 			}
+			$this->db->query('OPTIMIZE TABLE categories, connections, enclosures, favorites, feeds, folders, history, items, members, share, subscriptions');
 		}
 		$this->reader_library->set_content($content);
 	}

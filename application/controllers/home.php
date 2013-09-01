@@ -11,7 +11,7 @@ class Home extends CI_Controller {
 
 		$this->load->library('form_validation');
 
-		$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? GROUP BY flr.flr_id HAVING (SELECT COUNT(DISTINCT(count_sub.sub_id)) FROM '.$this->db->dbprefix('subscriptions').' AS count_sub WHERE count_sub.flr_id = flr.flr_id) > 0 ORDER BY flr.flr_title ASC', array($this->member->mbr_id));
+		$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? GROUP BY flr.flr_id ORDER BY flr.flr_title ASC', array($this->member->mbr_id));
 
 		$data = array();
 		$data['folders'] = $query->result();
