@@ -71,7 +71,7 @@ class Home extends CI_Controller {
 
 		$is_subscription = FALSE;
 		if($mode == 'subscription') {
-			$query = $this->db->query('SELECT sub.*, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS fed_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.sub_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $id));
+			$query = $this->db->query('SELECT sub.*, fed.fed_url, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS fed_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.sub_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $id));
 			if($query->num_rows() > 0) {
 				$is_subscription = $query->row();
 			}
@@ -102,6 +102,7 @@ class Home extends CI_Controller {
 			$this->session->set_userdata('items-id', $id);
 
 			$introduction_title = '<i class="icon icon-asterisk"></i>'.$this->lang->line('all_items');
+			$introduction_details = false;
 
 			$content['items'] = array();
 
@@ -148,6 +149,9 @@ class Home extends CI_Controller {
 
 			if($is_subscription) {
 				$introduction_title = '<i class="icon icon-rss"></i>'.$is_subscription->fed_title;
+				if($is_subscription->fed_url) {
+					$introduction_details = '<ul class="item-details"><li><a target="_blank" href="'.$is_subscription->fed_url.'"><i class="icon icon-external-link"></i>'.$is_subscription->fed_url.'</a></li></ul>';
+				}
 				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
 				$bindings[] = $is_subscription->sub_id;
 			}
@@ -193,6 +197,9 @@ class Home extends CI_Controller {
 			if($introduction_title) {
 				$content['begin'] = '<div id="introduction" class="neutral">';
 				$content['begin'] .= '<h2>'.$introduction_title.'</h2>';
+				if($introduction_details) {
+					$content['begin'] .= $introduction_details;
+				}
 				$content['begin'] .= '</div>';
 			}
 
