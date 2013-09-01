@@ -425,6 +425,19 @@ $(document).ready(function() {
 		load_items(ref.attr('href'));
 	});
 
+	$('.item a.author').live('click', function(event) {
+		event.preventDefault();
+		var ref = $(this);
+
+		$('.menu li').removeClass('active');
+
+		$('#sidebar .menu').find('.result').remove();
+		content = '<li class="result active"><a id="load-author-' + ref.data('itm_id') + '-items" href="' + base_url + 'home/items/author/' + ref.data('itm_id') + '"><i class="icon icon-user"></i>' + ref.text() + '</a></li>';
+		$('#sidebar .menu').append(content);
+
+		load_items(ref.attr('href'));
+	});
+
 	$('.item a.from').live('click', function(event) {
 		event.preventDefault();
 		var ref = $(this);

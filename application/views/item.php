@@ -12,7 +12,7 @@
 	<ul class="item-details">
 		<li><i class="icon icon-calendar"></i><?php echo $itm->explode_date; ?></li>
 		<li><i class="icon icon-time"></i><?php echo $itm->explode_time; ?> (<span class="timeago" title="<?php echo $itm->itm_date; ?>"></span>)</li>
-		<?php if($itm->itm_author) { ?><li class="hide-phone"><i class="icon icon-user"></i><?php echo $itm->itm_author; ?></li><?php } ?>
+		<?php if($itm->itm_author) { ?><li class="hide-phone"><a class="author" data-itm_id="<?php echo $itm->itm_id; ?>" href="<?php echo base_url(); ?>home/items/author/<?php echo $itm->itm_id; ?>"><i class="icon icon-user"></i><?php echo $itm->itm_author; ?></a></li><?php } ?>
 		<li><a class="from" data-sub_id="<?php echo $itm->sub->sub_id; ?>" href="<?php echo base_url(); ?>home/items/subscription/<?php echo $itm->sub->sub_id; ?>"><i class="icon icon-rss"></i><?php if($itm->sub->sub_title) { ?><?php echo $itm->sub->sub_title; ?><?php } else { ?><?php echo $itm->fed->fed_title; ?><?php } ?></a></li>
 		<?php if($itm->sub->flr_id && $this->config->item('folders')) { ?><li class="hide-phone"><a class="folder" data-flr_id="<?php echo $itm->sub->flr_id; ?>" href="<?php echo base_url(); ?>home/items/folder/<?php echo $itm->sub->flr_id; ?>"><i class="icon icon-folder-close"></i><?php echo $itm->sub->flr_title; ?></a></li><?php } ?>
 		<?php if($this->config->item('tags') && $itm->categories) { ?>

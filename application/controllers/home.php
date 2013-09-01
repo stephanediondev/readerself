@@ -57,7 +57,7 @@ class Home extends CI_Controller {
 			redirect(base_url());
 		}
 
-		$modes = array('all', 'starred', 'shared', 'nofolder', 'folder', 'subscription', 'category', 'search');
+		$modes = array('all', 'starred', 'shared', 'nofolder', 'folder', 'subscription', 'category', 'author', 'search');
 
 		$content = array();
 
@@ -77,9 +77,17 @@ class Home extends CI_Controller {
 			}
 		}
 
+		$is_author = FALSE;
+		if($mode == 'author') {
+			$query = $this->db->query('SELECT itm.itm_author FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id', array($id));
+			if($query->num_rows() > 0) {
+				$is_author = $query->row()->itm_author;
+			}
+		}
+
 		$is_category = FALSE;
 		if($mode == 'category') {
-			$query = $this->db->query('SELECT cat.* FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_id = ? GROUP BY cat.cat_id', array($id));
+			$query = $this->db->query('SELECT cat.cat_title FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_id = ? GROUP BY cat.cat_id', array($id));
 			if($query->num_rows() > 0) {
 				$is_category = $query->row()->cat_title;
 			}
@@ -135,6 +143,11 @@ class Home extends CI_Controller {
 			if($is_subscription) {
 				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
 				$bindings[] = $is_subscription;
+			}
+
+			if($is_author) {
+				$where[] = 'itm.itm_author = ?';
+				$bindings[] = $is_author;
 			}
 
 			if($is_category) {
@@ -327,7 +340,7 @@ class Home extends CI_Controller {
 		}
 		$this->reader_library->set_content($content);
 	}
-	public function history($mode, $id, $auto = FALSE) {
+	public function history($mode, $id = FALSE, $auto = FALSE) {
 		if(!$this->session->userdata('logged_member')) {
 			redirect(base_url());
 		}
@@ -367,6 +380,22 @@ class Home extends CI_Controller {
 						}
 					}
 
+					$is_author = FALSE;
+					if($this->session->userdata('items-mode') == 'author') {
+						$query = $this->db->query('SELECT itm.itm_author FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id', array($this->session->userdata('items-id')));
+						if($query->num_rows() > 0) {
+							$is_author = $query->row()->itm_author;
+						}
+					}
+
+					$is_category = FALSE;
+					if($this->session->userdata('items-mode') == 'category') {
+						$query = $this->db->query('SELECT cat.cat_title FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_id = ? GROUP BY cat.cat_id', array($this->session->userdata('items-id')));
+						if($query->num_rows() > 0) {
+							$is_category = $query->row()->cat_title;
+						}
+					}
+
 					$where = array();
 					$bindings = array();
 
@@ -390,6 +419,14 @@ class Home extends CI_Controller {
 					if($is_subscription) {
 						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
 						$bindings[] = $is_subscription;
+					}
+					if($is_author) {
+						$where[] = 'itm.itm_author = ?';
+						$bindings[] = $is_author;
+					}
+					if($is_category) {
+						$where[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM categories AS cat WHERE cat.cat_title = ? )';
+						$bindings[] = $is_category;
 					}
 					if($this->session->userdata('items-mode') == 'nofolder') {
 						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id IS NULL )';
