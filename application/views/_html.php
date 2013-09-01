@@ -4,7 +4,7 @@
 <title><?php echo $this->config->item('title'); ?></title>
 <link rel="apple-touch-icon" href="<?php echo base_url(); ?>medias/readerself_200x200.png">
 <meta content="noindex, nofollow, noarchive" name="robots">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 <link href="<?php echo base_url(); ?>thirdparty/fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link href="<?php echo base_url(); ?>styles/_html.css" rel="stylesheet" type="text/css">
 <?php if(file_exists('styles/'.$this->router->class.'.css')) { ?>
