@@ -123,8 +123,12 @@ class Refresh extends CI_Controller {
 					$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
 					if($lastitem) {
 						$nextcrawl = '';
-						if($lastitem->itm_datecreated < date('Y-m-d H:i:s', time() - 3600 * 48)) {
-							$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 12);
+						//older than 30 days, next crawl in 24 hours
+						if($lastitem->itm_datecreated < date('Y-m-d H:i:s', time() - 3600 * 24 * 30)) {
+							$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 24);
+						//older than 2 days, next crawl in 6 hours
+						} else if($lastitem->itm_datecreated < date('Y-m-d H:i:s', time() - 3600 * 48)) {
+							$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 6);
 						}
 						$this->db->set('fed_nextcrawl', $nextcrawl);
 					}

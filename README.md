@@ -33,6 +33,9 @@ example
 * Main keyboard shortcuts from Google Reader
 * Register multi-users (optional)
 * Live unread counter in title bar / tab
+* Adaptive crawl by feed
+	* older than 30 days, next crawl in 24 hours
+	* older than 2 days, next crawl in 6 hours
 
 ### Third party
 
