@@ -177,6 +177,17 @@
 <td>Yes</td><!-- The Old Reader -->
 </tr>
 
+<tr>
+<th>Uncategorized folder</th>
+<td>Yes</td>
+<td>No</td><!-- Digg Reader -->
+<td>Yes</td><!-- Feedly -->
+<td>No</td><!-- Feedspot -->
+<td>No</td><!-- InoReader-->
+<td>Yes</td><!-- SilverReader -->
+<td>Yes</td><!-- The Old Reader -->
+</tr>
+
 </table>
 
 <p><sup>(1)</sup> available on the paid version</p>
