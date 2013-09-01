@@ -122,11 +122,11 @@ class Refresh extends CI_Controller {
 					$this->db->set('fed_lasterror', '');
 					$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
 					if($lastitem) {
-						$lastcrawl = '';
+						$nextcrawl = '';
 						if($lastitem < date('Y-m-d H:i:s', time() - 3600 * 48)) {
-							$lastcrawl = date('Y-m-d H:i:s', time() + 3600 * 12);
+							$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 12);
 						}
-						$this->db->set('fed_nextcrawl', $lastcrawl);
+						$this->db->set('fed_nextcrawl', $nextcrawl);
 					}
 					$this->db->where('fed_id', $fed->fed_id);
 					$this->db->update('feeds');
