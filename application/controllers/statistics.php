@@ -79,6 +79,17 @@ class Statistics extends CI_Controller {
 
 		$legend = array();
 		$values = array();
+		$query = $this->db->query('SELECT SUBSTRING(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), 1, 10) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.mbr_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,30', array($this->session->userdata('timezone'), 1, $this->member->mbr_id));
+		if($query->num_rows() > 0) {
+			foreach($query->result() as $row) {
+				$legend[] = date('F j, Y', strtotime($row->ref));
+				$values[] = $row->nb;
+			}
+		}
+		$data['tables'] .= build_table_progression('Items read by day', $values, $legend);
+
+		$legend = array();
+		$values = array();
 		$temp = array();
 		$query = $this->db->query('SELECT DATE_FORMAT(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), \'%H\') AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? GROUP BY ref ORDER BY ref ASC', array($this->session->userdata('timezone'), 1, $date_ref, $this->member->mbr_id));
 		if($query->num_rows() > 0) {
