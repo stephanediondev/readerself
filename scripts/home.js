@@ -425,6 +425,7 @@ $(document).ready(function() {
 
 	$('.item a.folder').live('click', function(event) {
 		event.preventDefault();
+		$('#search_items').val('');
 		var ref = $(this);
 
 		$('.menu li').removeClass('active');
@@ -435,6 +436,7 @@ $(document).ready(function() {
 
 	$('.item a.author').live('click', function(event) {
 		event.preventDefault();
+		$('#search_items').val('');
 		var ref = $(this);
 
 		$('.menu li').removeClass('active');
@@ -448,6 +450,7 @@ $(document).ready(function() {
 
 	$('.item a.from').live('click', function(event) {
 		event.preventDefault();
+		$('#search_items').val('');
 		var ref = $(this);
 
 		$('.menu li').removeClass('active');
@@ -461,6 +464,7 @@ $(document).ready(function() {
 
 	$('.item a.category').live('click', function(event) {
 		event.preventDefault();
+		$('#search_items').val('');
 		var ref = $(this);
 
 		$('.menu li').removeClass('active');

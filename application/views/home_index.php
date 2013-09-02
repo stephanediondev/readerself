@@ -18,13 +18,13 @@
 		<?php } ?>
 		<li><a id="load-nofolder-items" href="<?php echo base_url(); ?>home/items/nofolder"><i class="icon icon-folder-close"></i><em><?php echo $this->lang->line('no_folder'); ?></em> (<span>0</span>)</a></li>
 		<?php } ?>
-		<li><label for="search_items"><i class="icon icon-search"></i><?php echo $this->lang->line('items'); ?></label></li>
+		<li><label for="search_items"><i class="icon icon-file-text-alt"></i><?php echo $this->lang->line('items'); ?></label></li>
 		<li>
 			<?php echo form_open(base_url().'home/items/search', array('id'=>'search_items_form')); ?>
 			<?php echo form_input('search_items', '', 'id="search_items"'); ?>
 			<?php echo form_close(); ?>
 		</li>
-		<li><label for="fed_title"><i class="icon icon-search"></i><?php echo $this->lang->line('subscriptions'); ?></label></li>
+		<li><label for="fed_title"><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?></label></li>
 		<li>
 			<?php echo form_open(base_url().'home/subscriptions', array('id'=>'search_subscriptions_form')); ?>
 			<?php echo form_input('fed_title', '', 'id="fed_title"'); ?>

@@ -89,6 +89,7 @@ function refresh() {
 					is_logged = data_return.is_logged;
 					for(i in data_return.count) {
 						$('#load-' + i + '-items').find('span').html(data_return.count[i]);
+						$('#intro-load-' + i + '-items').html(data_return.count[i]);
 					}
 					window.document.title = '(' + data_return.count.all + ')';
 					if($('#last_crawl').length > 0 && data_return.last_crawl) {

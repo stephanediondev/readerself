@@ -101,7 +101,7 @@ class Home extends CI_Controller {
 			$this->session->set_userdata('items-mode', $mode);
 			$this->session->set_userdata('items-id', $id);
 
-			$introduction_title = '<i class="icon icon-asterisk"></i>'.$this->lang->line('all_items');
+			$introduction_title = '<i class="icon icon-asterisk"></i>'.$this->lang->line('all_items').' (<span id="intro-load-all-items"></span>)';
 			$introduction_details = false;
 
 			$content['items'] = array();
@@ -119,17 +119,17 @@ class Home extends CI_Controller {
 			$bindings[] = $this->member->mbr_id;
 
 			if($mode == 'starred') {
-				$introduction_title = '<i class="icon icon-star"></i>'.$this->lang->line('starred_items');
+				$introduction_title = '<i class="icon icon-star"></i>'.$this->lang->line('starred_items').' (<span id="intro-load-starred-items"></span>)';
 				$where[] = 'itm.itm_id IN ( SELECT fav.itm_id FROM favorites AS fav WHERE fav.itm_id = itm.itm_id AND fav.mbr_id = ? )';
 				$bindings[] = $this->member->mbr_id;
 			} else if($mode == 'shared') {
-				$introduction_title = '<i class="icon icon-heart"></i>'.$this->lang->line('shared_items');
+				$introduction_title = '<i class="icon icon-heart"></i>'.$this->lang->line('shared_items').' (<span id="intro-load-shared-items"></span>)';
 				$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM share AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
 				$bindings[] = $this->member->mbr_id;
 			} else {
 				if($mode == 'search') {
 					$search = urldecode($id);
-					$introduction_title = '<i class="icon icon-search"></i>'.$search;
+					$introduction_title = '<i class="icon icon-file-text-alt"></i>'.$search;
 					$words = explode(' ', $search);
 					foreach($words as $word) {
 						$where[] = 'itm.itm_title LIKE ?';
@@ -142,13 +142,13 @@ class Home extends CI_Controller {
 			}
 
 			if($is_folder) {
-				$introduction_title = '<i class="icon icon-folder-close"></i>'.$is_folder->flr_title;
+				$introduction_title = '<i class="icon icon-folder-close"></i>'.$is_folder->flr_title.' (<span id="intro-load-folder-'.$is_folder->flr_id.'-items"></span>)';
 				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id = ? )';
 				$bindings[] = $is_folder->flr_id;
 			}
 
 			if($is_subscription) {
-				$introduction_title = '<i class="icon icon-rss"></i>'.$is_subscription->fed_title;
+				$introduction_title = '<i class="icon icon-rss"></i>'.$is_subscription->fed_title.' (<span id="intro-load-sub-'.$is_subscription->sub_id.'-items"></span>)';
 				if($is_subscription->fed_url) {
 					$introduction_details = '<ul class="item-details"><li><a target="_blank" href="'.$is_subscription->fed_url.'"><i class="icon icon-external-link"></i>'.$is_subscription->fed_url.'</a></li></ul>';
 				}
@@ -169,7 +169,7 @@ class Home extends CI_Controller {
 			}
 
 			if($mode == 'nofolder') {
-				$introduction_title = '<i class="icon icon-folder-close"></i><em>'.$this->lang->line('no_folder').'</em>';
+				$introduction_title = '<i class="icon icon-folder-close"></i><em>'.$this->lang->line('no_folder').'</em> (<span id="intro-load-nofolder-items"></span>)';
 				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id IS NULL )';
 			}
 

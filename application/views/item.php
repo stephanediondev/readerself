@@ -8,7 +8,7 @@
 		<li><a class="share" href="<?php echo base_url(); ?>home/share/<?php echo $itm->itm_id; ?>"><span class="unshare"<?php if($itm->share == 0) { ?> style="display:none;"<?php } ?>><i class="icon icon-heart"></i><?php echo $this->lang->line('unshare'); ?></span><span class="share"<?php if($itm->share == 1) { ?> style="display:none;"<?php } ?>><i class="icon icon-heart-empty"></i><?php echo $this->lang->line('share'); ?></span></a></li>
 		<?php } ?>
 	</ul>
-	<h2><a target="_blank" href="<?php echo $itm->itm_link; ?>"><?php echo $itm->itm_title; ?></a></h2>
+	<h2><a target="_blank" href="<?php echo $itm->itm_link; ?>"><i class="icon icon-file-text-alt"></i><?php echo $itm->itm_title; ?></a></h2>
 	<ul class="item-details">
 		<li><i class="icon icon-calendar"></i><?php echo $itm->explode_date; ?></li>
 		<li><i class="icon icon-time"></i><?php echo $itm->explode_time; ?> (<span class="timeago" title="<?php echo $itm->itm_date; ?>"></span>)</li>
