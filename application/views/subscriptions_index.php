@@ -42,7 +42,7 @@
 		<td><?php if($sub->fed_image) { ?><img src="<?php echo $sub->fed_image; ?>" alt=""><?php } else { ?>-<?php } ?></td>
 		<td><?php echo $sub->subscribers; ?></td>
 		<?php if($this->config->item('folders')) { ?>
-			<td><?php if($sub->flr_title) { ?><?php echo $sub->flr_title; ?><?php } else { ?><em><?php echo $this->lang->line('no_folder'); ?></em><?php } ?></td>
+			<td><?php if($sub->flr_title) { ?><a href="<?php echo base_url(); ?>folders/read/<?php echo $sub->flr_id; ?>"><?php echo $sub->flr_title; ?></a><?php } else { ?><em><?php echo $this->lang->line('no_folder'); ?></em><?php } ?></td>
 		<?php } ?>
 		<td><?php echo $sub->fed_lastcrawl; ?></td>
 		<th>

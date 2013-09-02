@@ -9,8 +9,6 @@ class Subscriptions extends CI_Controller {
 			redirect(base_url());
 		}
 
-		$data = array();
-
 		$filters = array();
 		$filters[$this->router->class.'_subscriptions_fed_title'] = array('fed.fed_title', 'like');
 		$flt = $this->reader_library->build_filters($filters);
