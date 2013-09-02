@@ -96,7 +96,7 @@ class Folders extends CI_Controller {
 			$query = $this->db->query('SELECT SUBSTRING(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), 1, 10) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id WHERE hst.hst_real = ? AND hst.mbr_id = ? AND sub.flr_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,30', array($this->session->userdata('timezone'), 1, $this->member->mbr_id, $flr_id));
 			if($query->num_rows() > 0) {
 				foreach($query->result() as $row) {
-					$legend[] = date('F, Y', strtotime($row->ref));
+					$legend[] = date('F j, Y', strtotime($row->ref));
 					$values[] = $row->nb;
 				}
 			}
