@@ -1,6 +1,8 @@
 <div id="modal-display">
 	<h1><i class="icon icon-ok"></i><?php echo $this->lang->line('mark_all_as_read'); ?></h1>
 
+	<p><i class="icon icon-<?php echo $icon; ?>"></i><?php echo $title; ?> (<?php echo $count; ?>)</p>
+
 	<?php echo validation_errors(); ?>
 
 	<?php echo form_open(current_url()); ?>

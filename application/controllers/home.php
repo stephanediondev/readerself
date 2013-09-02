@@ -361,62 +361,91 @@ class Home extends CI_Controller {
 		}
 		$this->reader_library->set_content($content);
 	}
-	public function history($mode, $id = FALSE, $auto = FALSE) {
+	public function history($type, $id = FALSE, $auto = FALSE) {
 		if(!$this->session->userdata('logged_member')) {
 			redirect(base_url());
 		}
 
-		$modes = array('dialog', 'toggle');
+		$types = array('dialog', 'toggle');
 
 		$data = array();
 
 		$content = array();
 
-		if($this->input->is_ajax_request() && in_array($mode, $modes)) {
+		if($this->input->is_ajax_request() && in_array($type, $types)) {
 			$this->reader_library->set_template('_json');
 			$this->reader_library->set_content_type('application/json');
 
-			if($mode == 'dialog' && $this->session->userdata('items-mode')) {
+			if($type == 'dialog' && $this->session->userdata('items-mode')) {
 				$this->load->library(array('form_validation'));
+
+				$data['title'] = $this->lang->line('all_items');
+				$data['icon'] = 'asterisk';
+
+				$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
+				FROM '.$this->db->dbprefix('subscriptions').' AS sub
+				LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id
+				LEFT JOIN '.$this->db->dbprefix('history').' AS hst ON hst.itm_id = itm.itm_id AND hst.mbr_id = ?
+				WHERE hst.hst_id IS NULL AND sub.mbr_id = ?';
+				$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
+
+				$data['count'] = $query->row()->count;
+
+				$is_folder = FALSE;
+				if($this->session->userdata('items-mode') == 'folder') {
+					$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? AND flr.flr_id = ? GROUP BY flr.flr_id', array($this->member->mbr_id, $this->session->userdata('items-id')));
+					if($query->num_rows() > 0) {
+						$is_folder = $query->row();
+						$data['title'] = $is_folder->flr_title;
+						$data['icon'] = 'folder-close';
+
+						$sql = 'SELECT flr.flr_id, COUNT(DISTINCT(itm.itm_id)) AS count
+						FROM '.$this->db->dbprefix('folders').' AS flr
+						LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.flr_id = flr.flr_id AND sub.mbr_id = ?
+						LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id AND itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?)
+						WHERE flr.flr_id = ?
+						GROUP BY flr.flr_id';
+						$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id, $is_folder->flr_id));
+
+						$data['count'] = $query->row()->count;
+					}
+				}
+
+				$is_subscription = FALSE;
+				if($this->session->userdata('items-mode') == 'subscription') {
+					$query = $this->db->query('SELECT sub.*, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS fed_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.sub_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $this->session->userdata('items-id')));
+					if($query->num_rows() > 0) {
+						$is_subscription = $query->row();
+						$data['title'] = $is_subscription->fed_title;
+						$data['icon'] = 'rss';
+
+						$sql = 'SELECT sub.sub_id, COUNT(DISTINCT(itm.itm_id)) AS count
+						FROM '.$this->db->dbprefix('subscriptions').' AS sub
+						LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id AND itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?)
+						WHERE sub.mbr_id = ? AND sub.sub_id = ? GROUP BY sub.sub_id';
+						$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id, $is_subscription->sub_id));
+
+						$data['count'] = $query->row()->count;
+					}
+				}
+
+				if($this->session->userdata('items-mode') == 'nofolder') {
+					$data['title'] = '<em>'.$this->lang->line('no_folder').'</em>';
+					$data['icon'] = 'folder-close';
+					$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
+					FROM '.$this->db->dbprefix('subscriptions').' AS sub
+					LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id AND itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?)
+					WHERE sub.flr_id IS NULL AND sub.mbr_id = ?';
+					$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
+
+					$data['count'] = $query->row()->count;
+				}
 
 				$this->form_validation->set_rules('age', 'lang:age', 'required');
 
 				if($this->form_validation->run() == FALSE) {
 					$content['modal'] = $this->load->view('home_history', $data, TRUE);
 				} else {
-
-					$is_folder = FALSE;
-					if($this->session->userdata('items-mode') == 'folder') {
-						$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? AND flr.flr_id = ? GROUP BY flr.flr_id', array($this->member->mbr_id, $this->session->userdata('items-id')));
-						if($query->num_rows() > 0) {
-							$is_folder = $this->session->userdata('items-id');
-						}
-					}
-
-					$is_subscription = FALSE;
-					if($this->session->userdata('items-mode') == 'subscription') {
-						$query = $this->db->query('SELECT sub.* FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.mbr_id = ? AND sub.sub_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $this->session->userdata('items-id')));
-						if($query->num_rows() > 0) {
-							$is_subscription = $this->session->userdata('items-id');
-						}
-					}
-
-					$is_author = FALSE;
-					if($this->session->userdata('items-mode') == 'author') {
-						$query = $this->db->query('SELECT itm.itm_author FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id', array($this->session->userdata('items-id')));
-						if($query->num_rows() > 0) {
-							$is_author = $query->row()->itm_author;
-						}
-					}
-
-					$is_category = FALSE;
-					if($this->session->userdata('items-mode') == 'category') {
-						$query = $this->db->query('SELECT cat.cat_title FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_id = ? GROUP BY cat.cat_id', array($this->session->userdata('items-id')));
-						if($query->num_rows() > 0) {
-							$is_category = $query->row()->cat_title;
-						}
-					}
-
 					$where = array();
 					$bindings = array();
 
@@ -429,25 +458,13 @@ class Home extends CI_Controller {
 					$where[] = 'itm.itm_id NOT IN ( SELECT hst.itm_id FROM history AS hst WHERE hst.itm_id = itm.itm_id AND hst.mbr_id = ? )';
 					$bindings[] = $this->member->mbr_id;
 
-					if($this->session->userdata('items-mode') == 'starred') {
-						$where[] = 'itm.itm_id IN ( SELECT fav.itm_id FROM favorites AS fav WHERE fav.itm_id = itm.itm_id AND fav.mbr_id = ? )';
-						$bindings[] = $this->member->mbr_id;
-					}
 					if($is_folder) {
 						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id = ? )';
-						$bindings[] = $is_folder;
+						$bindings[] = $is_folder->flr_id;
 					}
 					if($is_subscription) {
 						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
-						$bindings[] = $is_subscription;
-					}
-					if($is_author) {
-						$where[] = 'itm.itm_author = ?';
-						$bindings[] = $is_author;
-					}
-					if($is_category) {
-						$where[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM categories AS cat WHERE cat.cat_title = ? )';
-						$bindings[] = $is_category;
+						$bindings[] = $is_subscription->sub_id;
 					}
 					if($this->session->userdata('items-mode') == 'nofolder') {
 						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id IS NULL )';
@@ -472,13 +489,12 @@ class Home extends CI_Controller {
 					WHERE '.implode(' AND ', $where).'
 					GROUP BY itm.itm_id';
 					$query = $this->db->query($sql, $bindings);
-					$content['alert'] = array('type'=>'success', 'message'=>$this->db->affected_rows().' items marked as read');
 
 					$content['modal'] = $this->load->view('home_history_confirm', $data, TRUE);
 				}
 			}
 
-			if($mode == 'toggle') {
+			if($type == 'toggle') {
 				$query = $this->db->query('SELECT * FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.itm_id = ? AND hst.mbr_id = ? GROUP BY hst.hst_id', array($id, $this->member->mbr_id));
 				if($query->num_rows() > 0) {
 					if(!$auto) {
@@ -498,7 +514,7 @@ class Home extends CI_Controller {
 				}
 				$content['itm_id'] = $id;
 			}
-			$content['mode'] = $mode;
+			$content['mode'] = $type;
 		} else {
 			$this->output->set_status_header(403);
 		}

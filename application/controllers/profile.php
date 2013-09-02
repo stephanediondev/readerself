@@ -41,8 +41,6 @@ class Profile extends CI_Controller {
 			$this->db->where('mbr_id', $this->member->mbr_id);
 			$this->db->update('members');
 
-			$this->session->set_userdata('alert', serialize(array('type'=>'success', 'message'=>'Updated')));
-
 			redirect(base_url().'home');
 		}
 	}
