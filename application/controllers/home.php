@@ -294,7 +294,7 @@ class Home extends CI_Controller {
 				$content['end'] = '<div id="last_crawl" class="neutral">';
 				if($lastcrawl) {
 					list($date, $time) = explode(' ', $lastcrawl->crr_datecreated);
-					$content['end'] .= '<h2>'.$this->lang->line('last_crawl').'</h2><ul class="item-details"><li><i class="icon icon-calendar"></i>'.$date.'</li><li><i class="icon icon-time"></i>'.$time.' (<span class="timeago" title="'.$lastcrawl->crr_datecreated.'"></span>)</li></ul>';
+					$content['end'] .= '<h2><i class="icon icon-truck"></i>'.$this->lang->line('last_crawl').'</h2><ul class="item-details"><li><i class="icon icon-calendar"></i>'.$date.'</li><li><i class="icon icon-time"></i>'.$time.' (<span class="timeago" title="'.$lastcrawl->crr_datecreated.'"></span>)</li></ul>';
 				}
 				$content['end'] .= '</div>';
 			}
