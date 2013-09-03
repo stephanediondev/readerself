@@ -132,8 +132,14 @@ class Home extends CI_Controller {
 					$introduction_title = '<i class="icon icon-file-text-alt"></i>'.$search;
 					$words = explode(' ', $search);
 					foreach($words as $word) {
-						$where[] = 'itm.itm_title LIKE ?';
-						$bindings[] = '%'.$word.'%';
+						if(substr($word, 0, 1) == '@') {
+							$where[] = 'DATE_ADD(itm.itm_date, INTERVAL ? HOUR) LIKE ?';
+							$bindings[] = $this->session->userdata('timezone');
+							$bindings[] = substr($word, 1).'%';
+						} else {
+							$where[] = 'itm.itm_title LIKE ?';
+							$bindings[] = '%'.$word.'%';
+						}
 					}
 				} else if($this->input->get('mode-items') == 'unread_only') {
 					$where[] = 'itm.itm_id NOT IN ( SELECT hst.itm_id FROM history AS hst WHERE hst.itm_id = itm.itm_id AND hst.mbr_id = ? )';

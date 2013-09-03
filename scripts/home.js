@@ -545,7 +545,7 @@ $(document).ready(function() {
 		if($('#search_items').val() != '') {
 			var ref = $(this);
 			$('#search_items').blur();
-			load_items( ref.attr('action') + '/' + encodeURI( $('#search_items').val() ) );
+			load_items( ref.attr('action') + '/' + encodeURIComponent( $('#search_items').val() ) );
 			if($('#sidebar').css('position') == 'absolute') {
 				$('#sidebar').hide();
 			}
