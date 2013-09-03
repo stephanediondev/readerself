@@ -30,6 +30,7 @@
 			<?php $this->reader_library->display_column($this->router->class.'_subscriptions', $columns[$i++], $this->lang->line('folder')); ?>
 		<?php } ?>
 		<?php $this->reader_library->display_column($this->router->class.'_subscriptions', $columns[$i++], $this->lang->line('last_crawl')); ?>
+		<?php $this->reader_library->display_column($this->router->class.'_subscriptions', $columns[$i++], $this->lang->line('date_added')); ?>
 		<th>&nbsp;</th>
 		</tr>
 		</thead>
@@ -44,7 +45,8 @@
 		<?php if($this->config->item('folders')) { ?>
 			<td><?php if($sub->flr_title) { ?><a href="<?php echo base_url(); ?>folders/read/<?php echo $sub->flr_id; ?>"><?php echo $sub->flr_title; ?></a><?php } else { ?><em><?php echo $this->lang->line('no_folder'); ?></em><?php } ?></td>
 		<?php } ?>
-		<td><?php echo $sub->fed_lastcrawl; ?></td>
+		<td style="white-space:nowrap;"><?php echo $sub->fed_lastcrawl; ?></td>
+		<td style="white-space:nowrap;"><?php echo $sub->sub_datecreated; ?></td>
 		<th>
 		<ul class="actions">
 			<li><a href="<?php echo base_url(); ?>subscriptions/update/<?php echo $sub->sub_id; ?>"><i class="icon icon-pencil"></i><?php echo $this->lang->line('update'); ?></a></li>

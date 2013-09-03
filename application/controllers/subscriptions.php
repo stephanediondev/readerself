@@ -23,6 +23,7 @@ class Subscriptions extends CI_Controller {
 			$columns[] = 'flr.flr_title';
 		}
 		$columns[] = 'fed.fed_lastcrawl';
+		$columns[] = 'sub.sub_datecreated';
 		$col = $this->reader_library->build_columns($this->router->class.'_subscriptions', $columns, 'fed.fed_title', 'ASC');
 		$results = $this->reader_model->get_subscriptions_total($flt);
 		$build_pagination = $this->reader_library->build_pagination($results->count, 20, $this->router->class.'_subscriptions');
