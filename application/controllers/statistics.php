@@ -62,7 +62,7 @@ class Statistics extends CI_Controller {
 				$values[] = $row->nb;
 			}
 		}
-		$data['tables'] .= build_table_repartition('Items read by subscription*', $values, $legend);
+		$data['tables'] .= build_table_repartition($this->lang->line('items_read_by_subscription').'*', $values, $legend);
 
 		if($this->config->item('tags')) {
 			$legend = array();
@@ -74,7 +74,7 @@ class Statistics extends CI_Controller {
 					$values[] = $row->nb;
 				}
 			}
-			$data['tables'] .= build_table_repartition('Items read by tag*', $values, $legend);
+			$data['tables'] .= build_table_repartition($this->lang->line('items_read_by_tag').'*', $values, $legend);
 		}
 
 		$legend = array();
@@ -86,7 +86,7 @@ class Statistics extends CI_Controller {
 				$values[] = $row->nb;
 			}
 		}
-		$data['tables'] .= build_table_progression('Items read by day', $values, $legend);
+		$data['tables'] .= build_table_progression($this->lang->line('items_read_by_day'), $values, $legend);
 
 		$legend = array();
 		$values = array();
@@ -106,7 +106,7 @@ class Statistics extends CI_Controller {
 				$values[] = 0;
 			}
 		}
-		$data['tables'] .= build_table_repartition('Items read by time of day*', $values, $legend);
+		$data['tables'] .= build_table_repartition($this->lang->line('items_read_by_time_day').'*', $values, $legend);
 
 		$days = array(7=>'Sunday', 1=>'Monday', 2=>'Tuesday', 3=>'Wednesday', 4=>'Thursday', 5=>'Friday', 6=>'Saturday');
 		$legend = array();
@@ -127,7 +127,7 @@ class Statistics extends CI_Controller {
 				$values[] = 0;
 			}
 		}
-		$data['tables'] .= build_table_repartition('Items read by day of the week*', $values, $legend);
+		$data['tables'] .= build_table_repartition($this->lang->line('items_read_by_day_week').'*', $values, $legend);
 
 		if($this->config->item('folders')) {
 			$legend = array();
@@ -143,7 +143,7 @@ class Statistics extends CI_Controller {
 					$values[] = $row->nb;
 				}
 			}
-			$data['tables'] .= build_table_repartition('Items read by folder*', $values, $legend);
+			$data['tables'] .= build_table_repartition($this->lang->line('items_read_by_folder').'*', $values, $legend);
 		}
 
 		$legend = array();
@@ -155,7 +155,7 @@ class Statistics extends CI_Controller {
 				$values[] = $row->nb;
 			}
 		}
-		$data['tables'] .= build_table_progression('Items read by month', $values, $legend);
+		$data['tables'] .= build_table_progression($this->lang->line('items_read_by_month'), $values, $legend);
 
 		if($this->config->item('star')) {
 			$legend = array();
@@ -167,7 +167,7 @@ class Statistics extends CI_Controller {
 					$values[] = $row->nb;
 				}
 			}
-			$data['tables'] .= build_table_progression('Items starred by month', $values, $legend);
+			$data['tables'] .= build_table_progression($this->lang->line('items_starred_by_month'), $values, $legend);
 		}
 
 		$content = $this->load->view('statistics_index', $data, TRUE);

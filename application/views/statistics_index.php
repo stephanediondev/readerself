@@ -9,7 +9,7 @@
 
 	<div style="margin-top:20px;">
 		<?php echo $tables; ?>
-		<p>* the last 30 days</p>
+		<p>*<?php echo $this->lang->line('last_30_days'); ?></p>
 	</div>
 
 </div>
