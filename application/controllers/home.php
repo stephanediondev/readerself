@@ -109,12 +109,6 @@ class Home extends CI_Controller {
 			$where = array();
 			$bindings = array();
 
-			if($this->session->userdata('timezone')) {
-				$bindings[] = $this->session->userdata('timezone');
-			} else {
-				$bindings[] = 0;
-			}
-
 			$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
 			$bindings[] = $this->member->mbr_id;
 
@@ -178,6 +172,14 @@ class Home extends CI_Controller {
 				$introduction_title = '<i class="icon icon-folder-close"></i><em>'.$this->lang->line('no_folder').'</em> (<span id="intro-load-nofolder-items"></span>)';
 				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id IS NULL )';
 			}
+
+			/*$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS global_total
+			FROM items AS itm
+			WHERE '.implode(' AND ', $where);
+			$query = $this->db->query($sql, $bindings);
+			$content['total_global'] = intval($query->row()->global_total);*/
+
+			array_unshift($bindings, $this->session->userdata('timezone'));
 
 			$sql = 'SELECT itm.*, DATE_ADD(itm.itm_date, INTERVAL ? HOUR) AS itm_date
 			FROM items AS itm
