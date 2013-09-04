@@ -113,11 +113,11 @@ class Home extends CI_Controller {
 			$bindings[] = $this->member->mbr_id;
 
 			if($mode == 'starred') {
-				$introduction_title = '<i class="icon icon-star"></i>'.$this->lang->line('starred_items').' [<span id="intro-load-starred-items"></span>]';
+				$introduction_title = '<i class="icon icon-star"></i>'.$this->lang->line('starred_items').' {<span id="intro-load-starred-items"></span>}';
 				$where[] = 'itm.itm_id IN ( SELECT fav.itm_id FROM favorites AS fav WHERE fav.itm_id = itm.itm_id AND fav.mbr_id = ? )';
 				$bindings[] = $this->member->mbr_id;
 			} else if($mode == 'shared') {
-				$introduction_title = '<i class="icon icon-heart"></i>'.$this->lang->line('shared_items').' [<span id="intro-load-shared-items"></span>]';
+				$introduction_title = '<i class="icon icon-heart"></i>'.$this->lang->line('shared_items').' {<span id="intro-load-shared-items"></span>}';
 				$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM share AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
 				$bindings[] = $this->member->mbr_id;
 			} else {
@@ -178,7 +178,7 @@ class Home extends CI_Controller {
 				WHERE '.implode(' AND ', $where);
 				$query = $this->db->query($sql, $bindings);
 				$content['total_global'] = intval($query->row()->global_total);
-				$introduction_title = '<i class="icon icon-file-text-alt"></i>'.$search.' [<span id="intro-load-search-items">'.$content['total_global'].'</span>]';
+				$introduction_title = '<i class="icon icon-file-text-alt"></i>'.$search.' {<span id="intro-load-search-items">'.$content['total_global'].'</span>}';
 			}
 
 			array_unshift($bindings, $this->session->userdata('timezone'));
