@@ -30,7 +30,7 @@
 			<ul class="item-details">
 				<?php if($sub->fed_lastcrawl) { ?><li><i class="icon icon-truck"></i><?php echo $sub->fed_lastcrawl; ?></li><?php } ?>
 				<?php if($this->config->item('folders')) { ?>
-					<li><i class="icon icon-folder-close"></i><?php if($sub->flr_title) { ?><a href="<?php echo base_url(); ?>folders/read/<?php echo $sub->flr_id; ?>"><?php echo $sub->flr_title; ?></a><?php } else { ?><em><?php echo $this->lang->line('no_folder'); ?></em><?php } ?></li>
+					<li><?php if($sub->flr_title) { ?><a href="<?php echo base_url(); ?>folders/read/<?php echo $sub->flr_id; ?>"><i class="icon icon-folder-close"></i><?php echo $sub->flr_title; ?></a><?php } else { ?><i class="icon icon-folder-close"></i><em><?php echo $this->lang->line('no_folder'); ?></em><?php } ?></li>
 				<?php } ?>
 				<li><i class="icon icon-group"></i><?php echo $sub->subscribers; ?> <?php if($sub->subscribers > 1) { ?><?php echo mb_strtolower($this->lang->line('subscribers')); ?><?php } else { ?><?php echo mb_strtolower($this->lang->line('subscriber')); ?><?php } ?></li>
 				<?php if($sub->fed_lasterror) { ?><li class="error"><i class="icon icon-bell"></i><?php echo $sub->fed_lasterror; ?></li><?php } ?>
