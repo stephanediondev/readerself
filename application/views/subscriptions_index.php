@@ -17,48 +17,31 @@
 	</div>
 	<?php echo form_close(); ?>
 	<?php if($subscriptions) { ?>
-	<table class="table table-condensed table-hover">
-		<thead>
-		<tr>
-		<?php $i = 0; ?>
-		<?php $this->reader_library->display_column($this->router->class.'_subscriptions', $columns[$i++], $this->lang->line('title')); ?>
-		<?php $this->reader_library->display_column($this->router->class.'_subscriptions', $columns[$i++], $this->lang->line('description')); ?>
-		<?php $this->reader_library->display_column($this->router->class.'_subscriptions', $columns[$i++], $this->lang->line('url')); ?>
-		<th><?php echo $this->lang->line('image'); ?></th>
-		<?php $this->reader_library->display_column($this->router->class.'_subscriptions', $columns[$i++], $this->lang->line('subscribers')); ?>
-		<?php if($this->config->item('folders')) { ?>
-			<?php $this->reader_library->display_column($this->router->class.'_subscriptions', $columns[$i++], $this->lang->line('folder')); ?>
-		<?php } ?>
-		<?php $this->reader_library->display_column($this->router->class.'_subscriptions', $columns[$i++], $this->lang->line('last_crawl')); ?>
-		<?php $this->reader_library->display_column($this->router->class.'_subscriptions', $columns[$i++], $this->lang->line('date_added')); ?>
-		<th>&nbsp;</th>
-		</tr>
-		</thead>
-		<tbody>
+		<div class="paging">
+			<?php echo $pagination; ?>
+		</div>
 		<?php foreach($subscriptions as $sub) { ?>
-		<tr>
-		<td><a href="<?php echo base_url(); ?>subscriptions/read/<?php echo $sub->sub_id; ?>"><?php echo $sub->fed_title; ?></a><?php if($sub->sub_title) { ?><br> <em><?php echo $sub->sub_title; ?></em><?php } ?><?php if($sub->fed_lasterror) { ?> <i class="icon icon-bell"></i><?php } ?></td>
-		<td><?php echo $sub->fed_description; ?></td>
-		<td><?php echo $sub->fed_link; ?></td>
-		<td><?php if($sub->fed_image) { ?><img src="<?php echo $sub->fed_image; ?>" alt=""><?php } else { ?>-<?php } ?></td>
-		<td><?php echo $sub->subscribers; ?></td>
-		<?php if($this->config->item('folders')) { ?>
-			<td><?php if($sub->flr_title) { ?><a href="<?php echo base_url(); ?>folders/read/<?php echo $sub->flr_id; ?>"><?php echo $sub->flr_title; ?></a><?php } else { ?><em><?php echo $this->lang->line('no_folder'); ?></em><?php } ?></td>
+		<div class="cell">
+			<ul class="actions">
+				<li><a href="<?php echo base_url(); ?>subscriptions/update/<?php echo $sub->sub_id; ?>"><i class="icon icon-pencil"></i><?php echo $this->lang->line('update'); ?></a></li>
+				<li><a href="<?php echo base_url(); ?>subscriptions/delete/<?php echo $sub->sub_id; ?>"><i class="icon icon-trash"></i><?php echo $this->lang->line('delete'); ?></a></li>
+			</ul>
+			<h2><a href="<?php echo base_url(); ?>subscriptions/read/<?php echo $sub->sub_id; ?>"><i class="icon icon-rss"></i><?php echo $sub->fed_title; ?></a><?php if($sub->sub_title) { ?><br> <em><?php echo $sub->sub_title; ?></em><?php } ?><?php if($sub->fed_lasterror) { ?> <i class="icon icon-bell"></i><?php } ?></h2>
+			<ul class="item-details">
+				<?php if($sub->fed_lastcrawl) { ?><li><i class="icon icon-truck"></i><?php echo $sub->fed_lastcrawl; ?></li><?php } ?>
+				<?php if($this->config->item('folders')) { ?>
+					<li><i class="icon icon-folder-close"></i><?php if($sub->flr_title) { ?><a href="<?php echo base_url(); ?>folders/read/<?php echo $sub->flr_id; ?>"><?php echo $sub->flr_title; ?></a><?php } else { ?><em><?php echo $this->lang->line('no_folder'); ?></em><?php } ?></li>
+				<?php } ?>
+				<li><i class="icon icon-group"></i><?php echo $sub->subscribers; ?> <?php if($sub->subscribers > 1) { ?><?php echo mb_strtolower($this->lang->line('subscribers')); ?><?php } else { ?><?php echo mb_strtolower($this->lang->line('subscriber')); ?><?php } ?></li>
+			</ul>
+			<div class="item-content">
+				<?php echo $sub->fed_description; ?>
+				<?php //echo $sub->fed_link; ?>
+			</div>
+		</div>
 		<?php } ?>
-		<td style="white-space:nowrap;"><?php echo $sub->fed_lastcrawl; ?></td>
-		<td style="white-space:nowrap;"><?php echo $sub->sub_datecreated; ?></td>
-		<th>
-		<ul class="actions">
-			<li><a href="<?php echo base_url(); ?>subscriptions/update/<?php echo $sub->sub_id; ?>"><i class="icon icon-pencil"></i><?php echo $this->lang->line('update'); ?></a></li>
-			<li><a href="<?php echo base_url(); ?>subscriptions/delete/<?php echo $sub->sub_id; ?>"><i class="icon icon-trash"></i><?php echo $this->lang->line('delete'); ?></a></li>
-		</ul>
-		</th>
-		</tr>
-		<?php } ?>
-		</tbody>
-	</table>
-	<div class="paging">
-		<?php echo $pagination; ?>
-	</div>
+		<div class="paging">
+			<?php echo $pagination; ?>
+		</div>
 	<?php } ?>
 </div>

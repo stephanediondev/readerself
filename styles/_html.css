@@ -101,8 +101,8 @@ button{background-color:#9EA64B;cursor:pointer;margin-top:10px;}
 .filters .inputtext.numeric{width:60px;}
 .filters .inputtext.date{width:80px;}
 
-.paging{clear:both;font-size:11px;padding:5px 5px 5px 0px;}
-.paging strong, .paging a:link, .paging a:visited{border:1px solid #999999;margin:0px 2px 0px 0px;padding:1px 3px 1px 4px;text-decoration:none;}
+.paging{clear:both;font-size:12px;margin:20px 0px;padding:5px 5px 5px 0px;}
+.paging strong, .paging a:link, .paging a:visited{border:1px solid #999999;margin:0px 5px 0px 0px;padding:2px 4px 2px 5px;text-decoration:none;}
 .paging strong{background-color:#777777;color:#FFFFFF;font-weight:normal;text-decoration:none;}
 .paging a:hover{background-color:#E7E7E7;}
 

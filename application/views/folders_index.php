@@ -15,30 +15,18 @@
 	</div>
 	<?php echo form_close(); ?>
 	<?php if($folders) { ?>
-	<table class="table table-condensed table-hover">
-		<thead>
-		<tr>
-		<?php $i = 0; ?>
-		<?php $this->reader_library->display_column($this->router->class.'_folders', $columns[$i++], $this->lang->line('title')); ?>
-		<?php $this->reader_library->display_column($this->router->class.'_folders', $columns[$i++], $this->lang->line('subscriptions')); ?>
-		<th>&nbsp;</th>
-		</tr>
-		</thead>
-		<tbody>
 		<?php foreach($folders as $folder) { ?>
-		<tr>
-		<td><a href="<?php echo base_url(); ?>folders/read/<?php echo $folder->flr_id; ?>"><?php echo $folder->flr_title; ?></a></td>
-		<td><?php echo $folder->subscriptions; ?></td>
-		<th>
-		<ul class="actions">
-			<li><a href="<?php echo base_url(); ?>folders/update/<?php echo $folder->flr_id; ?>"><i class="icon icon-pencil"></i><?php echo $this->lang->line('update'); ?></a></li>
-			<li><a href="<?php echo base_url(); ?>folders/delete/<?php echo $folder->flr_id; ?>"><i class="icon icon-trash"></i><?php echo $this->lang->line('delete'); ?></a></li>
-		</ul>
-		</th>
-		</tr>
+		<div class="cell">
+			<ul class="actions">
+				<li><a href="<?php echo base_url(); ?>folders/update/<?php echo $folder->flr_id; ?>"><i class="icon icon-pencil"></i><?php echo $this->lang->line('update'); ?></a></li>
+				<li><a href="<?php echo base_url(); ?>folders/delete/<?php echo $folder->flr_id; ?>"><i class="icon icon-trash"></i><?php echo $this->lang->line('delete'); ?></a></li>
+			</ul>
+			<h2><a href="<?php echo base_url(); ?>folders/read/<?php echo $folder->flr_id; ?>"><i class="icon icon-folder-close"></i><?php echo $folder->flr_title; ?></a></h2>
+			<ul class="item-details">
+				<li><i class="icon icon-rss"></i><?php echo $folder->subscriptions; ?> <?php if($folder->subscriptions > 1) { ?><?php echo mb_strtolower($this->lang->line('subscriptions')); ?><?php } else { ?><?php echo mb_strtolower($this->lang->line('subscription')); ?><?php } ?></li>
+			</ul>
+		</div>
 		<?php } ?>
-		</tbody>
-	</table>
 	<div class="paging">
 		<?php echo $pagination; ?>
 	</div>
