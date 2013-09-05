@@ -152,8 +152,7 @@ class Subscriptions extends CI_Controller {
 				$this->db->where('sub_id', $sub_id);
 				$this->db->update('subscriptions');
 
-				//$this->read($sub_id);
-				redirect(base_url().'subscriptions');
+				redirect(base_url().'subscriptions/read/'.$sub_id);
 			}
 		} else {
 			$this->index();
