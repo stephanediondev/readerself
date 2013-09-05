@@ -3,13 +3,14 @@
 #actions-main .actions{text-align:right;}
 #content{margin:10px 0px 0px 230px;}
 #items{height:auto;overflow-x:hidden;overflow-y:auto;position:relative;}
-#sidebar{float:left;height:auto;margin:10px 0px 0px 10px;overflow-x:hidden;overflow-y:auto;width:200px;}
+#sidebar{float:left;height:auto;margin:10px 0px 0px 0px;overflow-x:hidden;overflow-y:auto;width:200px;}
+#sidebar .actions, #sidebar .menu{margin-left:10px;}
 #sidebar .actions a:link, #sidebar .actions a:visited{background-color:#21634C;}
 #sidebar .actions li:last-child{margin-right:0px;}
 #sidebar .menu li.result{margin:0px 0px 0px 0px;}
 .item, .neutral{background-color:#f5f5f5;border:1px solid #e3e3e3;border-radius:3px 3px 3px 3px;clear:both;padding:5px 10px 5px 10px;margin:0px 10px 15px 0px;max-width:1200px;overflow:hidden;}
 .item-selected{border:1px solid #000000;}
-.item h2, .neutral h2{font-size:16px;font-weight:bold;margin:5px 0px;}
+.item h2, .neutral h2{font-size:15px;font-weight:bold;margin:5px 0px;}
 .item h2 a:link, .item h2 a:visited{text-decoration:none;}
 #items .item .actions{float:right;margin-right:0px;}
 .item .actions li{margin:5px 0px 5px 4px;}
