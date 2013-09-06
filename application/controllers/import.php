@@ -25,15 +25,15 @@ class Import extends CI_Controller {
 					$this->feeds = array();
 					$this->import_opml($obj->body);
 
-					$content .= '<div id="content">';
+					$content .= '<div id="actions-main">
+	<ul class="actions">
+		<li><a href="'.base_url().'subscriptions"><i class="icon icon-step-backward"></i>'.$this->lang->line('back').'</a></li>
+	</ul>
+</div>
+<main><section><section>';
 
 					if(count($this->folders) > 0) {
-						$content_folders = '<h1><i class="icon icon-folder-close"></i>'.$this->lang->line('folders').' ('.count($this->folders).')</h1>';
-						$content_folders .= '<table>';
-						$content_folders .= '<thead>';
-						$content_folders .= '<tr><th>&nbsp;</th><th>'.$this->lang->line('title').'</th></tr>';
-						$content_folders .= '</thead>';
-						$content_folders .= '<tbody>';
+						$content_folders = '<article class="cell"><h2><i class="icon icon-folder-close"></i>'.$this->lang->line('folders').' ('.count($this->folders).')</h2></article>';
 						$folders = array();
 						foreach($this->folders as $value) {
 							$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.flr_title = ? AND flr.mbr_id = ? GROUP BY flr.flr_id', array($value, $this->member->mbr_id));
@@ -44,30 +44,27 @@ class Import extends CI_Controller {
 								$this->db->insert('folders');
 								$flr_id = $this->db->insert_id();
 								$folders[$value] = $flr_id;
-								$content_folders .= '<tr><td><i class="icon icon-plus"></i></td><td>'.$value.'</td></tr>';
+								$icon = 'plus';
 							} else {
 								$flr = $query->row();
 								$folders[$value] = $flr->flr_id;
-								$content_folders .= '<tr><td><i class="icon icon-repeat"></i></td><td>'.$value.'</td></tr>';
+								$icon = 'repeat';
 							}
+							$content_folders .= '<article class="cell">
+								<ul class="actions">
+									<li><a href="'.base_url().'folders/update/'.$folders[$value].'"><i class="icon icon-pencil"></i>'.$this->lang->line('update').'</a></li>
+									<li><a href="'.base_url().'folders/delete/'.$folders[$value].'"><i class="icon icon-trash"></i>'.$this->lang->line('delete').'</a></li>
+								</ul>
+								<h2><a href="'.base_url().'folders/read/'.$folders[$value].'"><i class="icon icon-'.$icon.'"></i>'.$value.'</a></h2>
+							</article>';
 						}
-						$content_folders .= '</tbody>';
-						$content_folders .= '</table>';
 						if($this->config->item('folders')) {
 							$content .= $content_folders;
 						}
 					}
 
 					if(count($this->feeds) > 0) {
-						$content .= '<h1><i class="icon icon-rss"></i>'.$this->lang->line('subscriptions').' ('.count($this->feeds).')</h1>';
-						$content .= '<table>';
-						$content .= '<thead>';
-						$content .= '<tr><th>&nbsp;</th><th>'.$this->lang->line('title').'</th><th>'.$this->lang->line('url').'</th>';
-						if($this->config->item('folders')) {
-							$content .= '<th>'.$this->lang->line('folder').'</th></tr>';
-						}
-						$content .= '</thead>';
-						$content .= '<tbody>';
+						$content .= '<article class="cell"><h2><i class="icon icon-rss"></i>'.$this->lang->line('subscriptions').' ('.count($this->feeds).')</h2></article>';
 						foreach($this->feeds as $obj) {
 							if(!$obj->title && isset($obj->text) == 1) {
 								$obj->title = $obj->text;
@@ -78,8 +75,6 @@ class Import extends CI_Controller {
 							if(!$obj->htmlUrl && isset($obj->url) == 1) {
 								$obj->htmlUrl = $obj->url;
 							}
-
-							$content .= '<tr>';
 
 							$query = $this->db->query('SELECT fed.*, sub.sub_id FROM '.$this->db->dbprefix('feeds').' AS fed LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = fed.fed_id AND sub.mbr_id = ? WHERE fed.fed_link = ? GROUP BY fed.fed_id', array($this->member->mbr_id, $obj->xmlUrl));
 							if($query->num_rows() == 0) {
@@ -99,7 +94,7 @@ class Import extends CI_Controller {
 								$this->db->insert('subscriptions');
 								$sub_id = $this->db->insert_id();
 
-								$content .= '<td><i class="icon icon-plus"></i></td><td>'.$obj->title.'</td><td>'.$obj->xmlUrl.'</td>';
+								$icon = 'plus';
 							} else {
 								$fed = $query->row();
 								if($fed->sub_id) {
@@ -109,8 +104,9 @@ class Import extends CI_Controller {
 										$this->db->where('sub_id', $fed->sub_id);
 										$this->db->update('subscriptions');
 									}
+									$sub_id = $fed->sub_id;
 
-									$content .= '<td><i class="icon icon-repeat"></i></td><td>'.$obj->title.'</td><td>'.$obj->xmlUrl.'</td>';
+									$icon = 'repeat';
 								} else {
 									$this->db->set('mbr_id', $this->member->mbr_id);
 									$this->db->set('fed_id', $fed->fed_id);
@@ -121,21 +117,28 @@ class Import extends CI_Controller {
 									$this->db->insert('subscriptions');
 									$sub_id = $this->db->insert_id();
 
-									$content .= '<td><i class="icon icon-plus"></i></td><td>'.$obj->title.'</td><td>'.$obj->xmlUrl.'</td>';
+									$icon = 'plus';
 								}
 							}
-							if($this->config->item('folders')) {
-								if($obj->flr && array_key_exists($obj->flr, $folders)) {
-									$content .= '<td>'.$obj->flr.'</td>';
-								} else {
-									$content .= '<td><em>'.$this->lang->line('no_folder').'</em></td>';
+							$content .= '<article class="cell">
+								<ul class="actions">
+									<li><a href="'.base_url().'subscriptions/update/'.$sub_id.'"><i class="icon icon-pencil"></i>'.$this->lang->line('update').'</a></li>
+									<li><a href="'.base_url().'subscriptions/delete/'.$sub_id.'"><i class="icon icon-trash"></i>'.$this->lang->line('delete').'</a></li>
+								</ul>
+								<h2><a href="'.base_url().'subscriptions/read/'.$sub_id.'"><i class="icon icon-'.$icon.'"></i>'.$obj->title.'</a></h2>
+								<ul class="item-details">';
+								if($this->config->item('folders')) {
+									if($obj->flr && array_key_exists($obj->flr, $folders)) {
+										$content .= '<li><a href="'.base_url().'folders/read/'.$folders[$obj->flr].'"><i class="icon icon-folder-close"></i>'.$obj->flr.'</a></li>';
+									} else {
+										$content .= '<li><i class="icon icon-folder-close"></i><em>'.$this->lang->line('no_folder').'</em></li>';
+									}
 								}
-							}
-							$content .= '</tr>';
+								$content .= '</ul>
+							</article>';
 						}
 					}
-					$content .= '</tbody>';
-					$content .= '</table>';
+					$content .= '</section></section></main>';
 				} else {
 					$this->output->set_status_header(500);
 				}
