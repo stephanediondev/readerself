@@ -33,7 +33,7 @@ class Import extends CI_Controller {
 <main><section><section>';
 
 					if(count($this->folders) > 0) {
-						$content_folders = '<article class="cell"><h2><i class="icon icon-folder-close"></i>'.$this->lang->line('folders').' ('.count($this->folders).')</h2></article>';
+						$content_folders = '<article class="cell title"><h2><i class="icon icon-folder-close"></i>'.$this->lang->line('folders').' ('.count($this->folders).')</h2></article>';
 						$folders = array();
 						foreach($this->folders as $value) {
 							$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.flr_title = ? AND flr.mbr_id = ? GROUP BY flr.flr_id', array($value, $this->member->mbr_id));
@@ -64,7 +64,7 @@ class Import extends CI_Controller {
 					}
 
 					if(count($this->feeds) > 0) {
-						$content .= '<article class="cell"><h2><i class="icon icon-rss"></i>'.$this->lang->line('subscriptions').' ('.count($this->feeds).')</h2></article>';
+						$content .= '<article class="cell title"><h2><i class="icon icon-rss"></i>'.$this->lang->line('subscriptions').' ('.count($this->feeds).')</h2></article>';
 						foreach($this->feeds as $obj) {
 							if(!$obj->title && isset($obj->text) == 1) {
 								$obj->title = $obj->text;

@@ -10,6 +10,10 @@
 
 	<?php echo form_open(current_url()); ?>
 
+		<article class="cell title">
+			<h2><i class="icon icon-folder-close"></i><?php echo $this->lang->line('folders'); ?></h2>
+		</article>
+
 		<article class="cell">
 			<ul class="actions">
 				<li><a href="<?php echo base_url(); ?>folders/delete/<?php echo $folder->flr_id; ?>"><i class="icon icon-trash"></i><?php echo $this->lang->line('delete'); ?></a></li>

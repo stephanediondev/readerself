@@ -15,7 +15,7 @@
 <main>
 	<section>
 		<section>
-		<article class="cell">
+		<article class="cell title">
 			<h2><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?> (<?php echo $position; ?>)</h2>
 		</article>
 	<?php if($subscriptions) { ?>

@@ -10,7 +10,7 @@
 
 	<?php echo form_open_multipart(current_url()); ?>
 
-		<article class="cell">
+		<article class="cell title">
 			<h2><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?></h2>
 		</article>
 

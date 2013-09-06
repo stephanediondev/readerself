@@ -1,5 +1,4 @@
 <?php
-$lang['add_folder'] = 'Ajouter un dossier';
 $lang['add'] = 'Ajouter';
 $lang['age'] = 'Age';
 $lang['all_items'] = 'Tous les éléments';

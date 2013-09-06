@@ -14,7 +14,7 @@
 <main>
 	<section>
 		<section>
-	<article class="cell">
+	<article class="cell title">
 		<h2><i class="icon icon-folder-close"></i><?php echo $this->lang->line('folders'); ?> (<?php echo $position; ?>)</h2>
 	</article>
 	<?php if($folders) { ?>

@@ -10,9 +10,11 @@
 
 	<?php echo form_open(current_url()); ?>
 
-		<article class="cell">
-			<h2><i class="icon icon-folder-close"></i><?php echo $this->lang->line('add_folder'); ?></h2>
-		</article>
+	<article class="cell title">
+		<h2><i class="icon icon-folder-close"></i><?php echo $this->lang->line('folders'); ?></h2>
+	</article>
+
+	<h2><i class="icon icon-plus"></i><?php echo $this->lang->line('add'); ?></h2>
 
 	<p>
 	<?php echo form_label($this->lang->line('title'), 'flr_title'); ?>

@@ -10,7 +10,11 @@
 
 	<?php echo validation_errors(); ?>
 
-	<div class="cell">
+	<article class="cell title">
+		<h2><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?></h2>
+	</article>
+
+	<article class="cell">
 		<ul class="actions">
 			<li><a href="<?php echo base_url(); ?>subscriptions/update/<?php echo $sub->sub_id; ?>"><i class="icon icon-pencil"></i><?php echo $this->lang->line('update'); ?></a></li>
 		</ul>
@@ -27,7 +31,7 @@
 		<div class="item-content">
 			<?php echo $sub->fed_description; ?>
 		</div>
-	</div>
+	</article>
 
 	<h2><i class="icon icon-trash"></i><?php echo $this->lang->line('delete'); ?></h2>
 

@@ -7,11 +7,17 @@
 <main>
 	<section>
 		<section>
-	<h1><i class="icon icon-user"></i><?php echo $this->lang->line('profile'); ?></h1>
 
 	<?php echo validation_errors(); ?>
 
 	<?php echo form_open(current_url()); ?>
+
+	<article class="cell title">
+		<h2><i class="icon icon-user"></i><?php echo $this->lang->line('profile'); ?></h2>
+	</article>
+
+
+	<h2><i class="icon icon-pencil"></i><?php echo $this->lang->line('update'); ?></h2>
 
 	<p>
 	<?php echo form_label($this->lang->line('mbr_email'), 'mbr_email'); ?>
@@ -39,7 +45,7 @@
 
 	<?php echo form_close(); ?>
 
-	<article class="cell">
+	<article class="cell title">
 		<h2><i class="icon icon-signin"></i><?php echo $this->lang->line('connections'); ?></h2>
 		<ul class="item-details">
 			<li>* <?php echo $this->lang->line('current_connection'); ?></li>

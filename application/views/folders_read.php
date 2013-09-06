@@ -6,6 +6,11 @@
 <main>
 	<section>
 		<section>
+
+		<article class="cell title">
+			<h2><i class="icon icon-folder-close"></i><?php echo $this->lang->line('folders'); ?></h2>
+		</article>
+
 		<article class="cell">
 			<ul class="actions">
 				<li><a href="<?php echo base_url(); ?>folders/update/<?php echo $flr->flr_id; ?>"><i class="icon icon-pencil"></i><?php echo $this->lang->line('update'); ?></a></li>
