@@ -103,9 +103,22 @@ function refresh() {
 		});
 	}
 }
+function set_positions() {
+	_window_height = $(window).height();
+
+	_offset = $('#items').offset();
+	_height = _window_height - _offset.top;
+	$('#items').css({ 'height': _height});
+	$('#items-display').css({ 'padding-bottom': _height});
+
+	_offset = $('#sidebar').offset();
+	_height = _window_height - _offset.top;
+	$('#sidebar').css({ 'height': _height});
+}
 $(document).ready(function() {
 	if(is_logged) {
 		refresh();
+		set_positions();
 		setInterval(refresh, 10000*6*10);
 	}
 
@@ -132,6 +145,19 @@ $(document).ready(function() {
 
 	$(window).bind('resize scroll', function(event) {
 		set_positions_modal();
+	});
+
+	$(window).bind('resize', function(event) {
+		set_positions();
+	});
+
+	$('#toggle-sidebar').bind('click', function(event) {
+		event.preventDefault();
+		if($('#sidebar').is(':visible')) {
+			$('#sidebar').hide();
+		} else {
+			$('#sidebar').show();
+		}
 	});
 
 	$('body').append('<div id="overlay"></div>');

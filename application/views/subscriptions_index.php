@@ -1,25 +1,23 @@
-<div id="content">
-	<h1><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?> (<?php echo $position; ?>)</h1>
+<div id="sidebar">
+	<ul class="menu">
+		<li><label for="subscriptions_fed_title"><i class="icon icon-search"></i><?php echo $this->lang->line('search'); ?></label></li>
+		<li><?php echo form_open(current_url()); ?>
+			<?php echo form_input($this->router->class.'_subscriptions_fed_title', set_value($this->router->class.'_subscriptions_fed_title', $this->session->userdata($this->router->class.'_subscriptions_fed_title')), 'id="subscriptions_fed_title" class="inputtext"'); ?></li>
+		<?php echo form_close(); ?>
+	</ul>
+</div>
+<div id="actions-main">
 	<ul class="actions">
 		<li><a href="<?php echo base_url(); ?>import"><i class="icon icon-download-alt"></i><?php echo $this->lang->line('import'); ?></a></li>
 		<li><a href="<?php echo base_url(); ?>export"><i class="icon icon-upload-alt"></i><?php echo $this->lang->line('export'); ?></a></li>
 	</ul>
-
-	<?php echo form_open(current_url()); ?>
-	<div class="filters">
-		<div>
-			<?php echo form_label($this->lang->line('title'), 'subscriptions_fed_title'); ?>
-			<?php echo form_input($this->router->class.'_subscriptions_fed_title', set_value($this->router->class.'_subscriptions_fed_title', $this->session->userdata($this->router->class.'_subscriptions_fed_title')), 'id="subscriptions_fed_title" class="inputtext"'); ?>
+</div>
+<div id="content">
+	<div id="items">
+		<div class="cell">
+			<h2><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?> (<?php echo $position; ?>)</h2>
 		</div>
-		<div>
-			<button type="submit"><?php echo $this->lang->line('send'); ?></button>
-		</div>
-	</div>
-	<?php echo form_close(); ?>
 	<?php if($subscriptions) { ?>
-		<div class="paging">
-			<?php echo $pagination; ?>
-		</div>
 		<?php foreach($subscriptions as $sub) { ?>
 		<div class="cell">
 			<ul class="actions">
@@ -45,4 +43,5 @@
 			<?php echo $pagination; ?>
 		</div>
 	<?php } ?>
+	</div>
 </div>

@@ -171,7 +171,7 @@
 <td>Yes</td>
 <td>Yes</td><!-- Digg Reader -->
 <td>No</td><!-- Feedly -->
-<td>No<sup>1</sup></td><!-- Feedspot -->
+<td>Yes</td><!-- Feedspot -->
 <td>No</td><!-- InoReader-->
 <td>No</td><!-- SilverReader -->
 <td>Yes</td><!-- The Old Reader -->
