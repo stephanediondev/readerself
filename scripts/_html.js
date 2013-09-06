@@ -109,7 +109,9 @@ function set_positions() {
 	_offset = $('main > section').offset();
 	_height = _window_height - _offset.top;
 	$('main > section').css({ 'height': _height});
-	$('main section section').css({ 'padding-bottom': _height});
+	if(ci_controller == 'home') {
+		$('main section section').css({ 'padding-bottom': _height});
+	}
 
 	if($('aside').length > 0) {
 		_offset = $('aside').offset();

@@ -43,6 +43,7 @@ var base_url = '<?php echo base_url(); ?>';
 var csrf_token_name = '<?php echo $this->config->item('csrf_token_name'); ?>';
 var csrf_cookie_name = '<?php echo $this->config->item('csrf_cookie_name'); ?>';
 var current_url = '<?php echo current_url(); ?>';
+var ci_controller = '<?php echo $this->router->class; ?>';
 
 <?php if($this->session->userdata('logged_member')) { ?>
 var is_logged = true;
