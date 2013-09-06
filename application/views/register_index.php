@@ -1,4 +1,6 @@
-<div id="content">
+<main>
+	<section>
+		<section>
 	<h1><i class="icon icon-user"></i><?php echo $this->lang->line('register'); ?></h1>
 
 	<?php echo validation_errors(); ?>
@@ -30,4 +32,6 @@
 	</p>
 
 	<?php echo form_close(); ?>
-</div>
+		</section>
+	</section>
+</main>

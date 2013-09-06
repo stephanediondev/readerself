@@ -1,4 +1,6 @@
-<div id="content">
+<main>
+	<section>
+		<section>
 	<h1><i class="icon icon-signin"></i><?php echo $this->lang->line('login'); ?></h1>
 
 	<?php echo validation_errors(); ?>
@@ -20,4 +22,6 @@
 	</p>
 
 <?php echo form_close(); ?>
-</div>
+		</section>
+	</section>
+</main>

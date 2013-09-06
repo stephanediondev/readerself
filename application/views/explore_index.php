@@ -1,4 +1,6 @@
-<div id="content">
+<main>
+	<section>
+		<section>
 	<h1><i class="icon icon-group"></i><?php echo $this->lang->line('explore'); ?> (<?php echo $position; ?>)</h1>
 
 	<?php echo form_open(current_url()); ?>
@@ -46,4 +48,6 @@
 		<?php echo $pagination; ?>
 	</div>
 	<?php } ?>
-</div>
+		</section>
+	</section>
+</main>

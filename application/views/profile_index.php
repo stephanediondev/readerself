@@ -1,4 +1,6 @@
-<div id="content">
+<main>
+	<section>
+		<section>
 	<h1><i class="icon icon-user"></i><?php echo $this->lang->line('profile'); ?></h1>
 
 	<?php echo validation_errors(); ?>
@@ -66,4 +68,6 @@
 		</tbody>
 	</table>
 	<p>* <?php echo $this->lang->line('current_connection'); ?></p>
-</div>
+		</section>
+	</section>
+</main>

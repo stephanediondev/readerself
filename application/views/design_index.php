@@ -1,4 +1,4 @@
-<aside>
+<div id="sidebar">
 	<ul class="actions">
 		<li><a id="add_subscribe" href="<?php echo base_url(); ?>subscribe" class="modal_show"><i class="icon icon-plus"></i><?php echo $this->lang->line('subscribe'); ?>...</a></li>
 		<li class="show-phone"><a href="#" class="mode-items"><span class="unread_only"><i class="icon icon-eye-close"></i><?php echo $this->lang->line('unread_only'); ?></span><span class="read_and_unread"><i class="icon icon-eye-open"></i><?php echo $this->lang->line('read_and_unread'); ?></span></a></li>
@@ -31,7 +31,7 @@
 			<?php echo form_close(); ?>
 		</li>
 	</ul>
-</aside>
+</div>
 <div id="actions-main">
 	<ul class="actions">
 		<li><a href="#" id="refresh-items"><i class="icon icon-refresh"></i><?php echo $this->lang->line('refresh'); ?></a></li>
@@ -42,9 +42,9 @@
 		<li><a href="#" id="item-down"><i class="icon icon-chevron-down"></i><?php echo $this->lang->line('down'); ?></a></li>
 	</ul>
 </div>
-<main>
-	<section>
-		<section>
-		</section>
-	</section>
-</main>
+<div id="content">
+	<div id="items">
+		<div id="items-display">
+		</div>
+	</div>
+</div>

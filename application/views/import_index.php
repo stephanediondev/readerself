@@ -1,4 +1,6 @@
-<div id="content">
+<main>
+	<section>
+		<section>
 	<h1><i class="icon icon-download-alt"></i><?php echo $this->lang->line('import'); ?></h1>
 
 	<?php echo validation_errors(); ?>
@@ -16,4 +18,6 @@
 	</p>
 
 	<?php echo form_close(); ?>
-</div>
+		</section>
+	</section>
+</main>

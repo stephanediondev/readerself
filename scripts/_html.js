@@ -106,14 +106,14 @@ function refresh() {
 function set_positions() {
 	_window_height = $(window).height();
 
-	_offset = $('#items').offset();
+	_offset = $('main > section').offset();
 	_height = _window_height - _offset.top;
-	$('#items').css({ 'height': _height});
-	$('#items-display').css({ 'padding-bottom': _height});
+	$('main > section').css({ 'height': _height});
+	$('main section section').css({ 'padding-bottom': _height});
 
-	_offset = $('#sidebar').offset();
+	_offset = $('aside').offset();
 	_height = _window_height - _offset.top;
-	$('#sidebar').css({ 'height': _height});
+	$('aside').css({ 'height': _height});
 }
 $(document).ready(function() {
 	if(is_logged) {
@@ -153,10 +153,10 @@ $(document).ready(function() {
 
 	$('#toggle-sidebar').bind('click', function(event) {
 		event.preventDefault();
-		if($('#sidebar').is(':visible')) {
-			$('#sidebar').hide();
+		if($('aside').is(':visible')) {
+			$('aside').hide();
 		} else {
-			$('#sidebar').show();
+			$('aside').show();
 		}
 	});
 

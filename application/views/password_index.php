@@ -1,4 +1,6 @@
-<div id="content">
+<main>
+	<section>
+		<section>
 	<h1><i class="icon icon-key"></i><?php echo $this->lang->line('password'); ?></h1>
 
 	<?php echo validation_errors(); ?>
@@ -15,4 +17,6 @@
 	</p>
 
 	<?php echo form_close(); ?>
-</div>
+		</section>
+	</section>
+</main>
