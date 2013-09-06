@@ -111,9 +111,11 @@ function set_positions() {
 	$('main > section').css({ 'height': _height});
 	$('main section section').css({ 'padding-bottom': _height});
 
-	_offset = $('aside').offset();
-	_height = _window_height - _offset.top;
-	$('aside').css({ 'height': _height});
+	if($('aside').length > 0) {
+		_offset = $('aside').offset();
+		_height = _window_height - _offset.top;
+		$('aside').css({ 'height': _height});
+	}
 }
 $(document).ready(function() {
 	if(is_logged) {

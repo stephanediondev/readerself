@@ -28,9 +28,11 @@
 
 	<article class="cell">
 	<h2><i class="icon icon-bar-chart"></i><?php echo $this->lang->line('statistics'); ?></h2>
+	<ul class="item-details">
+		<li>*<?php echo $this->lang->line('last_30_days'); ?></li>
+	</ul>
 	<div class="item-content">
 		<?php echo $tables; ?>
-		<p>*<?php echo $this->lang->line('last_30_days'); ?></p>
 	</div>
 	</article>
 		</section>

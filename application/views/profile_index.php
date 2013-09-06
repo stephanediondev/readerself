@@ -1,3 +1,9 @@
+<div id="actions-main">
+	<ul class="actions">
+		<li><a href="<?php echo base_url(); ?>profile/logout_purge"><i class="icon icon-signout"></i><?php echo $this->lang->line('logout_purge'); ?></a></li>
+		<li><a target="_blank" href="<?php echo base_url(); ?>share/<?php echo $this->member->token_share; ?>"><i class="icon icon-heart"></i><?php echo $this->lang->line('share_url'); ?></a></li>
+	</ul>
+</div>
 <main>
 	<section>
 		<section>
@@ -33,41 +39,28 @@
 
 	<?php echo form_close(); ?>
 
-	<h1><i class="icon icon-heart"></i><?php echo $this->lang->line('share_url'); ?></h1>
-	<p><?php echo base_url(); ?>share/<?php echo $this->member->token_share; ?></p>
+	<article class="cell">
+		<h2><i class="icon icon-signin"></i><?php echo $this->lang->line('connections'); ?></h2>
+		<ul class="item-details">
+			<li>* <?php echo $this->lang->line('current_connection'); ?></li>
+		</ul>
+	</article>
 
-	<h1><i class="icon icon-signin"></i><?php echo $this->lang->line('connections'); ?></h1>
 	<?php if(count($connections) > 1) { ?>
-	<ul class="actions">
-	<li><a href="<?php echo base_url(); ?>profile/logout_purge"><i class="icon icon-signout"></i><?php echo $this->lang->line('logout_purge'); ?></a></li>
-	</ul>
 	<?php } ?>
-	<table class="table table-condensed table-hover">
-		<thead>
-		<tr>
-		<th><?php echo $this->lang->line('connection_agent'); ?></th>
-		<th><?php echo $this->lang->line('connection_platform'); ?></th>
-		<th><?php echo $this->lang->line('connection_browser'); ?></th>
-		<th><?php echo $this->lang->line('connection_version'); ?></th>
-		<th><?php echo $this->lang->line('connection_ip'); ?></th>
-		<th><?php echo $this->lang->line('connection_datecreated'); ?></th>
-		</tr>
-		</thead>
-		<tbody>
 		<?php foreach($connections as $cnt) { ?>
 		<?php $ua_info = parse_user_agent($cnt->cnt_agent); ?>
-		<tr>
-		<td><?php echo $cnt->cnt_agent; ?></td>
-		<td><?php echo $ua_info['platform']; ?></td>
-		<td><?php echo $ua_info['browser']; ?></td>
-		<td><?php echo $ua_info['version']; ?></td>
-		<td><?php echo $cnt->cnt_ip; ?><?php if($this->member->token_connection == $cnt->token_connection) { ?> *<?php } ?></td>
-		<td><?php echo $cnt->cnt_datecreated; ?> (<span class="timeago" title="<?php echo $cnt->cnt_datecreated; ?>"></span>)</td>
-		</tr>
+		<?php list($date, $time) = explode(' ', $cnt->cnt_datecreated); ?>
+			<article class="cell">
+				<h2><i class="icon icon-signin"></i><?php echo $ua_info['platform']; ?> <?php echo $ua_info['browser']; ?> <?php echo $ua_info['version']; ?><?php if($this->member->token_connection == $cnt->token_connection) { ?> *<?php } ?></h2>
+				<ul class="item-details">
+					<li><i class="icon icon-bolt"></i><?php echo $cnt->cnt_ip; ?></li>
+					<li><i class="icon icon-calendar"></i><?php echo $date; ?></li>
+					<li><i class="icon icon-time"></i><?php echo $time; ?> (<span class="timeago" title="<?php echo $cnt->cnt_datecreated; ?>"></span>)</li>
+					<li class="block"><?php echo $cnt->cnt_agent; ?></li>
+				</ul>
+			</article>
 		<?php } ?>
-		</tbody>
-	</table>
-	<p>* <?php echo $this->lang->line('current_connection'); ?></p>
 		</section>
 	</section>
 </main>
