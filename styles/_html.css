@@ -151,14 +151,14 @@ main section .item .item-footer .actions{float:none;text-align:left;}
 .data_table table td.result{text-align:center;}
 .data_table tr:hover td{background-color:#E7E7E7;}
 
-@media (max-width:1024px){
+@media(max-width:1000px){
 header nav{margin:5px 0px 0px 10px;}
 .hide-tablet{display:none !important;}
 .show-tablet{display:inline-block !important;}
 main > section{margin:10px 0px 0px 10px;}
 aside{display:none;background-color:#FFFFFF;left:0px;position:absolute;top:25px;width:100%;z-index:1000;}
 }
-@media (max-width:400px){
+@media(max-width:500px){
 main > section{margin-top:40px !important;}
 .show-phone{display:inline-block !important;}
 .hide-tablet{display:none !important;}
