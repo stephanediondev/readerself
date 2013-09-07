@@ -188,6 +188,28 @@
 <td>Yes</td><!-- The Old Reader -->
 </tr>
 
+<tr>
+<th>List by tag</th>
+<td>Yes</td>
+<td>No</td><!-- Digg Reader -->
+<td>Yes</td><!-- Feedly -->
+<td>Yes</td><!-- Feedspot -->
+<td>Yes</td><!-- InoReader-->
+<td>No</td><!-- SilverReader -->
+<td>No</td><!-- The Old Reader -->
+</tr>
+
+<tr>
+<th>List by author</th>
+<td>Yes</td>
+<td>No</td><!-- Digg Reader -->
+<td>No</td><!-- Feedly -->
+<td>No</td><!-- Feedspot -->
+<td>No</td><!-- InoReader-->
+<td>No</td><!-- SilverReader -->
+<td>No</td><!-- The Old Reader -->
+</tr>
+
 </table>
 
 <p><sup>(1)</sup> available on the paid version</p>

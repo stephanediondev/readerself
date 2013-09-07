@@ -66,7 +66,7 @@ pre{border:1px dashed #000000;padding:5px;}
 label,.label{cursor:text;display:block;padding-bottom:2px;padding-top:5px;position:relative;}
 input{border: 1px solid #777777;padding:5px;}
 header nav{height:20px;margin:10px 0px 0px 10px;}
-main section{height:auto;margin:10px 0px 0px 10px;position:relative;}
+main > section{height:auto;margin:10px 0px 0px 10px;position:relative;}
 .actions{font-size:12px;margin-bottom:5px;}
 th .actions{margin-bottom:0px;}
 .actions li{display:inline-block;margin:5px 5px 5px 0px;white-space:nowrap;}
@@ -154,18 +154,18 @@ main section .item .item-footer .actions{float:none;text-align:left;}
 @media (max-width:1024px){
 .hide-tablet{display:none !important;}
 .show-tablet{display:inline-block !important;}
-main section{margin:10px 0px 0px 10px;}
+main > section{margin:10px 0px 0px 10px;}
 #actions-main{margin:5px 20px 0px 10px;}
 aside{display:none;background-color:#FFFFFF;left:0px;position:absolute;top:25px;width:100%;z-index:1000;}
 }
 @media (max-width:400px){
 header nav{position:absolute;left:0px;top:0px;}
-main section{margin-top:40px !important;}
+main > section{margin-top:40px !important;}
 header nav .actions li{margin-top:0px !important;}
 .show-phone{display:inline-block !important;}
 .hide-tablet{display:none !important;}
 .hide-phone{display:none !important;}
-main section{margin-top:10px !important;}
+main > section{margin-top:10px !important;}
 #actions-main{margin:5px 5px 0px 10px;}
 .item h2{clear:both;font-size:14px;}
 }
