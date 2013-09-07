@@ -36,7 +36,6 @@
 			</ul>
 			<div class="item-content">
 				<?php echo $sub->fed_description; ?>
-				<?php //echo $sub->fed_link; ?>
 			</div>
 		</article>
 		<?php } ?>
