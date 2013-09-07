@@ -393,7 +393,7 @@ $(document).ready(function() {
 
 			//$('aside input').val(itm_id);
 			offset = $(this).offset()
-			if(offset.top + ref.height() - 50 < 0) {
+			if(offset.top + ref.height() - 60 < 0) {
 				set_read(ref);
 				return true;
 			} else {

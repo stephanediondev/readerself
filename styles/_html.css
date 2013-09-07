@@ -115,7 +115,7 @@ article.title{background-color:transparent;}
 .item-selected{border:1px solid #000000;}
 .item h2, .neutral h2{font-size:15px;font-weight:bold;margin:5px 0px;}
 .item h2 a:link, .item h2 a:visited{text-decoration:none;}
-main section .item .actions{float:right;margin-right:0px;}
+main > section .item .actions{float:right;margin-right:0px;}
 .item .actions li{margin:5px 0px 5px 4px;}
 .item .actions a:link, .item .actions a:visited{background-color:#5660d1;}
 .item-content{line-height:1.4;}
@@ -163,7 +163,6 @@ aside{display:none;background-color:#FFFFFF;left:0px;position:absolute;top:25px;
 @media (max-width:400px){
 /*header nav{position:absolute;left:0px;top:0px;}*/
 main > section{margin-top:40px !important;}
-header nav .actions li{margin-top:0px !important;}
 .show-phone{display:inline-block !important;}
 .hide-tablet{display:none !important;}
 .hide-phone{display:none !important;}
