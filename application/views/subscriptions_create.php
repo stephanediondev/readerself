@@ -1,5 +1,16 @@
-<div id="modal-display">
-	<h1><i class="icon icon-plus"></i><?php echo $this->lang->line('subscribe'); ?></h1>
+<div id="actions-main">
+	<ul class="actions">
+		<li><a href="<?php echo base_url(); ?>subscriptions"><i class="icon icon-step-backward"></i><?php echo $this->lang->line('back'); ?></a></li>
+	</ul>
+</div>
+<main>
+	<section>
+		<section>
+	<article class="cell title">
+		<h2><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?></h2>
+	</article>
+
+	<h2><i class="icon icon-plus"></i><?php echo $this->lang->line('add'); ?></h2>
 
 	<?php echo validation_errors(); ?>
 
@@ -25,4 +36,6 @@
 	<button type="submit"><?php echo $this->lang->line('send'); ?></button>
 	</p>
 	<?php echo form_close(); ?>
-</div>
+		</section>
+	</section>
+</main>

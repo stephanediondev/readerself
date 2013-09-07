@@ -360,7 +360,7 @@ $(document).ready(function() {
 					modal_show($('#read_all').attr('href'));
 				//a
 				} else {
-					modal_show($('#add_subscribe').attr('href'));
+					window.location.href = base_url + 'subscriptions/create';
 				}
 
 			//k or p or shift + space

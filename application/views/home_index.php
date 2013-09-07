@@ -1,6 +1,5 @@
 <aside>
 	<ul class="actions">
-		<li><a id="add_subscribe" href="<?php echo base_url(); ?>subscribe" class="modal_show"><i class="icon icon-plus"></i><?php echo $this->lang->line('subscribe'); ?>...</a></li>
 		<li class="show-phone"><a href="#" class="mode-items"><span class="unread_only"><i class="icon icon-eye-close"></i><?php echo $this->lang->line('unread_only'); ?></span><span class="read_and_unread"><i class="icon icon-eye-open"></i><?php echo $this->lang->line('read_and_unread'); ?></span></a></li>
 		<li><a href="<?php echo base_url(); ?>logout"><i class="icon icon-signout"></i><?php echo $this->lang->line('logout'); ?></a></li>
 	</ul>
