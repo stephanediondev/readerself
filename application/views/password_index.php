@@ -1,7 +1,9 @@
 <main>
 	<section>
 		<section>
-	<h1><i class="icon icon-key"></i><?php echo $this->lang->line('password'); ?></h1>
+	<article class="cell title">
+		<h2><i class="icon icon-key"></i><?php echo $this->lang->line('password'); ?></h2>
+	</article>
 
 	<?php echo validation_errors(); ?>
 
@@ -17,6 +19,7 @@
 	</p>
 
 	<?php echo form_close(); ?>
+
 		</section>
 	</section>
 </main>

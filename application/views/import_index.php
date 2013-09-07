@@ -6,15 +6,15 @@
 <main>
 	<section>
 		<section>
-	<?php echo validation_errors(); ?>
-
-	<?php echo form_open_multipart(current_url()); ?>
-
 		<article class="cell title">
 			<h2><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?></h2>
 		</article>
 
 	<h2><i class="icon icon-download-alt"></i><?php echo $this->lang->line('import'); ?></h2>
+
+	<?php echo validation_errors(); ?>
+
+	<?php echo form_open_multipart(current_url()); ?>
 
 	<input type="hidden" name="hidden">
 
@@ -28,6 +28,7 @@
 	</p>
 
 	<?php echo form_close(); ?>
+
 		</section>
 	</section>
 </main>

@@ -1,7 +1,9 @@
 <main>
 	<section>
 		<section>
-	<h1><i class="icon icon-user"></i><?php echo $this->lang->line('register'); ?></h1>
+	<article class="cell title">
+		<h2><i class="icon icon-user"></i><?php echo $this->lang->line('register'); ?></h2>
+	</article>
 
 	<?php echo validation_errors(); ?>
 
@@ -32,6 +34,7 @@
 	</p>
 
 	<?php echo form_close(); ?>
+
 		</section>
 	</section>
 </main>

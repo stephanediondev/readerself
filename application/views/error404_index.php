@@ -1,7 +1,9 @@
 <main>
 	<section>
 		<section>
-	<h1><?php echo $this->lang->line('error404'); ?></h1>
+		<article class="cell title">
+			<h2><i class="icon icon-bug"></i><?php echo $this->lang->line('error404'); ?></h2>
+		</article>
 		</section>
 	</section>
 </main>

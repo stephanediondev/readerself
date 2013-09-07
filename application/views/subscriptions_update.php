@@ -6,10 +6,6 @@
 <main>
 	<section>
 		<section>
-	<?php echo validation_errors(); ?>
-
-	<?php echo form_open(current_url()); ?>
-
 	<article class="cell title">
 		<h2><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?></h2>
 	</article>
@@ -35,6 +31,10 @@
 
 	<h2><i class="icon icon-pencil"></i><?php echo $this->lang->line('update'); ?></h2>
 
+	<?php echo validation_errors(); ?>
+
+	<?php echo form_open(current_url()); ?>
+
 	<p>
 	<?php echo form_label($this->lang->line('title_alternative'), 'sub_title'); ?>
 	<?php echo form_input('sub_title', set_value('sub_title', $sub->sub_title), 'id="sub_title" class="inputtext required"'); ?>
@@ -48,7 +48,9 @@
 	<p>
 	<button type="submit"><?php echo $this->lang->line('send'); ?></button>
 	</p>
+
 	<?php echo form_close(); ?>
+
 		</section>
 	</section>
 </main>

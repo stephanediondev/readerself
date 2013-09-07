@@ -1,7 +1,9 @@
 <main>
 	<section>
 		<section>
-	<h1><i class="icon icon-signin"></i><?php echo $this->lang->line('login'); ?></h1>
+	<article class="cell title">
+		<h2><i class="icon icon-signin"></i><?php echo $this->lang->line('login'); ?></h2>
+	</article>
 
 	<?php echo validation_errors(); ?>
 
@@ -21,7 +23,8 @@
 	<button type="submit"><?php echo $this->lang->line('send'); ?></button>
 	</p>
 
-<?php echo form_close(); ?>
+	<?php echo form_close(); ?>
+
 		</section>
 	</section>
 </main>

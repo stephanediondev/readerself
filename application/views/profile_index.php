@@ -8,16 +8,15 @@
 	<section>
 		<section>
 
-	<?php echo validation_errors(); ?>
-
-	<?php echo form_open(current_url()); ?>
-
 	<article class="cell title">
 		<h2><i class="icon icon-user"></i><?php echo $this->lang->line('profile'); ?></h2>
 	</article>
 
-
 	<h2><i class="icon icon-pencil"></i><?php echo $this->lang->line('update'); ?></h2>
+
+	<?php echo validation_errors(); ?>
+
+	<?php echo form_open(current_url()); ?>
 
 	<p>
 	<?php echo form_label($this->lang->line('mbr_email'), 'mbr_email'); ?>

@@ -6,15 +6,15 @@
 <main>
 	<section>
 		<section>
-	<?php echo validation_errors(); ?>
-
-	<?php echo form_open(current_url()); ?>
-
 	<article class="cell title">
 		<h2><i class="icon icon-folder-close"></i><?php echo $this->lang->line('folders'); ?></h2>
 	</article>
 
 	<h2><i class="icon icon-plus"></i><?php echo $this->lang->line('add'); ?></h2>
+
+	<?php echo validation_errors(); ?>
+
+	<?php echo form_open(current_url()); ?>
 
 	<p>
 	<?php echo form_label($this->lang->line('title'), 'flr_title'); ?>
@@ -25,6 +25,7 @@
 	<button type="submit"><?php echo $this->lang->line('send'); ?></button>
 	</p>
 	<?php echo form_close(); ?>
+
 		</section>
 	</section>
 </main>
