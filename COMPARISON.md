@@ -210,6 +210,17 @@
 <td>No</td><!-- The Old Reader -->
 </tr>
 
+<tr>
+<th>Previous and next buttons</th>
+<td>Yes</td>
+<td>No</td><!-- Digg Reader -->
+<td>No</td><!-- Feedly -->
+<td>Yes</td><!-- Feedspot -->
+<td>Yes</td><!-- InoReader-->
+<td>Yes</td><!-- SilverReader -->
+<td>Yes</td><!-- The Old Reader -->
+</tr>
+
 </table>
 
 <p><sup>(1)</sup> available on the paid version</p>
