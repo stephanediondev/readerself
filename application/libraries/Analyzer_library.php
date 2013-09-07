@@ -8,6 +8,8 @@ class Analyzer_library {
 	function start($url) {
 		$this->headers = get_headers($url, 1);
 
+		$this->parse_url = parse_url($url);
+
 		if(isset($this->headers['Location']) == 1) {
 			$url = $this->headers['Location'];
 			$origin_status = $this->headers[0];
@@ -92,7 +94,12 @@ class Analyzer_library {
 				$title = $match_sub[2];
 			}
 			if($type == 'application/rss+xml' || $type == 'application/atom+xml') {
-				$this->metas[] = array('href'=>$match[2], 'type'=>$type, 'title'=>$title);
+				if($match[2] != '') {
+					if(substr($match[2], 0, 1) == '/') {
+						$match[2] = $this->parse_url['scheme'].'://'.$this->parse_url['host'].$match[2];
+					}
+					$this->metas[] = array('href'=>$match[2], 'type'=>$type, 'title'=>$title);
+				}
 			}
 		}
 
