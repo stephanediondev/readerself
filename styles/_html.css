@@ -70,7 +70,7 @@ input{border: 1px solid #777777;padding:5px;}
 .actions a span{display:inline-block;}
 button, .actions a:link, .actions a:visited{background-color:#A4374F;border:none;color:#EEEEEE;margin:0px;padding:3px 3px 3px 3px;position:relative;text-decoration:none;vertical-align:top;}
 
-header nav{height:25px;margin:10px 0px 0px 10px;max-width:1455px;position:relative;}
+header nav{height:25px;margin:10px 0px 0px 10px;max-width:1450px;position:relative;}
 /*header nav:last-child{background-color:#FF0000;}*/
 /*header nav:first-child{background-color:#00FFFF;}*/
 header nav ul:last-child{position:absolute;margin-top:0px;right:10px;top:0px;}
