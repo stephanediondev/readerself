@@ -14,7 +14,7 @@
 <body<?php if(count($this->reader_library->errors) > 0) { ?> class="error"<?php } ?>>
 
 <header>
-	<nav>
+	<div id="actions-main1">
 		<ul class="actions">
 			<?php if($this->session->userdata('logged_member')) { ?>
 			<li class="show-phone show-tablet"><a id="toggle-sidebar" href="#"><i class="icon icon-reorder"></i><?php echo $this->lang->line('sidebar'); ?></a></li>
@@ -33,7 +33,15 @@
 			<?php } ?>
 			<?php if($this->router->class == 'home') { ?><li class="hide-phone hide-tablet"><a id="link_shortcuts" class="modal_show" href="<?php echo base_url(); ?>home/shortcuts"><i class="icon icon-keyboard"></i><?php echo $this->lang->line('shortcuts'); ?></a></li><?php } ?>
 		</ul>
-	</nav>
+	</div>
+	<div id="actions-main2">
+		<?php if($this->session->userdata('logged_member')) { ?>
+		<ul class="actions">
+			<?php if($this->router->class == 'home') { ?><li class="show-phone"><a href="#" class="mode-items"><span class="unread_only"><i class="icon icon-eye-close"></i><?php echo $this->lang->line('unread_only'); ?></span><span class="read_and_unread"><i class="icon icon-eye-open"></i><?php echo $this->lang->line('read_and_unread'); ?></span></a></li><?php } ?>
+			<li><a href="<?php echo base_url(); ?>logout"><i class="icon icon-signout"></i><?php echo $this->lang->line('logout'); ?></a></li>
+		</ul>
+		<?php } ?>
+	</div>
 </header>
 
 <?php if(isset($content) == 1) { echo $content; } ?>
