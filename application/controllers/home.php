@@ -117,7 +117,15 @@ class Home extends CI_Controller {
 				$where[] = 'itm.itm_id IN ( SELECT fav.itm_id FROM favorites AS fav WHERE fav.itm_id = itm.itm_id AND fav.mbr_id = ? )';
 				$bindings[] = $this->member->mbr_id;
 			} else if($mode == 'shared') {
+				if(!$this->member->token_share) {
+					$token_share = sha1(uniqid($this->member->mbr_id, 1).mt_rand());
+					$this->db->set('token_share', $token_share);
+					$this->db->where('mbr_id', $this->member->mbr_id);
+					$this->db->update('members');
+					$this->member = $this->reader_model->get($this->session->userdata('logged_member'));
+				}
 				$introduction_title = '<i class="icon icon-heart"></i>'.$this->lang->line('shared_items').' {<span id="intro-load-shared-items"></span>}';
+				$introduction_details = '<ul class="item-details"><li><a target="_blank" href="'.base_url().'share/'.$this->member->token_share.'"><i class="icon icon-rss"></i>'.base_url().'share/'.$this->member->token_share.'</a></li></ul>';
 				$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM share AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
 				$bindings[] = $this->member->mbr_id;
 			} else {

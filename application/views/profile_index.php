@@ -1,7 +1,6 @@
 	<nav>
 		<ul class="actions">
 			<li><a href="<?php echo base_url(); ?>profile/logout_purge"><i class="icon icon-signout"></i><?php echo $this->lang->line('logout_purge'); ?></a></li>
-			<li><a target="_blank" href="<?php echo base_url(); ?>share/<?php echo $this->member->token_share; ?>"><i class="icon icon-heart"></i><?php echo $this->lang->line('share_url'); ?></a></li>
 		</ul>
 	</nav>
 </header>
