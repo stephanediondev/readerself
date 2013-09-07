@@ -120,6 +120,9 @@ function set_positions() {
 	}
 }
 $(document).ready(function() {
+	if($('aside').length == 0) {
+		$('#toggle-sidebar').parent().remove();
+	}
 	if(is_logged) {
 		refresh();
 		set_positions();
@@ -159,8 +162,10 @@ $(document).ready(function() {
 		event.preventDefault();
 		if($('aside').is(':visible')) {
 			$('aside').hide();
+			$('header nav:first-child ul:last-child').show();
 		} else {
 			$('aside').show();
+			$('header nav:first-child ul:last-child').hide();
 		}
 	});
 

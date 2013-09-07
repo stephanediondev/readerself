@@ -1,3 +1,9 @@
+	<nav>
+		<ul class="actions">
+			<li><a href="<?php echo base_url(); ?>folders/create"><i class="icon icon-plus"></i><?php echo $this->lang->line('add'); ?></a></li>
+		</ul>
+	</nav>
+</header>
 <aside>
 	<ul class="menu">
 		<li><label for="folders_flr_title"><i class="icon icon-search"></i><?php echo $this->lang->line('search'); ?></label></li>
@@ -6,11 +12,6 @@
 			<?php echo form_close(); ?></li>
 	</ul>
 </aside>
-<div id="actions-main">
-	<ul class="actions">
-		<li><a href="<?php echo base_url(); ?>folders/create"><i class="icon icon-plus"></i><?php echo $this->lang->line('add'); ?></a></li>
-	</ul>
-</div>
 <main>
 	<section>
 		<section>

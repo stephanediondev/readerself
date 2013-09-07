@@ -1,3 +1,4 @@
+</header>
 <aside>
 	<ul class="menu">
 		<li><label for="explore_fed_title"><i class="icon icon-search"></i><?php echo $this->lang->line('search'); ?></label></li>

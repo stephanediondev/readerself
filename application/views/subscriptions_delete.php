@@ -1,8 +1,9 @@
-<div id="actions-main">
-	<ul class="actions">
-		<li><a href="<?php echo base_url(); ?>subscriptions/read/<?php echo $sub->sub_id; ?>"><i class="icon icon-step-backward"></i><?php echo $this->lang->line('back'); ?></a></li>
-	</ul>
-</div>
+	<nav>
+		<ul class="actions">
+			<li><a href="<?php echo base_url(); ?>subscriptions/read/<?php echo $sub->sub_id; ?>"><i class="icon icon-step-backward"></i><?php echo $this->lang->line('back'); ?></a></li>
+		</ul>
+	</nav>
+</header>
 <main>
 	<section>
 		<section>

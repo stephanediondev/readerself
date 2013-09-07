@@ -1,3 +1,11 @@
+	<nav>
+		<ul class="actions">
+			<li><a href="<?php echo base_url(); ?>subscriptions/create"><i class="icon icon-plus"></i><?php echo $this->lang->line('add'); ?></a></li>
+			<li><a href="<?php echo base_url(); ?>subscriptions/import"><i class="icon icon-download-alt"></i><?php echo $this->lang->line('import'); ?></a></li>
+			<li><a href="<?php echo base_url(); ?>subscriptions/export"><i class="icon icon-upload-alt"></i><?php echo $this->lang->line('export'); ?></a></li>
+		</ul>
+	</nav>
+</header>
 <aside>
 	<ul class="menu">
 		<li><label for="subscriptions_fed_title"><i class="icon icon-search"></i><?php echo $this->lang->line('search'); ?></label></li>
@@ -6,13 +14,6 @@
 			<?php echo form_close(); ?></li>
 	</ul>
 </aside>
-<div id="actions-main">
-	<ul class="actions">
-		<li><a href="<?php echo base_url(); ?>subscriptions/create"><i class="icon icon-plus"></i><?php echo $this->lang->line('add'); ?></a></li>
-		<li><a href="<?php echo base_url(); ?>import"><i class="icon icon-download-alt"></i><?php echo $this->lang->line('import'); ?></a></li>
-		<li><a href="<?php echo base_url(); ?>export"><i class="icon icon-upload-alt"></i><?php echo $this->lang->line('export'); ?></a></li>
-	</ul>
-</div>
 <main>
 	<section>
 		<section>

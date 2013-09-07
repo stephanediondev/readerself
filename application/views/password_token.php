@@ -1,3 +1,4 @@
+</header>
 <main>
 	<section>
 		<section>

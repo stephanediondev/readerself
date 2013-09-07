@@ -1,5 +1,16 @@
+	<nav>
+		<ul class="actions">
+			<li><a href="#" id="refresh-items"><i class="icon icon-refresh"></i><?php echo $this->lang->line('refresh'); ?></a></li>
+			<li class="hide-phone"><a href="#" class="mode-items"><span class="unread_only"><i class="icon icon-eye-close"></i><?php echo $this->lang->line('unread_only'); ?></span><span class="read_and_unread"><i class="icon icon-eye-open"></i><?php echo $this->lang->line('read_and_unread'); ?></span></a></li>
+			<li><a href="#" id="display-items"><span class="expand"><i class="icon icon-collapse"></i><?php echo $this->lang->line('expand'); ?></span><span class="collapse"><i class="icon icon-collapse-top"></i><?php echo $this->lang->line('collapse'); ?></span></a></li>
+			<li class="hide-phone"><a href="<?php echo base_url(); ?>home/history/dialog" id="read_all" class="modal_show"><i class="icon icon-ok"></i><?php echo $this->lang->line('mark_all_as_read'); ?>...</a></li>
+			<li><a href="#" id="item-up"><i class="icon icon-chevron-up"></i><?php echo $this->lang->line('up'); ?></a></li>
+			<li><a href="#" id="item-down"><i class="icon icon-chevron-down"></i><?php echo $this->lang->line('down'); ?></a></li>
+		</ul>
+	</nav>
+</header>
 <aside>
-	<ul class="menu">
+	<ul>
 		<li class="active"><a id="load-all-items" href="<?php echo base_url(); ?>home/items/all"><i class="icon icon-asterisk"></i><?php echo $this->lang->line('all_items'); ?> (<span>0</span>)</a></li>
 		<?php if($this->config->item('star')) { ?>
 		<li><a id="load-starred-items" href="<?php echo base_url(); ?>home/items/starred"><i class="icon icon-star"></i><?php echo $this->lang->line('starred_items'); ?> {<span>0</span>}</a></li>
@@ -27,16 +38,6 @@
 		</li>
 	</ul>
 </aside>
-<div id="actions-main">
-	<ul class="actions">
-		<li><a href="#" id="refresh-items"><i class="icon icon-refresh"></i><?php echo $this->lang->line('refresh'); ?></a></li>
-		<li class="hide-phone"><a href="#" class="mode-items"><span class="unread_only"><i class="icon icon-eye-close"></i><?php echo $this->lang->line('unread_only'); ?></span><span class="read_and_unread"><i class="icon icon-eye-open"></i><?php echo $this->lang->line('read_and_unread'); ?></span></a></li>
-		<li class="hide-phone"><a href="#" id="display-items"><span class="expand"><i class="icon icon-collapse"></i><?php echo $this->lang->line('expand'); ?></span><span class="collapse"><i class="icon icon-collapse-top"></i><?php echo $this->lang->line('collapse'); ?></span></a></li>
-		<li class="hide-phone"><a href="<?php echo base_url(); ?>home/history/dialog" id="read_all" class="modal_show"><i class="icon icon-ok"></i><?php echo $this->lang->line('mark_all_as_read'); ?>...</a></li>
-		<li><a href="#" id="item-up"><i class="icon icon-chevron-up"></i><?php echo $this->lang->line('up'); ?></a></li>
-		<li><a href="#" id="item-down"><i class="icon icon-chevron-down"></i><?php echo $this->lang->line('down'); ?></a></li>
-	</ul>
-</div>
 <main>
 	<section>
 		<section>

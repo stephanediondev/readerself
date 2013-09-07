@@ -14,35 +14,32 @@
 <body<?php if(count($this->reader_library->errors) > 0) { ?> class="error"<?php } ?>>
 
 <header>
-	<div id="actions-main1">
+	<nav>
 		<ul class="actions">
 			<?php if($this->session->userdata('logged_member')) { ?>
-			<li class="show-phone show-tablet"><a id="toggle-sidebar" href="#"><i class="icon icon-reorder"></i><?php echo $this->lang->line('sidebar'); ?></a></li>
-			<li class="hide-phone"><a href="<?php echo base_url(); ?>home"><i class="icon icon-home"></i><?php echo $this->lang->line('home'); ?></a></li>
-			<li class="hide-phone"><a href="<?php echo base_url(); ?>subscriptions"><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?></a></li>
-			<?php if($this->config->item('folders')) { ?><li class="hide-phone"><a href="<?php echo base_url(); ?>folders"><i class="icon icon-folder-close"></i><?php echo $this->lang->line('folders'); ?></a></li><?php } ?>
-			<?php if($this->config->item('register_multi')) { ?><li class="hide-phone"><a href="<?php echo base_url(); ?>explore"><i class="icon icon-cloud"></i><?php echo $this->lang->line('explore'); ?></a></li><?php } ?>
-			<li class="hide-phone hide-tablet"><a href="<?php echo base_url(); ?>statistics"><i class="icon icon-bar-chart"></i><?php echo $this->lang->line('statistics'); ?></a></li>
-			<li class="hide-phone"><a href="<?php echo base_url(); ?>profile"><i class="icon icon-user"></i><?php echo $this->lang->line('profile'); ?></a></li>
+				<li class="show-phone show-tablet"><a id="toggle-sidebar" href="#"><i class="icon icon-reorder"></i><?php echo $this->lang->line('sidebar'); ?></a></li>
+				<li class="hide-phone"><a href="<?php echo base_url(); ?>home"><i class="icon icon-home"></i><?php echo $this->lang->line('home'); ?></a></li>
+				<li class="hide-phone"><a href="<?php echo base_url(); ?>subscriptions"><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?></a></li>
+				<?php if($this->config->item('folders')) { ?><li class="hide-phone"><a href="<?php echo base_url(); ?>folders"><i class="icon icon-folder-close"></i><?php echo $this->lang->line('folders'); ?></a></li><?php } ?>
+				<?php if($this->config->item('register_multi')) { ?><li class="hide-phone"><a href="<?php echo base_url(); ?>explore"><i class="icon icon-cloud"></i><?php echo $this->lang->line('explore'); ?></a></li><?php } ?>
+				<li class="hide-phone hide-tablet"><a href="<?php echo base_url(); ?>statistics"><i class="icon icon-bar-chart"></i><?php echo $this->lang->line('statistics'); ?></a></li>
+				<li class="hide-phone"><a href="<?php echo base_url(); ?>profile"><i class="icon icon-user"></i><?php echo $this->lang->line('profile'); ?></a></li>
+				<?php if($this->router->class == 'home') { ?><li class="hide-phone hide-tablet"><a id="link_shortcuts" class="modal_show" href="<?php echo base_url(); ?>home/shortcuts"><i class="icon icon-keyboard"></i><?php echo $this->lang->line('shortcuts'); ?></a></li><?php } ?>
+				<li><a href="<?php echo base_url(); ?>logout"><i class="icon icon-signout"></i><?php echo $this->lang->line('logout'); ?></a></li>
 			<?php } else { ?>
-			<li><a href="<?php echo base_url(); ?>login"><i class="icon icon-signin"></i><?php echo $this->lang->line('login'); ?></a></li>
-			<li><a href="<?php echo base_url(); ?>password"><i class="icon icon-key"></i><?php echo $this->lang->line('password'); ?></a></li>
-			<?php if($this->config->item('register_multi')) { ?><li><a href="<?php echo base_url(); ?>register"><i class="icon icon-user"></i><?php echo $this->lang->line('register'); ?></a></li><?php } ?>
-			<li class="hide-phone hide-tablet"><a target="_blank" href="https://github.com/readerself"><i class="icon icon-github"></i>GitHub</a></li>
-			<li class="hide-phone hide-tablet"><a target="_blank" href="https://www.facebook.com/readerself"><i class="icon icon-facebook-sign"></i>Facebook</a></li>
+				<li><a href="<?php echo base_url(); ?>login"><i class="icon icon-signin"></i><?php echo $this->lang->line('login'); ?></a></li>
+				<li><a href="<?php echo base_url(); ?>password"><i class="icon icon-key"></i><?php echo $this->lang->line('password'); ?></a></li>
+				<?php if($this->config->item('register_multi')) { ?><li><a href="<?php echo base_url(); ?>register"><i class="icon icon-user"></i><?php echo $this->lang->line('register'); ?></a></li><?php } ?>
+				<li class="hide-phone hide-tablet"><a target="_blank" href="https://github.com/readerself"><i class="icon icon-github"></i>GitHub</a></li>
+				<li class="hide-phone hide-tablet"><a target="_blank" href="https://www.facebook.com/readerself"><i class="icon icon-facebook-sign"></i>Facebook</a></li>
 			<?php } ?>
-			<?php if($this->router->class == 'home') { ?><li class="hide-phone hide-tablet"><a id="link_shortcuts" class="modal_show" href="<?php echo base_url(); ?>home/shortcuts"><i class="icon icon-keyboard"></i><?php echo $this->lang->line('shortcuts'); ?></a></li><?php } ?>
 		</ul>
-	</div>
-	<div id="actions-main2">
-		<?php if($this->session->userdata('logged_member')) { ?>
 		<ul class="actions">
-			<?php if($this->router->class == 'home') { ?><li class="show-phone"><a href="#" class="mode-items"><span class="unread_only"><i class="icon icon-eye-close"></i><?php echo $this->lang->line('unread_only'); ?></span><span class="read_and_unread"><i class="icon icon-eye-open"></i><?php echo $this->lang->line('read_and_unread'); ?></span></a></li><?php } ?>
-			<li><a href="<?php echo base_url(); ?>logout"><i class="icon icon-signout"></i><?php echo $this->lang->line('logout'); ?></a></li>
+			<?php if($this->session->userdata('logged_member')) { ?>
+				<?php if($this->router->class == 'home') { ?><li class="show-phone"><a href="#" class="mode-items"><span class="unread_only"><i class="icon icon-eye-close"></i><?php echo $this->lang->line('unread_only'); ?></span><span class="read_and_unread"><i class="icon icon-eye-open"></i><?php echo $this->lang->line('read_and_unread'); ?></span></a></li><?php } ?>
+			<?php } ?>
 		</ul>
-		<?php } ?>
-	</div>
-</header>
+	</nav>
 
 <?php if(isset($content) == 1) { echo $content; } ?>
 
