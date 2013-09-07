@@ -21,8 +21,13 @@
 	<?php } ?>
 
 	<p>
-	<?php echo form_label($this->lang->line('url_feed'), 'url'); ?>
-	<?php echo form_input('url', set_value('url'), 'id="url" class="input-xlarge required"'); ?>
+	<?php echo form_label($this->lang->line('url'), 'url'); ?>
+	<?php if(count($feeds) > 0) { ?>
+		<?php echo form_dropdown('url', $feeds, set_value('url', ''), 'id="url" class="select required numeric"'); ?>
+		<?php echo form_hidden('analyze_done', '1'); ?>
+	<?php } else { ?>
+		<?php echo form_input('url', set_value('url'), 'id="url" class="input-xlarge required"'); ?>
+	<?php } ?>
 	</p>
 
 	<?php if($this->config->item('folders')) { ?>

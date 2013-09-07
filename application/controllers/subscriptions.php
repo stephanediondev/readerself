@@ -46,7 +46,7 @@ class Subscriptions extends CI_Controller {
 
 		$content = array();
 
-		$this->load->library(array('form_validation'));
+		$this->load->library(array('form_validation', 'analyzer_library'));
 
 		if($this->config->item('folders')) {
 			$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? GROUP BY flr.flr_id ORDER BY flr.flr_title ASC', array($this->member->mbr_id));
@@ -66,7 +66,36 @@ class Subscriptions extends CI_Controller {
 
 		$data['error'] = false;
 
-		if($this->form_validation->run() == FALSE) {
+		$data['feeds'] = array();
+		if($this->input->post('url') && !$this->input->post('analyze_done')) {
+			$this->analyzer_library->start($this->input->post('url'));
+			$metas = $this->analyzer_library->metas;
+			if(count($metas) > 0) {
+				$data['feeds'][''] = '-';
+				foreach($metas as $meta) {
+					$add = true;
+					$headers = get_headers($meta['href'], 1);
+
+					if(isset($headers['Location']) == 1) {
+						$meta['href'] = $headers['Location'];
+						$headers = get_headers($meta['href'], 1);
+						if(isset($headers['Location']) == 1) {
+							$add = false;
+						}
+					}
+					if($add) {
+						if($meta['title'] == '') {
+							$data['feeds'][$meta['href']] = $meta['href'];
+						} else {
+							$this->analyzer_library->encoding($meta['title']);
+							$data['feeds'][$meta['href']] = $meta['title'];
+						}
+					}
+				}
+			}
+		}
+
+		if($this->form_validation->run() == FALSE || count($data['feeds']) > 0) {
 			$content = $this->load->view('subscriptions_create', $data, TRUE);
 		} else {
 			if($this->config->item('folders')) {

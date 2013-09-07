@@ -65,7 +65,6 @@ $lang['up'] = 'Up';
 $lang['update'] = 'Update';
 $lang['url_site'] = 'Site URL';
 $lang['url'] = 'URL';
-$lang['url_feed'] = 'URL (atom/rss)';
 $lang['search'] = 'Search';
 $lang['share_url'] = 'Share URL';
 $lang['shared_items'] = 'Shared items';
