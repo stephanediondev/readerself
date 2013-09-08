@@ -589,7 +589,7 @@ $(document).ready(function() {
 		url = $(this).data('url');
 		var content = '<iframe style="width:110px;height:21px;" allowTransparency="true" frameborder="0" scrolling="no" src="https://www.facebook.com/plugins/like.php?href=' + url + '&amp;colorscheme=light&amp;layout=button_count&amp;action=like&amp;show_faces=false&amp;send=false"></iframe>';
 		content += '<iframe style="width:110px;height:21px;" allowtransparency="true" frameborder="0" scrolling="no" src="https://plusone.google.com/_/+1/fastbutton?bsv&amp;size=medium&amp;url=' + url + '>"></iframe>';
-		content += '<iframe style="width:110px;height:21px;" allowtransparency="true" frameborder="0" scrolling="no" src="https://platform.twitter.com/widgets/tweet_button.html?url=' + url + '&via=xtapit"></iframe>';
+		content += '<iframe style="width:110px;height:21px;" allowtransparency="true" frameborder="0" scrolling="no" src="https://platform.twitter.com/widgets/tweet_button.html?url=' + url + '"></iframe>';
 		$(ref).html(content);
 		$(ref).show();
 	});
