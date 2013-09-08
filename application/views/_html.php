@@ -2,6 +2,8 @@
 <html>
 <head>
 <title><?php echo $this->config->item('title'); ?></title>
+<link rel="icon" href="<?php echo base_url(); ?>favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="<?php echo base_url(); ?>favicon.ico" type="image/x-icon">
 <link rel="apple-touch-icon" href="<?php echo base_url(); ?>medias/readerself_200x200.png">
 <meta content="noindex, nofollow, noarchive" name="robots">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
