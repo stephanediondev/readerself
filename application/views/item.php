@@ -30,7 +30,9 @@
 		<?php if($itm->enclosures) { ?>
 			<div class="item-enclosures">
 				<?php foreach($itm->enclosures as $enr) { ?>
-					<img src="<?php echo $enr->enr_link; ?>" alt="">
+				<?php if(stristr($enr->enr_type, 'image/')) { ?><p><i class="icon icon-picture"></i><img src="<?php echo $enr->enr_link; ?>" alt=""></p><?php } ?>
+				<?php if(stristr($enr->enr_type, 'audio/')) { ?><p><i class="icon icon-volume-up"></i><a target="_blank" href="<?php echo $enr->enr_link; ?>"><?php echo $enr->enr_link; ?></a></p><?php } ?>
+				<?php if(stristr($enr->enr_type, 'video/')) { ?><p><i class="icon icon-youtube-play"></i><a target="_blank" href="<?php echo $enr->enr_link; ?>"><?php echo $enr->enr_link; ?></a></p><?php } ?>
 				<?php } ?>
 			</div>
 		<?php } ?>

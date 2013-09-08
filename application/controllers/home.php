@@ -241,8 +241,8 @@ class Home extends CI_Controller {
 						}
 					}
 
-					$sql = 'SELECT enr.* FROM enclosures AS enr WHERE enr.itm_id = ? AND enr.enr_type LIKE ? GROUP BY enr.enr_id';
-					$itm->enclosures = $this->db->query($sql, array($itm->itm_id, 'image/%'))->result();
+					$sql = 'SELECT enr.* FROM enclosures AS enr WHERE enr.itm_id = ? GROUP BY enr.enr_id';
+					$itm->enclosures = $this->db->query($sql, array($itm->itm_id))->result();
 
 					$sql = 'SELECT hst.* FROM history AS hst WHERE hst.itm_id = ? AND hst.mbr_id = ? GROUP BY hst.hst_id';
 					$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
