@@ -43,6 +43,7 @@
 			<li class="item-share"><a target="_blank" href="https://www.facebook.com/sharer.php?u=<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-facebook-sign"></i>Facebook</a></li>
 			<li class="item-share"><a target="_blank" href="https://plus.google.com/share?url=<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-google-plus-sign"></i>Google</a></li>
 			<li class="item-share"><a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-linkedin-sign"></i>LinkedIn</a></li>
+			<li class="item-share"><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text=<?php echo urlencode($itm->itm_title.' '.$itm->itm_link); ?>"><i class="icon icon-twitter-sign"></i>Twitter</a></li> 
 			<li><a class="link-item-like" href="#item-like-<?php echo $itm->itm_id; ?>" data-url="<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-thumbs-up-alt "></i><?php echo $this->lang->line('like'); ?></a></li>
 		</ul>
 		<div class="item-like" id="item-like-<?php echo $itm->itm_id; ?>">
