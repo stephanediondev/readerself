@@ -277,6 +277,11 @@ class Reader_library {
 					$this->CI->db->set('itm_content', '-');
 				}
 
+				if($sp_item->get_latitude() && $sp_item->get_longitude()) {
+					$this->CI->db->set('itm_latitude', $sp_item->get_latitude());
+					$this->CI->db->set('itm_longitude', $sp_item->get_longitude());
+				}
+
 				$sp_itm_date = $sp_item->get_gmdate('Y-m-d H:i:s');
 				if($sp_itm_date) {
 					$this->CI->db->set('itm_date', $sp_itm_date);

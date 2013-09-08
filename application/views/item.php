@@ -18,9 +18,15 @@
 		<?php if($this->config->item('tags') && $itm->categories) { ?>
 		<li class="block hide-phone"><i class="icon icon-tags"></i><?php echo implode(', ', $itm->categories); ?></li>
 		<?php } ?>
+		<?php if($itm->itm_latitude && $itm->itm_longitude) { ?>
+			<li class="block hide-phone"><i class="icon icon-map-marker"></i><?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?></li>
+		<?php } ?>
 	</ul>
 	<div class="item-content">
 		<?php echo $itm->itm_content; ?>
+		<?php if($itm->itm_latitude && $itm->itm_longitude) { ?>
+			<a target="_blank" href="http://maps.google.com/maps?q=<?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?>&oe=UTF-8&ie=UTF-8"><img src="http://maps.googleapis.com/maps/api/staticmap?center=<?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?>&markers=color:red|<?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?>&zoom=15&size=540x200&sensor=false" alt=""></a>
+		<?php } ?>
 		<?php if($itm->enclosures) { ?>
 			<div class="item-enclosures">
 				<?php foreach($itm->enclosures as $enr) { ?>

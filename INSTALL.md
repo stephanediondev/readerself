@@ -105,6 +105,8 @@ CREATE TABLE IF NOT EXISTS `items` (
   `itm_link` varchar(255) NOT NULL,
   `itm_author` varchar(255) DEFAULT NULL,
   `itm_content` text NOT NULL,
+  `itm_latitude` double DEFAULT NULL,
+  `itm_longitude` double DEFAULT NULL,
   `itm_date` datetime NOT NULL,
   `itm_datecreated` datetime NOT NULL,
   PRIMARY KEY (`itm_id`),

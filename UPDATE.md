@@ -1,5 +1,12 @@
 #### Update
 
+##### 2013-09-08
+
+```sql
+ALTER TABLE `items` ADD `itm_latitude` DOUBLE NULL AFTER `itm_content` ,
+ADD `itm_longitude` DOUBLE NULL AFTER `itm_latitude`;
+```
+
 ##### 2013-09-01
 
 ```sql
