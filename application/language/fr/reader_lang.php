@@ -112,3 +112,4 @@ $lang['items_read_by_folder'] = 'Eléments lus par dossier';
 $lang['date_added'] = 'Date ajout';
 $lang['registerContentHandler'] = 'Enregistrer comme lecteur de flux';
 $lang['last_added'] = 'Derniers ajouts';
+$lang['like'] = 'Aimer';

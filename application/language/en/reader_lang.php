@@ -112,3 +112,4 @@ $lang['items_read_by_folder'] = 'Items read by folder';
 $lang['date_added'] = 'Date added';
 $lang['registerContentHandler'] = 'Register as feed handler';
 $lang['last_added'] = 'Last added';
+$lang['like'] = 'Like';

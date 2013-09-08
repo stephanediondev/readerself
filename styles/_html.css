@@ -119,7 +119,7 @@ main > section .item .actions{float:right;margin-right:0px;}
 .item .actions a:link, .item .actions a:visited{background-color:#5660d1;}
 .item-content{line-height:1.4;}
 .item .item-footer{margin-top:10px;}
-main section .item .item-footer .actions{float:none;text-align:left;}
+main section .item .item-footer .actions{float:none;margin-bottom:10px;text-align:left;}
 .item .item-footer .actions li{margin:5px 4px 0px 0px;}
 .item .item-footer .actions li:last-child{margin-right:0px;}
 .item .item-footer .actions a:link, .item .item-footer .actions a:visited{background-color:#7109aa;}
@@ -133,6 +133,9 @@ main section .item .item-footer .actions{float:none;text-align:left;}
 .item.collapse .item-content, .item.collapse .item-footer{display:none;}
 .item.collapse h2{font-size:13px;}
 .item.collapse .item-details{margin-bottom:5px;}
+
+.actions .item-share{display:none;}
+.item-like{clear:both;display:none;margin-top:5px;}
 
 .cell h2, .neutral h2{font-size:15px;font-weight:bold;margin:5px 0px;}
 .cell h2 a:link, .cell h2 a:visited{text-decoration:none;}
