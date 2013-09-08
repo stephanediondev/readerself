@@ -68,18 +68,7 @@
 </tr>
 
 <tr>
-<th>Global statistics</th>
-<td>Yes</td>
-<td>No</td><!-- Digg Reader -->
-<td>No</td><!-- Feedly -->
-<td>No</td><!-- Feedspot -->
-<td>Yes</td><!-- InoReader-->
-<td>No</td><!-- SilverReader -->
-<td>No</td><!-- The Old Reader -->
-</tr>
-
-<tr>
-<th>Statistics by subscription</th>
+<th>Statistics</th>
 <td>Yes</td>
 <td>No</td><!-- Digg Reader -->
 <td>No</td><!-- Feedly -->
