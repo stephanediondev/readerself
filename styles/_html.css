@@ -156,7 +156,7 @@ header nav{margin:5px 0px 0px 10px;}
 .hide-tablet{display:none !important;}
 .show-tablet{display:inline-block !important;}
 main > section{margin:10px 0px 0px 10px;}
-aside{display:none;background-color:#FFFFFF;left:0px;position:absolute;top:25px;width:100%;z-index:1000;}
+aside{display:none;background-color:#FFFFFF;left:0px;position:absolute;top:20px;width:100%;z-index:1000;}
 }
 @media(max-width:500px){
 main > section{margin-top:40px !important;}
