@@ -9,7 +9,11 @@ class Login extends CI_Controller {
 			redirect(base_url().'register');
 		}
 		if($this->session->userdata('logged_member')) {
-			redirect(base_url().'home');
+			if($this->input->get('u')) {
+				redirect(base_url().'subscriptions/create/?u='.$this->input->get('u'));
+			} else {
+				redirect(base_url().'home');
+			}
 		}
 
 		$this->load->library('form_validation');
@@ -22,7 +26,11 @@ class Login extends CI_Controller {
 			$content = $this->load->view('login_index', $data, TRUE);
 			$this->reader_library->set_content($content);
 		} else {
-			redirect(base_url().'home');
+			if($this->input->get('u')) {
+				redirect(base_url().'subscriptions/create/?u='.$this->input->get('u'));
+			} else {
+				redirect(base_url().'home');
+			}
 		}
 	}
 	public function email() {

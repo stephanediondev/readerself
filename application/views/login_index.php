@@ -8,7 +8,7 @@
 
 	<?php echo validation_errors(); ?>
 
-	<?php echo form_open(current_url()); ?>
+	<?php echo form_open(current_url().'?u='.$this->input->get('u')); ?>
 
 	<p>
 	<?php echo form_label($this->lang->line('mbr_email'), 'mbr_email'); ?>

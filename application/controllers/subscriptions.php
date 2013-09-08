@@ -39,7 +39,7 @@ class Subscriptions extends CI_Controller {
 
 	public function create() {
 		if(!$this->session->userdata('logged_member')) {
-			redirect(base_url());
+			redirect(base_url().'?u='.$this->input->get('u'));
 		}
 
 		$data = array();

@@ -49,19 +49,17 @@ var csrf_token_name = '<?php echo $this->config->item('csrf_token_name'); ?>';
 var csrf_cookie_name = '<?php echo $this->config->item('csrf_cookie_name'); ?>';
 var current_url = '<?php echo current_url(); ?>';
 var ci_controller = '<?php echo $this->router->class; ?>';
-
 <?php if($this->session->userdata('logged_member')) { ?>
 var is_logged = true;
 <?php } else { ?>
 var is_logged = false;
 <?php } ?>
-
 <?php if($this->session->userdata('timezone')) { ?>
 var timezone = true;
 <?php } else { ?>
 var timezone = false;
-
 <?php } ?>
+var title  = '<?php echo addslashes($this->config->item('title')); ?>';
 var uri_string = '<?php echo $this->uri->uri_string(); ?>';
 </script>
 
