@@ -27,7 +27,7 @@ example
 * Display image enclosures
 * Starred items (optional)
 * Shared items with public feed (optional)
-* Share to Facebook, Google, LinkedIn and Twitter (optional)
+* Share and like on Facebook, Google and Twitter (optional)
 * Search subscriptions
 * Search items (title only right now)
 * Main keyboard shortcuts from Google Reader
