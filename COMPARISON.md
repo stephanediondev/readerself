@@ -80,7 +80,7 @@
 
 <tr>
 <th>Bookmarklet</th>
-<td>No</td>
+<td>Yes</td>
 <td>No</td><!-- Digg Reader -->
 <td>No</td><!-- Feedly -->
 <td>No</td><!-- Feedspot -->
