@@ -109,4 +109,4 @@ $lang['items_read_by_time_day'] = 'Eléments lus par heure de la journée';
 $lang['items_read_by_day_week'] = 'Eléments lus par jour de la semaine';
 $lang['items_read_by_folder'] = 'Eléments lus par dossier';
 $lang['date_added'] = 'Date ajout';
-$lang['registerContentHandler'] = 'Register as feed handler';
+$lang['registerContentHandler'] = 'Enregistrer comme lecteur de flux';
