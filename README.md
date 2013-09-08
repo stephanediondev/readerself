@@ -36,6 +36,7 @@ example
 * Adaptive crawl by feed
 	* older than 30 days, next crawl in 24 hours
 	* older than 2 days, next crawl in 6 hours
+* Display geolocation
 
 ### Third party
 
