@@ -1,6 +1,6 @@
 </header>
 <aside>
-	<ul class="menu">
+	<ul>
 		<li><label for="explore_fed_title"><i class="icon icon-search"></i><?php echo $this->lang->line('search'); ?></label></li>
 		<li><?php echo form_open(current_url()); ?>
 			<?php echo form_input($this->router->class.'_explore_fed_title', set_value($this->router->class.'_explore_fed_title', $this->session->userdata($this->router->class.'_explore_fed_title')), 'id="explore_fed_title" class="inputtext"'); ?>

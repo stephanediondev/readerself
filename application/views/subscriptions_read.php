@@ -4,6 +4,22 @@
 		</ul>
 	</nav>
 </header>
+<aside>
+	<ul>
+		<?php if($errors) { ?>
+		<li><h2><i class="icon icon-bell"></i><?php echo $this->lang->line('errors'); ?></h2></li>
+			<?php foreach($errors as $error) { ?>
+			<li><a href="<?php echo base_url(); ?>subscriptions/read/<?php echo $error->sub_id; ?>"><i class="icon icon-rss"></i><?php echo $error->fed_title; ?></a></li>
+			<?php } ?>
+		<?php } ?>
+		<?php if($last_added) { ?>
+		<li><h2><i class="icon icon-bookmark-empty"></i><?php echo $this->lang->line('last_added'); ?></h2></li>
+			<?php foreach($last_added as $added) { ?>
+			<li><a href="<?php echo base_url(); ?>subscriptions/read/<?php echo $added->sub_id; ?>"><i class="icon icon-rss"></i><?php echo $added->fed_title; ?></a></li>
+			<?php } ?>
+		<?php } ?>
+	</ul>
+</aside>
 <main>
 	<section>
 		<section>

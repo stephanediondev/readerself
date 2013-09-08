@@ -33,6 +33,10 @@ class Subscriptions extends CI_Controller {
 		$data['position'] = $build_pagination['position'];
 		$data['subscriptions'] = $this->reader_model->get_subscriptions_rows($flt, $build_pagination['limit'], $build_pagination['start'], $this->router->class.'_subscriptions');
 
+		$data['errors'] = $this->db->query('SELECT fed.*, sub.sub_id, sub.sub_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE fed.fed_lasterror IS NOT NULL AND fed.fed_id IS NOT NULL AND sub.mbr_id = ? GROUP BY sub.sub_id ORDER BY fed.fed_lastcrawl DESC LIMIT 0,5', array($this->member->mbr_id))->result();
+
+		$data['last_added'] = $this->db->query('SELECT fed.*, sub.sub_id, sub.sub_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE fed.fed_id IS NOT NULL AND sub.mbr_id = ? GROUP BY sub.sub_id ORDER BY sub.sub_id DESC LIMIT 0,5', array($this->member->mbr_id))->result();
+
 		$content = $this->load->view('subscriptions_index', $data, TRUE);
 		$this->reader_library->set_content($content);
 	}
@@ -188,6 +192,10 @@ class Subscriptions extends CI_Controller {
 		$data = array();
 		$data['sub'] = $this->reader_model->get_subscription_row($sub_id);
 		if($data['sub']) {
+
+			$data['errors'] = $this->db->query('SELECT fed.*, sub.sub_id, sub.sub_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE fed.fed_lasterror IS NOT NULL AND fed.fed_id IS NOT NULL AND sub.mbr_id = ? GROUP BY sub.sub_id ORDER BY fed.fed_lastcrawl DESC LIMIT 0,5', array($this->member->mbr_id))->result();
+
+			$data['last_added'] = $this->db->query('SELECT fed.*, sub.sub_id, sub.sub_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE fed.fed_id IS NOT NULL AND sub.mbr_id = ? GROUP BY sub.sub_id ORDER BY sub.sub_id DESC LIMIT 0,5', array($this->member->mbr_id))->result();
 
 			$data['tables'] = '';
 
