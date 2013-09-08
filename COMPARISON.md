@@ -221,6 +221,17 @@
 <td>Yes</td><!-- The Old Reader -->
 </tr>
 
+<tr>
+<th>Display geolocation</th>
+<td>Yes</td>
+<td>No</td><!-- Digg Reader -->
+<td>No</td><!-- Feedly -->
+<td>No</td><!-- Feedspot -->
+<td>No</td><!-- InoReader-->
+<td>No</td><!-- SilverReader -->
+<td>No</td><!-- The Old Reader -->
+</tr>
+
 </table>
 
 <p><sup>(1)</sup> available on the paid version</p>
