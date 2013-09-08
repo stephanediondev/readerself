@@ -101,6 +101,17 @@
 </tr>
 
 <tr>
+<th>Register content handler</th>
+<td>Yes</td>
+<td>No</td><!-- Digg Reader -->
+<td>No</td><!-- Feedly -->
+<td>No</td><!-- Feedspot -->
+<td>No</td><!-- InoReader-->
+<td>Yes</td><!-- SilverReader -->
+<td>No</td><!-- The Old Reader -->
+</tr>
+
+<tr>
 <th>Search items</th>
 <td>Yes</td>
 <td>No</td><!-- Digg Reader -->
