@@ -19,10 +19,6 @@ class Profile extends CI_Controller {
 		if($this->form_validation->run() == FALSE) {
 			$data = array();
 
-			include('thirdparty/PhpUserAgent/UserAgentParser.php');
-
-			$data['connections'] = $this->db->query('SELECT cnt.*, DATE_ADD(cnt.cnt_datecreated, INTERVAL ? HOUR) AS cnt_datecreated FROM '.$this->db->dbprefix('connections').' AS cnt WHERE cnt.token_connection IS NOT NULL AND cnt.mbr_id = ? GROUP BY cnt.cnt_id ORDER BY cnt.cnt_id DESC LIMIT 0,30', array($this->session->userdata('timezone'), $this->member->mbr_id))->result();
-
 			$content = $this->load->view('profile_index', $data, TRUE);
 			$this->reader_library->set_content($content);
 		} else {
@@ -36,13 +32,31 @@ class Profile extends CI_Controller {
 			redirect(base_url().'home');
 		}
 	}
+	public function connections() {
+		if(!$this->session->userdata('logged_member')) {
+			redirect(base_url());
+		}
+
+		$data = array();
+
+		include('thirdparty/PhpUserAgent/UserAgentParser.php');
+
+		$data['connections'] = $this->db->query('SELECT cnt.*, DATE_ADD(cnt.cnt_datecreated, INTERVAL ? HOUR) AS cnt_datecreated FROM '.$this->db->dbprefix('connections').' AS cnt WHERE cnt.token_connection IS NOT NULL AND cnt.mbr_id = ? GROUP BY cnt.cnt_id ORDER BY cnt.cnt_id DESC LIMIT 0,30', array($this->session->userdata('timezone'), $this->member->mbr_id))->result();
+
+		$content = $this->load->view('profile_connections', $data, TRUE);
+		$this->reader_library->set_content($content);
+	}
 	public function logout_purge() {
+		if(!$this->session->userdata('logged_member')) {
+			redirect(base_url());
+		}
+
 		$this->db->set('token_connection', '');
 		$this->db->where('mbr_id', $this->member->mbr_id);
 		$this->db->where('token_connection !=', $this->member->token_connection);
 		$this->db->update('connections');
 
-		redirect(base_url().'profile');
+		redirect(base_url().'profile/connections');
 	}
 	public function email() {
 		if($this->input->post('mbr_email')) {
