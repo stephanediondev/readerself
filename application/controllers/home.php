@@ -557,4 +557,35 @@ class Home extends CI_Controller {
 		}
 		$this->reader_library->set_content($content);
 	}
+	function tags() {
+		if($this->config->item('tags')) {
+
+			$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
+
+			$tags = array();
+
+			$legend = array();
+			$values = array();
+			$query = $this->db->query('SELECT LOWER(cat.cat_title) AS ref, cat.cat_id AS id, COUNT(DISTINCT(hst.itm_id)) AS count FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND cat.cat_datecreated >= ? AND sub.mbr_id = ? AND cat.cat_title NOT LIKE ? GROUP BY ref ORDER BY count DESC LIMIT 0,30', array($date_ref, $this->member->mbr_id, 'Actualités : %'));
+			if($query->num_rows() > 0) {
+				$u = 1;
+				$max = false;
+				foreach($query->result() as $row) {
+					if($u == 1) {
+						$max = $row->count;
+					}
+					$tags[$row->ref] = array('count'=>$row->count, 'id'=>$row->id);
+					$u++;
+				}
+			}
+			ksort($tags);
+			$content = '<div style="margin:30px;text-align:center;">';
+			foreach($tags as $k => $v) {
+				$size = round(($v['count'] * 100) / $max) * 4;
+				$content .= '<a class="category" data-cat_id="'.$v['id'].'" href="'.base_url().'home/items/category/'.$v['id'].'" style="font-size:'.$size.'%;margin:5px;white-space:nowrap;">'.$k.'</a> ';
+			}
+			$content .= '</div>';
+			$this->reader_library->set_content($content);
+		}
+	}
 }
