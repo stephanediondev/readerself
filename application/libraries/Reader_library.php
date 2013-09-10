@@ -317,8 +317,12 @@ class Reader_library {
 
 				foreach($sp_item->get_enclosures() as $enclosure) {
 					if($enclosure->get_link() && $enclosure->get_type() && $enclosure->get_length()) {
+						$link = $enclosure->get_link();
+						if(substr($link, -2) == '?#') {
+							$link = substr($link, 0, -2);
+						}
 						$this->CI->db->set('itm_id', $itm_id);
-						$this->CI->db->set('enr_link', $enclosure->get_link());
+						$this->CI->db->set('enr_link', $link);
 						$this->CI->db->set('enr_type', $enclosure->get_type());
 						$this->CI->db->set('enr_length', $enclosure->get_length());
 						$this->CI->db->set('enr_datecreated', date('Y-m-d H:i:s'));
