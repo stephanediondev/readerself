@@ -20,7 +20,7 @@
 		<?php } ?>
 	</ul>
 	<div class="item-content">
-		<?php echo $itm->itm_content; ?>
+		<?php echo str_replace('<br>', ' ', $itm->itm_content); ?>
 		<?php if($itm->itm_latitude && $itm->itm_longitude) { ?>
 			<div class="item-geolocation">
 				<p><i class="icon icon-map-marker"></i> <a target="_blank" href="http://maps.google.com/maps?q=<?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?>&oe=UTF-8&ie=UTF-8"><img src="http://maps.googleapis.com/maps/api/staticmap?center=<?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?>&markers=color:red|<?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?>&zoom=12&size=540x200&sensor=false" alt=""></a></p>
