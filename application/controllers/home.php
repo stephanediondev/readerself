@@ -287,6 +287,8 @@ class Home extends CI_Controller {
 						$sql = 'SELECT sub.sub_id, sub.sub_title, flr.flr_id, flr.flr_title FROM subscriptions AS sub LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
 						$itm->sub = $this->db->query($sql, array($itm->fed_id, $this->member->mbr_id))->row();
 
+						$itm->foursquare = false;
+
 						$itm->categories = false;
 						if($this->config->item('tags')) {
 							$sql = 'SELECT cat.* FROM categories AS cat WHERE cat.itm_id = ? GROUP BY cat.cat_id';
@@ -294,7 +296,11 @@ class Home extends CI_Controller {
 							if($categories) {
 								$itm->categories = array();
 								foreach($categories as $cat) {
-									$itm->categories[] = '<a class="category" data-cat_id="'.$cat->cat_id.'" href="'.base_url().'home/items/category/'.$cat->cat_id.'">'.$cat->cat_title.'</a>';
+									if(substr($cat->cat_title, 0, 17) == 'foursquare:venue=') {
+										$itm->foursquare = substr($cat->cat_title, 17);
+									} else {
+										$itm->categories[] = '<a class="category" data-cat_id="'.$cat->cat_id.'" href="'.base_url().'home/items/category/'.$cat->cat_id.'">'.$cat->cat_title.'</a>';
+									}
 								}
 							}
 						}

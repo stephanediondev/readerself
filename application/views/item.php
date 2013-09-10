@@ -18,6 +18,9 @@
 		<?php if($this->config->item('tags') && $itm->categories) { ?>
 		<li class="block hide-phone"><i class="icon icon-tags"></i><?php echo implode(', ', $itm->categories); ?></li>
 		<?php } ?>
+		<?php if($itm->foursquare) { ?>
+		<li class="block hide-phone"><a target="_blank" href="https://foursquare.com/venue/<?php echo $itm->foursquare; ?>"><i class="icon icon-foursquare"></i>Foursquare (<?php echo $itm->foursquare; ?>)</a></li>
+		<?php } ?>
 	</ul>
 	<div class="item-content">
 		<?php echo str_replace('<br>', ' ', $itm->itm_content); ?>
