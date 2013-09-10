@@ -113,3 +113,4 @@ $lang['date_added'] = 'Date added';
 $lang['registerContentHandler'] = 'Register as feed handler';
 $lang['last_added'] = 'Last added';
 $lang['like'] = 'Like';
+$lang['tags'] = 'Tags';

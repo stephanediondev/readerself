@@ -103,6 +103,9 @@ aside ul li label{display:block;padding:0px 0px 0px 0px;text-decoration:none;}
 .paging strong{background-color:#777777;color:#FFFFFF;font-weight:normal;text-decoration:none;}
 .paging a:hover{background-color:#E7E7E7;}
 
+#tags{text-align:center;}
+#tags a:link,#tags a:visited{margin:5px;text-decoration:none;white-space:nowrap;}
+
 #shortcuts li{margin:10px 0px;}
 main > section{height:auto;margin:10px 0px 0px 230px;overflow-x:hidden;overflow-y:auto;position:relative;}
 aside{float:left;height:auto;margin:10px 0px 0px 0px;overflow-x:hidden;overflow-y:auto;width:200px;}

@@ -57,9 +57,11 @@ class Home extends CI_Controller {
 			redirect(base_url());
 		}
 
-		$modes = array('all', 'starred', 'shared', 'nofolder', 'folder', 'subscription', 'category', 'author', 'search');
+		$modes = array('all', 'starred', 'shared', 'nofolder', 'folder', 'subscription', 'category', 'author', 'search', 'tags');
 
 		$content = array();
+		$introduction_title = false;
+		$introduction_details = false;
 
 		$is_folder = FALSE;
 		if($mode == 'folder') {
@@ -101,116 +103,246 @@ class Home extends CI_Controller {
 			$this->session->set_userdata('items-mode', $mode);
 			$this->session->set_userdata('items-id', $id);
 
-			$introduction_title = '<i class="icon icon-asterisk"></i>'.$this->lang->line('all_items').' (<span id="intro-load-all-items"></span>)';
-			$introduction_details = false;
+			if($mode == 'tags' && $this->config->item('tags')) {
+				$content['result_type'] = 'tags';
 
-			$content['items'] = array();
+				$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
 
-			$where = array();
-			$bindings = array();
+				$introduction_title = '<i class="icon icon-tags"></i>'.$this->lang->line('tags');
 
-			$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
-			$bindings[] = $this->member->mbr_id;
+				$tags = array();
 
-			if($mode == 'starred') {
-				$introduction_title = '<i class="icon icon-star"></i>'.$this->lang->line('starred_items').' {<span id="intro-load-starred-items"></span>}';
-				$where[] = 'itm.itm_id IN ( SELECT fav.itm_id FROM favorites AS fav WHERE fav.itm_id = itm.itm_id AND fav.mbr_id = ? )';
-				$bindings[] = $this->member->mbr_id;
-			} else if($mode == 'shared') {
-				if(!$this->member->token_share) {
-					$token_share = sha1(uniqid($this->member->mbr_id, 1).mt_rand());
-					$this->db->set('token_share', $token_share);
-					$this->db->where('mbr_id', $this->member->mbr_id);
-					$this->db->update('members');
-					$this->member = $this->reader_model->get($this->session->userdata('logged_member'));
-				}
-				$introduction_title = '<i class="icon icon-heart"></i>'.$this->lang->line('shared_items').' {<span id="intro-load-shared-items"></span>}';
-				$introduction_details = '<ul class="item-details"><li><a target="_blank" href="'.base_url().'share/'.$this->member->token_share.'"><i class="icon icon-rss"></i>'.base_url().'share/'.$this->member->token_share.'</a></li></ul>';
-				$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM share AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
-				$bindings[] = $this->member->mbr_id;
-			} else {
-				if($mode == 'search') {
-					$search = urldecode($id);
-					$words = explode(' ', $search);
-					foreach($words as $word) {
-						if(substr($word, 0, 1) == '@') {
-							$where[] = 'DATE_ADD(itm.itm_date, INTERVAL ? HOUR) LIKE ?';
-							$bindings[] = $this->session->userdata('timezone');
-							$bindings[] = substr($word, 1).'%';
-						} else {
-							$where[] = 'itm.itm_title LIKE ?';
-							$bindings[] = '%'.$word.'%';
+				$legend = array();
+				$values = array();
+				$query = $this->db->query('SELECT LOWER(cat.cat_title) AS ref, cat.cat_id AS id, COUNT(DISTINCT(hst.itm_id)) AS count FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND cat.cat_datecreated >= ? AND sub.mbr_id = ? GROUP BY ref ORDER BY count DESC LIMIT 0,50', array($date_ref, $this->member->mbr_id));
+				if($query->num_rows() > 0) {
+					$u = 1;
+					$max = false;
+					foreach($query->result() as $row) {
+						if($u == 1) {
+							$max = $row->count;
 						}
+						$tags[$row->ref] = array('count'=>$row->count, 'id'=>$row->id);
+						$u++;
 					}
-				} else if($this->input->get('mode-items') == 'unread_only') {
-					$where[] = 'itm.itm_id NOT IN ( SELECT hst.itm_id FROM history AS hst WHERE hst.itm_id = itm.itm_id AND hst.mbr_id = ? )';
-					$bindings[] = $this->member->mbr_id;
 				}
-			}
-
-			if($is_folder) {
-				$introduction_title = '<i class="icon icon-folder-close"></i>'.$is_folder->flr_title.' (<span id="intro-load-folder-'.$is_folder->flr_id.'-items"></span>)';
-				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id = ? )';
-				$bindings[] = $is_folder->flr_id;
-			}
-
-			if($is_subscription) {
-				$introduction_title = '<i class="icon icon-rss"></i>'.$is_subscription->fed_title.' (<span id="intro-load-sub-'.$is_subscription->sub_id.'-items"></span>)';
-				if($is_subscription->fed_url) {
-					$introduction_details = '<ul class="item-details"><li><a target="_blank" href="'.$is_subscription->fed_url.'"><i class="icon icon-external-link"></i>'.$is_subscription->fed_url.'</a></li></ul>';
+				ksort($tags);
+				$content['tags'] = '<div id="tags" class="neutral">';
+				foreach($tags as $k => $v) {
+					$size = round(($v['count'] * 100) / $max) * 4;
+					$content['tags'] .= '<a class="category" data-cat_id="'.$v['id'].'" href="'.base_url().'home/items/category/'.$v['id'].'" style="font-size:'.$size.'%;">'.$k.'</a> ';
 				}
-				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
-				$bindings[] = $is_subscription->sub_id;
-			}
+				$content['tags'] .= '</div>';
 
-			if($is_author) {
-				$introduction_title = '<i class="icon icon-user"></i>'.$is_author;
-				$where[] = 'itm.itm_author = ?';
-				$bindings[] = $is_author;
-			}
-
-			if($is_category) {
-				$introduction_title = '<i class="icon icon-tag"></i>'.$is_category;
-				$where[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM categories AS cat WHERE cat.cat_title = ? )';
-				$bindings[] = $is_category;
-			}
-
-			if($mode == 'nofolder') {
-				$introduction_title = '<i class="icon icon-folder-close"></i><em>'.$this->lang->line('no_folder').'</em> (<span id="intro-load-nofolder-items"></span>)';
-				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id IS NULL )';
-			}
-
-			if($mode == 'search') {
-				$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS global_total
-				FROM items AS itm
-				WHERE '.implode(' AND ', $where);
-				$query = $this->db->query($sql, $bindings);
-				$content['total_global'] = intval($query->row()->global_total);
-				$introduction_title = '<i class="icon icon-file-text-alt"></i>'.$search.' {<span id="intro-load-search-items">'.$content['total_global'].'</span>}';
-			}
-
-			array_unshift($bindings, $this->session->userdata('timezone'));
-
-			$sql = 'SELECT itm.*, DATE_ADD(itm.itm_date, INTERVAL ? HOUR) AS itm_date
-			FROM items AS itm
-			WHERE '.implode(' AND ', $where).'
-			GROUP BY itm.itm_id
-			ORDER BY itm.itm_date DESC';
-			if($mode == 'starred') {
-				$sql .= ' LIMIT '.intval($this->input->post('pagination')).',10';
-			} else if($mode == 'shared') {
-				$sql .= ' LIMIT '.intval($this->input->post('pagination')).',10';
 			} else {
-				if($mode == 'search') {
-					$sql .= ' LIMIT '.intval($this->input->post('pagination')).',10';
-				} else if($this->input->get('mode-items') == 'unread_only') {
-					$sql .= ' LIMIT 0,10';
+				$content['result_type'] = 'items';
+
+				$introduction_title = '<i class="icon icon-asterisk"></i>'.$this->lang->line('all_items').' (<span id="intro-load-all-items"></span>)';
+
+				$content['items'] = array();
+
+				$where = array();
+				$bindings = array();
+
+				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
+				$bindings[] = $this->member->mbr_id;
+
+				if($mode == 'starred') {
+					$introduction_title = '<i class="icon icon-star"></i>'.$this->lang->line('starred_items').' {<span id="intro-load-starred-items"></span>}';
+					$where[] = 'itm.itm_id IN ( SELECT fav.itm_id FROM favorites AS fav WHERE fav.itm_id = itm.itm_id AND fav.mbr_id = ? )';
+					$bindings[] = $this->member->mbr_id;
+				} else if($mode == 'shared') {
+					if(!$this->member->token_share) {
+						$token_share = sha1(uniqid($this->member->mbr_id, 1).mt_rand());
+						$this->db->set('token_share', $token_share);
+						$this->db->where('mbr_id', $this->member->mbr_id);
+						$this->db->update('members');
+						$this->member = $this->reader_model->get($this->session->userdata('logged_member'));
+					}
+					$introduction_title = '<i class="icon icon-heart"></i>'.$this->lang->line('shared_items').' {<span id="intro-load-shared-items"></span>}';
+					$introduction_details = '<ul class="item-details"><li><a target="_blank" href="'.base_url().'share/'.$this->member->token_share.'"><i class="icon icon-rss"></i>'.base_url().'share/'.$this->member->token_share.'</a></li></ul>';
+					$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM share AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
+					$bindings[] = $this->member->mbr_id;
 				} else {
+					if($mode == 'search') {
+						$search = urldecode($id);
+						$words = explode(' ', $search);
+						foreach($words as $word) {
+							if(substr($word, 0, 1) == '@') {
+								$where[] = 'DATE_ADD(itm.itm_date, INTERVAL ? HOUR) LIKE ?';
+								$bindings[] = $this->session->userdata('timezone');
+								$bindings[] = substr($word, 1).'%';
+							} else {
+								$where[] = 'itm.itm_title LIKE ?';
+								$bindings[] = '%'.$word.'%';
+							}
+						}
+					} else if($this->input->get('mode-items') == 'unread_only') {
+						$where[] = 'itm.itm_id NOT IN ( SELECT hst.itm_id FROM history AS hst WHERE hst.itm_id = itm.itm_id AND hst.mbr_id = ? )';
+						$bindings[] = $this->member->mbr_id;
+					}
+				}
+
+				if($is_folder) {
+					$introduction_title = '<i class="icon icon-folder-close"></i>'.$is_folder->flr_title.' (<span id="intro-load-folder-'.$is_folder->flr_id.'-items"></span>)';
+					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id = ? )';
+					$bindings[] = $is_folder->flr_id;
+				}
+
+				if($is_subscription) {
+					$introduction_title = '<i class="icon icon-rss"></i>'.$is_subscription->fed_title.' (<span id="intro-load-sub-'.$is_subscription->sub_id.'-items"></span>)';
+					if($is_subscription->fed_url) {
+						$introduction_details = '<ul class="item-details"><li><a target="_blank" href="'.$is_subscription->fed_url.'"><i class="icon icon-external-link"></i>'.$is_subscription->fed_url.'</a></li></ul>';
+					}
+					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
+					$bindings[] = $is_subscription->sub_id;
+				}
+
+				if($is_author) {
+					$introduction_title = '<i class="icon icon-user"></i>'.$is_author;
+					$where[] = 'itm.itm_author = ?';
+					$bindings[] = $is_author;
+				}
+
+				if($is_category) {
+					$introduction_title = '<i class="icon icon-tag"></i>'.$is_category;
+					$where[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM categories AS cat WHERE cat.cat_title = ? )';
+					$bindings[] = $is_category;
+				}
+
+				if($mode == 'nofolder') {
+					$introduction_title = '<i class="icon icon-folder-close"></i><em>'.$this->lang->line('no_folder').'</em> (<span id="intro-load-nofolder-items"></span>)';
+					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id IS NULL )';
+				}
+
+				if($mode == 'search') {
+					$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS global_total
+					FROM items AS itm
+					WHERE '.implode(' AND ', $where);
+					$query = $this->db->query($sql, $bindings);
+					$content['total_global'] = intval($query->row()->global_total);
+					$introduction_title = '<i class="icon icon-file-text-alt"></i>'.$search.' {<span id="intro-load-search-items">'.$content['total_global'].'</span>}';
+				}
+
+				array_unshift($bindings, $this->session->userdata('timezone'));
+
+				$sql = 'SELECT itm.*, DATE_ADD(itm.itm_date, INTERVAL ? HOUR) AS itm_date
+				FROM items AS itm
+				WHERE '.implode(' AND ', $where).'
+				GROUP BY itm.itm_id
+				ORDER BY itm.itm_date DESC';
+				if($mode == 'starred') {
 					$sql .= ' LIMIT '.intval($this->input->post('pagination')).',10';
+				} else if($mode == 'shared') {
+					$sql .= ' LIMIT '.intval($this->input->post('pagination')).',10';
+				} else {
+					if($mode == 'search') {
+						$sql .= ' LIMIT '.intval($this->input->post('pagination')).',10';
+					} else if($this->input->get('mode-items') == 'unread_only') {
+						$sql .= ' LIMIT 0,10';
+					} else {
+						$sql .= ' LIMIT '.intval($this->input->post('pagination')).',10';
+					}
+				}
+				$query = $this->db->query($sql, $bindings);
+				$content['total'] = $query->num_rows();
+
+				if($query->num_rows() > 0) {
+					foreach($query->result() as $itm) {
+						$sql = 'SELECT fed.* FROM feeds AS fed WHERE fed.fed_id = ? GROUP BY fed.fed_id';
+						$itm->fed = $this->db->query($sql, array($itm->fed_id))->row();
+
+						$sql = 'SELECT sub.sub_id, sub.sub_title, flr.flr_id, flr.flr_title FROM subscriptions AS sub LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
+						$itm->sub = $this->db->query($sql, array($itm->fed_id, $this->member->mbr_id))->row();
+
+						$itm->categories = false;
+						if($this->config->item('tags')) {
+							$sql = 'SELECT cat.* FROM categories AS cat WHERE cat.itm_id = ? GROUP BY cat.cat_id';
+							$categories = $this->db->query($sql, array($itm->itm_id))->result();
+							if($categories) {
+								$itm->categories = array();
+								foreach($categories as $cat) {
+									$itm->categories[] = '<a class="category" data-cat_id="'.$cat->cat_id.'" href="'.base_url().'home/items/category/'.$cat->cat_id.'">'.$cat->cat_title.'</a>';
+								}
+							}
+						}
+
+						$sql = 'SELECT enr.* FROM enclosures AS enr WHERE enr.itm_id = ? GROUP BY enr.enr_id';
+						$itm->enclosures = $this->db->query($sql, array($itm->itm_id))->result();
+
+						$sql = 'SELECT hst.* FROM history AS hst WHERE hst.itm_id = ? AND hst.mbr_id = ? GROUP BY hst.hst_id';
+						$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
+						if($query->num_rows > 0) {
+							$itm->history = 'read';
+						} else {
+							$itm->history = 'unread';
+						}
+
+						if($this->config->item('star')) {
+							$sql = 'SELECT fav.* FROM favorites AS fav WHERE fav.itm_id = ? AND fav.mbr_id = ? GROUP BY fav.fav_id';
+							$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
+							if($query->num_rows > 0) {
+								$itm->star = 1;
+							} else {
+								$itm->star = 0;
+							}
+						}
+
+						if($this->config->item('share')) {
+							$sql = 'SELECT shr.* FROM share AS shr WHERE shr.itm_id = ? AND shr.mbr_id = ? GROUP BY shr.shr_id';
+							$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
+							if($query->num_rows > 0) {
+								$itm->share = 1;
+							} else {
+								$itm->share = 0;
+							}
+						}
+
+						list($itm->explode_date, $itm->explode_time) = explode(' ', $itm->itm_date);
+
+						//$itm->itm_content = strip_tags($itm->itm_content, '<dt><dd><dl><table><caption><tr><th><td><tbody><thead><h2><h3><h4><h5><h6><strong><em><code><pre><blockquote><p><ul><li><ol><br><del><a><img><figure><figcaption><cite><time><abbr>');
+
+						preg_match_all('/<a[^>]+>/i', $itm->itm_content, $result);
+						foreach($result[0] as $flr_a) {
+							if(!preg_match('/(target)=("[^"]*")/i', $flr_a, $result)) {
+								$itm->itm_content = str_replace($flr_a, str_replace('<a', '<a target="_blank"', $flr_a), $itm->itm_content);
+							}
+						}
+
+						preg_match_all('/<img[^>]+>/i', $itm->itm_content, $result);
+						foreach($result[0] as $flr_img) {
+							$attribute_src = false;
+							if(preg_match('/(src)=("[^"]*")/i', $flr_img, $result)) {
+								$attribute_src = str_replace('"', '', $result[2]);
+							}
+
+							$attribute_width = false;
+							if(preg_match('/(width)=("[^"]*")/i', $flr_img, $result)) {
+								$attribute_width = str_replace('"', '', $result[2]);
+							}
+
+							$attribute_height = false;
+							if(preg_match('/(height)=("[^"]*")/i', $flr_img, $result)) {
+								$attribute_height = str_replace('"', '', $result[2]);
+							}
+
+							if($attribute_width == 1 || $attribute_height == 1 || stristr($attribute_src, 'feedsportal.com') || stristr($attribute_src, 'feedburner.com')) {
+								$itm->itm_content = str_replace($flr_img, '', $itm->itm_content);
+							}
+						}
+
+						$content['items'][$itm->itm_id] = array('itm_id' => $itm->itm_id, 'itm_content' => $this->load->view('item', array('itm'=>$itm), TRUE));
+					}
+				} else {
+					$lastcrawl = $this->db->query('SELECT DATE_ADD(crr.crr_datecreated, INTERVAL ? HOUR) AS crr_datecreated FROM '.$this->db->dbprefix('crawler').' AS crr GROUP BY crr.crr_id ORDER BY crr.crr_id DESC LIMIT 0,1', array($this->session->userdata('timezone')))->row();
+					if($lastcrawl) {
+						$content['end'] = '<article id="last_crawl" class="neutral title">';
+						list($date, $time) = explode(' ', $lastcrawl->crr_datecreated);
+						$content['end'] .= '<h2><i class="icon icon-truck"></i>'.$this->lang->line('last_crawl').'</h2><ul class="item-details"><li><i class="icon icon-calendar"></i>'.$date.'</li><li><i class="icon icon-time"></i>'.$time.' (<span class="timeago" title="'.$lastcrawl->crr_datecreated.'"></span>)</li></ul>';
+						$content['end'] .= '</article>';
+					}
 				}
 			}
-			$query = $this->db->query($sql, $bindings);
-			$content['total'] = $query->num_rows();
 
 			if($introduction_title) {
 				$content['begin'] = '<article id="introduction" class="neutral title">';
@@ -219,102 +351,6 @@ class Home extends CI_Controller {
 					$content['begin'] .= $introduction_details;
 				}
 				$content['begin'] .= '</article>';
-			}
-
-			if($query->num_rows() > 0) {
-				foreach($query->result() as $itm) {
-					$sql = 'SELECT fed.* FROM feeds AS fed WHERE fed.fed_id = ? GROUP BY fed.fed_id';
-					$itm->fed = $this->db->query($sql, array($itm->fed_id))->row();
-
-					$sql = 'SELECT sub.sub_id, sub.sub_title, flr.flr_id, flr.flr_title FROM subscriptions AS sub LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
-					$itm->sub = $this->db->query($sql, array($itm->fed_id, $this->member->mbr_id))->row();
-
-					$itm->categories = false;
-					if($this->config->item('tags')) {
-						$sql = 'SELECT cat.* FROM categories AS cat WHERE cat.itm_id = ? GROUP BY cat.cat_id';
-						$categories = $this->db->query($sql, array($itm->itm_id))->result();
-						if($categories) {
-							$itm->categories = array();
-							foreach($categories as $cat) {
-								$itm->categories[] = '<a class="category" data-cat_id="'.$cat->cat_id.'" href="'.base_url().'home/items/category/'.$cat->cat_id.'">'.$cat->cat_title.'</a>';
-							}
-						}
-					}
-
-					$sql = 'SELECT enr.* FROM enclosures AS enr WHERE enr.itm_id = ? GROUP BY enr.enr_id';
-					$itm->enclosures = $this->db->query($sql, array($itm->itm_id))->result();
-
-					$sql = 'SELECT hst.* FROM history AS hst WHERE hst.itm_id = ? AND hst.mbr_id = ? GROUP BY hst.hst_id';
-					$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
-					if($query->num_rows > 0) {
-						$itm->history = 'read';
-					} else {
-						$itm->history = 'unread';
-					}
-
-					if($this->config->item('star')) {
-						$sql = 'SELECT fav.* FROM favorites AS fav WHERE fav.itm_id = ? AND fav.mbr_id = ? GROUP BY fav.fav_id';
-						$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
-						if($query->num_rows > 0) {
-							$itm->star = 1;
-						} else {
-							$itm->star = 0;
-						}
-					}
-
-					if($this->config->item('share')) {
-						$sql = 'SELECT shr.* FROM share AS shr WHERE shr.itm_id = ? AND shr.mbr_id = ? GROUP BY shr.shr_id';
-						$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
-						if($query->num_rows > 0) {
-							$itm->share = 1;
-						} else {
-							$itm->share = 0;
-						}
-					}
-
-					list($itm->explode_date, $itm->explode_time) = explode(' ', $itm->itm_date);
-
-					//$itm->itm_content = strip_tags($itm->itm_content, '<dt><dd><dl><table><caption><tr><th><td><tbody><thead><h2><h3><h4><h5><h6><strong><em><code><pre><blockquote><p><ul><li><ol><br><del><a><img><figure><figcaption><cite><time><abbr>');
-
-					preg_match_all('/<a[^>]+>/i', $itm->itm_content, $result);
-					foreach($result[0] as $flr_a) {
-						if(!preg_match('/(target)=("[^"]*")/i', $flr_a, $result)) {
-							$itm->itm_content = str_replace($flr_a, str_replace('<a', '<a target="_blank"', $flr_a), $itm->itm_content);
-						}
-					}
-
-					preg_match_all('/<img[^>]+>/i', $itm->itm_content, $result);
-					foreach($result[0] as $flr_img) {
-						$attribute_src = false;
-						if(preg_match('/(src)=("[^"]*")/i', $flr_img, $result)) {
-							$attribute_src = str_replace('"', '', $result[2]);
-						}
-
-						$attribute_width = false;
-						if(preg_match('/(width)=("[^"]*")/i', $flr_img, $result)) {
-							$attribute_width = str_replace('"', '', $result[2]);
-						}
-
-						$attribute_height = false;
-						if(preg_match('/(height)=("[^"]*")/i', $flr_img, $result)) {
-							$attribute_height = str_replace('"', '', $result[2]);
-						}
-
-						if($attribute_width == 1 || $attribute_height == 1 || stristr($attribute_src, 'feedsportal.com') || stristr($attribute_src, 'feedburner.com')) {
-							$itm->itm_content = str_replace($flr_img, '', $itm->itm_content);
-						}
-					}
-
-					$content['items'][$itm->itm_id] = array('itm_id' => $itm->itm_id, 'itm_content' => $this->load->view('item', array('itm'=>$itm), TRUE));
-				}
-			} else {
-				$lastcrawl = $this->db->query('SELECT DATE_ADD(crr.crr_datecreated, INTERVAL ? HOUR) AS crr_datecreated FROM '.$this->db->dbprefix('crawler').' AS crr GROUP BY crr.crr_id ORDER BY crr.crr_id DESC LIMIT 0,1', array($this->session->userdata('timezone')))->row();
-				if($lastcrawl) {
-					$content['end'] = '<article id="last_crawl" class="neutral title">';
-					list($date, $time) = explode(' ', $lastcrawl->crr_datecreated);
-					$content['end'] .= '<h2><i class="icon icon-truck"></i>'.$this->lang->line('last_crawl').'</h2><ul class="item-details"><li><i class="icon icon-calendar"></i>'.$date.'</li><li><i class="icon icon-time"></i>'.$time.' (<span class="timeago" title="'.$lastcrawl->crr_datecreated.'"></span>)</li></ul>';
-					$content['end'] .= '</article>';
-				}
 			}
 		} else {
 			$this->output->set_status_header(403);
@@ -556,36 +592,5 @@ class Home extends CI_Controller {
 			$this->output->set_status_header(403);
 		}
 		$this->reader_library->set_content($content);
-	}
-	function tags() {
-		if($this->config->item('tags')) {
-
-			$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
-
-			$tags = array();
-
-			$legend = array();
-			$values = array();
-			$query = $this->db->query('SELECT LOWER(cat.cat_title) AS ref, cat.cat_id AS id, COUNT(DISTINCT(hst.itm_id)) AS count FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND cat.cat_datecreated >= ? AND sub.mbr_id = ? AND cat.cat_title NOT LIKE ? GROUP BY ref ORDER BY count DESC LIMIT 0,30', array($date_ref, $this->member->mbr_id, 'Actualités : %'));
-			if($query->num_rows() > 0) {
-				$u = 1;
-				$max = false;
-				foreach($query->result() as $row) {
-					if($u == 1) {
-						$max = $row->count;
-					}
-					$tags[$row->ref] = array('count'=>$row->count, 'id'=>$row->id);
-					$u++;
-				}
-			}
-			ksort($tags);
-			$content = '<div style="margin:30px;text-align:center;">';
-			foreach($tags as $k => $v) {
-				$size = round(($v['count'] * 100) / $max) * 4;
-				$content .= '<a class="category" data-cat_id="'.$v['id'].'" href="'.base_url().'home/items/category/'.$v['id'].'" style="font-size:'.$size.'%;margin:5px;white-space:nowrap;">'.$k.'</a> ';
-			}
-			$content .= '</div>';
-			$this->reader_library->set_content($content);
-		}
 	}
 }
