@@ -108,7 +108,10 @@ class Home extends CI_Controller {
 
 				$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
 
-				$introduction_title = '<i class="icon icon-tags"></i>'.$this->lang->line('tags');
+				$introduction_title = '<i class="icon icon-tags"></i>'.$this->lang->line('tags').'*';
+				$content['end'] = '<article class="neutral title">';
+				$content['end'] .= '<p>*'.$this->lang->line('last_30_days').'</p>';
+				$content['end'] .= '</article>';
 
 				$tags = array();
 
