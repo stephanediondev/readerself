@@ -47,9 +47,9 @@ function load_items(url) {
 			200: function(data_return, textStatus, jqXHR) {
 				for(i in data_return.nav) {
 					if(data_return.nav[i]) {
-						$('.' + i).parent().css({'display': 'inline-block'});
+						$('.' + i).parent().removeClass('hide');
 					} else {
-						$('.' + i).parent().css({'display': 'none'});
+						$('.' + i).parent().addClass('hide');
 					}
 				}
 				content = '';
@@ -593,7 +593,7 @@ $(document).ready(function() {
 		event.preventDefault();
 		ref = $(this).attr('href');
 		$(this).parent().remove();
-		$(ref).find('.item-share').css({'display': 'inline-block'});
+		$(ref).find('.item-share').removeClass('hide');
 	});
 
 	$('.link-item-like').live('click', function(event) {

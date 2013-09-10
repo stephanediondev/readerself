@@ -67,6 +67,7 @@ label,.label{cursor:text;display:block;padding-bottom:2px;padding-top:5px;positi
 input{border: 1px solid #777777;padding:5px;}
 .actions{font-size:12px;margin-bottom:5px;}
 .actions li{display:inline-block;margin:5px 5px 5px 0px;white-space:nowrap;}
+.actions li.hide{display:none;}
 .actions a span{display:inline-block;}
 button, .actions a:link, .actions a:visited{background-color:#A4374F;border:none;color:#EEEEEE;margin:0px;padding:3px 3px 3px 3px;position:relative;text-decoration:none;vertical-align:top;}
 
@@ -137,7 +138,6 @@ main section .item .item-footer .actions{float:none;margin-bottom:10px;text-alig
 .item.collapse h2{font-size:13px;}
 .item.collapse .item-details{margin-bottom:5px;}
 
-.actions .item-share{display:none;}
 .item-like{clear:both;display:none;margin-top:5px;}
 
 .cell h2, .neutral h2{font-size:15px;font-weight:bold;margin:5px 0px;}
