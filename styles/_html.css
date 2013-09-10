@@ -122,7 +122,7 @@ main > section .item .actions{float:right;margin-right:0px;}
 .item .actions li{margin:5px 0px 5px 4px;}
 .item .actions a:link, .item .actions a:visited{background-color:#5660d1;}
 .item-content{line-height:1.4;}
-.item .item-footer{margin-top:10px;}
+.item .item-geolocation, .item .item-enclosures, .item .item-footer{clear:both;padding-top:10px;}
 main section .item .item-footer .actions{float:none;margin-bottom:10px;text-align:left;}
 .item .item-footer .actions li{margin:5px 4px 0px 0px;}
 .item .item-footer .actions li:last-child{margin-right:0px;}
