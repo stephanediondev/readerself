@@ -131,16 +131,17 @@ class Home extends CI_Controller {
 
 				$legend = array();
 				$values = array();
-				$query = $this->db->query('SELECT LOWER(cat.cat_title) AS ref, cat.cat_id AS id, COUNT(DISTINCT(hst.itm_id)) AS count FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND cat.cat_datecreated >= ? AND sub.mbr_id = ? GROUP BY ref ORDER BY count DESC LIMIT 0,100', array($date_ref, $this->member->mbr_id));
+				$query = $this->db->query('SELECT LOWER(cat.cat_title) AS ref, cat.cat_id AS id, COUNT(DISTINCT(itm.itm_id)) AS count FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND cat.cat_datecreated >= ? AND sub.mbr_id = ? GROUP BY ref ORDER BY count DESC LIMIT 0,100', array($date_ref, $this->member->mbr_id));
 				if($query->num_rows() > 0) {
-					$u = 1;
+					$exclude = array('non classé', 'uncategorized');
 					$max = false;
 					foreach($query->result() as $row) {
-						if($u == 1) {
-							$max = $row->count;
+						if(!in_array($row->ref, $exclude)) {
+							if(!$max) {
+								$max = $row->count;
+							}
+							$tags[$row->ref] = array('count'=>$row->count, 'id'=>$row->id);
 						}
-						$tags[$row->ref] = array('count'=>$row->count, 'id'=>$row->id);
-						$u++;
 					}
 				}
 				ksort($tags);
