@@ -103,8 +103,22 @@ class Home extends CI_Controller {
 			$this->session->set_userdata('items-mode', $mode);
 			$this->session->set_userdata('items-id', $id);
 
+			$content['nav'] = array();
+			$content['nav']['refresh-items'] = true;
+			$content['nav']['mode-items'] = true;
+			$content['nav']['display-items'] = true;
+			$content['nav']['read_all'] = true;
+			$content['nav']['item-up'] = true;
+			$content['nav']['item-down'] = true;
+
 			if($mode == 'tags' && $this->config->item('tags')) {
 				$content['result_type'] = 'tags';
+
+				$content['nav']['mode-items'] = false;
+				$content['nav']['display-items'] = false;
+				$content['nav']['read_all'] = false;
+				$content['nav']['item-up'] = false;
+				$content['nav']['item-down'] = false;
 
 				$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
 
@@ -156,6 +170,10 @@ class Home extends CI_Controller {
 					$introduction_title = '<i class="icon icon-star"></i>'.$this->lang->line('starred_items').' {<span id="intro-load-starred-items"></span>}';
 					$where[] = 'itm.itm_id IN ( SELECT fav.itm_id FROM favorites AS fav WHERE fav.itm_id = itm.itm_id AND fav.mbr_id = ? )';
 					$bindings[] = $this->member->mbr_id;
+
+					$content['nav']['mode-items'] = false;
+					$content['nav']['read_all'] = false;
+
 				} else if($mode == 'shared') {
 					if(!$this->member->token_share) {
 						$token_share = sha1(uniqid($this->member->mbr_id, 1).mt_rand());
@@ -168,6 +186,10 @@ class Home extends CI_Controller {
 					$introduction_details = '<ul class="item-details"><li><a target="_blank" href="'.base_url().'share/'.$this->member->token_share.'"><i class="icon icon-rss"></i>'.base_url().'share/'.$this->member->token_share.'</a></li></ul>';
 					$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM share AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
 					$bindings[] = $this->member->mbr_id;
+
+					$content['nav']['mode-items'] = false;
+					$content['nav']['read_all'] = false;
+
 				} else {
 					if($mode == 'search') {
 						$search = urldecode($id);
@@ -182,6 +204,10 @@ class Home extends CI_Controller {
 								$bindings[] = '%'.$word.'%';
 							}
 						}
+						$content['nav']['refresh-items'] = false;
+						$content['nav']['mode-items'] = false;
+						$content['nav']['read_all'] = false;
+
 					} else if($this->input->get('mode-items') == 'unread_only') {
 						$where[] = 'itm.itm_id NOT IN ( SELECT hst.itm_id FROM history AS hst WHERE hst.itm_id = itm.itm_id AND hst.mbr_id = ? )';
 						$bindings[] = $this->member->mbr_id;

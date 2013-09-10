@@ -45,6 +45,13 @@ function load_items(url) {
 		dataType: 'json',
 		statusCode: {
 			200: function(data_return, textStatus, jqXHR) {
+				for(i in data_return.nav) {
+					if(data_return.nav[i]) {
+						$('.' + i).parent().css({'display': 'inline-block'});
+					} else {
+						$('.' + i).parent().css({'display': 'none'});
+					}
+				}
 				content = '';
 				if(data_return.begin) {
 					content += data_return.begin;
