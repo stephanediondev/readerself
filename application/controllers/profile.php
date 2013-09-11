@@ -51,10 +51,9 @@ class Profile extends CI_Controller {
 			redirect(base_url());
 		}
 
-		$this->db->set('token_connection', '');
 		$this->db->where('mbr_id', $this->member->mbr_id);
 		$this->db->where('token_connection !=', $this->member->token_connection);
-		$this->db->update('connections');
+		$this->db->delete('connections');
 
 		redirect(base_url().'profile/connections');
 	}

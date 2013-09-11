@@ -31,10 +31,9 @@ class Reader_model extends CI_Model {
 	}
 	function logout() {
 		if($this->session->userdata('mbr_id') && $this->input->cookie('token_connection')) {
-			$this->db->set('token_connection', '');
 			$this->db->where('token_connection', $this->input->cookie('token_connection'));
 			$this->db->where('mbr_id', $this->session->userdata('mbr_id'));
-			$this->db->update('connections');
+			$this->db->delete('connections');
 		}
 
 		$this->session->unset_userdata('mbr_id');
