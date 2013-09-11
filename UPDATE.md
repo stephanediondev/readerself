@@ -1,5 +1,11 @@
 #### Update
 
+##### 2013-09-11
+
+```sql
+DELETE FROM `connections` WHERE `token_connection` IS NULL;
+```
+
 ##### 2013-09-08
 
 ```sql
