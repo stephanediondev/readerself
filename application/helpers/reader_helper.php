@@ -1,6 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-
 if( ! function_exists('convert_to_ascii')) {
 	function convert_to_ascii($url) {
 		$parts = parse_url($url);
