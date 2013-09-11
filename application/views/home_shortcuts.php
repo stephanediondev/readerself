@@ -1,4 +1,8 @@
 <div id="modal-display">
+	<ul class="actions">
+		<li><a class="modal_hide" href="#"><i class="icon icon-remove"></i><?php echo $this->lang->line('close'); ?></a></li>
+	</ul>
+
 	<h1><i class="icon icon-keyboard"></i><?php echo $this->lang->line('shortcuts'); ?></h1>
 
 	<ul id="shortcuts">

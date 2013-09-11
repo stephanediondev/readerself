@@ -115,3 +115,4 @@ $lang['registerContentHandler'] = 'Register as feed handler';
 $lang['last_added'] = 'Last added';
 $lang['like'] = 'Like';
 $lang['tags'] = 'Tags';
+$lang['close'] = 'Close';

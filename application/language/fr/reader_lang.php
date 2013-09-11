@@ -115,3 +115,4 @@ $lang['registerContentHandler'] = 'Enregistrer comme lecteur de flux';
 $lang['last_added'] = 'Derniers ajouts';
 $lang['like'] = 'Aimer';
 $lang['tags'] = 'Tags';
+$lang['close'] = 'Fermer';

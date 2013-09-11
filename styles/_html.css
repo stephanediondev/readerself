@@ -86,6 +86,8 @@ aside ul li label{display:block;padding:0px 0px 0px 0px;text-decoration:none;}
 #overlay, #modal{left:0px;position:absolute;top:0px;}
 #modal{background-color:#FFFFFF;z-index:20000;width:350px;}
 #modal-display{padding:10px;}
+#modal .actions{text-align:right;}
+#modal h1{margin:0px 0px 15px 0px;}
 #overlay{background-color:#000000;opacity:0.7;z-index:10000;}
 .icon{line-height:inherit !important;margin-right:3px;vertical-align:top;}
 .show-phone{display:none !important;}
