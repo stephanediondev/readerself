@@ -22,9 +22,7 @@ class Reader_hook {
 		if($this->CI->session->userdata('mbr_id')) {
 			$this->CI->member = $this->CI->reader_model->get($this->CI->session->userdata('mbr_id'));
 			if(!$this->CI->member || !$this->CI->input->cookie('token_connection') || $this->CI->input->cookie('token_connection') != $this->CI->member->token_connection) {
-				if(!$this->CI->input->is_ajax_request() && !$this->CI->input->is_cli_request()) {
-					$this->CI->reader_model->logout();
-				}
+				$this->CI->reader_model->logout();
 			}
 
 		} else {

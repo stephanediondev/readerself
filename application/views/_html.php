@@ -51,7 +51,7 @@ var csrf_token_name = '<?php echo $this->config->item('csrf_token_name'); ?>';
 var csrf_cookie_name = '<?php echo $this->config->item('csrf_cookie_name'); ?>';
 var current_url = '<?php echo current_url(); ?>';
 var ci_controller = '<?php echo $this->router->class; ?>';
-<?php if($this->session->userdata('mbr_id')) { ?>
+<?php if($this->session->userdata('mbr_id') && $this->input->cookie('token_connection')) { ?>
 var is_logged = true;
 <?php } else { ?>
 var is_logged = false;
