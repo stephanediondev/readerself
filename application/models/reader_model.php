@@ -63,13 +63,13 @@ class Reader_model extends CI_Model {
 		$query = $this->db->query('SELECT COUNT(sub.sub_id) AS count FROM '.$this->db->dbprefix('subscriptions').' sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE '.implode(' AND ', $flt));
 		return $query->row();
 	}
-	function get_subscriptions_rows($flt, $num, $offset, $column) {
+	function get_subscriptions_rows($flt, $num, $offset, $order) {
 		if($this->session->userdata('timezone')) {
 			$timezone = $this->session->userdata('timezone');
 		} else {
 			$timezone = 0;
 		}
-		$query = $this->db->query('SELECT fed.*, DATE_ADD(fed.fed_lastcrawl, INTERVAL ? HOUR) AS fed_lastcrawl, DATE_ADD(sub.sub_datecreated, INTERVAL ? HOUR) AS sub_datecreated, sub.sub_id, sub.sub_title, sub.flr_id, flr.flr_title, (SELECT COUNT(DISTINCT(count_sub.mbr_id)) FROM '.$this->db->dbprefix('subscriptions').' AS count_sub WHERE count_sub.fed_id = sub.fed_id) AS subscribers FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE '.implode(' AND ', $flt).' GROUP BY sub.sub_id ORDER BY '.$this->session->userdata($column.'_col').' LIMIT '.$offset.', '.$num, array($timezone, $timezone));
+		$query = $this->db->query('SELECT fed.*, DATE_ADD(fed.fed_lastcrawl, INTERVAL ? HOUR) AS fed_lastcrawl, DATE_ADD(sub.sub_datecreated, INTERVAL ? HOUR) AS sub_datecreated, sub.sub_id, sub.sub_title, sub.flr_id, flr.flr_title, (SELECT COUNT(DISTINCT(count_sub.mbr_id)) FROM '.$this->db->dbprefix('subscriptions').' AS count_sub WHERE count_sub.fed_id = sub.fed_id) AS subscribers FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE '.implode(' AND ', $flt).' GROUP BY sub.sub_id ORDER BY '.$order.' LIMIT '.$offset.', '.$num, array($timezone, $timezone));
 		return $query->result();
 	}
 	function get_subscription_row($sub_id) {
@@ -86,8 +86,8 @@ class Reader_model extends CI_Model {
 		$query = $this->db->query('SELECT COUNT(flr.flr_id) AS count FROM '.$this->db->dbprefix('folders').' AS flr WHERE '.implode(' AND ', $flt));
 		return $query->row();
 	}
-	function get_folders_rows($flt, $num, $offset, $column) {
-		$query = $this->db->query('SELECT flr.*, (SELECT COUNT(DISTINCT(count_sub.sub_id)) FROM '.$this->db->dbprefix('subscriptions').' AS count_sub WHERE count_sub.flr_id = flr.flr_id) AS subscriptions FROM '.$this->db->dbprefix('folders').' AS flr WHERE '.implode(' AND ', $flt).' GROUP BY flr.flr_id ORDER BY '.$this->session->userdata($column.'_col').' LIMIT '.$offset.', '.$num);
+	function get_folders_rows($flt, $num, $offset, $order) {
+		$query = $this->db->query('SELECT flr.*, (SELECT COUNT(DISTINCT(count_sub.sub_id)) FROM '.$this->db->dbprefix('subscriptions').' AS count_sub WHERE count_sub.flr_id = flr.flr_id) AS subscriptions FROM '.$this->db->dbprefix('folders').' AS flr WHERE '.implode(' AND ', $flt).' GROUP BY flr.flr_id ORDER BY '.$order.' LIMIT '.$offset.', '.$num);
 		return $query->result();
 	}
 	function get_flr_row($flr_id) {
@@ -99,8 +99,8 @@ class Reader_model extends CI_Model {
 		$query = $this->db->query('SELECT COUNT(DISTINCT(fed.fed_id)) AS count FROM '.$this->db->dbprefix('feeds').' fed WHERE '.implode(' AND ', $flt).' AND fed.fed_id NOT IN( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.mbr_id = ?)', array($this->member->mbr_id));
 		return $query->row();
 	}
-	function get_explore_rows($flt, $num, $offset, $column) {
-		$query = $this->db->query('SELECT fed.*, (SELECT COUNT(DISTINCT(count_sub.mbr_id)) FROM '.$this->db->dbprefix('subscriptions').' AS count_sub WHERE count_sub.fed_id = fed.fed_id) AS subscribers FROM '.$this->db->dbprefix('feeds').' AS fed WHERE '.implode(' AND ', $flt).' AND fed.fed_id NOT IN( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.mbr_id = ?) GROUP BY fed.fed_id ORDER BY '.$this->session->userdata($column.'_col').' LIMIT '.$offset.', '.$num, array($this->member->mbr_id));
+	function get_explore_rows($flt, $num, $offset, $order) {
+		$query = $this->db->query('SELECT fed.*, (SELECT COUNT(DISTINCT(count_sub.mbr_id)) FROM '.$this->db->dbprefix('subscriptions').' AS count_sub WHERE count_sub.fed_id = fed.fed_id) AS subscribers FROM '.$this->db->dbprefix('feeds').' AS fed WHERE '.implode(' AND ', $flt).' AND fed.fed_id NOT IN( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.mbr_id = ?) GROUP BY fed.fed_id ORDER BY '.$order.' LIMIT '.$offset.', '.$num, array($this->member->mbr_id));
 		return $query->result();
 	}
 }

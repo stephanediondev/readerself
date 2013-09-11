@@ -14,24 +14,12 @@ class Subscriptions extends CI_Controller {
 		$flt = $this->reader_library->build_filters($filters);
 		$flt[] = 'sub.mbr_id = \''.$this->member->mbr_id.'\'';
 		$flt[] = 'fed.fed_id IS NOT NULL';
-		$columns = array();
-		$columns[] = 'fed.fed_title';
-		$columns[] = 'fed.fed_description';
-		$columns[] = 'fed.fed_url';
-		$columns[] = 'subscribers';
-		if($this->config->item('folders')) {
-			$columns[] = 'flr.flr_title';
-		}
-		$columns[] = 'fed.fed_lastcrawl';
-		$columns[] = 'sub.sub_datecreated';
-		$col = $this->reader_library->build_columns($this->router->class.'_subscriptions', $columns, 'fed.fed_title', 'ASC');
 		$results = $this->reader_model->get_subscriptions_total($flt);
 		$build_pagination = $this->reader_library->build_pagination($results->count, 20, $this->router->class.'_subscriptions');
 		$data = array();
-		$data['columns'] = $col;
 		$data['pagination'] = $build_pagination['output'];
 		$data['position'] = $build_pagination['position'];
-		$data['subscriptions'] = $this->reader_model->get_subscriptions_rows($flt, $build_pagination['limit'], $build_pagination['start'], $this->router->class.'_subscriptions');
+		$data['subscriptions'] = $this->reader_model->get_subscriptions_rows($flt, $build_pagination['limit'], $build_pagination['start'], 'fed.fed_title ASC');
 
 		$data['errors'] = $this->db->query('SELECT fed.*, sub.sub_id, sub.sub_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE fed.fed_lasterror IS NOT NULL AND fed.fed_id IS NOT NULL AND sub.mbr_id = ? GROUP BY sub.sub_id ORDER BY fed.fed_lastcrawl DESC LIMIT 0,5', array($this->member->mbr_id))->result();
 

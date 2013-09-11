@@ -15,17 +15,12 @@ class Folders extends CI_Controller {
 		$filters[$this->router->class.'_folders_flr_title'] = array('flr.flr_title', 'like');
 		$flt = $this->reader_library->build_filters($filters);
 		$flt[] = 'flr.mbr_id = \''.$this->member->mbr_id.'\'';
-		$columns = array();
-		$columns[] = 'flr.flr_title';
-		$columns[] = 'subscriptions';
-		$col = $this->reader_library->build_columns($this->router->class.'_folders', $columns, 'flr.flr_title', 'ASC');
 		$results = $this->reader_model->get_folders_total($flt);
 		$build_pagination = $this->reader_library->build_pagination($results->count, 20, $this->router->class.'_folders');
 		$data = array();
-		$data['columns'] = $col;
 		$data['pagination'] = $build_pagination['output'];
 		$data['position'] = $build_pagination['position'];
-		$data['folders'] = $this->reader_model->get_folders_rows($flt, $build_pagination['limit'], $build_pagination['start'], $this->router->class.'_folders');
+		$data['folders'] = $this->reader_model->get_folders_rows($flt, $build_pagination['limit'], $build_pagination['start'], 'flr.flr_title ASC');
 
 		$content = $this->load->view('folders_index', $data, TRUE);
 		$this->reader_library->set_content($content);

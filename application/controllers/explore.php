@@ -15,19 +15,12 @@ class Explore extends CI_Controller {
 		$filters[$this->router->class.'_explore_fed_title'] = array('fed.fed_title', 'like');
 		$flt = $this->reader_library->build_filters($filters);
 		$flt[] = 'fed.fed_id IS NOT NULL';
-		$columns = array();
-		$columns[] = 'fed.fed_title';
-		$columns[] = 'fed.fed_description';
-		$columns[] = 'fed.fed_url';
-		$columns[] = 'subscribers';
-		$col = $this->reader_library->build_columns($this->router->class.'_explore', $columns, 'subscribers', 'DESC');
 		$results = $this->reader_model->get_explore_total($flt);
 		$build_pagination = $this->reader_library->build_pagination($results->count, 20, $this->router->class.'_explore');
 		$data = array();
-		$data['columns'] = $col;
 		$data['pagination'] = $build_pagination['output'];
 		$data['position'] = $build_pagination['position'];
-		$data['feeds'] = $this->reader_model->get_explore_rows($flt, $build_pagination['limit'], $build_pagination['start'], $this->router->class.'_explore');
+		$data['feeds'] = $this->reader_model->get_explore_rows($flt, $build_pagination['limit'], $build_pagination['start'], 'subscribers DESC');
 
 		$content = $this->load->view('explore_index', $data, TRUE);
 		$this->reader_library->set_content($content);

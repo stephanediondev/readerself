@@ -165,34 +165,6 @@ class Reader_library {
 		}
 		return $flt;
 	}
-	function build_columns($reference, $columns, $default_order, $default_direction) {
-		$defined_order = '';
-		$defined_direction = '';
-		if($this->CI->input->get($reference.'_col') && preg_match('/^[a-zA-Z0-9._]{1,}[ ](ASC|DESC)$/', $this->CI->input->get($reference.'_col'))) {
-			list($defined_order, $defined_direction) = explode(' ', $this->CI->input->get($reference.'_col'));
-			$this->CI->session->set_userdata($reference.'_col', $this->CI->input->get($reference.'_col'));
-		} else if($this->CI->session->userdata($reference.'_col') && preg_match('/^[a-zA-Z0-9._]{1,}[ ](ASC|DESC)$/', $this->CI->session->userdata($reference.'_col'))) {
-			list($defined_order, $defined_direction) = explode(' ', $this->CI->session->userdata($reference.'_col'));
-		}
-		if(!in_array($defined_order, $columns)) {
-			$defined_order = '';
-			$this->CI->session->set_userdata($reference.'_col', $default_order.' '.$default_direction);
-		}
-		$col = array();
-		foreach($columns as $v) {
-			if($v == $defined_order) {
-				if($defined_direction == 'ASC') {
-					$col[] = $defined_order.' DESC';
-				}
-				if($defined_direction == 'DESC') {
-					$col[] = $defined_order.' ASC';
-				}
-			} else {
-				$col[] = $v.' ASC';
-			}
-		}
-		return $col;
-	}
 	function build_pagination($total, $per_page, $ref = 'default') {
 		$this->CI->load->library('pagination');
 
