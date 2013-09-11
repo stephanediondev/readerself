@@ -32,6 +32,7 @@ class Reader_hook {
 				$query = $this->CI->db->query('SELECT cnt.* FROM '.$this->CI->db->dbprefix('connections').' AS cnt WHERE cnt.cnt_ip = ? AND cnt.cnt_agent = ? AND token_connection IS NOT NULL AND token_connection = ? GROUP BY cnt.cnt_id', array($this->CI->input->ip_address(), $this->CI->input->user_agent(), $this->CI->input->cookie('token_connection')));
 				if($query->num_rows() > 0) {
 					$connection = $query->row();
+
 					$this->CI->session->set_userdata('mbr_id', $connection->mbr_id);
 					$this->CI->input->set_cookie('token_connection', $this->CI->input->cookie('token_connection'), 3600 * 24 * 30, NULL, '/', NULL, NULL);
 

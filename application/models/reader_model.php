@@ -18,8 +18,6 @@ class Reader_model extends CI_Model {
 		return FALSE;
 	}
 	function connect($mbr_id) {
-		$this->session->set_userdata('mbr_id', $mbr_id);
-
 		$token_connection = sha1(uniqid($mbr_id, 1).mt_rand());
 		$this->db->set('mbr_id', $mbr_id);
 		$this->db->set('token_connection', $token_connection);
@@ -28,6 +26,7 @@ class Reader_model extends CI_Model {
 		$this->db->set('cnt_datecreated', date('Y-m-d H:i:s'));
 		$this->db->insert('connections');
 
+		$this->session->set_userdata('mbr_id', $mbr_id);
 		$this->input->set_cookie('token_connection', $token_connection, 3600 * 24 * 30, NULL, '/', NULL, NULL);
 	}
 	function logout() {
@@ -38,8 +37,8 @@ class Reader_model extends CI_Model {
 			$this->db->update('connections');
 		}
 
-		$this->input->set_cookie('token_connection', NULL, 0, NULL, '/', NULL, NULL);
 		$this->session->unset_userdata('mbr_id');
+		$this->input->set_cookie('token_connection', NULL, 0, NULL, '/', NULL, NULL);
 	}
 	function get($mbr_id) {
 		$member = false;
