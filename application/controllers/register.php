@@ -8,7 +8,7 @@ class Register extends CI_Controller {
 		if($this->reader_model->count_members() > 0 && !$this->config->item('register_multi')) {
 			redirect(base_url());
 		}
-		if($this->session->userdata('logged_member')) {
+		if($this->session->userdata('mbr_id')) {
 			redirect(base_url().'home');
 		}
 

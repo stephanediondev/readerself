@@ -70,7 +70,7 @@ class Refresh extends CI_Controller {
 				$content['count']['shared'] = $query->row()->count;
 			}
 
-			if($this->session->userdata('logged_member')) {
+			if($this->session->userdata('mbr_id')) {
 				$content['is_logged'] = TRUE;
 			} else {
 				$content['is_logged'] = FALSE;

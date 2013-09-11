@@ -5,7 +5,7 @@ class Subscriptions extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -30,7 +30,7 @@ class Subscriptions extends CI_Controller {
 	}
 
 	public function create() {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url().'?u='.$this->input->get('u'));
 		}
 
@@ -173,7 +173,7 @@ class Subscriptions extends CI_Controller {
 	}
 
 	public function read($sub_id) {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -256,7 +256,7 @@ class Subscriptions extends CI_Controller {
 	}
 
 	public function update($sub_id) {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -299,7 +299,7 @@ class Subscriptions extends CI_Controller {
 	}
 
 	public function delete($sub_id) {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -323,7 +323,7 @@ class Subscriptions extends CI_Controller {
 	}
 
 	public function export() {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -346,7 +346,7 @@ class Subscriptions extends CI_Controller {
 	}
 
 	public function import() {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 

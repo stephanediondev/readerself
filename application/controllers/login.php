@@ -8,7 +8,7 @@ class Login extends CI_Controller {
 		if($this->reader_model->count_members() == 0) {
 			redirect(base_url().'register');
 		}
-		if($this->session->userdata('logged_member')) {
+		if($this->session->userdata('mbr_id')) {
 			if($this->input->get('u')) {
 				redirect(base_url().'subscriptions/create/?u='.$this->input->get('u'));
 			} else {
@@ -35,7 +35,7 @@ class Login extends CI_Controller {
 	}
 	public function email() {
 		if($this->input->post('mbr_email') && $this->input->post('mbr_password')) {
-			if($this->reader_model->login($this->input->post('mbr_email'), $this->input->post('mbr_password'), $this->input->post('remember'))) {
+			if($this->reader_model->login($this->input->post('mbr_email'), $this->input->post('mbr_password'))) {
 				return TRUE;
 			} else {
 				$this->form_validation->set_message('email', $this->lang->line('callback_email'));

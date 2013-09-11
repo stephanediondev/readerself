@@ -18,7 +18,7 @@
 <header>
 	<nav>
 		<ul class="actions">
-			<?php if($this->session->userdata('logged_member')) { ?>
+			<?php if($this->session->userdata('mbr_id')) { ?>
 				<li class="show-phone show-tablet"><a id="toggle-sidebar" href="#"><i class="icon icon-reorder"></i><?php echo $this->lang->line('sidebar'); ?></a></li>
 				<li class="hide-phone"><a href="<?php echo base_url(); ?>home"><i class="icon icon-home"></i><?php echo $this->lang->line('home'); ?></a></li>
 				<li class="hide-phone"><a href="<?php echo base_url(); ?>subscriptions"><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?></a></li>
@@ -37,7 +37,7 @@
 			<?php } ?>
 		</ul>
 		<ul class="actions">
-			<?php if($this->session->userdata('logged_member')) { ?>
+			<?php if($this->session->userdata('mbr_id')) { ?>
 				<?php if($this->router->class == 'home') { ?><li class="show-phone"><a href="#" class="mode-items"><span class="unread_only"><i class="icon icon-eye-close"></i><?php echo $this->lang->line('unread_only'); ?></span><span class="read_and_unread"><i class="icon icon-eye-open"></i><?php echo $this->lang->line('read_and_unread'); ?></span></a></li><?php } ?>
 			<?php } ?>
 		</ul>
@@ -51,7 +51,7 @@ var csrf_token_name = '<?php echo $this->config->item('csrf_token_name'); ?>';
 var csrf_cookie_name = '<?php echo $this->config->item('csrf_cookie_name'); ?>';
 var current_url = '<?php echo current_url(); ?>';
 var ci_controller = '<?php echo $this->router->class; ?>';
-<?php if($this->session->userdata('logged_member')) { ?>
+<?php if($this->session->userdata('mbr_id')) { ?>
 var is_logged = true;
 <?php } else { ?>
 var is_logged = false;

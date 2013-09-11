@@ -5,7 +5,7 @@ class Explore extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -26,7 +26,7 @@ class Explore extends CI_Controller {
 		$this->reader_library->set_content($content);
 	}
 	public function add($fed_id) {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 

@@ -8,7 +8,7 @@ class Password extends CI_Controller {
 		if($this->reader_model->count_members() == 0) {
 			redirect(base_url().'register');
 		}
-		if($this->session->userdata('logged_member')) {
+		if($this->session->userdata('mbr_id')) {
 			redirect(base_url().'home');
 		}
 

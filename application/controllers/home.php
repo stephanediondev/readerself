@@ -5,7 +5,7 @@ class Home extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -32,7 +32,7 @@ class Home extends CI_Controller {
 		$this->reader_library->set_content($content);
 	}
 	function subscriptions() {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -53,7 +53,7 @@ class Home extends CI_Controller {
 		$this->reader_library->set_content($content);
 	}
 	public function items($mode, $id = FALSE) {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -181,7 +181,7 @@ class Home extends CI_Controller {
 						$this->db->set('token_share', $token_share);
 						$this->db->where('mbr_id', $this->member->mbr_id);
 						$this->db->update('members');
-						$this->member = $this->reader_model->get($this->session->userdata('logged_member'));
+						$this->member = $this->reader_model->get($this->session->userdata('mbr_id'));
 					}
 					$introduction_title = '<i class="icon icon-heart"></i>'.$this->lang->line('shared_items').' {<span id="intro-load-shared-items"></span>}';
 					$introduction_details = '<ul class="item-details"><li><a target="_blank" href="'.base_url().'share/'.$this->member->token_share.'"><i class="icon icon-rss"></i>'.base_url().'share/'.$this->member->token_share.'</a></li></ul>';
@@ -396,7 +396,7 @@ class Home extends CI_Controller {
 		$this->reader_library->set_content($content);
 	}
 	public function star($itm_id) {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -425,7 +425,7 @@ class Home extends CI_Controller {
 		$this->reader_library->set_content($content);
 	}
 	public function share($itm_id) {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -454,7 +454,7 @@ class Home extends CI_Controller {
 		$this->reader_library->set_content($content);
 	}
 	public function history($type, $id = FALSE, $auto = FALSE) {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -613,7 +613,7 @@ class Home extends CI_Controller {
 		$this->reader_library->set_content($content);
 	}
 	public function shortcuts() {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 

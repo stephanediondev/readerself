@@ -5,7 +5,7 @@ class Profile extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -33,7 +33,7 @@ class Profile extends CI_Controller {
 		}
 	}
 	public function connections() {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -47,7 +47,7 @@ class Profile extends CI_Controller {
 		$this->reader_library->set_content($content);
 	}
 	public function logout_purge() {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 

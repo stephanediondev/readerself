@@ -5,7 +5,7 @@ class Folders extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -27,7 +27,7 @@ class Folders extends CI_Controller {
 	}
 
 	public function create() {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -50,7 +50,7 @@ class Folders extends CI_Controller {
 	}
 
 	public function read($flr_id) {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -129,7 +129,7 @@ class Folders extends CI_Controller {
 	}
 
 	public function update($flr_id) {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -155,7 +155,7 @@ class Folders extends CI_Controller {
 	}
 
 	public function delete($flr_id) {
-		if(!$this->session->userdata('logged_member')) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 

@@ -4,8 +4,8 @@ class Reader_model extends CI_Model {
 	function __construct() {
 		parent::__construct();
 	}
-	function login($email, $password, $remember) {
-		$this->session->unset_userdata('logged_member');
+	function login($email, $password) {
+		$this->session->unset_userdata('mbr_id');
 		$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_email = ? GROUP BY mbr.mbr_id', array($email));
 		if($query->num_rows() > 0) {
 			$member = $query->row();
@@ -18,7 +18,7 @@ class Reader_model extends CI_Model {
 		return FALSE;
 	}
 	function connect($mbr_id) {
-		$this->session->set_userdata('logged_member', $mbr_id);
+		$this->session->set_userdata('mbr_id', $mbr_id);
 
 		$token_connection = sha1(uniqid($mbr_id, 1).mt_rand());
 		$this->db->set('mbr_id', $mbr_id);
@@ -28,19 +28,18 @@ class Reader_model extends CI_Model {
 		$this->db->set('cnt_datecreated', date('Y-m-d H:i:s'));
 		$this->db->insert('connections');
 
-		$this->input->set_cookie('token_connection', $token_connection, 0, NULL, '/', NULL, NULL);
+		$this->input->set_cookie('token_connection', $token_connection, 3600 * 24 * 30, NULL, '/', NULL, NULL);
 	}
 	function logout() {
-		if($this->session->userdata('logged_member') && $this->input->cookie('token_connection')) {
+		if($this->session->userdata('mbr_id') && $this->input->cookie('token_connection')) {
 			$this->db->set('token_connection', '');
 			$this->db->where('token_connection', $this->input->cookie('token_connection'));
-			$this->db->where('mbr_id', $this->session->userdata('logged_member'));
+			$this->db->where('mbr_id', $this->session->userdata('mbr_id'));
 			$this->db->update('connections');
-
-			$this->input->set_cookie('token_connection', NULL, 0, NULL, '/', NULL, NULL);
 		}
 
-		$this->session->unset_userdata('logged_member');
+		$this->input->set_cookie('token_connection', NULL, 0, NULL, '/', NULL, NULL);
+		$this->session->unset_userdata('mbr_id');
 	}
 	function get($mbr_id) {
 		$member = FALSE;
