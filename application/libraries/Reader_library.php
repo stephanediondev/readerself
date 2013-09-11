@@ -193,23 +193,6 @@ class Reader_library {
 		}
 		return $col;
 	}
-	function display_column($reference, $column, $lang) {
-		$class = '';
-		list($display_order, $display_direction) = explode(' ', $column);
-		if($this->CI->session->userdata($reference.'_col') && preg_match('/^[a-zA-Z0-9._]{1,}[ ](ASC|DESC)$/', $this->CI->session->userdata($reference.'_col'))) {
-			list($defined_order, $defined_direction) = explode(' ', $this->CI->session->userdata($reference.'_col'));
-			if($display_order == $defined_order) {
-				if($display_direction == 'ASC') {
-					$class = ' class="sort_desc"';
-				}
-				if($display_direction == 'DESC') {
-					$class = ' class="sort_asc"';
-				}
-			}
-		}
-		$link = '<th'.$class.'><a href="'.current_url().'?'.$reference.'_col='.urlencode($column).'">'.$lang.'</a></th>';
-		echo $link;
-	}
 	function build_pagination($total, $per_page, $ref = 'default') {
 		$this->CI->load->library('pagination');
 
