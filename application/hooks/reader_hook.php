@@ -40,9 +40,7 @@ class Reader_hook {
 					} else {
 						redirect(base_url().'home');
 					}
-				}
-			} else {
-				if(!$this->CI->input->is_ajax_request() && !$this->CI->input->is_cli_request()) {
+				} else {
 					$this->CI->reader_model->logout();
 				}
 			}
