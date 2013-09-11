@@ -28,16 +28,16 @@ class Reader_model extends CI_Model {
 		$this->db->set('cnt_datecreated', date('Y-m-d H:i:s'));
 		$this->db->insert('connections');
 
-		$this->input->set_cookie('logged_member', $token_connection, 0, NULL, '/', NULL, NULL);
+		$this->input->set_cookie('token_connection', $token_connection, 0, NULL, '/', NULL, NULL);
 	}
 	function logout() {
-		if($this->session->userdata('logged_member') && $this->input->cookie('logged_member')) {
+		if($this->session->userdata('logged_member') && $this->input->cookie('token_connection')) {
 			$this->db->set('token_connection', '');
-			$this->db->where('token_connection', $this->input->cookie('logged_member'));
+			$this->db->where('token_connection', $this->input->cookie('token_connection'));
 			$this->db->where('mbr_id', $this->session->userdata('logged_member'));
 			$this->db->update('connections');
 
-			$this->input->set_cookie('logged_member', NULL, 0, NULL, '/', NULL, NULL);
+			$this->input->set_cookie('token_connection', NULL, 0, NULL, '/', NULL, NULL);
 		}
 
 		$this->session->unset_userdata('logged_member');
@@ -48,7 +48,7 @@ class Reader_model extends CI_Model {
 		if($query->num_rows() > 0) {
 			$member = $query->row();
 
-			$query = $this->db->query('SELECT cnt.* FROM '.$this->db->dbprefix('connections').' AS cnt WHERE cnt.mbr_id = ? AND token_connection IS NOT NULL AND token_connection = ? GROUP BY cnt.cnt_id', array($mbr_id, $this->input->cookie('logged_member')));
+			$query = $this->db->query('SELECT cnt.* FROM '.$this->db->dbprefix('connections').' AS cnt WHERE cnt.mbr_id = ? AND token_connection IS NOT NULL AND token_connection = ? GROUP BY cnt.cnt_id', array($mbr_id, $this->input->cookie('token_connection')));
 			if($query->num_rows() > 0) {
 				$member->token_connection = $query->row()->token_connection;
 			}
