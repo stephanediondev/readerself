@@ -1,6 +1,5 @@
 <?php
 $lang['add'] = 'Ajouter';
-$lang['age'] = 'Age';
 $lang['all_items'] = 'Tous les éléments';
 $lang['all'] = 'Tous';
 $lang['back'] = 'Retour';
@@ -116,3 +115,4 @@ $lang['last_added'] = 'Derniers ajouts';
 $lang['like'] = 'Aimer';
 $lang['tags'] = 'Tags';
 $lang['close'] = 'Fermer';
+$lang['no_date_limit'] = 'Sans limite de date';
