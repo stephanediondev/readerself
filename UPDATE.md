@@ -4,6 +4,9 @@
 
 ```sql
 DELETE FROM `connections` WHERE `token_connection` IS NULL;
+ALTER TABLE `enclosures` CHANGE `enr_length` `enr_length` INT( 10 ) UNSIGNED NULL;
+ALTER TABLE `enclosures` ADD `enr_width` INT UNSIGNED NULL AFTER `enr_length`;
+ALTER TABLE `enclosures` ADD `enr_height` INT UNSIGNED NULL AFTER `enr_width`;
 ```
 
 ##### 2013-09-08

@@ -408,6 +408,38 @@ class SimplePie_Item
 	}
 
 	/**
+	 * Get iframes for the item
+	 *
+	 * @return array
+	 */
+	public function get_iframes()
+	{
+		$return = false;
+		$iframes = array();
+		if($return = $this->get_item_tags(SIMPLEPIE_NAMESPACE_ATOM_10, 'content')) {
+		} elseif ($return = $this->get_item_tags(SIMPLEPIE_NAMESPACE_ATOM_03, 'content')) {
+		} elseif ($return = $this->get_item_tags(SIMPLEPIE_NAMESPACE_RSS_10_MODULES_CONTENT, 'encoded')) {
+		}
+		if($return) {
+			$doc = new DOMDocument();
+			set_error_handler(array('SimplePie_Misc', 'silence_errors'));
+			$doc->loadHTML($return[0]['data']);
+			restore_error_handler();
+			$tags = $doc->getElementsByTagName('iframe');
+			$u = 0;
+			foreach($tags as $tag) {
+				$iframes[] = array(
+					'src'=>$tags->item($u)->getAttribute('src'),
+					'width'=>$tags->item($u)->getAttribute('width'),
+					'height'=>$tags->item($u)->getAttribute('height'),
+				);
+				$u++;
+			}
+		}
+		return $iframes;
+	}
+
+	/**
 	 * Get a category for the item
 	 *
 	 * @since Beta 3 (previously called `get_categories()` since Beta 2)

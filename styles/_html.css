@@ -57,7 +57,7 @@ h4{font-size:13px;margin:5px 0px;}
 h5{font-size:12px;margin:5px 0px;}
 h6{font-size:11px;margin:5px 0px;}
 p{clear:both;margin:5px 0px;}
-img{max-width:100%;}
+img, iframe{max-width:100%;}
 em{font-style:italic;}
 strong{font-weight:bold;}
 del{text-decoration:line-through;}

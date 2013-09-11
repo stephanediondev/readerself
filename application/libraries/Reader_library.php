@@ -250,6 +250,25 @@ class Reader_library {
 
 				$itm_id = $this->CI->db->insert_id();
 
+				foreach($sp_item->get_iframes() as $iframe) {
+					if($iframe['src'] && $iframe['width'] && $iframe['height']) {
+						if(stristr($iframe['src'], 'vimeo.com') || stristr($iframe['src'], 'youtube.com')) {
+							$this->CI->db->set('itm_id', $itm_id);
+							$this->CI->db->set('enr_link', $iframe['src']);
+							if(stristr($iframe['src'], 'vimeo.com')) {
+								$this->CI->db->set('enr_type', 'video/vimeo');
+							}
+							if(stristr($iframe['src'], 'youtube.com')) {
+								$this->CI->db->set('enr_type', 'video/youtube');
+							}
+							$this->CI->db->set('enr_width', $iframe['width']);
+							$this->CI->db->set('enr_height', $iframe['height']);
+							$this->CI->db->set('enr_datecreated', date('Y-m-d H:i:s'));
+							$this->CI->db->insert('enclosures');
+						}
+					}
+				}
+
 				foreach($sp_item->get_categories() as $category) {
 					if($category->get_label()) {
 						if(strstr($category->get_label(), ',')) {
@@ -280,6 +299,8 @@ class Reader_library {
 						$this->CI->db->set('enr_link', $link);
 						$this->CI->db->set('enr_type', $enclosure->get_type());
 						$this->CI->db->set('enr_length', $enclosure->get_length());
+						$this->CI->db->set('enr_width', $enclosure->get_width());
+						$this->CI->db->set('enr_height', $enclosure->get_height());
 						$this->CI->db->set('enr_datecreated', date('Y-m-d H:i:s'));
 						$this->CI->db->insert('enclosures');
 					}

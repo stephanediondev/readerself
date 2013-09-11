@@ -35,11 +35,11 @@
 					<?php $filename = substr($enr->enr_link, strrpos($enr->enr_link, '/') + 1); ?>
 					<?php if(stristr($enr->enr_type, 'image/')) { ?>
 						<p><i class="icon icon-picture"></i><?php if($enr->enr_length == 0 || $enr->enr_length <= 1048576) { ?><img src="<?php echo $enr->enr_link; ?>" alt=""><?php } else { ?><a target="_blank" href="<?php echo $enr->enr_link; ?>"><?php echo $filename; ?></a><?php } ?></p>
-					<?php } ?>
-					<?php if(stristr($enr->enr_type, 'audio/')) { ?>
+					<?php } else if(stristr($enr->enr_type, 'audio/')) { ?>
 						<p><i class="icon icon-volume-up"></i><a target="_blank" href="<?php echo $enr->enr_link; ?>"><?php echo $filename; ?></a></p>
-					<?php } ?>
-					<?php if(stristr($enr->enr_type, 'video/')) { ?>
+					<?php } else if($enr->enr_type == 'video/vimeo' || $enr->enr_type == 'video/youtube') { ?>
+						<p><i class="icon icon-youtube-play"></i><iframe allowfullscreen src="<?php echo $enr->enr_link; ?>" width="<?php echo $enr->enr_width; ?>" height="<?php echo $enr->enr_height; ?>"></iframe></p>
+					<?php } else if(stristr($enr->enr_type, 'video/')) { ?>
 						<p><i class="icon icon-youtube-play"></i><a target="_blank" href="<?php echo $enr->enr_link; ?>"><?php echo $filename; ?></a></p>
 					<?php } ?>
 				<?php } ?>

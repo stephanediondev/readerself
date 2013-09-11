@@ -45,7 +45,9 @@ CREATE TABLE IF NOT EXISTS `enclosures` (
   `itm_id` bigint(20) unsigned NOT NULL,
   `enr_link` varchar(255) NOT NULL,
   `enr_type` varchar(255) NOT NULL,
-  `enr_length` int(10) unsigned NOT NULL,
+  `enr_length` int(10) unsigned DEFAULT NULL,
+  `enr_width` int(10) unsigned DEFAULT NULL,
+  `enr_height` int(10) unsigned DEFAULT NULL,
   `enr_datecreated` datetime NOT NULL,
   PRIMARY KEY (`enr_id`),
   KEY `itm_id` (`itm_id`)
