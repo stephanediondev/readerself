@@ -35,7 +35,7 @@
 </tr>
 
 <tr>
-<th>Automatic tags from item feed categories</th>
+<th>Automatic tags from item feed categories and tag cloud</th>
 <td>Yes</td>
 <td>No</td><!-- Digg Reader -->
 <td>No</td><!-- Feedly -->
