@@ -10,7 +10,7 @@
 		<section>
 
 	<article class="cell title">
-		<h2><i class="icon icon-signin"></i><?php echo $this->lang->line('connections'); ?></h2>
+		<h2><i class="icon icon-signin"></i><?php echo $this->lang->line('active_connections'); ?></h2>
 		<ul class="item-details">
 			<li>* <?php echo $this->lang->line('current_connection'); ?></li>
 		</ul>
