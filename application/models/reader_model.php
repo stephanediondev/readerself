@@ -42,7 +42,7 @@ class Reader_model extends CI_Model {
 		$this->session->unset_userdata('mbr_id');
 	}
 	function get($mbr_id) {
-		$member = FALSE;
+		$member = false;
 		$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_id = ? GROUP BY mbr.mbr_id', array($mbr_id));
 		if($query->num_rows() > 0) {
 			$member = $query->row();
@@ -50,6 +50,8 @@ class Reader_model extends CI_Model {
 			$query = $this->db->query('SELECT cnt.* FROM '.$this->db->dbprefix('connections').' AS cnt WHERE cnt.mbr_id = ? AND token_connection IS NOT NULL AND token_connection = ? GROUP BY cnt.cnt_id', array($mbr_id, $this->input->cookie('token_connection')));
 			if($query->num_rows() > 0) {
 				$member->token_connection = $query->row()->token_connection;
+			} else {
+				$member->token_connection = false;
 			}
 		}
 		return $member;
