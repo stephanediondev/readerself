@@ -34,8 +34,9 @@ example
 * Register multi-users (optional)
 * Live unread counter in title bar / tab
 * Adaptive crawl by feed
-	* older than 30 days, next crawl in 24 hours
-	* older than 2 days, next crawl in 6 hours
+	* older than 96 hours, next crawl in 12 hours
+	* older than 48 hours, next crawl in 6 hours
+	* older than 24 hours, next crawl in 3 hours
 * Display geolocation
 
 ### Third party
