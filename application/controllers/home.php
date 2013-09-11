@@ -143,16 +143,18 @@ class Home extends CI_Controller {
 							$tags[$row->ref] = array('count'=>$row->count, 'id'=>$row->id);
 						}
 					}
+					ksort($tags);
+					$content['tags'] = '<div id="tags" class="neutral"><p>';
+					foreach($tags as $k => $v) {
+						$percent = ($v['count'] * 100) / $max;
+						$percent = $percent - ($percent % 10);
+						$percent = intval($percent) + 100;
+						$content['tags'] .= '<a class="category" data-cat_id="'.$v['id'].'" href="'.base_url().'home/items/category/'.$v['id'].'" style="font-size:'.$percent.'%;">'.$k.'</a> ';
+					}
+					$content['tags'] .= '</p></div>';
+				} else {
+					$content['tags'] = '';
 				}
-				ksort($tags);
-				$content['tags'] = '<div id="tags" class="neutral"><p>';
-				foreach($tags as $k => $v) {
-					$percent = ($v['count'] * 100) / $max;
-					$percent = $percent - ($percent % 10);
-					$percent = intval($percent) + 100;
-					$content['tags'] .= '<a class="category" data-cat_id="'.$v['id'].'" href="'.base_url().'home/items/category/'.$v['id'].'" style="font-size:'.$percent.'%;">'.$k.'</a> ';
-				}
-				$content['tags'] .= '</p></div>';
 
 			} else {
 				$content['result_type'] = 'items';
