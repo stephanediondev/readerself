@@ -21,6 +21,7 @@
 		<?php if($this->config->item('tags')) { ?>
 		<li><a id="load-tags-items" href="<?php echo base_url(); ?>home/items/tags"><i class="icon icon-tags"></i><?php echo $this->lang->line('tags'); ?></a></li>
 		<?php } ?>
+		<li><a id="load-authors-items" href="<?php echo base_url(); ?>home/items/authors"><i class="icon icon-group"></i><?php echo $this->lang->line('authors'); ?></a></li>
 		<?php if($folders && $this->config->item('folders')) { ?>
 		<?php foreach($folders as $folder) { ?>
 		<li><a id="load-folder-<?php echo $folder->flr_id; ?>-items" href="<?php echo base_url(); ?>home/items/folder/<?php echo $folder->flr_id; ?>"><i class="icon icon-folder-close"></i><?php echo $folder->flr_title; ?> (<span>0</span>)</a></li>

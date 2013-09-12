@@ -57,7 +57,7 @@ class Home extends CI_Controller {
 			redirect(base_url());
 		}
 
-		$modes = array('all', 'starred', 'shared', 'nofolder', 'folder', 'subscription', 'category', 'author', 'search', 'tags');
+		$modes = array('all', 'starred', 'shared', 'nofolder', 'folder', 'subscription', 'category', 'author', 'search', 'tags', 'authors');
 
 		$content = array();
 		$introduction_title = false;
@@ -150,6 +150,51 @@ class Home extends CI_Controller {
 						$percent = $percent - ($percent % 10);
 						$percent = intval($percent) + 100;
 						$content['tags'] .= '<a class="category" data-cat_id="'.$v['id'].'" href="'.base_url().'home/items/category/'.$v['id'].'" style="font-size:'.$percent.'%;">'.$k.'</a> ';
+					}
+					$content['tags'] .= '</p></div>';
+				} else {
+					$content['tags'] = '';
+				}
+
+			} else if($mode == 'authors') {
+				$content['result_type'] = 'tags';
+
+				$content['nav']['mode-items'] = false;
+				$content['nav']['display-items'] = false;
+				$content['nav']['read_all'] = false;
+				$content['nav']['item-up'] = false;
+				$content['nav']['item-down'] = false;
+
+				$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
+
+				$introduction_title = '<i class="icon icon-group"></i>'.$this->lang->line('authors').'*';
+				$content['end'] = '<article class="neutral title">';
+				$content['end'] .= '<p>*'.$this->lang->line('last_30_days').'</p>';
+				$content['end'] .= '</article>';
+
+				$tags = array();
+
+				$legend = array();
+				$values = array();
+				$query = $this->db->query('SELECT LOWER(itm.itm_author) AS ref, itm.itm_id AS id, COUNT(DISTINCT(itm.itm_id)) AS count FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id WHERE itm.itm_author IS NOT NULL AND itm.itm_datecreated >= ? AND sub.mbr_id = ? GROUP BY ref ORDER BY count DESC LIMIT 0,100', array($date_ref, $this->member->mbr_id));
+				if($query->num_rows() > 0) {
+					$exclude = array('webmaster');
+					$max = false;
+					foreach($query->result() as $row) {
+						if(!in_array($row->ref, $exclude)) {
+							if(!$max) {
+								$max = $row->count;
+							}
+							$tags[$row->ref] = array('count'=>$row->count, 'id'=>$row->id);
+						}
+					}
+					ksort($tags);
+					$content['tags'] = '<div id="tags" class="neutral"><p>';
+					foreach($tags as $k => $v) {
+						$percent = ($v['count'] * 100) / $max;
+						$percent = $percent - ($percent % 10);
+						$percent = intval($percent) + 100;
+						$content['tags'] .= '<a class="author" data-itm_id="'.$v['id'].'" href="'.base_url().'home/items/author/'.$v['id'].'" style="font-size:'.$percent.'%;">'.$k.'</a> ';
 					}
 					$content['tags'] .= '</p></div>';
 				} else {

@@ -116,3 +116,4 @@ $lang['like'] = 'Like';
 $lang['tags'] = 'Tags';
 $lang['close'] = 'Close';
 $lang['no_date_limit'] = 'No date limit';
+$lang['authors'] = 'Authors';

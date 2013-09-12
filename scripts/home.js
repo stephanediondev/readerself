@@ -454,7 +454,7 @@ $(document).ready(function() {
 		load_items(ref.attr('href'));
 	});
 
-	$('.item a.author').live('click', function(event) {
+	$('.item a.author, #tags a.author').live('click', function(event) {
 		event.preventDefault();
 		$('#search_items').val('');
 		var ref = $(this);
