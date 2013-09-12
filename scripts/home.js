@@ -462,7 +462,7 @@ $(document).ready(function() {
 		$('aside ul li').removeClass('active');
 
 		$('aside ul').find('.result').remove();
-		content = '<li class="result active"><a id="load-author-' + ref.data('itm_id') + '-items" href="' + base_url + 'home/items/author/' + ref.data('itm_id') + '"><i class="icon icon-user"></i>' + ref.text() + '</a></li>';
+		content = '<li class="result active"><a id="load-author-items" href="' + base_url + 'home/items/author/' + ref.data('itm_id') + '"><i class="icon icon-user"></i>' + ref.text() + ' (<span>0</span>)</a></li>';
 		$('aside ul').append(content);
 
 		load_items(ref.attr('href'));
@@ -490,7 +490,7 @@ $(document).ready(function() {
 		$('aside ul li').removeClass('active');
 
 		$('aside ul').find('.result').remove();
-		content = '<li class="result active"><a id="load-category-' + ref.data('dat_id') + '-items" href="' + base_url + 'home/items/category/' + ref.data('cat_id') + '"><i class="icon icon-tag"></i>' + ref.text() + '</a></li>';
+		content = '<li class="result active"><a id="load-category-items" href="' + base_url + 'home/items/category/' + ref.data('cat_id') + '"><i class="icon icon-tag"></i>' + ref.text() + ' (<span>0</span>)</a></li>';
 		$('aside ul').append(content);
 
 		load_items(ref.attr('href'));

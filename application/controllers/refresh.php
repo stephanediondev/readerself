@@ -70,6 +70,38 @@ class Refresh extends CI_Controller {
 				$content['count']['shared'] = $query->row()->count;
 			}
 
+			if($this->session->userdata('items-mode') == 'author') {
+				$query = $this->db->query('SELECT itm.itm_author FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id', array($this->session->userdata('items-id')));
+				if($query->num_rows() > 0) {
+					$is_author = $query->row()->itm_author;
+
+					$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
+					FROM '.$this->db->dbprefix('items').' AS itm
+					LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id AND sub.mbr_id = ?
+					WHERE itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?) AND itm.itm_author = ?';
+					$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id, $is_author));
+
+					$content['count']['author'] = $query->row()->count;
+				}
+			}
+
+			if($this->config->item('tags')) {
+				if($this->session->userdata('items-mode') == 'category') {
+					$query = $this->db->query('SELECT cat.cat_title FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_id = ? GROUP BY cat.cat_id', array($this->session->userdata('items-id')));
+					if($query->num_rows() > 0) {
+						$is_category = $query->row()->cat_title;
+
+						$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
+						FROM '.$this->db->dbprefix('items').' AS itm
+						LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id AND sub.mbr_id = ?
+						WHERE itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?) AND itm.itm_id IN ( SELECT cat.itm_id FROM categories AS cat WHERE cat.cat_title = ? )';
+						$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id, $is_category));
+
+						$content['count']['category'] = $query->row()->count;
+					}
+				}
+			}
+
 			if($this->session->userdata('mbr_id')) {
 				$content['is_logged'] = TRUE;
 			} else {

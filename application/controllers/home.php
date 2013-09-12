@@ -218,13 +218,13 @@ class Home extends CI_Controller {
 				}
 
 				if($is_folder) {
-					$introduction_title = '<i class="icon icon-folder-close"></i>'.$is_folder->flr_title.' (<span id="intro-load-folder-'.$is_folder->flr_id.'-items"></span>)';
+					$introduction_title = '<i class="icon icon-folder-close"></i>'.$is_folder->flr_title.' (<span id="intro-load-folder-'.$is_folder->flr_id.'-items">0</span>)';
 					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id = ? )';
 					$bindings[] = $is_folder->flr_id;
 				}
 
 				if($is_subscription) {
-					$introduction_title = '<i class="icon icon-rss"></i>'.$is_subscription->fed_title.' (<span id="intro-load-sub-'.$is_subscription->sub_id.'-items"></span>)';
+					$introduction_title = '<i class="icon icon-rss"></i>'.$is_subscription->fed_title.' (<span id="intro-load-sub-'.$is_subscription->sub_id.'-items">0</span>)';
 					if($is_subscription->fed_url) {
 						$introduction_details = '<ul class="item-details"><li><a target="_blank" href="'.$is_subscription->fed_url.'"><i class="icon icon-external-link"></i>'.$is_subscription->fed_url.'</a></li></ul>';
 					}
@@ -233,19 +233,19 @@ class Home extends CI_Controller {
 				}
 
 				if($is_author) {
-					$introduction_title = '<i class="icon icon-user"></i>'.$is_author;
+					$introduction_title = '<i class="icon icon-user"></i>'.$is_author.' (<span id="intro-load-author-items">0</span>)';
 					$where[] = 'itm.itm_author = ?';
 					$bindings[] = $is_author;
 				}
 
 				if($is_category) {
-					$introduction_title = '<i class="icon icon-tag"></i>'.$is_category;
+					$introduction_title = '<i class="icon icon-tag"></i>'.$is_category.' (<span id="intro-load-category-items">0</span>)';
 					$where[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM categories AS cat WHERE cat.cat_title = ? )';
 					$bindings[] = $is_category;
 				}
 
 				if($mode == 'nofolder') {
-					$introduction_title = '<i class="icon icon-folder-close"></i><em>'.$this->lang->line('no_folder').'</em> (<span id="intro-load-nofolder-items"></span>)';
+					$introduction_title = '<i class="icon icon-folder-close"></i><em>'.$this->lang->line('no_folder').'</em> (<span id="intro-load-nofolder-items">0</span>)';
 					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id IS NULL )';
 				}
 
