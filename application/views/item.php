@@ -26,7 +26,8 @@
 		<?php echo str_replace('<br>', ' ', $itm->itm_content); ?>
 		<?php if($itm->itm_latitude && $itm->itm_longitude) { ?>
 			<div class="item-geolocation">
-				<p><i class="icon icon-map-marker"></i> <a target="_blank" href="http://maps.google.com/maps?q=<?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?>&oe=UTF-8&ie=UTF-8"><img src="http://maps.googleapis.com/maps/api/staticmap?center=<?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?>&markers=color:red|<?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?>&zoom=12&size=540x200&sensor=false" alt=""></a></p>
+				<p><i class="icon icon-map-marker"></i><a target="_blank" href="http://maps.google.com/maps?q=<?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?>&oe=UTF-8&ie=UTF-8"><?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?></a></p>
+				<a target="_blank" href="http://maps.google.com/maps?q=<?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?>&oe=UTF-8&ie=UTF-8"><img src="http://maps.googleapis.com/maps/api/staticmap?center=<?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?>&markers=color:red|<?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?>&zoom=12&size=540x200&sensor=false" alt=""></a>
 			</div>
 		<?php } ?>
 		<?php if($itm->enclosures) { ?>
@@ -34,11 +35,23 @@
 				<?php foreach($itm->enclosures as $enr) { ?>
 					<?php $filename = substr($enr->enr_link, strrpos($enr->enr_link, '/') + 1); ?>
 					<?php if(stristr($enr->enr_type, 'image/')) { ?>
-						<p><i class="icon icon-picture"></i><?php if($enr->enr_length == 0 || $enr->enr_length <= 1048576) { ?><img src="<?php echo $enr->enr_link; ?>" alt=""><?php } else { ?><a target="_blank" href="<?php echo $enr->enr_link; ?>"><?php echo $filename; ?></a><?php } ?></p>
+						<p><i class="icon icon-picture"></i><a target="_blank" href="<?php echo $enr->enr_link; ?>"><?php echo $filename; ?></a></p>
+						<?php if($enr->enr_length == 0 || $enr->enr_length <= 1048576) { ?><a target="_blank" href="<?php echo $enr->enr_link; ?>"><img src="<?php echo $enr->enr_link; ?>" alt=""></a><?php } ?>
+
 					<?php } else if(stristr($enr->enr_type, 'audio/')) { ?>
 						<p><i class="icon icon-volume-up"></i><a target="_blank" href="<?php echo $enr->enr_link; ?>"><?php echo $filename; ?></a></p>
-					<?php } else if($enr->enr_type == 'video/vimeo' || $enr->enr_type == 'video/youtube') { ?>
-						<p><i class="icon icon-youtube-play"></i><iframe allowfullscreen src="<?php echo $enr->enr_link; ?>" width="<?php echo $enr->enr_width; ?>" height="<?php echo $enr->enr_height; ?>"></iframe></p>
+						<audio width="<?php echo $enr->enr_width; ?>" height="<?php echo $enr->enr_height; ?>" controls>
+							<source src="<?php echo $enr->enr_link; ?>" type="<?php echo $enr->enr_type; ?>">
+						</audio>
+
+					<?php } else if($enr->enr_type == 'video/vimeo') { ?>
+						<p><i class="icon icon-youtube-play"></i><a target="_blank" href="<?php echo $enr->enr_link; ?>"><?php echo $filename; ?> (Vimeo)</a></p>
+						<iframe allowfullscreen src="<?php echo $enr->enr_link; ?>" width="<?php echo $enr->enr_width; ?>" height="<?php echo $enr->enr_height; ?>"></iframe>
+
+					<?php } else if($enr->enr_type == 'video/youtube') { ?>
+						<p><i class="icon icon-youtube-play"></i><a target="_blank" href="<?php echo $enr->enr_link; ?>"><?php echo $filename; ?> (Youtube)</a></p>
+						<iframe allowfullscreen src="<?php echo $enr->enr_link; ?>" width="<?php echo $enr->enr_width; ?>" height="<?php echo $enr->enr_height; ?>"></iframe>
+
 					<?php } else if(stristr($enr->enr_type, 'video/')) { ?>
 						<p><i class="icon icon-youtube-play"></i><a target="_blank" href="<?php echo $enr->enr_link; ?>"><?php echo $filename; ?></a></p>
 						<video width="<?php echo $enr->enr_width; ?>" height="<?php echo $enr->enr_height; ?>" controls>
