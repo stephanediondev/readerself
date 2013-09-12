@@ -41,7 +41,7 @@
 
 					<?php } else if(stristr($enr->enr_type, 'audio/')) { ?>
 						<p><a target="_blank" href="<?php echo $enr->enr_link; ?>"><i class="icon icon-volume-up"></i><?php echo $filename; ?></a></p>
-						<audio width="<?php echo $enr->enr_width; ?>" height="<?php echo $enr->enr_height; ?>" controls>
+						<audio controls>
 							<source src="<?php echo $enr->enr_link; ?>" type="<?php echo $enr->enr_type; ?>">
 						</audio>
 
