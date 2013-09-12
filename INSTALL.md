@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `connections` (
 CREATE TABLE IF NOT EXISTS `crawler` (
   `crr_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `crr_time` double unsigned NOT NULL,
+  `crr_memory` int(10) unsigned DEFAULT NULL,
   `crr_count` int(10) unsigned NOT NULL,
   `crr_datecreated` datetime NOT NULL,
   PRIMARY KEY (`crr_id`)

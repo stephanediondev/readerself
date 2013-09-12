@@ -188,6 +188,9 @@ class Refresh extends CI_Controller {
 			}
 
 			$this->db->set('crr_time', microtime(1) - $microtime_start);
+			if(function_exists('memory_get_peak_usage')) {
+				$this->db->set('crr_memory', memory_get_peak_usage());
+			}
 			$this->db->set('crr_count', $query->num_rows());
 			$this->db->set('crr_datecreated', date('Y-m-d H:i:s'));
 			$this->db->insert('crawler');

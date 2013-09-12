@@ -1,5 +1,11 @@
 #### Update
 
+##### 2013-09-12
+
+```sql
+ALTER TABLE `crawler` ADD `crr_memory` INT UNSIGNED NULL AFTER `crr_time`;
+```
+
 ##### 2013-09-11
 
 ```sql
