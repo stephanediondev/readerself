@@ -67,8 +67,8 @@ function load_items(url) {
 						}
 					}
 				}
-				if(data_return.result_type == 'tags') {
-					content += data_return.tags;
+				if(data_return.result_type == 'cloud') {
+					content += data_return.cloud;
 				}
 				if(data_return.end) {
 					content += data_return.end;
@@ -454,7 +454,7 @@ $(document).ready(function() {
 		load_items(ref.attr('href'));
 	});
 
-	$('.item a.author, #tags a.author').live('click', function(event) {
+	$('.item a.author, #cloud a.author').live('click', function(event) {
 		event.preventDefault();
 		$('#search_items').val('');
 		var ref = $(this);
@@ -482,7 +482,7 @@ $(document).ready(function() {
 		load_items(ref.attr('href'));
 	});
 
-	$('.item a.category, #tags a.category').live('click', function(event) {
+	$('.item a.category, #cloud a.category').live('click', function(event) {
 		event.preventDefault();
 		$('#search_items').val('');
 		var ref = $(this);
