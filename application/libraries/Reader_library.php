@@ -252,7 +252,7 @@ class Reader_library {
 
 				foreach($sp_item->get_iframes() as $iframe) {
 					if($iframe['src'] && $iframe['width'] && $iframe['height']) {
-						if(stristr($iframe['src'], 'vimeo.com') || stristr($iframe['src'], 'youtube.com')) {
+						if(stristr($iframe['src'], 'vimeo.com') || stristr($iframe['src'], 'youtube.com') || stristr($iframe['src'], 'dailymotion.com')) {
 							$this->CI->db->set('itm_id', $itm_id);
 							$this->CI->db->set('enr_link', $iframe['src']);
 							if(stristr($iframe['src'], 'vimeo.com')) {
@@ -260,6 +260,9 @@ class Reader_library {
 							}
 							if(stristr($iframe['src'], 'youtube.com')) {
 								$this->CI->db->set('enr_type', 'video/youtube');
+							}
+							if(stristr($iframe['src'], 'dailymotion.com')) {
+								$this->CI->db->set('enr_type', 'video/dailymotion');
 							}
 							$this->CI->db->set('enr_width', $iframe['width']);
 							$this->CI->db->set('enr_height', $iframe['height']);
