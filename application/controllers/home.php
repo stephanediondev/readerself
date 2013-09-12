@@ -307,7 +307,7 @@ class Home extends CI_Controller {
 							}
 						}
 
-						$sql = 'SELECT enr.* FROM enclosures AS enr WHERE enr.itm_id = ? GROUP BY enr.enr_id';
+						$sql = 'SELECT enr.* FROM enclosures AS enr WHERE enr.itm_id = ? GROUP BY enr.enr_id ORDER BY enr.enr_type ASC';
 						$itm->enclosures = $this->db->query($sql, array($itm->itm_id))->result();
 
 						$sql = 'SELECT hst.* FROM history AS hst WHERE hst.itm_id = ? AND hst.mbr_id = ? GROUP BY hst.hst_id';
