@@ -46,15 +46,15 @@
 						</audio>
 
 					<?php } else if($enr->enr_type == 'video/vimeo') { ?>
-						<p><a target="_blank" href="<?php echo $enr->enr_link; ?>"><i class="icon icon-youtube-play"></i><?php echo $filename; ?> (Vimeo)</a></p>
+						<p><a target="_blank" href="http://vimeo.com/<?php echo $filename; ?>"><i class="icon icon-youtube-play"></i><?php echo $filename; ?> (Vimeo)</a></p>
 						<iframe allowfullscreen src="<?php echo $enr->enr_link; ?>" width="<?php echo $enr->enr_width; ?>" height="<?php echo $enr->enr_height; ?>"></iframe>
 
 					<?php } else if($enr->enr_type == 'video/dailymotion') { ?>
-						<p><a target="_blank" href="<?php echo $enr->enr_link; ?>"><i class="icon icon-youtube-play"></i><?php echo $filename; ?> (Dailymotion)</a></p>
+						<p><a target="_blank" href="http://www.dailymotion.com/video/<?php echo $filename; ?>"><i class="icon icon-youtube-play"></i><?php echo $filename; ?> (Dailymotion)</a></p>
 						<iframe allowfullscreen src="<?php echo $enr->enr_link; ?>" width="<?php echo $enr->enr_width; ?>" height="<?php echo $enr->enr_height; ?>"></iframe>
 
 					<?php } else if($enr->enr_type == 'video/youtube') { ?>
-						<p><a target="_blank" href="<?php echo $enr->enr_link; ?>"><i class="icon icon-youtube-play"></i><?php echo $filename; ?> (Youtube)</a></p>
+						<p><a target="_blank" href="http://www.youtube.com/watch?v=<?php echo $filename; ?>"><i class="icon icon-youtube-play"></i><?php echo $filename; ?> (Youtube)</a></p>
 						<iframe allowfullscreen src="<?php echo $enr->enr_link; ?>" width="<?php echo $enr->enr_width; ?>" height="<?php echo $enr->enr_height; ?>"></iframe>
 
 					<?php } else if(stristr($enr->enr_type, 'video/')) { ?>
