@@ -41,6 +41,9 @@
 						<p><i class="icon icon-youtube-play"></i><iframe allowfullscreen src="<?php echo $enr->enr_link; ?>" width="<?php echo $enr->enr_width; ?>" height="<?php echo $enr->enr_height; ?>"></iframe></p>
 					<?php } else if(stristr($enr->enr_type, 'video/')) { ?>
 						<p><i class="icon icon-youtube-play"></i><a target="_blank" href="<?php echo $enr->enr_link; ?>"><?php echo $filename; ?></a></p>
+						<video width="<?php echo $enr->enr_width; ?>" height="<?php echo $enr->enr_height; ?>" controls>
+							<source src="<?php echo $enr->enr_link; ?>" type="<?php echo $enr->enr_type; ?>">
+						</video>
 					<?php } ?>
 				<?php } ?>
 			</div>
