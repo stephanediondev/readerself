@@ -34,6 +34,7 @@
 			<div class="item-enclosures">
 				<?php foreach($itm->enclosures as $enr) { ?>
 					<?php $filename = substr($enr->enr_link, strrpos($enr->enr_link, '/') + 1); ?>
+					<?php if(stristr($filename, '?')) { ?><?php $filename = substr($filename, 0, strpos($filename, '?'));?><?php } ?>
 					<?php if(stristr($enr->enr_type, 'image/')) { ?>
 						<p><a target="_blank" href="<?php echo $enr->enr_link; ?>"><i class="icon icon-picture"></i><?php echo $filename; ?></a></p>
 						<?php if($enr->enr_length == 0 || $enr->enr_length <= 1048576) { ?><a target="_blank" href="<?php echo $enr->enr_link; ?>"><img src="<?php echo $enr->enr_link; ?>" alt=""></a><?php } ?>
