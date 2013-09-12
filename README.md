@@ -19,12 +19,17 @@ example
 * Add a feed
 * Import and export OPML
 * Get items (cron)
-* Folders (optional)
-* Automatic tags from item feed categories and tag cloud (optional)
+* Organize subscriptions by folder (optional)
+* List items by folder (optional)
+* List items by subscription
+* Automatic tags from item feed categories (optional)
+* List items by tag and tag cloud (optional)
+* List items by author and author cloud
 * Statistics
 * Switch Unread only / Read and unread
 * Expand / Collapse items
-* Display image enclosures
+* Get enclosures (image, audio and video)
+* Get video iframes from Dailymotion, Vimeo and Youtube as enclosures
 * Starred items (optional)
 * Shared items with public feed (optional)
 * Share and like on Facebook, Google and Twitter (optional)
@@ -37,7 +42,7 @@ example
 	* older than 96 hours, next crawl in 12 hours
 	* older than 48 hours, next crawl in 6 hours
 	* older than 24 hours, next crawl in 3 hours
-* Display geolocation
+* Display geolocation with Google Static Maps
 
 ### Third party
 
@@ -53,4 +58,3 @@ example
 * JavaScript: 80%
 * PHP: 80%
 * SQL: 80%
-
