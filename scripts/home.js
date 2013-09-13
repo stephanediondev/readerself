@@ -3,11 +3,13 @@ if($.cookie('mode-items') == 'read_and_unread') {
 } else {
 	var mode_items = 'unread_only';
 }
+$.cookie('mode-items', mode_items, { expires: 30, path: '/' });
 if($.cookie('display-items') == 'collapse') {
 	var display_items = 'collapse';
 } else {
 	var display_items = 'expand';
 }
+$.cookie('display-items', display_items, { expires: 30, path: '/' });
 var pagination = 0;
 var no_more_items = false;
 var lock_add_items = false;
