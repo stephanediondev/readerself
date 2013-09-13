@@ -395,6 +395,7 @@ $(document).ready(function() {
 						item_expand(ref.find('.expand'));
 					} else {
 						ref.find('.item-content').hide();
+						ref.find('.item-content').html('');
 						ref.find('.collapse').parent().hide();
 						ref.find('.expand').parent().show();
 						ref.addClass('collapse');
@@ -633,6 +634,7 @@ $(document).ready(function() {
 		event.preventDefault();
 		var href = $(this).attr('href');
 		$(href).find('.item-content').hide();
+		$(href).find('.item-content').html('');
 		$(href).find('.collapse').parent().hide();
 		$(href).find('.expand').parent().show();
 		$(href).addClass('collapse');
