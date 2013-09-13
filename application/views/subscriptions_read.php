@@ -41,7 +41,7 @@
 			<?php } ?>
 			<li><i class="icon icon-group"></i><?php echo $sub->subscribers; ?> <?php if($sub->subscribers > 1) { ?><?php echo mb_strtolower($this->lang->line('subscribers')); ?><?php } else { ?><?php echo mb_strtolower($this->lang->line('subscriber')); ?><?php } ?></li>
 			<?php if($sub->fed_lasterror) { ?><li class="block"><i class="icon icon-bell"></i><?php echo $sub->fed_lasterror; ?></li><?php } ?>
-			<li class="block"><a href="<?php echo $sub->fed_link; ?>" target="_blank"><i class="icon icon-link"></i><?php echo $sub->fed_link; ?></a></li>
+			<li class="block"><a href="<?php echo $sub->fed_link; ?>" target="_blank"><i class="icon icon-gear"></i><?php echo $sub->fed_link; ?></a></li>
 			<li class="block"><a href="<?php echo $sub->fed_url; ?>" target="_blank"><i class="icon icon-external-link"></i><?php echo $sub->fed_url; ?></a></li>
 		</ul>
 		<div class="item-content">
