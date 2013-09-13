@@ -674,4 +674,60 @@ class Home extends CI_Controller {
 		}
 		$this->reader_library->set_content($content);
 	}
+
+	public function expand($itm_id) {
+		if(!$this->session->userdata('mbr_id')) {
+			redirect(base_url());
+		}
+
+		$content = array();
+
+		if($this->input->is_ajax_request()) {
+			$this->reader_library->set_template('_json');
+			$this->reader_library->set_content_type('application/json');
+
+			$query = $this->db->query('SELECT * FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )GROUP BY itm.itm_id', array($itm_id, $this->member->mbr_id));
+			if($query->num_rows() > 0) {
+				$itm = $query->row();
+
+				$sql = 'SELECT enr.* FROM enclosures AS enr WHERE enr.itm_id = ? GROUP BY enr.enr_id ORDER BY enr.enr_type ASC';
+				$itm->enclosures = $this->db->query($sql, array($itm->itm_id))->result();
+
+				preg_match_all('/<a[^>]+>/i', $itm->itm_content, $result);
+				foreach($result[0] as $flr_a) {
+					if(!preg_match('/(target)=("[^"]*")/i', $flr_a, $result)) {
+						$itm->itm_content = str_replace($flr_a, str_replace('<a', '<a target="_blank"', $flr_a), $itm->itm_content);
+					}
+				}
+
+				preg_match_all('/<img[^>]+>/i', $itm->itm_content, $result);
+				foreach($result[0] as $flr_img) {
+					$attribute_src = false;
+					if(preg_match('/(src)=("[^"]*")/i', $flr_img, $result)) {
+						$attribute_src = str_replace('"', '', $result[2]);
+					}
+
+					$attribute_width = false;
+					if(preg_match('/(width)=("[^"]*")/i', $flr_img, $result)) {
+						$attribute_width = str_replace('"', '', $result[2]);
+					}
+
+					$attribute_height = false;
+					if(preg_match('/(height)=("[^"]*")/i', $flr_img, $result)) {
+						$attribute_height = str_replace('"', '', $result[2]);
+					}
+
+					if($attribute_width == 1 || $attribute_height == 1 || stristr($attribute_src, 'feedsportal.com') || stristr($attribute_src, 'feedburner.com')) {
+						$itm->itm_content = str_replace($flr_img, '', $itm->itm_content);
+					}
+				}
+
+				$content['itm_id'] = $itm_id;
+				$content['itm_content'] = $this->load->view('item_expand', array('itm'=>$itm), TRUE);
+			}
+		} else {
+			$this->output->set_status_header(403);
+		}
+		$this->reader_library->set_content($content);
+	}
 }
