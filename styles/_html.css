@@ -138,7 +138,7 @@ main section .item .item-footer .actions{float:none;margin-bottom:10px;text-alig
 .item table td{background-color:transparent!important;border:none;}
 .mode-items .unread_only{display:none;}
 #display-items .expand{display:none;}
-.item.collapse .item-content, .item.collapse .item-footer{display:none;}
+.item.collapse .hide-collapse{display:none;}
 .item.collapse .item-details{margin-bottom:5px;}
 
 .item-like{clear:both;display:none;margin-top:5px;}
@@ -168,11 +168,15 @@ header nav{margin:5px 0px 0px 10px;}
 main > section{margin:10px 0px 0px 10px;}
 aside{display:none;background-color:#FFFFFF;left:0px;position:absolute;top:20px;width:100%;z-index:1000;}
 }
-@media(max-width:500px){
+@media(max-width:600px){
 main > section{margin-top:40px !important;}
 .show-phone{display:inline-block !important;}
 .hide-tablet{display:none !important;}
 .hide-phone{display:none !important;}
 main > section{margin-top:10px !important;}
-.item h2{clear:both;font-size:14px;}
+.item.collapse h2{clear:none;}
+.item h2{clear:both;margin-top:5px;}
+}
+@media(max-width:500px){
+.item.collapse h2, .item h2{clear:both;margin-top:5px;}
 }

@@ -9,10 +9,10 @@
 		<?php } ?>
 		<li><a class="history" href="<?php echo base_url(); ?>home/history/toggle/<?php echo $itm->itm_id; ?>"><span class="unread"<?php if($itm->history == 'unread') { ?> style="display:none;"<?php } ?>><i class="icon icon-eye-close"></i><?php echo $this->lang->line('keep_unread'); ?></span><span class="read"<?php if($itm->history == 'read') { ?> style="display:none;"<?php } ?>><i class="icon icon-eye-open"></i><?php echo $this->lang->line('mark_as_read'); ?></span></a></li>
 		<?php if($this->config->item('star')) { ?>
-		<li><a class="star" href="<?php echo base_url(); ?>home/star/<?php echo $itm->itm_id; ?>"><span class="unstar"<?php if($itm->star == 0) { ?> style="display:none;"<?php } ?>><i class="icon icon-star"></i><?php echo $this->lang->line('unstar'); ?></span><span class="star"<?php if($itm->star == 1) { ?> style="display:none;"<?php } ?>><i class="icon icon-star-empty"></i><?php echo $this->lang->line('star'); ?></span></a></li>
+		<li class="hide-collapse"><a class="star" href="<?php echo base_url(); ?>home/star/<?php echo $itm->itm_id; ?>"><span class="unstar"<?php if($itm->star == 0) { ?> style="display:none;"<?php } ?>><i class="icon icon-star"></i><?php echo $this->lang->line('unstar'); ?></span><span class="star"<?php if($itm->star == 1) { ?> style="display:none;"<?php } ?>><i class="icon icon-star-empty"></i><?php echo $this->lang->line('star'); ?></span></a></li>
 		<?php } ?>
 		<?php if($this->config->item('share')) { ?>
-		<li><a class="share" href="<?php echo base_url(); ?>home/share/<?php echo $itm->itm_id; ?>"><span class="unshare"<?php if($itm->share == 0) { ?> style="display:none;"<?php } ?>><i class="icon icon-heart"></i><?php echo $this->lang->line('unshare'); ?></span><span class="share"<?php if($itm->share == 1) { ?> style="display:none;"<?php } ?>><i class="icon icon-heart-empty"></i><?php echo $this->lang->line('share'); ?></span></a></li>
+		<li class="hide-collapse"><a class="share" href="<?php echo base_url(); ?>home/share/<?php echo $itm->itm_id; ?>"><span class="unshare"<?php if($itm->share == 0) { ?> style="display:none;"<?php } ?>><i class="icon icon-heart"></i><?php echo $this->lang->line('unshare'); ?></span><span class="share"<?php if($itm->share == 1) { ?> style="display:none;"<?php } ?>><i class="icon icon-heart-empty"></i><?php echo $this->lang->line('share'); ?></span></a></li>
 		<?php } ?>
 	</ul>
 	<h2><a target="_blank" href="<?php echo $itm->itm_link; ?>"><i class="icon icon-file-text-alt"></i><?php echo $itm->itm_title; ?></a></h2>
@@ -29,13 +29,13 @@
 		<li class="block hide-phone"><a target="_blank" href="https://foursquare.com/venue/<?php echo $itm->foursquare; ?>"><i class="icon icon-foursquare"></i>Foursquare</a></li>
 		<?php } ?>
 	</ul>
-	<div class="item-content">
+	<div class="item-content hide-collapse">
 		<?php if($this->input->get('display-items') == 'collapse' || $this->input->cookie('display-items') == 'collapse') { ?>
 		<?php } else if($this->input->get('display-items') == 'expand') { ?>
 			<?php echo $this->load->view('item_expand', array('itm', $itm), TRUE); ?>
 		<?php } ?>
 	</div>
-	<div class="item-footer">
+	<div class="item-footer hide-collapse">
 		<?php if($this->config->item('social')) { ?>
 		<ul class="actions">
 			<li><a class="link-item-like" href="#item-like-<?php echo $itm->itm_id; ?>" data-url="<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-thumbs-up-alt "></i><?php echo $this->lang->line('like'); ?></a></li>
