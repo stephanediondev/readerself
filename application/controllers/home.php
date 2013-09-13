@@ -216,7 +216,7 @@ class Home extends CI_Controller {
 
 				} else {
 					if($mode == 'search') {
-						$search = urldecode($id);
+						$search = trim(urldecode($id));
 						$words = explode(' ', $search);
 						foreach($words as $word) {
 							if(substr($word, 0, 1) == '@') {
