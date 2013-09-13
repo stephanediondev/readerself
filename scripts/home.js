@@ -382,8 +382,11 @@ $(document).ready(function() {
 				if($('main > section .item-selected').length > 0) {
 					ref = $('main > section .item-selected');
 					if(ref.hasClass('collapse')) {
-						ref.removeClass('collapse');
+						item_expand(ref.find('.expand'));
 					} else {
+						ref.find('.item-content').hide();
+						ref.find('.collapse').parent().hide();
+						ref.find('.expand').parent().show();
 						ref.addClass('collapse');
 					}
 				}
