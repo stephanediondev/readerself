@@ -1,8 +1,16 @@
 	<nav>
 		<ul class="actions">
 			<li><a href="#" class="refresh-items" id="refresh-items"><i class="icon icon-refresh"></i><?php echo $this->lang->line('refresh'); ?></a></li>
-			<li class="hide-phone"><a href="#" id="mode-items" class="mode-items"><span class="unread_only"><i class="icon icon-eye-close"></i><?php echo $this->lang->line('unread_only'); ?></span><span class="read_and_unread"><i class="icon icon-eye-open"></i><?php echo $this->lang->line('read_and_unread'); ?></span></a></li>
+			<?php if($this->input->cookie('mode-items') == 'read_and_unread') { ?>
+				<li class="hide-phone"><a href="#" id="mode-items" class="mode-items"><span class="unread_only" style="display:inline-block;"><i class="icon icon-eye-close"></i><?php echo $this->lang->line('unread_only'); ?></span><span class="read_and_unread" style="display:none;"><i class="icon icon-eye-open"></i><?php echo $this->lang->line('read_and_unread'); ?></span></a></li>
+			<?php } else { ?>
+				<li class="hide-phone"><a href="#" id="mode-items" class="mode-items"><span class="unread_only"><i class="icon icon-eye-close"></i><?php echo $this->lang->line('unread_only'); ?></span><span class="read_and_unread"><i class="icon icon-eye-open"></i><?php echo $this->lang->line('read_and_unread'); ?></span></a></li>
+			<?php } ?>
+			<?php if($this->input->cookie('display-items') == 'collapse') { ?>
+				<li><a href="#" class="display-items" id="display-items"><span class="expand" style="display:inline-block;"><i class="icon icon-collapse"></i><?php echo $this->lang->line('expand'); ?></span><span class="collapse" style="display:none;"><i class="icon icon-collapse-top"></i><?php echo $this->lang->line('collapse'); ?></span></a></li>
+			<?php } else { ?>
 			<li><a href="#" class="display-items" id="display-items"><span class="expand"><i class="icon icon-collapse"></i><?php echo $this->lang->line('expand'); ?></span><span class="collapse"><i class="icon icon-collapse-top"></i><?php echo $this->lang->line('collapse'); ?></span></a></li>
+			<?php } ?>
 			<li class="hide-phone"><a href="<?php echo base_url(); ?>home/history/dialog" id="read_all" class="read_all modal_show"><i class="icon icon-ok"></i><?php echo $this->lang->line('mark_all_as_read'); ?>...</a></li>
 			<li><a href="#" class="item-up" id="item-up"><i class="icon icon-chevron-up"></i><?php echo $this->lang->line('up'); ?></a></li>
 			<li><a href="#" class="item-down" id="item-down"><i class="icon icon-chevron-down"></i><?php echo $this->lang->line('down'); ?></a></li>

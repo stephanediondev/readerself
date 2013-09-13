@@ -1,10 +1,9 @@
-<article class="item<?php if($itm->history == 'read') { ?> read<?php } ?><?php if($this->input->get('display-items') == 'collapse') { ?> collapse<?php } ?>" id="item_<?php echo $itm->itm_id; ?>">
+<article class="item<?php if($itm->history == 'read') { ?> read<?php } ?><?php if($this->input->get('display-items') == 'collapse' || $this->input->cookie('display-items') == 'collapse') { ?> collapse<?php } ?>" id="item_<?php echo $itm->itm_id; ?>">
 	<ul class="actions">
-		<?php if($this->input->get('display-items') == 'collapse') { ?>
+		<?php if($this->input->get('display-items') == 'collapse' || $this->input->cookie('display-items') == 'collapse') { ?>
 			<li><a class="expand" href="<?php echo base_url(); ?>home/expand/<?php echo $itm->itm_id; ?>"><i class="icon icon-collapse"></i><?php echo $this->lang->line('expand'); ?></a></li>
 			<li style="display:none;"><a class="collapse" href="#item_<?php echo $itm->itm_id; ?>"><i class="icon icon-collapse-top"></i><?php echo $this->lang->line('collapse'); ?></a></li>
-		<?php } ?>
-		<?php if($this->input->get('display-items') == 'expand') { ?>
+		<?php } else if($this->input->get('display-items') == 'expand') { ?>
 			<li style="display:none;"><a class="expand" href="<?php echo base_url(); ?>home/expand/<?php echo $itm->itm_id; ?>"><i class="icon icon-collapse"></i><?php echo $this->lang->line('expand'); ?></a></li>
 			<li><a class="collapse" href="#item_<?php echo $itm->itm_id; ?>"><i class="icon icon-collapse-top"></i><?php echo $this->lang->line('collapse'); ?></a></li>
 		<?php } ?>
@@ -31,8 +30,9 @@
 		<?php } ?>
 	</ul>
 	<div class="item-content">
-		<?php if($this->input->get('display-items') == 'expand') { ?>
-		<?php echo $this->load->view('item_expand', array('itm', $itm), TRUE); ?>
+		<?php if($this->input->get('display-items') == 'collapse' || $this->input->cookie('display-items') == 'collapse') { ?>
+		<?php } else if($this->input->get('display-items') == 'expand') { ?>
+			<?php echo $this->load->view('item_expand', array('itm', $itm), TRUE); ?>
 		<?php } ?>
 	</div>
 	<div class="item-footer">
