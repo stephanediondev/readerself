@@ -544,6 +544,42 @@ class Home extends CI_Controller {
 					}
 				}
 
+				$is_author = FALSE;
+				if($this->session->userdata('items-mode') == 'author') {
+					$query = $this->db->query('SELECT itm.itm_author FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id', array($this->session->userdata('items-id')));
+					if($query->num_rows() > 0) {
+						$is_author = $query->row()->itm_author;
+						$data['title'] = $is_author;
+						$data['icon'] = 'user';
+
+						$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
+						FROM '.$this->db->dbprefix('items').' AS itm
+						LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id AND sub.mbr_id = ?
+						WHERE itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?) AND itm.itm_author = ?';
+						$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id, $is_author));
+
+						$data['count'] = $query->row()->count;
+					}
+				}
+
+				$is_category = FALSE;
+				if($this->session->userdata('items-mode') == 'category') {
+					$query = $this->db->query('SELECT cat.cat_title FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_id = ? GROUP BY cat.cat_id', array($this->session->userdata('items-id')));
+					if($query->num_rows() > 0) {
+						$is_category = $query->row()->cat_title;
+						$data['title'] = $is_category;
+						$data['icon'] = 'tag';
+
+						$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
+						FROM '.$this->db->dbprefix('items').' AS itm
+						LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id AND sub.mbr_id = ?
+						WHERE itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?) AND itm.itm_id IN ( SELECT cat.itm_id FROM categories AS cat WHERE cat.cat_title = ? )';
+						$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id, $is_category));
+
+						$data['count'] = $query->row()->count;
+					}
+				}
+
 				if($this->session->userdata('items-mode') == 'nofolder') {
 					$data['title'] = '<em>'.$this->lang->line('no_folder').'</em>';
 					$data['icon'] = 'folder-close';
@@ -577,10 +613,22 @@ class Home extends CI_Controller {
 						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id = ? )';
 						$bindings[] = $is_folder->flr_id;
 					}
+
 					if($is_subscription) {
 						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
 						$bindings[] = $is_subscription->sub_id;
 					}
+
+					if($is_author) {
+						$where[] = 'itm.itm_author = ?';
+						$bindings[] = $is_author;
+					}
+
+					if($is_category) {
+						$where[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM categories AS cat WHERE cat.cat_title = ? )';
+						$bindings[] = $is_category;
+					}
+
 					if($this->session->userdata('items-mode') == 'nofolder') {
 						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id IS NULL )';
 					}
