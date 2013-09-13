@@ -8,14 +8,7 @@ class Refresh extends CI_Controller {
 		if($this->input->is_ajax_request()) {
 			$content = array();
 
-			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
-			FROM '.$this->db->dbprefix('subscriptions').' AS sub
-			LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id
-			LEFT JOIN '.$this->db->dbprefix('history').' AS hst ON hst.itm_id = itm.itm_id AND hst.mbr_id = ?
-			WHERE hst.hst_id IS NULL AND sub.mbr_id = ?';
-			$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
-
-			$content['count']['all'] = $query->row()->count;
+			$content['count']['all'] = $this->reader_model->count_unread('all');
 
 			if($this->config->item('folders')) {
 				$sql = 'SELECT flr.flr_id, COUNT(DISTINCT(itm.itm_id)) AS count
@@ -31,13 +24,7 @@ class Refresh extends CI_Controller {
 					}
 				}
 
-				$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
-				FROM '.$this->db->dbprefix('subscriptions').' AS sub
-				LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id AND itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?)
-				WHERE sub.flr_id IS NULL AND sub.mbr_id = ?';
-				$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
-
-				$content['count']['nofolder'] = $query->row()->count;
+				$content['count']['nofolder'] = $this->reader_model->count_unread('nofolder');
 			}
 
 			$sql = 'SELECT sub.sub_id, COUNT(DISTINCT(itm.itm_id)) AS count
@@ -74,14 +61,7 @@ class Refresh extends CI_Controller {
 				$query = $this->db->query('SELECT itm.itm_author FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id', array($this->session->userdata('items-id')));
 				if($query->num_rows() > 0) {
 					$is_author = $query->row()->itm_author;
-
-					$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
-					FROM '.$this->db->dbprefix('items').' AS itm
-					LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id AND sub.mbr_id = ?
-					WHERE itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?) AND itm.itm_author = ?';
-					$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id, $is_author));
-
-					$content['count']['author'] = $query->row()->count;
+					$content['count']['author'] = $this->reader_model->count_unread('author', $is_author);
 				}
 			}
 
@@ -90,14 +70,7 @@ class Refresh extends CI_Controller {
 					$query = $this->db->query('SELECT cat.cat_title FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_id = ? GROUP BY cat.cat_id', array($this->session->userdata('items-id')));
 					if($query->num_rows() > 0) {
 						$is_category = $query->row()->cat_title;
-
-						$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
-						FROM '.$this->db->dbprefix('items').' AS itm
-						LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id AND sub.mbr_id = ?
-						WHERE itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?) AND itm.itm_id IN ( SELECT cat.itm_id FROM categories AS cat WHERE cat.cat_title = ? )';
-						$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id, $is_category));
-
-						$content['count']['category'] = $query->row()->count;
+						$content['count']['category'] = $this->reader_model->count_unread('category', $is_category);
 					}
 				}
 			}

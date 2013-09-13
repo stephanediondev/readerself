@@ -102,4 +102,35 @@ class Reader_model extends CI_Model {
 		$query = $this->db->query('SELECT fed.*, (SELECT COUNT(DISTINCT(count_sub.mbr_id)) FROM '.$this->db->dbprefix('subscriptions').' AS count_sub WHERE count_sub.fed_id = fed.fed_id) AS subscribers FROM '.$this->db->dbprefix('feeds').' AS fed WHERE '.implode(' AND ', $flt).' AND fed.fed_id NOT IN( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.mbr_id = ?) GROUP BY fed.fed_id ORDER BY '.$order.' LIMIT '.$offset.', '.$num, array($this->member->mbr_id));
 		return $query->result();
 	}
+	function count_unread($type, $id = false) {
+		if($type == 'all') {
+			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
+			FROM '.$this->db->dbprefix('subscriptions').' AS sub
+			LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id
+			LEFT JOIN '.$this->db->dbprefix('history').' AS hst ON hst.itm_id = itm.itm_id AND hst.mbr_id = ?
+			WHERE hst.hst_id IS NULL AND sub.mbr_id = ?';
+			return $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id))->row()->count;
+		}
+		if($type == 'nofolder') {
+			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
+			FROM '.$this->db->dbprefix('subscriptions').' AS sub
+			LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id AND itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?)
+			WHERE sub.flr_id IS NULL AND sub.mbr_id = ?';
+			return $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id))->row()->count;
+		}
+		if($type == 'author') {
+			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
+			FROM '.$this->db->dbprefix('items').' AS itm
+			LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id AND sub.mbr_id = ?
+			WHERE itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?) AND itm.itm_author = ?';
+			return $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id, $id))->row()->count;
+		}
+		if($type == 'category') {
+			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
+			FROM '.$this->db->dbprefix('items').' AS itm
+			LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id AND sub.mbr_id = ?
+			WHERE itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?) AND itm.itm_id IN ( SELECT cat.itm_id FROM categories AS cat WHERE cat.cat_title = ? )';
+			return $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id, $id))->row()->count;
+		}
+	}
 }

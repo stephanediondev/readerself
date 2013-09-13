@@ -496,15 +496,7 @@ class Home extends CI_Controller {
 
 				$data['title'] = $this->lang->line('all_items');
 				$data['icon'] = 'asterisk';
-
-				$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
-				FROM '.$this->db->dbprefix('subscriptions').' AS sub
-				LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id
-				LEFT JOIN '.$this->db->dbprefix('history').' AS hst ON hst.itm_id = itm.itm_id AND hst.mbr_id = ?
-				WHERE hst.hst_id IS NULL AND sub.mbr_id = ?';
-				$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
-
-				$data['count'] = $query->row()->count;
+				$data['count'] = $this->reader_model->count_unread('all');
 
 				$is_folder = FALSE;
 				if($this->session->userdata('items-mode') == 'folder') {
@@ -551,14 +543,7 @@ class Home extends CI_Controller {
 						$is_author = $query->row()->itm_author;
 						$data['title'] = $is_author;
 						$data['icon'] = 'user';
-
-						$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
-						FROM '.$this->db->dbprefix('items').' AS itm
-						LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id AND sub.mbr_id = ?
-						WHERE itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?) AND itm.itm_author = ?';
-						$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id, $is_author));
-
-						$data['count'] = $query->row()->count;
+						$data['count'] = $this->reader_model->count_unread('author', $is_author);
 					}
 				}
 
@@ -569,27 +554,14 @@ class Home extends CI_Controller {
 						$is_category = $query->row()->cat_title;
 						$data['title'] = $is_category;
 						$data['icon'] = 'tag';
-
-						$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
-						FROM '.$this->db->dbprefix('items').' AS itm
-						LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id AND sub.mbr_id = ?
-						WHERE itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?) AND itm.itm_id IN ( SELECT cat.itm_id FROM categories AS cat WHERE cat.cat_title = ? )';
-						$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id, $is_category));
-
-						$data['count'] = $query->row()->count;
+						$data['count'] = $this->reader_model->count_unread('category', $is_category);
 					}
 				}
 
 				if($this->session->userdata('items-mode') == 'nofolder') {
 					$data['title'] = '<em>'.$this->lang->line('no_folder').'</em>';
 					$data['icon'] = 'folder-close';
-					$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
-					FROM '.$this->db->dbprefix('subscriptions').' AS sub
-					LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id AND itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?)
-					WHERE sub.flr_id IS NULL AND sub.mbr_id = ?';
-					$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
-
-					$data['count'] = $query->row()->count;
+					$data['count'] = $this->reader_model->count_unread('nofolder');
 				}
 
 				$this->form_validation->set_rules('age', 'lang:age', 'required');
