@@ -62,6 +62,7 @@ class Home extends CI_Controller {
 
 		$content = array();
 		$introduction_title = false;
+		$introduction_actions = false;
 		$introduction_details = false;
 
 		$is_folder = FALSE;
@@ -192,6 +193,7 @@ class Home extends CI_Controller {
 
 				if($mode == 'starred') {
 					$introduction_title = '<i class="icon icon-star"></i>'.$this->lang->line('starred_items').' {<span id="intro-load-starred-items"></span>}';
+					$introduction_actions = '<ul class="actions"><li><a href="'.base_url().'starred/import"><i class="icon icon-download-alt"></i>'.$this->lang->line('import').'</a></li></ul>';
 					$where[] = 'itm.itm_id IN ( SELECT fav.itm_id FROM favorites AS fav WHERE fav.itm_id = itm.itm_id AND fav.mbr_id = ? )';
 					$bindings[] = $this->member->mbr_id;
 
@@ -414,6 +416,9 @@ class Home extends CI_Controller {
 
 			if($introduction_title) {
 				$content['begin'] = '<article id="introduction" class="neutral title">';
+				if($introduction_actions) {
+					$content['begin'] .= $introduction_actions;
+				}
 				$content['begin'] .= '<h2>'.$introduction_title.'</h2>';
 				if($introduction_details) {
 					$content['begin'] .= $introduction_details;

@@ -120,7 +120,7 @@ article.title{background-color:transparent;}
 .item-selected{border:1px solid #000000;}
 .item h2, .neutral h2{font-size:14px;font-weight:bold;margin:5px 0px;}
 .item h2 a:link, .item h2 a:visited{text-decoration:none;}
-main > section .item .actions{float:right;margin-right:0px;}
+main > section .item .actions, main > section .neutral .actions{float:right;margin-right:0px;}
 .item .actions li{margin:5px 0px 5px 4px;}
 .item .actions a:link, .item .actions a:visited{background-color:#5660d1;}
 .item-content{line-height:1.4;}

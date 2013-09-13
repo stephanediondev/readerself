@@ -31,6 +31,7 @@ example
 * Get enclosures (image, audio and video)
 * Get video iframes from Dailymotion, Vimeo and Youtube as enclosures
 * Starred items (optional)
+* Import starred items from Google Takeout (starred.json)
 * Shared items with public feed (optional)
 * Share and like on Facebook, Google and Twitter (optional)
 * Search subscriptions
