@@ -399,7 +399,14 @@ class Home extends CI_Controller {
 					if($lastcrawl) {
 						$content['end'] = '<article id="last_crawl" class="neutral title">';
 						list($date, $time) = explode(' ', $lastcrawl->crr_datecreated);
-						$content['end'] .= '<h2><i class="icon icon-truck"></i>'.$this->lang->line('last_crawl').'</h2><ul class="item-details"><li><i class="icon icon-calendar"></i>'.$date.'</li><li><i class="icon icon-time"></i>'.$time.' (<span class="timeago" title="'.$lastcrawl->crr_datecreated.'"></span>)</li></ul>';
+						$content['end'] .= '<h2><i class="icon icon-truck"></i>'.$this->lang->line('last_crawl').'</h2>';
+						$content['end'] .= '<ul class="item-details">';
+						$content['end'] .= '<li><i class="icon icon-calendar"></i>'.$date.'</li>';
+						$content['end'] .= '<li><i class="icon icon-time"></i>'.$time.' (<span class="timeago" title="'.$lastcrawl->crr_datecreated.'"></span>)</li>';
+						$content['end'] .= '<li class="block"><i class="icon icon-rss"></i>'.intval($lastcrawl->crr_count).' '.mb_strtolower($this->lang->line('subscriptions')).'</li>';
+						$content['end'] .= '<li class="block"><i class="icon icon-rocket"></i>'.intval($lastcrawl->crr_time).' secondes</li>';
+						$content['end'] .= '<li class="block"><i class="icon icon-leaf"></i>'.number_format($lastcrawl->crr_memory, 0, '.', ' ').' bytes</li>';
+						$content['end'] .= '</ul>';
 						$content['end'] .= '</article>';
 					}
 				}
