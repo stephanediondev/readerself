@@ -1,5 +1,7 @@
 <head>
-<title><?php echo $this->member->mbr_email; ?> subscriptions</title>
+<title>Subscriptions from <?php echo $this->config->item('title'); ?></title>
+<docs>http://dev.opml.org/spec2.html</docs>
+<ownerEmail><?php echo $this->member->mbr_email; ?></ownerEmail>
 </head>
 <body>
 <?php foreach($subscriptions as $folder => $sub_array) { ?>
