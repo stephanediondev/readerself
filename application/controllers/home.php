@@ -400,15 +400,6 @@ class Home extends CI_Controller {
 					$lastcrawl = $this->db->query('SELECT DATE_ADD(crr.crr_datecreated, INTERVAL ? HOUR) AS crr_datecreated FROM '.$this->db->dbprefix('crawler').' AS crr GROUP BY crr.crr_id ORDER BY crr.crr_id DESC LIMIT 0,1', array($this->session->userdata('timezone')))->row();
 					if($lastcrawl) {
 						$content['end'] = '<article id="last_crawl" class="neutral title">';
-						list($date, $time) = explode(' ', $lastcrawl->crr_datecreated);
-						$content['end'] .= '<h2><i class="icon icon-truck"></i>'.$this->lang->line('last_crawl').'</h2>';
-						$content['end'] .= '<ul class="item-details">';
-						$content['end'] .= '<li><i class="icon icon-calendar"></i>'.$date.'</li>';
-						$content['end'] .= '<li><i class="icon icon-time"></i>'.$time.' (<span class="timeago" title="'.$lastcrawl->crr_datecreated.'"></span>)</li>';
-						$content['end'] .= '<li class="block"><i class="icon icon-rss"></i>'.intval($lastcrawl->crr_count).' '.mb_strtolower($this->lang->line('subscriptions')).'</li>';
-						$content['end'] .= '<li class="block"><i class="icon icon-rocket"></i>'.intval($lastcrawl->crr_time).' secondes</li>';
-						$content['end'] .= '<li class="block"><i class="icon icon-leaf"></i>'.number_format($lastcrawl->crr_memory, 0, '.', ' ').' bytes</li>';
-						$content['end'] .= '</ul>';
 						$content['end'] .= '</article>';
 					}
 				}

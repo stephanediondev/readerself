@@ -11,8 +11,8 @@ if($.cookie('display-items') == 'collapse') {
 }
 $.cookie('display-items', display_items, { expires: 30, path: '/' });
 var pagination = 0;
-var no_more_items = false;
 var lock_add_items = false;
+var lock_no_more_items = false;
 var g_key = false;
 
 function set_read(ref) {
@@ -69,7 +69,7 @@ function load_items(url) {
 				}
 				if(data_return.result_type == 'items') {
 					if(data_return.total > 0) {
-						no_more_items = false;
+						lock_no_more_items = false;
 						for(i in data_return.items) {
 							itm = data_return.items[i];
 							if($('#item_' + itm.itm_id).length == 0) {
@@ -100,7 +100,7 @@ function add_items(url) {
 		url = $('aside ul #search_items_form').attr('action') + '/' + encodeURI( $('#search_items').val() ) ;
 	}
 	url = url + '/?mode-items=' + mode_items + '&display-items=' + display_items;
-	if(!lock_add_items && !no_more_items) {
+	if(!lock_add_items && !lock_no_more_items) {
 		lock_add_items = true;
 		lock_refresh = true;
 		$('main section section').append('<div class="ajax-loader"><img src="' + base_url + 'medias/ajax-loader.gif"></div>');
@@ -124,7 +124,7 @@ function add_items(url) {
 							}
 						}
 					} else {
-						no_more_items = true;
+						lock_no_more_items = true;
 					}
 					if(data_return.end) {
 						content += data_return.end;
@@ -513,6 +513,7 @@ $(document).ready(function() {
 
 		$('aside ul').find('.result').remove();
 		content = '<li class="result active"><a id="load-sub-' + ref.data('sub_id') + '-items" href="' + base_url + 'home/items/subscription/' + ref.data('sub_id') + '"><i class="icon icon-rss"></i>' + ref.text() + ' (<span>0</span>)</a></li>';
+		result_subscriptions.push(ref.data('sub_id'));
 		$('aside ul').append(content);
 
 		load_items(ref.attr('href'));
@@ -590,6 +591,7 @@ $(document).ready(function() {
 			statusCode: {
 				200: function(data_return, textStatus, jqXHR) {
 					if(data_return.subscriptions) {
+						result_subscriptions = [];
 						$('aside ul').find('.result').remove();
 						for(i in data_return.subscriptions) {
 							sub = data_return.subscriptions[i];
@@ -599,9 +601,10 @@ $(document).ready(function() {
 								title = sub.fed_title;
 							}
 							content = '<li class="result"><a id="load-sub-' + sub.sub_id + '-items" href="' + base_url + 'home/items/subscription/' + sub.sub_id + '"><i class="icon icon-rss"></i>' + title + ' (<span>0</span>)</a></li>';
+							result_subscriptions.push(sub.sub_id);
 							$('aside ul').append(content);
-							refresh();
 						}
+						refresh();
 					}
 				}
 			},

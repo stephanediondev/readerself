@@ -27,15 +27,26 @@ class Refresh extends CI_Controller {
 				$content['count']['nofolder'] = $this->reader_model->count_unread('nofolder');
 			}
 
-			$sql = 'SELECT sub.sub_id, COUNT(DISTINCT(itm.itm_id)) AS count
-			FROM '.$this->db->dbprefix('subscriptions').' AS sub
-			LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id AND itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?)
-			WHERE sub.mbr_id = ? GROUP BY sub.sub_id';
-			$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
+			if($this->input->post('subscriptions')) {
+				$in = explode(',', $this->input->post('subscriptions'));
+				$out = array();
+				foreach($in as $sub_id) {
+					if(is_numeric($sub_id)) {
+						$out[] = $sub_id;
+					}
+				}
+				if(count($out) > 0) {
+					$sql = 'SELECT sub.sub_id, COUNT(DISTINCT(itm.itm_id)) AS count
+					FROM '.$this->db->dbprefix('subscriptions').' AS sub
+					LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id AND itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?)
+					WHERE sub.mbr_id = ? AND sub.sub_id IN('.implode(',', $out).') GROUP BY sub.sub_id';
+					$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
 
-			if($query->num_rows() > 0) {
-				foreach($query->result() as $sub) {
-					$content['count']['sub-'.$sub->sub_id] = $sub->count;
+					if($query->num_rows() > 0) {
+						foreach($query->result() as $sub) {
+							$content['count']['sub-'.$sub->sub_id] = $sub->count;
+						}
+					}
 				}
 			}
 

@@ -1,3 +1,4 @@
+var result_subscriptions = [];
 var lock_refresh = false;
 
 function debug(data) {
@@ -75,6 +76,7 @@ function set_positions_modal() {
 function refresh() {
 	if(!lock_refresh) {
 		params = [];
+		params.push({'name': 'subscriptions', 'value': result_subscriptions.join(',')});
 		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
 		$.ajax({
 			async: true,
