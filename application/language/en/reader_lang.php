@@ -72,6 +72,7 @@ $lang['unshare'] = 'Unshare';
 $lang['shortcut_esc'] = 'esc: close modal window';
 $lang['shortcut_help'] = 'h or ? : open this modal window';
 $lang['shortcut_r'] = 'r: reload';
+$lang['shortcut_slash'] = '/ : focus champ recherche';
 $lang['shortcut_a'] = 'a: add a subscription';
 $lang['shortcut_k'] = 'k or p or shift + space: up / previous item';
 $lang['shortcut_j'] = 'j or n or space: down / next item';

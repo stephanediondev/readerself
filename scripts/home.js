@@ -388,6 +388,11 @@ $(document).ready(function() {
 					item_star($('main > section .item-selected').find('.star'));
 				}
 
+			///
+			} else if(keycode == 58) {
+				event.preventDefault();
+				$('#search_items').focus().select();
+
 			//h or ?
 			} else if(keycode == 72 || keycode == 188) {
 				modal_show($('#link_shortcuts').attr('href'));

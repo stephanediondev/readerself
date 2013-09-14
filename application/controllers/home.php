@@ -220,16 +220,24 @@ class Home extends CI_Controller {
 					if($mode == 'search') {
 						$search = trim(urldecode($id));
 						$words = explode(' ', $search);
+						$word_or = array();
 						foreach($words as $word) {
 							if(substr($word, 0, 1) == '@') {
 								$where[] = 'DATE_ADD(itm.itm_date, INTERVAL ? HOUR) LIKE ?';
 								$bindings[] = $this->session->userdata('timezone');
 								$bindings[] = substr($word, 1).'%';
 							} else {
-								$where[] = 'itm.itm_title LIKE ?';
+								$word_or[] = 'itm.itm_title LIKE ?';
+								$bindings[] = '%'.$word.'%';
+
+								$word_or[] = 'itm.itm_author LIKE ?';
+								$bindings[] = '%'.$word.'%';
+
+								$word_or[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM categories AS cat WHERE cat.cat_title LIKE ? )';
 								$bindings[] = '%'.$word.'%';
 							}
 						}
+						$where[] = '('.implode(' OR ', $word_or).')';
 						$content['nav']['refresh-items'] = false;
 						$content['nav']['mode-items'] = false;
 						$content['nav']['read_all'] = false;

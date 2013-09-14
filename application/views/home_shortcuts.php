@@ -9,6 +9,7 @@
 		<li><?php echo $this->lang->line('shortcut_esc'); ?></li>
 		<li><?php echo $this->lang->line('shortcut_help'); ?></li>
 		<li><?php echo $this->lang->line('shortcut_r'); ?></li>
+		<li><?php echo $this->lang->line('shortcut_slash'); ?></li>
 		<li><?php echo $this->lang->line('shortcut_a'); ?></li>
 		<li><?php echo $this->lang->line('shortcut_k'); ?></li>
 		<li><?php echo $this->lang->line('shortcut_j'); ?></li>
