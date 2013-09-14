@@ -575,9 +575,9 @@ $(document).ready(function() {
 
 	$('aside ul #search_items_form').bind('submit', function(event) {
 		event.preventDefault();
+		$('#search_items').blur();
 		if($('#search_items').val() != '') {
 			var ref = $(this);
-			$('#search_items').blur();
 			load_items('search');
 			if($('aside').css('position') == 'absolute') {
 				$('aside').hide();
