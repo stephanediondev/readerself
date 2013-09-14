@@ -408,13 +408,13 @@ class Subscriptions extends CI_Controller {
 					if(count($this->feeds) > 0) {
 						$content .= '<article class="cell title"><h2><i class="icon icon-rss"></i>'.$this->lang->line('subscriptions').' ('.count($this->feeds).')</h2></article>';
 						foreach($this->feeds as $obj) {
-							if(!$obj->title && isset($obj->text) == 1) {
+							if(isset($obj->title) == 0 && isset($obj->text) == 1) {
 								$obj->title = $obj->text;
 							}
-							if(!$obj->xmlUrl && isset($obj->url) == 1) {
+							if(isset($obj->xmlUrl) == 0 && isset($obj->url) == 1) {
 								$obj->xmlUrl = $obj->url;
 							}
-							if(!$obj->htmlUrl && isset($obj->url) == 1) {
+							if(isset($obj->htmlUrl) == 0 && isset($obj->url) == 1) {
 								$obj->htmlUrl = $obj->url;
 							}
 
