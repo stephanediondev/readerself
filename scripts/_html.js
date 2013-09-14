@@ -76,6 +76,9 @@ function set_positions_modal() {
 function refresh() {
 	if(!lock_refresh) {
 		params = [];
+		if($('#last_crawl').length > 0) {
+			params.push({'name': 'last_crawl', 'value': true});
+		}
 		params.push({'name': 'subscriptions', 'value': result_subscriptions.join(',')});
 		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
 		$.ajax({
