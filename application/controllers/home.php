@@ -363,36 +363,7 @@ class Home extends CI_Controller {
 
 						list($itm->explode_date, $itm->explode_time) = explode(' ', $itm->itm_date);
 
-						//$itm->itm_content = strip_tags($itm->itm_content, '<dt><dd><dl><table><caption><tr><th><td><tbody><thead><h2><h3><h4><h5><h6><strong><em><code><pre><blockquote><p><ul><li><ol><br><del><a><img><figure><figcaption><cite><time><abbr>');
-
-						preg_match_all('/<a[^>]+>/i', $itm->itm_content, $result);
-						foreach($result[0] as $flr_a) {
-							if(!preg_match('/(target)=("[^"]*")/i', $flr_a, $result)) {
-								$itm->itm_content = str_replace($flr_a, str_replace('<a', '<a target="_blank"', $flr_a), $itm->itm_content);
-							}
-						}
-
-						preg_match_all('/<img[^>]+>/i', $itm->itm_content, $result);
-						foreach($result[0] as $flr_img) {
-							$attribute_src = false;
-							if(preg_match('/(src)=("[^"]*")/i', $flr_img, $result)) {
-								$attribute_src = str_replace('"', '', $result[2]);
-							}
-
-							$attribute_width = false;
-							if(preg_match('/(width)=("[^"]*")/i', $flr_img, $result)) {
-								$attribute_width = str_replace('"', '', $result[2]);
-							}
-
-							$attribute_height = false;
-							if(preg_match('/(height)=("[^"]*")/i', $flr_img, $result)) {
-								$attribute_height = str_replace('"', '', $result[2]);
-							}
-
-							if($attribute_width == 1 || $attribute_height == 1 || stristr($attribute_src, 'feedsportal.com') || stristr($attribute_src, 'feedburner.com')) {
-								$itm->itm_content = str_replace($flr_img, '', $itm->itm_content);
-							}
-						}
+						$itm->itm_content = $this->reader_library->prepare_content($itm->itm_content);
 
 						$content['items'][$itm->itm_id] = array('itm_id' => $itm->itm_id, 'itm_content' => $this->load->view('item', array('itm'=>$itm), TRUE));
 					}
@@ -696,34 +667,7 @@ class Home extends CI_Controller {
 				$sql = 'SELECT enr.* FROM enclosures AS enr WHERE enr.itm_id = ? GROUP BY enr.enr_id ORDER BY enr.enr_type ASC';
 				$itm->enclosures = $this->db->query($sql, array($itm->itm_id))->result();
 
-				preg_match_all('/<a[^>]+>/i', $itm->itm_content, $result);
-				foreach($result[0] as $flr_a) {
-					if(!preg_match('/(target)=("[^"]*")/i', $flr_a, $result)) {
-						$itm->itm_content = str_replace($flr_a, str_replace('<a', '<a target="_blank"', $flr_a), $itm->itm_content);
-					}
-				}
-
-				preg_match_all('/<img[^>]+>/i', $itm->itm_content, $result);
-				foreach($result[0] as $flr_img) {
-					$attribute_src = false;
-					if(preg_match('/(src)=("[^"]*")/i', $flr_img, $result)) {
-						$attribute_src = str_replace('"', '', $result[2]);
-					}
-
-					$attribute_width = false;
-					if(preg_match('/(width)=("[^"]*")/i', $flr_img, $result)) {
-						$attribute_width = str_replace('"', '', $result[2]);
-					}
-
-					$attribute_height = false;
-					if(preg_match('/(height)=("[^"]*")/i', $flr_img, $result)) {
-						$attribute_height = str_replace('"', '', $result[2]);
-					}
-
-					if($attribute_width == 1 || $attribute_height == 1 || stristr($attribute_src, 'feedsportal.com') || stristr($attribute_src, 'feedburner.com')) {
-						$itm->itm_content = str_replace($flr_img, '', $itm->itm_content);
-					}
-				}
+				$itm->itm_content = $this->reader_library->prepare_content($itm->itm_content);
 
 				$content['itm_id'] = $itm_id;
 				$content['itm_content'] = $this->load->view('item_expand', array('itm'=>$itm), TRUE);

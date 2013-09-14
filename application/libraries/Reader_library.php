@@ -314,4 +314,37 @@ class Reader_library {
 			unset($sp_item);
 		}
 	}
+	function prepare_content($content) {
+		//$content = strip_tags($content, '<dt><dd><dl><table><caption><tr><th><td><tbody><thead><h2><h3><h4><h5><h6><strong><em><code><pre><blockquote><p><ul><li><ol><br><del><a><img><figure><figcaption><cite><time><abbr>');
+
+		preg_match_all('/<a[^>]+>/i', $content, $result);
+		foreach($result[0] as $flr_a) {
+			if(!preg_match('/(target)=("[^"]*")/i', $flr_a, $result)) {
+				$content = str_replace($flr_a, str_replace('<a', '<a target="_blank"', $flr_a), $content);
+			}
+		}
+
+		preg_match_all('/<img[^>]+>/i', $content, $result);
+		foreach($result[0] as $flr_img) {
+			$attribute_src = false;
+			if(preg_match('/(src)=("[^"]*")/i', $flr_img, $result)) {
+				$attribute_src = str_replace('"', '', $result[2]);
+			}
+
+			$attribute_width = false;
+			if(preg_match('/(width)=("[^"]*")/i', $flr_img, $result)) {
+				$attribute_width = str_replace('"', '', $result[2]);
+			}
+
+			$attribute_height = false;
+			if(preg_match('/(height)=("[^"]*")/i', $flr_img, $result)) {
+				$attribute_height = str_replace('"', '', $result[2]);
+			}
+
+			if($attribute_width == 1 || $attribute_height == 1 || stristr($attribute_src, 'feedsportal.com') || stristr($attribute_src, 'feedburner.com')) {
+				$content = str_replace($flr_img, '', $content);
+			}
+		}
+		return $content;
+	}
 }
