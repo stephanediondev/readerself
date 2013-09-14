@@ -324,8 +324,7 @@ class Home extends CI_Controller {
 
 						$itm->categories = false;
 						if($this->config->item('tags')) {
-							$sql = 'SELECT cat.* FROM categories AS cat WHERE cat.itm_id = ? GROUP BY cat.cat_id';
-							$categories = $this->db->query($sql, array($itm->itm_id))->result();
+							$categories = $this->db->query('SELECT cat.* FROM categories AS cat WHERE cat.itm_id = ? GROUP BY cat.cat_id', array($itm->itm_id))->result();
 							if($categories) {
 								$itm->categories = array();
 								foreach($categories as $cat) {

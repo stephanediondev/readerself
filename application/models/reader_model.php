@@ -63,13 +63,33 @@ class Reader_model extends CI_Model {
 		return $query->row();
 	}
 	function get_subscriptions_rows($flt, $num, $offset, $order) {
+		$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
+
+		$subscriptions = false;
 		if($this->session->userdata('timezone')) {
 			$timezone = $this->session->userdata('timezone');
 		} else {
 			$timezone = 0;
 		}
 		$query = $this->db->query('SELECT fed.*, DATE_ADD(fed.fed_lastcrawl, INTERVAL ? HOUR) AS fed_lastcrawl, DATE_ADD(sub.sub_datecreated, INTERVAL ? HOUR) AS sub_datecreated, sub.sub_id, sub.sub_title, sub.flr_id, flr.flr_title, (SELECT COUNT(DISTINCT(count_sub.mbr_id)) FROM '.$this->db->dbprefix('subscriptions').' AS count_sub WHERE count_sub.fed_id = sub.fed_id) AS subscribers FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE '.implode(' AND ', $flt).' GROUP BY sub.sub_id ORDER BY '.$order.' LIMIT '.$offset.', '.$num, array($timezone, $timezone));
-		return $query->result();
+		if($query->num_rows() > 0) {
+			$subscriptions = array();
+			foreach($query->result() as $sub) {
+
+				$sub->categories = false;
+				if($this->config->item('tags')) {
+					$categories = $this->db->query('SELECT cat.cat_title AS ref, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND cat.cat_datecreated >= ? AND sub.mbr_id = ? AND sub.sub_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,10', array($date_ref, $this->member->mbr_id, $sub->sub_id))->result();
+					if($categories) {
+						$sub->categories = array();
+						foreach($categories as $cat) {
+							$sub->categories[] = $cat->ref;
+						}
+					}
+				}
+				$subscriptions[] = $sub;
+			}
+		}
+		return $subscriptions;
 	}
 	function get_subscription_row($sub_id) {
 		if($this->session->userdata('timezone')) {
@@ -99,8 +119,28 @@ class Reader_model extends CI_Model {
 		return $query->row();
 	}
 	function get_explore_rows($flt, $num, $offset, $order) {
+		$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
+
+		$feeds = false;
 		$query = $this->db->query('SELECT fed.*, (SELECT COUNT(DISTINCT(count_sub.mbr_id)) FROM '.$this->db->dbprefix('subscriptions').' AS count_sub WHERE count_sub.fed_id = fed.fed_id) AS subscribers FROM '.$this->db->dbprefix('feeds').' AS fed WHERE '.implode(' AND ', $flt).' AND fed.fed_id NOT IN( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.mbr_id = ?) GROUP BY fed.fed_id ORDER BY '.$order.' LIMIT '.$offset.', '.$num, array($this->member->mbr_id));
-		return $query->result();
+		if($query->num_rows() > 0) {
+			$feeds = array();
+			foreach($query->result() as $fed) {
+
+				$fed->categories = false;
+				if($this->config->item('tags')) {
+					$categories = $this->db->query('SELECT cat.cat_title AS ref, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND cat.cat_datecreated >= ? AND itm.fed_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,10', array($date_ref, $fed->fed_id))->result();
+					if($categories) {
+						$fed->categories = array();
+						foreach($categories as $cat) {
+							$fed->categories[] = $cat->ref;
+						}
+					}
+				}
+				$feeds[] = $fed;
+			}
+		}
+		return $feeds;
 	}
 	function count_unread($type, $id = false) {
 		if($type == 'all') {
