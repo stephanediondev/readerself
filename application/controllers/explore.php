@@ -50,6 +50,8 @@ class Explore extends CI_Controller {
 		$this->reader_library->set_template('_opml');
 		$this->reader_library->set_content_type('application/xml');
 
+		header('Content-Disposition: inline; filename="explore-'.date('Y-m-d').'.opml";');
+
 		$feeds = array();
 		$query = $this->db->query('SELECT fed.* FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_id NOT IN( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.mbr_id = ?) GROUP BY fed.fed_id', array($this->member->mbr_id));
 		if($query->num_rows() > 0) {
