@@ -15,7 +15,6 @@ function modal_hide() {
 	});
 }
 function modal_show(href) {
-	debug(href);
 	params = [];
 	params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
 	$.ajax({
@@ -43,8 +42,6 @@ function modal_show(href) {
 						$('#modal').fadeIn(1200);
 					}
 				}
-			},
-			404: function(jqXHR, textStatus, errorThrown) {
 			}
 		},
 		type: 'POST',
