@@ -42,4 +42,26 @@ class Explore extends CI_Controller {
 		}
 		redirect(base_url().'explore');
 	}
+	public function export() {
+		if(!$this->session->userdata('mbr_id')) {
+			redirect(base_url());
+		}
+
+		$this->reader_library->set_template('_opml');
+		$this->reader_library->set_content_type('application/xml');
+
+		$feeds = array();
+		$query = $this->db->query('SELECT fed.* FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_id NOT IN( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.mbr_id = ?) GROUP BY fed.fed_id', array($this->member->mbr_id));
+		if($query->num_rows() > 0) {
+			foreach($query->result() as $fed) {
+				$feeds[] = $fed;
+			}
+		}
+
+		$data = array();
+		$data['feeds'] = $feeds;
+
+		$content = $this->load->view('explore_export', $data, TRUE);
+		$this->reader_library->set_content($content);
+	}
 }
