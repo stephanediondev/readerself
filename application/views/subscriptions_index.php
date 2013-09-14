@@ -1,7 +1,7 @@
 	<nav>
 		<ul class="actions">
-			<li><a href="javascript:void(function(){window.open('<?php echo base_url(); ?>?u='+encodeURIComponent(window.location.href),'_blank');}());"><i class="icon icon-bookmark"></i><?php echo $this->config->item('title'); ?> (bookmarklet)</a></li>
-			<li id="registerContentHandler"><a href="#"><i class="icon icon-save"></i><?php echo $this->lang->line('registerContentHandler'); ?></a></li>
+			<li class="hide-phone hide-tablet"><a href="javascript:void(function(){window.open('<?php echo base_url(); ?>?u='+encodeURIComponent(window.location.href),'_blank');}());"><i class="icon icon-bookmark"></i><?php echo $this->config->item('title'); ?> (bookmarklet)</a></li>
+			<li class="hide-phone hide-tablet" id="registerContentHandler"><a href="#"><i class="icon icon-save"></i><?php echo $this->lang->line('registerContentHandler'); ?></a></li>
 			<li><a href="<?php echo base_url(); ?>subscriptions/create"><i class="icon icon-plus"></i><?php echo $this->lang->line('add'); ?></a></li>
 			<li><a href="<?php echo base_url(); ?>subscriptions/import"><i class="icon icon-download-alt"></i><?php echo $this->lang->line('import'); ?></a></li>
 			<li><a href="<?php echo base_url(); ?>subscriptions/export"><i class="icon icon-upload-alt"></i><?php echo $this->lang->line('export'); ?></a></li>
