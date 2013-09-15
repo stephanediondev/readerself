@@ -353,6 +353,12 @@ $(document).ready(function() {
 				$('#load-all-items').parent().addClass('active');
 				load_items( $('aside ul').find('li.active').find('a').attr('href') );
 
+			//g then p
+			} else if(g_key && keycode == 80) {
+				$('aside ul li').removeClass('active');
+				$('#load-priority-items').parent().addClass('active');
+				load_items( $('aside ul').find('li.active').find('a').attr('href') );
+
 			//g then shift + s
 			} else if(g_key && event.shiftKey && keycode == 83) {
 				$('aside ul li').removeClass('active');

@@ -84,6 +84,7 @@ $lang['shortcut_shift_s'] = 'shift + s: share / unshare selected item';
 $lang['shortcut_o'] = 'o or enter: expand / collapse selected item';
 $lang['shortcut_shift_a'] = 'shift + a: mark all as read';
 $lang['shortcut_g_a'] = 'g then a: go to all items';
+$lang['shortcut_g_p'] = 'g then p: go to priority items';
 $lang['shortcut_g_s'] = 'g then s: go to starred items';
 $lang['shortcut_g_shift_s'] = 'g then shift + s: go to shared items';
 $lang['shortcut_1'] = '1: collapse all items';

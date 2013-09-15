@@ -84,6 +84,7 @@ $lang['shortcut_shift_s'] = 'maj. + s : partagé / non partagé sur l\'élément
 $lang['shortcut_o'] = 'o ou entrée : ouvrir / fermer sur l\'élément sélectionné';
 $lang['shortcut_shift_a'] = 'maj. + a :marquer tous les éléments comme lu';
 $lang['shortcut_g_a'] = 'g puis a : afficher tous les éléments';
+$lang['shortcut_g_p'] = 'g puis p : afficher éléments prioritaires';
 $lang['shortcut_g_s'] = 'g puis s : afficher les éléments favoris';
 $lang['shortcut_g_shift_s'] = 'g puis maj. + a : afficher les éléments partagés';
 $lang['shortcut_1'] = '1 : fermer tous les éléments';

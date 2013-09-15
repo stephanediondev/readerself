@@ -20,6 +20,7 @@
 		<li><?php echo $this->lang->line('shortcut_o'); ?></li>
 		<li><?php echo $this->lang->line('shortcut_shift_a'); ?></li>
 		<li><?php echo $this->lang->line('shortcut_g_a'); ?></li>
+		<li><?php echo $this->lang->line('shortcut_g_p'); ?></li>
 		<li><?php echo $this->lang->line('shortcut_g_s'); ?></li>
 		<li><?php echo $this->lang->line('shortcut_g_shift_s'); ?></li>
 		<li><?php echo $this->lang->line('shortcut_1'); ?></li>
