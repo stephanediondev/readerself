@@ -89,6 +89,10 @@ function load_items(url) {
 				}
 				$('main section section').html(content);
 				if(data_return.result_type == 'items') {
+					for(i in data_return.items) {
+						itm = data_return.items[i];
+						add_swipe('#item_' + itm.itm_id);
+					}
 					$('.timeago').timeago();
 				}
 				refresh();
@@ -134,6 +138,10 @@ function add_items(url) {
 					}
 					$('.ajax-loader').remove();
 					$('main section section').append(content);
+					for(i in data_return.items) {
+						itm = data_return.items[i];
+						add_swipe('#item_' + itm.itm_id);
+					}
 					$('.timeago').timeago();
 					lock_add_items = false;
 					lock_refresh = false;
@@ -145,6 +153,25 @@ function add_items(url) {
 		});
 	}
 }
+function add_swipe(selector) {
+	$(selector).swipe('destroy');
+	$(selector).swipe({
+		swipeRight:function(event, direction, distance, duration, fingerCount) {
+			if(direction == 'right') {
+				if($(selector).hasClass('collapse')) {
+					item_expand($(selector).find('.expand'));
+				} else {
+					$(selector).find('.item-content').hide();
+					$(selector).find('.item-content').html('');
+					$(selector).find('.collapse').parent().hide();
+					$(selector).find('.expand').parent().show();
+					$(selector).addClass('collapse');
+				}
+			}
+		}
+	});
+}
+
 function item_up() {
 	var itm_id = $('main > section .item-selected').attr('id');
 	prev = $('#' + itm_id).prev().attr('id');

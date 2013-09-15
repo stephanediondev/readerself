@@ -66,6 +66,7 @@ var uri_string = '<?php echo $this->uri->uri_string(); ?>';
 
 <script src="<?php echo base_url(); ?>thirdparty/jquery/jquery.min.js"></script>
 <script src="<?php echo base_url(); ?>thirdparty/jquery/jquery.cookie.min.js"></script>
+<script src="<?php echo base_url(); ?>thirdparty/jquery/jquery.touchswipe.min.js"></script>
 <script src="<?php echo base_url(); ?>thirdparty/jquery/jquery.timeago.js"></script>
 <script src="<?php echo base_url(); ?>thirdparty/jquery/jquery.timeago.<?php echo $this->config->item('language'); ?>.js"></script>
 
