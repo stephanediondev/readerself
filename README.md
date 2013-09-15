@@ -22,6 +22,7 @@ example
 * Organize subscriptions by folder (optional)
 * List items by folder (optional)
 * List items by subscription
+* List priority items (flag important subscriptions)
 * Automatic tags from item feed categories (optional)
 * List items by tag and tag cloud (optional)
 * List items by author and author cloud
