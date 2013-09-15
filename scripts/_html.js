@@ -223,7 +223,9 @@ $(document).ready(function() {
 		$(document).swipe({
 			swipeLeft:function(event, direction, distance, duration, fingerCount) {
 				if(direction == 'left') {
-					toggle_sidebar();
+					if($('#toggle-sidebar').is(':visible')) {
+						toggle_sidebar();
+					}
 				}
 			}
 		});

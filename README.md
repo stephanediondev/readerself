@@ -44,6 +44,8 @@ example
 	* older than 48 hours, next crawl in 6 hours
 	* older than 24 hours, next crawl in 3 hours
 * Display geolocation with Google Static Maps
+* Swipe on the right to expand / collapse an item
+* Swipe on the left to show / hide sidebar
 
 ### Third party
 
