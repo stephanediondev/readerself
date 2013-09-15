@@ -351,24 +351,28 @@ $(document).ready(function() {
 			if(g_key && keycode == 65) {
 				$('aside ul li').removeClass('active');
 				$('#load-all-items').parent().addClass('active');
+				$.cookie('menu', 'load-all-items', { expires: 30, path: '/' });
 				load_items( $('aside ul').find('li.active').find('a').attr('href') );
 
 			//g then p
 			} else if(g_key && keycode == 80) {
 				$('aside ul li').removeClass('active');
 				$('#load-priority-items').parent().addClass('active');
+				$.cookie('menu', 'load-priority-items', { expires: 30, path: '/' });
 				load_items( $('aside ul').find('li.active').find('a').attr('href') );
 
 			//g then shift + s
 			} else if(g_key && event.shiftKey && keycode == 83) {
 				$('aside ul li').removeClass('active');
 				$('#load-shared-items').parent().addClass('active');
+				$.cookie('menu', 'load-shared-items', { expires: 30, path: '/' });
 				load_items( $('aside ul').find('li.active').find('a').attr('href') );
 
 			//g then s
 			} else if(g_key && keycode == 83) {
 				$('aside ul li').removeClass('active');
 				$('#load-starred-items').parent().addClass('active');
+				$.cookie('menu', 'load-starred-items', { expires: 30, path: '/' });
 				load_items( $('aside ul').find('li.active').find('a').attr('href') );
 
 			//shift + 1
