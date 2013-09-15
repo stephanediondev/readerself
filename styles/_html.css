@@ -161,6 +161,10 @@ main section .item .item-footer .actions{float:none;margin-bottom:10px;text-alig
 .data_table table td.result{text-align:center;}
 .data_table tr:hover td{background-color:#E7E7E7;}
 
+.fullscreen header, .fullscreen aside{display:none;}
+.fullscreen main > section{margin:10px 0px 0px 10px;}
+.fullscreen .item, .fullscreen .neutral, .fullscreen .cell{max-width:none;}
+
 @media(max-width:1000px){
 header nav{margin:5px 0px 0px 10px;}
 .hide-tablet{display:none !important;}

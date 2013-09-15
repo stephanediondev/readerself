@@ -395,6 +395,15 @@ $(document).ready(function() {
 					load_items( $('aside ul').find('li.active').find('a').attr('href') );
 				}
 
+			//f
+			} else if(keycode == 70) {
+				event.preventDefault();
+				if($('body').hasClass('fullscreen')) {
+					$('body').removeClass('fullscreen');
+				} else {
+					$('body').addClass('fullscreen');
+				}
+
 			//1
 			} else if(keycode == 49) {
 				event.preventDefault();
