@@ -400,8 +400,10 @@ $(document).ready(function() {
 				event.preventDefault();
 				if($('body').hasClass('fullscreen')) {
 					$('body').removeClass('fullscreen');
+					set_positions();
 				} else {
 					$('body').addClass('fullscreen');
+					set_positions();
 				}
 
 			//1
