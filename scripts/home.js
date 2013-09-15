@@ -166,6 +166,7 @@ function add_swipe(selector) {
 					$(selector).find('.collapse').parent().hide();
 					$(selector).find('.expand').parent().show();
 					$(selector).addClass('collapse');
+					location.hash = '#' + $(selector).attr('id');
 				}
 			}
 		}
@@ -296,6 +297,7 @@ function item_expand(ref) {
 					$('#item_' + data_return.itm_id).find('.item-content').html(data_return.itm_content);
 					$('#item_' + data_return.itm_id).find('.item-content').show();
 					$('#item_' + data_return.itm_id).removeClass('collapse');
+					location.hash = '#item_' + data_return.itm_id;
 				}
 			}
 		},
@@ -436,6 +438,7 @@ $(document).ready(function() {
 						ref.find('.collapse').parent().hide();
 						ref.find('.expand').parent().show();
 						ref.addClass('collapse');
+						location.hash = '#' + ref.attr('id');
 					}
 				}
 
@@ -678,6 +681,7 @@ $(document).ready(function() {
 		$(href).find('.collapse').parent().hide();
 		$(href).find('.expand').parent().show();
 		$(href).addClass('collapse');
+		location.hash = href;
 	});
 
 	$('.link-item-share').live('click', function(event) {
