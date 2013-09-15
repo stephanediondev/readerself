@@ -42,9 +42,16 @@
 	<?php echo form_input('sub_title', set_value('sub_title', $sub->sub_title), 'id="sub_title" class="inputtext required"'); ?>
 	</p>
 
+	<?php if($this->config->item('folders')) { ?>
+		<p>
+		<?php echo form_label($this->lang->line('folder'), 'folder'); ?>
+		<?php echo form_dropdown('folder', $folders, set_value('folder', $sub->flr_id), 'id="folder" class="select required numeric"'); ?>
+		</p>
+	<?php } ?>
+
 	<p>
-	<?php echo form_label($this->lang->line('folder'), 'folder'); ?>
-	<?php echo form_dropdown('folder', $folders, set_value('folder', $sub->flr_id), 'id="folder" class="select required numeric"'); ?>
+	<?php echo form_label($this->lang->line('priority'), 'priority'); ?>
+	<?php echo form_dropdown('priority', array(0 => $this->lang->line('no'), 1 => $this->lang->line('yes')), set_value('priority', $sub->sub_priority), 'id="priority" class="select numeric"'); ?>
 	</p>
 
 	<p>

@@ -57,7 +57,7 @@ class Home extends CI_Controller {
 			redirect(base_url());
 		}
 
-		$modes = array('all', 'starred', 'shared', 'nofolder', 'folder', 'subscription', 'category', 'author', 'search', 'cloud');
+		$modes = array('all', 'priority', 'starred', 'shared', 'nofolder', 'folder', 'subscription', 'category', 'author', 'search', 'cloud');
 		$clouds = array('tags', 'authors');
 
 		$content = array();
@@ -181,15 +181,21 @@ class Home extends CI_Controller {
 			} else {
 				$content['result_type'] = 'items';
 
-				$introduction_title = '<i class="icon icon-asterisk"></i>'.$this->lang->line('all_items').' (<span id="intro-load-all-items"></span>)';
-
 				$content['items'] = array();
 
 				$where = array();
 				$bindings = array();
 
-				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
-				$bindings[] = $this->member->mbr_id;
+				if($mode == 'priority') {
+					$introduction_title = '<i class="icon icon-flag"></i>'.$this->lang->line('priority_items').' (<span id="intro-load-priority-items"></span>)';
+					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? AND sub.sub_priority = ? )';
+					$bindings[] = $this->member->mbr_id;
+					$bindings[] = 1;
+				} else {
+					$introduction_title = '<i class="icon icon-asterisk"></i>'.$this->lang->line('all_items').' (<span id="intro-load-all-items"></span>)';
+					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
+					$bindings[] = $this->member->mbr_id;
+				}
 
 				if($mode == 'starred') {
 					$introduction_title = '<i class="icon icon-star"></i>'.$this->lang->line('starred_items').' {<span id="intro-load-starred-items"></span>}';
@@ -475,9 +481,15 @@ class Home extends CI_Controller {
 			if($type == 'dialog' && $this->session->userdata('items-mode')) {
 				$this->load->library(array('form_validation'));
 
-				$data['title'] = $this->lang->line('all_items');
-				$data['icon'] = 'asterisk';
-				$data['count'] = $this->reader_model->count_unread('all');
+				if($this->session->userdata('items-mode') == 'priority') {
+					$data['title'] = $this->lang->line('priority_items');
+					$data['icon'] = 'flag';
+					$data['count'] = $this->reader_model->count_unread('priority');
+				} else {
+					$data['title'] = $this->lang->line('all_items');
+					$data['icon'] = 'asterisk';
+					$data['count'] = $this->reader_model->count_unread('all');
+				}
 
 				$is_folder = FALSE;
 				if($this->session->userdata('items-mode') == 'folder') {
@@ -556,8 +568,14 @@ class Home extends CI_Controller {
 					$bindings[] = $this->member->mbr_id;
 					$bindings[] = date('Y-m-d H:i:s');
 
-					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
-					$bindings[] = $this->member->mbr_id;
+					if($this->session->userdata('items-mode') == 'priority') {
+						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? AND sub.sub_priority = ? )';
+						$bindings[] = $this->member->mbr_id;
+						$bindings[] = 1;
+					} else {
+						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
+						$bindings[] = $this->member->mbr_id;
+					}
 
 					$where[] = 'itm.itm_id NOT IN ( SELECT hst.itm_id FROM history AS hst WHERE hst.itm_id = itm.itm_id AND hst.mbr_id = ? )';
 					$bindings[] = $this->member->mbr_id;

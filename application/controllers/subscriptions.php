@@ -55,6 +55,7 @@ class Subscriptions extends CI_Controller {
 		if($this->config->item('folders')) {
 			$this->form_validation->set_rules('folder', 'lang:folder', 'required');
 		}
+		$this->form_validation->set_rules('priority', 'lang:priority', 'numeric');
 
 		$data['error'] = false;
 
@@ -133,6 +134,7 @@ class Subscriptions extends CI_Controller {
 							$this->db->set('flr_id', $folder);
 						}
 					}
+					$this->db->set('sub_priority', $this->input->post('priority'));
 					$this->db->set('sub_datecreated', date('Y-m-d H:i:s'));
 					$this->db->insert('subscriptions');
 					$sub_id = $this->db->insert_id();
@@ -154,6 +156,7 @@ class Subscriptions extends CI_Controller {
 							$this->db->set('flr_id', $folder);
 						}
 					}
+					$this->db->set('sub_priority', $this->input->post('priority'));
 					$this->db->set('sub_datecreated', date('Y-m-d H:i:s'));
 					$this->db->insert('subscriptions');
 					$sub_id = $this->db->insert_id();
@@ -275,6 +278,7 @@ class Subscriptions extends CI_Controller {
 
 			$this->form_validation->set_rules('sub_title', 'lang:sub_title', 'max_length[255]');
 			$this->form_validation->set_rules('folder', 'lang:folder', 'required');
+			$this->form_validation->set_rules('priority', 'lang:priority', 'numeric');
 			if($this->form_validation->run() == FALSE) {
 				$content = $this->load->view('subscriptions_update', $data, TRUE);
 				$this->reader_library->set_content($content);
@@ -288,6 +292,7 @@ class Subscriptions extends CI_Controller {
 						$this->db->set('flr_id', $this->input->post('folder'));
 					}
 				}
+				$this->db->set('sub_priority', $this->input->post('priority'));
 				$this->db->where('sub_id', $sub_id);
 				$this->db->update('subscriptions');
 
@@ -320,6 +325,36 @@ class Subscriptions extends CI_Controller {
 		} else {
 			$this->index();
 		}
+	}
+
+	public function priority($sub_id) {
+		if(!$this->session->userdata('mbr_id')) {
+			redirect(base_url());
+		}
+
+		$content = array();
+
+		if($this->input->is_ajax_request()) {
+			$this->reader_library->set_template('_json');
+			$this->reader_library->set_content_type('application/json');
+
+			$sub = $this->reader_model->get_subscription_row($sub_id);
+			if($sub) {
+				if($sub->sub_priority == 1) {
+					$this->db->set('sub_priority', 0);
+					$content['status'] = 'not_priority';
+				} else {
+					$this->db->set('sub_priority', 1);
+					$content['status'] = 'priority';
+				}
+				$this->db->where('sub_id', $sub_id);
+				$this->db->where('mbr_id', $this->member->mbr_id);
+				$this->db->update('subscriptions');
+			}
+		} else {
+			$this->output->set_status_header(403);
+		}
+		$this->reader_library->set_content($content);
 	}
 
 	public function export() {

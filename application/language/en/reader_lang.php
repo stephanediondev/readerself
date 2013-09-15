@@ -1,6 +1,7 @@
 <?php
 $lang['add'] = 'Add';
 $lang['all_items'] = 'All items';
+$lang['priority_items'] = 'Priority items';
 $lang['all'] = 'All';
 $lang['back'] = 'Back';
 $lang['callback_email'] = 'Error';
@@ -118,3 +119,7 @@ $lang['tags'] = 'Tags';
 $lang['close'] = 'Close';
 $lang['no_date_limit'] = 'No date limit';
 $lang['authors'] = 'Authors';
+$lang['yes'] = 'Yes';
+$lang['no'] = 'No';
+$lang['priority'] = 'Priority';
+$lang['not_priority'] = 'Not priority';

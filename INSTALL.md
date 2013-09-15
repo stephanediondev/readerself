@@ -146,6 +146,7 @@ CREATE TABLE IF NOT EXISTS `subscriptions` (
   `fed_id` bigint(20) unsigned NOT NULL,
   `flr_id` bigint(20) unsigned DEFAULT NULL,
   `sub_title` varchar(255) DEFAULT NULL,
+  `sub_priority` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `sub_datecreated` datetime NOT NULL,
   PRIMARY KEY (`sub_id`),
   KEY `mbr_id` (`mbr_id`),

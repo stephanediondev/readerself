@@ -1,5 +1,11 @@
 #### Update
 
+##### 2013-09-15
+
+```sql
+ALTER TABLE `subscriptions` ADD `sub_priority` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0' AFTER `sub_title`;
+```
+
 ##### 2013-09-12
 
 ```sql

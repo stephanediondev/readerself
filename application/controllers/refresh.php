@@ -10,6 +10,8 @@ class Refresh extends CI_Controller {
 
 			$content['count']['all'] = $this->reader_model->count_unread('all');
 
+			$content['count']['priority'] = $this->reader_model->count_unread('priority');
+
 			if($this->config->item('folders')) {
 				$sql = 'SELECT flr.flr_id, COUNT(DISTINCT(itm.itm_id)) AS count
 				FROM '.$this->db->dbprefix('folders').' AS flr

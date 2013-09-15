@@ -39,6 +39,11 @@
 	<?php } ?>
 
 	<p>
+	<?php echo form_label($this->lang->line('priority'), 'priority'); ?>
+	<?php echo form_dropdown('priority', array(0 => $this->lang->line('no'), 1 => $this->lang->line('yes')), set_value('priority', 0), 'id="priority" class="select numeric"'); ?>
+	</p>
+
+	<p>
 	<button type="submit"><?php echo $this->lang->line('send'); ?></button>
 	</p>
 	<?php echo form_close(); ?>
