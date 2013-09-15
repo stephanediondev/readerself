@@ -121,6 +121,15 @@ function set_positions() {
 		$('aside').css({ 'height': _height});
 	}
 }
+function toggle_sidebar() {
+	if($('aside').is(':visible')) {
+		$('aside').hide();
+		$('header nav:first-child ul:last-child').show();
+	} else {
+		$('aside').show();
+		$('header nav:first-child ul:last-child').hide();
+	}
+}
 $(document).ready(function() {
 	if($('aside').length == 0) {
 		$('#toggle-sidebar').parent().remove();
@@ -162,13 +171,7 @@ $(document).ready(function() {
 
 	$('#toggle-sidebar').bind('click', function(event) {
 		event.preventDefault();
-		if($('aside').is(':visible')) {
-			$('aside').hide();
-			$('header nav:first-child ul:last-child').show();
-		} else {
-			$('aside').show();
-			$('header nav:first-child ul:last-child').hide();
-		}
+		toggle_sidebar();
 	});
 
 	$('body').append('<div id="overlay"></div>');
@@ -215,4 +218,14 @@ $(document).ready(function() {
 			url: ref.attr('action')
 		});
 	});
+
+	if($('aside').length > 0) {
+		$(document).swipe({
+			swipeLeft:function(event, direction, distance, duration, fingerCount) {
+				if(direction == 'left') {
+					toggle_sidebar();
+				}
+			}
+		});
+	}
 });
