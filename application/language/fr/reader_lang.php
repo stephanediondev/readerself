@@ -1,7 +1,7 @@
 <?php
 $lang['add'] = 'Ajouter';
 $lang['all_items'] = 'Tous les éléments';
-$lang['priority_items'] = 'Eléments priority';
+$lang['priority_items'] = 'Eléments prioritaires';
 $lang['all'] = 'Tous';
 $lang['back'] = 'Retour';
 $lang['callback_email'] = 'Erreur';
