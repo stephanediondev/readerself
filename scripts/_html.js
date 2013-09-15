@@ -222,7 +222,7 @@ $(document).ready(function() {
 	if($('aside').length > 0) {
 		$(document).swipe({
 			swipeLeft:function(event, direction, distance, duration, fingerCount) {
-				if(direction == 'left') {
+				if(direction == 'left' && distance > 200) {
 					if($('#toggle-sidebar').is(':visible')) {
 						toggle_sidebar();
 					}

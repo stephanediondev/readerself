@@ -157,7 +157,7 @@ function add_swipe(selector) {
 	$(selector).swipe('destroy');
 	$(selector).swipe({
 		swipeRight:function(event, direction, distance, duration, fingerCount) {
-			if(direction == 'right') {
+			if(direction == 'right' && distance > 200) {
 				if($(selector).hasClass('collapse')) {
 					item_expand($(selector).find('.expand'));
 				} else {
