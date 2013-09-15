@@ -322,7 +322,15 @@ function display_expand() {
 	load_items( $('aside ul').find('li.active').find('a').attr('href') );
 }
 $(document).ready(function() {
-	load_items($('#load-all-items').attr('href'));
+	var menu = 'load-all-items';
+	if($.cookie('menu')) {
+		if($('#' + menu).length > 0) {
+			menu = $.cookie('menu');
+		}
+	}
+	$('#' + menu).parent().addClass('active');
+	load_items($('#' + menu).attr('href'));
+	$.cookie('menu', menu, { expires: 30, path: '/' });
 
 	$(document).bind('keyup', function(event) {
 		var keycode = event.which || event.keyCode;
@@ -511,6 +519,7 @@ $(document).ready(function() {
 		var ref = $(this);
 		$('aside ul li').removeClass('active');
 		ref.parent().addClass('active');
+		$.cookie('menu', ref.attr('id'), { expires: 30, path: '/' });
 		load_items(ref.attr('href'));
 		if($('aside').css('position') == 'absolute') {
 			$('aside').hide();
