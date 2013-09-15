@@ -57,7 +57,7 @@ class Home extends CI_Controller {
 			redirect(base_url());
 		}
 
-		$modes = array('all', 'priority', 'starred', 'shared', 'nofolder', 'folder', 'subscription', 'category', 'author', 'search', 'cloud');
+		$modes = array('all', 'priority', 'geolocation', 'starred', 'shared', 'nofolder', 'folder', 'subscription', 'category', 'author', 'search', 'cloud');
 		$clouds = array('tags', 'authors');
 
 		$content = array();
@@ -195,6 +195,12 @@ class Home extends CI_Controller {
 					$introduction_title = '<i class="icon icon-asterisk"></i>'.$this->lang->line('all_items').' (<span id="intro-load-all-items"></span>)';
 					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
 					$bindings[] = $this->member->mbr_id;
+				}
+
+				if($mode == 'geolocation') {
+					$introduction_title = '<i class="icon icon-map-marker"></i>'.$this->lang->line('geolocation_items').' (<span id="intro-load-geolocation-items"></span>)';
+					$where[] = 'itm.itm_latitude IS NOT NULL';
+					$where[] = 'itm.itm_longitude IS NOT NULL';
 				}
 
 				if($mode == 'starred') {
@@ -491,6 +497,12 @@ class Home extends CI_Controller {
 					$data['count'] = $this->reader_model->count_unread('all');
 				}
 
+				if($this->session->userdata('items-mode') == 'geolocation') {
+					$data['title'] = $this->lang->line('geolocation_items');
+					$data['icon'] = 'map-marker';
+					$data['count'] = $this->reader_model->count_unread('geolocation');
+				}
+
 				$is_folder = FALSE;
 				if($this->session->userdata('items-mode') == 'folder') {
 					$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? AND flr.flr_id = ? GROUP BY flr.flr_id', array($this->member->mbr_id, $this->session->userdata('items-id')));
@@ -575,6 +587,11 @@ class Home extends CI_Controller {
 					} else {
 						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
 						$bindings[] = $this->member->mbr_id;
+					}
+
+					if($this->session->userdata('items-mode') == 'geolocation') {
+						$where[] = 'itm.itm_latitude IS NOT NULL';
+						$where[] = 'itm.itm_longitude IS NOT NULL';
 					}
 
 					$where[] = 'itm.itm_id NOT IN ( SELECT hst.itm_id FROM history AS hst WHERE hst.itm_id = itm.itm_id AND hst.mbr_id = ? )';

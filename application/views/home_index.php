@@ -22,20 +22,23 @@
 		<li><a id="load-all-items" href="<?php echo base_url(); ?>home/items/all"><i class="icon icon-asterisk"></i><?php echo $this->lang->line('all_items'); ?> (<span>0</span>)</a></li>
 		<li><a id="load-priority-items" href="<?php echo base_url(); ?>home/items/priority"><i class="icon icon-flag"></i><?php echo $this->lang->line('priority_items'); ?> (<span>0</span>)</a></li>
 		<?php if($this->config->item('star')) { ?>
-		<li><a id="load-starred-items" href="<?php echo base_url(); ?>home/items/starred"><i class="icon icon-star"></i><?php echo $this->lang->line('starred_items'); ?> {<span>0</span>}</a></li>
+			<li><a id="load-starred-items" href="<?php echo base_url(); ?>home/items/starred"><i class="icon icon-star"></i><?php echo $this->lang->line('starred_items'); ?> {<span>0</span>}</a></li>
 		<?php } ?>
 		<?php if($this->config->item('share')) { ?>
-		<li><a id="load-shared-items" href="<?php echo base_url(); ?>home/items/shared"><i class="icon icon-heart"></i><?php echo $this->lang->line('shared_items'); ?> {<span>0</span>}</a></li>
+			<li><a id="load-shared-items" href="<?php echo base_url(); ?>home/items/shared"><i class="icon icon-heart"></i><?php echo $this->lang->line('shared_items'); ?> {<span>0</span>}</a></li>
 		<?php } ?>
 		<?php if($this->config->item('tags')) { ?>
-		<li><a id="load-cloud-tags-items" href="<?php echo base_url(); ?>home/items/cloud/tags"><i class="icon icon-tags"></i><?php echo $this->lang->line('tags'); ?></a></li>
+			<li><a id="load-cloud-tags-items" href="<?php echo base_url(); ?>home/items/cloud/tags"><i class="icon icon-tags"></i><?php echo $this->lang->line('tags'); ?></a></li>
 		<?php } ?>
 		<li><a id="load-cloud-authors-items" href="<?php echo base_url(); ?>home/items/cloud/authors"><i class="icon icon-group"></i><?php echo $this->lang->line('authors'); ?></a></li>
-		<?php if($folders && $this->config->item('folders')) { ?>
-		<?php foreach($folders as $folder) { ?>
-		<li><a id="load-folder-<?php echo $folder->flr_id; ?>-items" href="<?php echo base_url(); ?>home/items/folder/<?php echo $folder->flr_id; ?>"><i class="icon icon-folder-close"></i><?php echo $folder->flr_title; ?> (<span>0</span>)</a></li>
+		<?php if($this->config->item('menu_geolocation_items')) { ?>
+			<li><a id="load-geolocation-items" href="<?php echo base_url(); ?>home/items/geolocation"><i class="icon icon-map-marker"></i><?php echo $this->lang->line('geolocation_items'); ?> (<span>0</span>)</a></li>
 		<?php } ?>
-		<li><a id="load-nofolder-items" href="<?php echo base_url(); ?>home/items/nofolder"><i class="icon icon-folder-close"></i><em><?php echo $this->lang->line('no_folder'); ?></em> (<span>0</span>)</a></li>
+		<?php if($folders && $this->config->item('folders')) { ?>
+			<?php foreach($folders as $folder) { ?>
+				<li><a id="load-folder-<?php echo $folder->flr_id; ?>-items" href="<?php echo base_url(); ?>home/items/folder/<?php echo $folder->flr_id; ?>"><i class="icon icon-folder-close"></i><?php echo $folder->flr_title; ?> (<span>0</span>)</a></li>
+			<?php } ?>
+			<li><a id="load-nofolder-items" href="<?php echo base_url(); ?>home/items/nofolder"><i class="icon icon-folder-close"></i><em><?php echo $this->lang->line('no_folder'); ?></em> (<span>0</span>)</a></li>
 		<?php } ?>
 		<li><label for="search_items"><i class="icon icon-file-text-alt"></i><?php echo $this->lang->line('items'); ?></label></li>
 		<li>

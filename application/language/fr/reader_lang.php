@@ -2,6 +2,7 @@
 $lang['add'] = 'Ajouter';
 $lang['all_items'] = 'Tous les éléments';
 $lang['priority_items'] = 'Eléments prioritaires';
+$lang['geolocation_items'] = 'Eléments avec géolocalisation';
 $lang['all'] = 'Tous';
 $lang['back'] = 'Retour';
 $lang['callback_email'] = 'Erreur';
