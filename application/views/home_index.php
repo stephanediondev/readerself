@@ -34,6 +34,9 @@
 		<?php if($this->config->item('menu_geolocation_items')) { ?>
 			<li><a id="load-geolocation-items" href="<?php echo base_url(); ?>home/items/geolocation"><i class="icon icon-map-marker"></i><?php echo $this->lang->line('geolocation_items'); ?> (<span>0</span>)</a></li>
 		<?php } ?>
+		<?php if($this->config->item('menu_audio_items')) { ?>
+			<li><a id="load-audio-items" href="<?php echo base_url(); ?>home/items/audio"><i class="icon icon-volume-up"></i><?php echo $this->lang->line('audio_items'); ?> (<span>0</span>)</a></li>
+		<?php } ?>
 		<?php if($folders && $this->config->item('folders')) { ?>
 			<?php foreach($folders as $folder) { ?>
 				<li><a id="load-folder-<?php echo $folder->flr_id; ?>-items" href="<?php echo base_url(); ?>home/items/folder/<?php echo $folder->flr_id; ?>"><i class="icon icon-folder-close"></i><?php echo $folder->flr_title; ?> (<span>0</span>)</a></li>

@@ -2,6 +2,7 @@
 
 $config['folders'] = TRUE;
 $config['menu_geolocation_items'] = TRUE;
+$config['menu_audio_items'] = TRUE;
 $config['register_multi'] = FALSE;
 $config['salt_password'] = '';
 $config['sender_email'] = 'noreply@reader.com';

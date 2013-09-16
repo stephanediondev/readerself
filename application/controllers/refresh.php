@@ -16,6 +16,10 @@ class Refresh extends CI_Controller {
 				$content['count']['geolocation'] = $this->reader_model->count_unread('geolocation');
 			}
 
+			if($this->config->item('menu_audio_items')) {
+				$content['count']['audio'] = $this->reader_model->count_unread('audio');
+			}
+
 			if($this->config->item('folders')) {
 				$sql = 'SELECT flr.flr_id, COUNT(DISTINCT(itm.itm_id)) AS count
 				FROM '.$this->db->dbprefix('folders').' AS flr
