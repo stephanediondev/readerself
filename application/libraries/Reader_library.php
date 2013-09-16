@@ -283,16 +283,21 @@ class Reader_library {
 							$categories = explode(',', $category->get_label());
 							foreach($categories as $category_split) {
 								$category_split = trim( strip_tags( html_entity_decode( $category_split ) ) );
+								if($category_split != '') {
+									$this->CI->db->set('itm_id', $itm_id);
+									$this->CI->db->set('cat_title', $category_split);
+									$this->CI->db->set('cat_datecreated', date('Y-m-d H:i:s'));
+									$this->CI->db->insert('categories');
+								}
+							}
+						} else {
+							$category_split = trim( strip_tags( html_entity_decode( $category->get_label() ) ) );
+							if($category_split != '') {
 								$this->CI->db->set('itm_id', $itm_id);
 								$this->CI->db->set('cat_title', $category_split);
 								$this->CI->db->set('cat_datecreated', date('Y-m-d H:i:s'));
 								$this->CI->db->insert('categories');
 							}
-						} else {
-							$this->CI->db->set('itm_id', $itm_id);
-							$this->CI->db->set('cat_title', trim( strip_tags( html_entity_decode( $category->get_label() ) ) ) );
-							$this->CI->db->set('cat_datecreated', date('Y-m-d H:i:s'));
-							$this->CI->db->insert('categories');
 						}
 					}
 				}
