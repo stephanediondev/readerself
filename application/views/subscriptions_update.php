@@ -11,7 +11,7 @@
 		<h2><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?></h2>
 	</article>
 
-	<article class="cell">
+	<article class="<?php if($sub->sub_direction == 'rtl') { ?>rtl <?php } ?>cell">
 		<ul class="actions">
 			<li><a href="<?php echo base_url(); ?>subscriptions/delete/<?php echo $sub->sub_id; ?>"><i class="icon icon-trash"></i><?php echo $this->lang->line('delete'); ?></a></li>
 		</ul>
@@ -52,6 +52,11 @@
 	<p>
 	<?php echo form_label($this->lang->line('priority'), 'priority'); ?>
 	<?php echo form_dropdown('priority', array(0 => $this->lang->line('no'), 1 => $this->lang->line('yes')), set_value('priority', $sub->sub_priority), 'id="priority" class="select numeric"'); ?>
+	</p>
+
+	<p>
+	<?php echo form_label($this->lang->line('direction'), 'direction'); ?>
+	<?php echo form_dropdown('direction', array('' => '-', 'ltr' => $this->lang->line('direction_ltr'), 'rtl' => $this->lang->line('direction_rtl')), set_value('direction', $sub->sub_direction), 'id="direction" class="select numeric"'); ?>
 	</p>
 
 	<p>

@@ -141,6 +141,15 @@ main section .item .item-footer .actions{float:none;margin-bottom:10px;text-alig
 .item.collapse .hide-collapse{display:none;}
 .item.collapse .item-details{margin-bottom:5px;}
 
+.rtl{direction:rtl;}
+.rtl .icon{margin-left:3px;margin-right:0px;vertical-align:top;}
+main > section article.rtl .actions, main > section article.rtl .actions{float:left;margin-left:0px;}
+main > section article.rtl .actions li{margin:5px 4px 5px 0px;}
+main > section article.rtl .item-details li{margin-left:5px;margin-right:0px;}
+main section article.rtl .item-footer .actions{float:right;}
+main section article.rtl .item-footer .actions li{margin:5px 0px 0px 4px;}
+main section article.rtl .item-footer .actions li:last-child{margin-left:0px;}
+
 .item-like{clear:both;display:none;margin-top:5px;}
 
 .cell h2, .neutral h2{font-size:15px;font-weight:bold;margin:5px 0px;}

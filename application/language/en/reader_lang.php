@@ -126,3 +126,6 @@ $lang['yes'] = 'Yes';
 $lang['no'] = 'No';
 $lang['priority'] = 'Priority';
 $lang['not_priority'] = 'Not priority';
+$lang['direction'] = 'Direction';
+$lang['direction_ltr'] = 'Left to right';
+$lang['direction_rtl'] = 'Right to left';

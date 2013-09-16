@@ -1,5 +1,11 @@
 #### Update
 
+##### 2013-09-16
+
+```sql
+ALTER TABLE `subscriptions` ADD `sub_direction` CHAR( 3 ) NULL AFTER `sub_priority`;
+```
+
 ##### 2013-09-15
 
 ```sql

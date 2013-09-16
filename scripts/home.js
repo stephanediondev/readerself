@@ -582,7 +582,11 @@ $(document).ready(function() {
 		$('aside ul li').removeClass('active');
 
 		$('aside ul').find('.result').remove();
-		content = '<li class="result active"><a id="load-sub-' + ref.data('sub_id') + '-items" href="' + base_url + 'home/items/subscription/' + ref.data('sub_id') + '"><i class="icon icon-rss"></i>' + ref.text() + ' (<span>0</span>)</a></li>';
+		content = '<li class="result ';
+		if(ref.data('sub_direction') == 'rtl') {
+			content += 'rtl ';
+		}
+		content += 'active"><a id="load-sub-' + ref.data('sub_id') + '-items" href="' + base_url + 'home/items/subscription/' + ref.data('sub_id') + '"><i class="icon icon-rss"></i>' + ref.text() + ' (<span>0</span>)</a></li>';
 		result_subscriptions.push(ref.data('sub_id'));
 		$('aside ul').append(content);
 
@@ -670,7 +674,11 @@ $(document).ready(function() {
 							} else {
 								title = sub.fed_title;
 							}
-							content = '<li class="result"><a id="load-sub-' + sub.sub_id + '-items" href="' + base_url + 'home/items/subscription/' + sub.sub_id + '"><i class="icon icon-rss"></i>' + title + ' (<span>0</span>)</a></li>';
+							content = '<li class="result';
+							if(sub.sub_direction == 'rtl') {
+								content += ' rtl';
+							}
+							content += '"><a id="load-sub-' + sub.sub_id + '-items" href="' + base_url + 'home/items/subscription/' + sub.sub_id + '"><i class="icon icon-rss"></i>' + title + ' (<span>0</span>)</a></li>';
 							result_subscriptions.push(sub.sub_id);
 							$('aside ul').append(content);
 						}

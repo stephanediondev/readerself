@@ -42,7 +42,7 @@ class Home extends CI_Controller {
 			$content = array();
 
 			if($this->input->post('fed_title')) {
-				$query = $this->db->query('SELECT sub.sub_id, sub.sub_title, fed.* FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND (fed.fed_title LIKE ? OR sub.sub_title LIKE ?) GROUP BY fed.fed_id ORDER BY fed.fed_title ASC', array($this->member->mbr_id, '%'.$this->input->post('fed_title').'%', '%'.$this->input->post('fed_title').'%'));
+				$query = $this->db->query('SELECT sub.sub_id, sub.sub_title, sub.sub_direction, fed.* FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND (fed.fed_title LIKE ? OR sub.sub_title LIKE ?) GROUP BY fed.fed_id ORDER BY fed.fed_title ASC', array($this->member->mbr_id, '%'.$this->input->post('fed_title').'%', '%'.$this->input->post('fed_title').'%'));
 				$content['subscriptions'] = $query->result();
 			} else {
 				$content['subscriptions'] = array();
@@ -329,7 +329,7 @@ class Home extends CI_Controller {
 						$sql = 'SELECT fed.* FROM feeds AS fed WHERE fed.fed_id = ? GROUP BY fed.fed_id';
 						$itm->fed = $this->db->query($sql, array($itm->fed_id))->row();
 
-						$sql = 'SELECT sub.sub_id, sub.sub_title, flr.flr_id, flr.flr_title FROM subscriptions AS sub LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
+						$sql = 'SELECT sub.sub_id, sub.sub_title, sub.sub_direction, flr.flr_id, flr.flr_title FROM subscriptions AS sub LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
 						$itm->sub = $this->db->query($sql, array($itm->fed_id, $this->member->mbr_id))->row();
 
 						$itm->foursquare = false;

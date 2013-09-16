@@ -28,7 +28,7 @@
 		<h2><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?></h2>
 	</article>
 
-	<article class="cell">
+	<article class="<?php if($sub->sub_direction == 'rtl') { ?>rtl <?php } ?>cell">
 		<ul class="actions">
 			<li><a href="<?php echo base_url(); ?>subscriptions/update/<?php echo $sub->sub_id; ?>"><i class="icon icon-pencil"></i><?php echo $this->lang->line('update'); ?></a></li>
 			<li><a href="<?php echo base_url(); ?>subscriptions/delete/<?php echo $sub->sub_id; ?>"><i class="icon icon-trash"></i><?php echo $this->lang->line('delete'); ?></a></li>

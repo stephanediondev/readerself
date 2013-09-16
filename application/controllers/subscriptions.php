@@ -56,6 +56,7 @@ class Subscriptions extends CI_Controller {
 			$this->form_validation->set_rules('folder', 'lang:folder', 'required');
 		}
 		$this->form_validation->set_rules('priority', 'lang:priority', 'numeric');
+		$this->form_validation->set_rules('direction', 'lang:direction', '');
 
 		$data['error'] = false;
 
@@ -135,6 +136,7 @@ class Subscriptions extends CI_Controller {
 						}
 					}
 					$this->db->set('sub_priority', $this->input->post('priority'));
+					$this->db->set('sub_direction', $this->input->post('direction'));
 					$this->db->set('sub_datecreated', date('Y-m-d H:i:s'));
 					$this->db->insert('subscriptions');
 					$sub_id = $this->db->insert_id();
@@ -157,6 +159,7 @@ class Subscriptions extends CI_Controller {
 						}
 					}
 					$this->db->set('sub_priority', $this->input->post('priority'));
+					$this->db->set('sub_direction', $this->input->post('direction'));
 					$this->db->set('sub_datecreated', date('Y-m-d H:i:s'));
 					$this->db->insert('subscriptions');
 					$sub_id = $this->db->insert_id();
@@ -279,6 +282,7 @@ class Subscriptions extends CI_Controller {
 			$this->form_validation->set_rules('sub_title', 'lang:sub_title', 'max_length[255]');
 			$this->form_validation->set_rules('folder', 'lang:folder', 'required');
 			$this->form_validation->set_rules('priority', 'lang:priority', 'numeric');
+			$this->form_validation->set_rules('direction', 'lang:direction', '');
 			if($this->form_validation->run() == FALSE) {
 				$content = $this->load->view('subscriptions_update', $data, TRUE);
 				$this->reader_library->set_content($content);
@@ -293,6 +297,7 @@ class Subscriptions extends CI_Controller {
 					}
 				}
 				$this->db->set('sub_priority', $this->input->post('priority'));
+				$this->db->set('sub_direction', $this->input->post('direction'));
 				$this->db->where('sub_id', $sub_id);
 				$this->db->update('subscriptions');
 
