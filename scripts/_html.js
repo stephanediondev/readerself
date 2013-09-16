@@ -219,6 +219,34 @@ $(document).ready(function() {
 		});
 	});
 
+	$('a.priority').live('click', function(event) {
+		event.preventDefault();
+		ref = $(this);
+		params = [];
+		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
+		$.ajax({
+			async: true,
+			cache: true,
+			data: params,
+			dataType: 'json',
+			statusCode: {
+				200: function(data_return, textStatus, jqXHR) {
+					if(data_return.status == 'priority') {
+						ref.find('.not_priority').hide();
+						ref.find('.priority').show();
+					}
+					if(data_return.status == 'not_priority') {
+						ref.find('.priority').hide();
+						ref.find('.not_priority').show();
+					}
+					refresh();
+				}
+			},
+			type: 'POST',
+			url: ref.attr('href')
+		});
+	});
+
 	if($('aside').length > 0) {
 		$(document).swipe({
 			swipeLeft:function(event, direction, distance, duration, fingerCount) {

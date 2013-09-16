@@ -157,6 +157,7 @@ main section article.rtl .item-footer .actions li:last-child{margin-left:0px;}
 .cell .actions{float:right;margin-right:0px;}
 .cell .actions li{margin:5px 0px 5px 4px;}
 .cell .actions a:link, .cell .actions a:visited{background-color:#5660d1;}
+.neutral .actions a:link, .neutral .actions a:visited{background-color:#5660d1;}
 
 .color, a.color:link, a.color:visited{color:#000000;display:inline-block;margin-right:5px;width:20px;}
 .color_1red{background-color:#FF3366!important;}

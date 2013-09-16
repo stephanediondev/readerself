@@ -274,6 +274,15 @@ class Home extends CI_Controller {
 
 				if($is_subscription) {
 					$introduction_title = '<i class="icon icon-rss"></i>'.$is_subscription->fed_title.' (<span id="intro-load-sub-'.$is_subscription->sub_id.'-items">0</span>)';
+					$introduction_actions = '<ul class="actions"><li><a class="priority" href="'.base_url().'subscriptions/priority/'.$is_subscription->sub_id.'"><span class="priority"';
+					if($is_subscription->sub_priority == 0) {
+						$introduction_actions .= ' style="display:none;"';
+					}
+					$introduction_actions .= '><i class="icon icon-flag"></i>'.$this->lang->line('not_priority').'</span><span class="not_priority"';
+					if($is_subscription->sub_priority == 1) {
+						$introduction_actions .= ' style="display:none;"';
+					}
+					$introduction_actions .= '><i class="icon icon-flag-alt"></i>'.$this->lang->line('priority').'</span></a></li></ul>';
 					if($is_subscription->fed_url) {
 						$introduction_details = '<ul class="item-details"><li><a target="_blank" href="'.$is_subscription->fed_url.'"><i class="icon icon-external-link"></i>'.$is_subscription->fed_url.'</a></li></ul>';
 					}

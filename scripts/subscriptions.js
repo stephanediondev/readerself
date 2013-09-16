@@ -13,32 +13,5 @@ $(document).ready(function() {
 			event.preventDefault();
 			registerContentHandler();
 		});
-
-		$('a.priority').bind('click', function(event) {
-			event.preventDefault();
-			ref = $(this);
-			params = [];
-			params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
-			$.ajax({
-				async: true,
-				cache: true,
-				data: params,
-				dataType: 'json',
-				statusCode: {
-					200: function(data_return, textStatus, jqXHR) {
-						if(data_return.status == 'priority') {
-							ref.find('.not_priority').hide();
-							ref.find('.priority').show();
-						}
-						if(data_return.status == 'not_priority') {
-							ref.find('.priority').hide();
-							ref.find('.not_priority').show();
-						}
-					}
-				},
-				type: 'POST',
-				url: ref.attr('href')
-			});
-		});
 	}
 });
