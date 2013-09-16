@@ -400,10 +400,12 @@ $(document).ready(function() {
 				event.preventDefault();
 				if($('body').hasClass('fullscreen')) {
 					$('body').removeClass('fullscreen');
-					set_positions();
 				} else {
 					$('body').addClass('fullscreen');
-					set_positions();
+				}
+				set_positions();
+				if($('.item-selected').length > 0) {
+					location.hash = '#' + $('.item-selected').attr('id');
 				}
 
 			//1
