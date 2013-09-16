@@ -59,7 +59,8 @@ class Refresh extends CI_Controller {
 			if($this->config->item('star')) {
 				$sql = 'SELECT COUNT(DISTINCT(fav.fav_id)) AS count
 				FROM '.$this->db->dbprefix('favorites').' AS fav
-				WHERE fav.mbr_id = ?';
+				LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = fav.itm_id 
+				WHERE fav.mbr_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
 				$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
 
 				$content['count']['starred'] = $query->row()->count;
@@ -68,7 +69,8 @@ class Refresh extends CI_Controller {
 			if($this->config->item('share')) {
 				$sql = 'SELECT COUNT(DISTINCT(shr.shr_id)) AS count
 				FROM '.$this->db->dbprefix('share').' AS shr
-				WHERE shr.mbr_id = ?';
+				LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = shr.itm_id 
+				WHERE shr.mbr_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
 				$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id));
 
 				$content['count']['shared'] = $query->row()->count;
