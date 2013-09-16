@@ -250,24 +250,29 @@ class Reader_library {
 
 				$itm_id = $this->CI->db->insert_id();
 
+				$enclosures = array();
+
 				foreach($sp_item->get_iframes() as $iframe) {
 					if($iframe['src'] && $iframe['width'] && $iframe['height']) {
 						if(stristr($iframe['src'], 'vimeo.com') || stristr($iframe['src'], 'youtube.com') || stristr($iframe['src'], 'dailymotion.com')) {
-							$this->CI->db->set('itm_id', $itm_id);
-							$this->CI->db->set('enr_link', $iframe['src']);
-							if(stristr($iframe['src'], 'vimeo.com')) {
-								$this->CI->db->set('enr_type', 'video/vimeo');
+							if(!in_array($iframe['src'], $enclosures)) {
+								$this->CI->db->set('itm_id', $itm_id);
+								$this->CI->db->set('enr_link', $iframe['src']);
+								if(stristr($iframe['src'], 'vimeo.com')) {
+									$this->CI->db->set('enr_type', 'video/vimeo');
+								}
+								if(stristr($iframe['src'], 'youtube.com')) {
+									$this->CI->db->set('enr_type', 'video/youtube');
+								}
+								if(stristr($iframe['src'], 'dailymotion.com')) {
+									$this->CI->db->set('enr_type', 'video/dailymotion');
+								}
+								$this->CI->db->set('enr_width', $iframe['width']);
+								$this->CI->db->set('enr_height', $iframe['height']);
+								$this->CI->db->set('enr_datecreated', date('Y-m-d H:i:s'));
+								$this->CI->db->insert('enclosures');
+								$enclosures[] = $iframe['src'];
 							}
-							if(stristr($iframe['src'], 'youtube.com')) {
-								$this->CI->db->set('enr_type', 'video/youtube');
-							}
-							if(stristr($iframe['src'], 'dailymotion.com')) {
-								$this->CI->db->set('enr_type', 'video/dailymotion');
-							}
-							$this->CI->db->set('enr_width', $iframe['width']);
-							$this->CI->db->set('enr_height', $iframe['height']);
-							$this->CI->db->set('enr_datecreated', date('Y-m-d H:i:s'));
-							$this->CI->db->insert('enclosures');
 						}
 					}
 				}
@@ -298,14 +303,17 @@ class Reader_library {
 						if(substr($link, -2) == '?#') {
 							$link = substr($link, 0, -2);
 						}
-						$this->CI->db->set('itm_id', $itm_id);
-						$this->CI->db->set('enr_link', $link);
-						$this->CI->db->set('enr_type', $enclosure->get_type());
-						$this->CI->db->set('enr_length', $enclosure->get_length());
-						$this->CI->db->set('enr_width', $enclosure->get_width());
-						$this->CI->db->set('enr_height', $enclosure->get_height());
-						$this->CI->db->set('enr_datecreated', date('Y-m-d H:i:s'));
-						$this->CI->db->insert('enclosures');
+						if(!in_array($link, $enclosures)) {
+							$this->CI->db->set('itm_id', $itm_id);
+							$this->CI->db->set('enr_link', $link);
+							$this->CI->db->set('enr_type', $enclosure->get_type());
+							$this->CI->db->set('enr_length', $enclosure->get_length());
+							$this->CI->db->set('enr_width', $enclosure->get_width());
+							$this->CI->db->set('enr_height', $enclosure->get_height());
+							$this->CI->db->set('enr_datecreated', date('Y-m-d H:i:s'));
+							$this->CI->db->insert('enclosures');
+							$enclosures[] = $link;
+						}
 					}
 				}
 			} else {
