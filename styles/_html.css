@@ -65,6 +65,8 @@ ins{font-style:italic;font-weight:bold;}
 pre{border:1px dashed #000000;padding:5px;}
 label,.label{cursor:text;display:block;padding-bottom:2px;padding-top:5px;position:relative;}
 input{border: 1px solid #777777;padding:5px;}
+input[type=text], input[type=password]{width:200px;}
+aside input[type=text], aside input[type=password]{width:170px;}
 .actions{font-size:12px;margin-bottom:5px;}
 .actions li{display:inline-block;margin:5px 5px 5px 0px;white-space:nowrap;}
 .actions li.hide{display:none;}
@@ -92,14 +94,6 @@ aside ul li label{display:block;padding:0px 0px 0px 0px;text-decoration:none;}
 .icon{line-height:inherit !important;margin-right:3px;vertical-align:top;}
 .show-phone{display:none !important;}
 .show-tablet{display:none !important;}
-
-.filters{border-bottom:1px solid #E7E7E7;margin:0px 0px 5px 0px;overflow:hidden;}
-.filters div{float:left;height:30px;margin:5px 10px 5px 0px;overflow:hidden;position:relative;white-space:nowrap;}
-.filters label{display:inline;padding-right:5px;}
-.filters button{vertical-align:top;}
-.filters .inputtext{width:100px;}
-.filters .inputtext.numeric{width:60px;}
-.filters .inputtext.date{width:80px;}
 
 .paging{clear:both;font-size:12px;margin:20px 0px;padding:5px 5px 5px 0px;}
 .paging strong, .paging a:link, .paging a:visited{border:1px solid #999999;margin:0px 5px 0px 0px;padding:2px 4px 2px 5px;text-decoration:none;}
