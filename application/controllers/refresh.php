@@ -107,12 +107,14 @@ class Refresh extends CI_Controller {
 			if($this->input->post('last_crawl')) {
 				$lastcrawl = $this->db->query('SELECT crr.crr_count, crr.crr_time, crr.crr_memory, DATE_ADD(crr.crr_datecreated, INTERVAL ? HOUR) AS crr_datecreated FROM '.$this->db->dbprefix('crawler').' AS crr GROUP BY crr.crr_id ORDER BY crr.crr_id DESC LIMIT 0,1', array($this->session->userdata('timezone')))->row();
 				if($lastcrawl) {
+					$errors = $this->db->query('SELECT COUNT(DISTINCT(fed.fed_id)) AS count FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_lasterror IS NOT NULL')->row()->count;
 					list($date, $time) = explode(' ', $lastcrawl->crr_datecreated);
 					$content['last_crawl'] = '<h2><i class="icon icon-truck"></i>'.$this->lang->line('last_crawl').'</h2>';
 					$content['last_crawl'] .= '<ul class="item-details">';
 					$content['last_crawl'] .= '<li><i class="icon icon-calendar"></i>'.$date.'</li>';
 					$content['last_crawl'] .= '<li><i class="icon icon-time"></i>'.$time.' (<span class="timeago" title="'.$lastcrawl->crr_datecreated.'"></span>)</li>';
 					$content['last_crawl'] .= '<li class="block"><i class="icon icon-rss"></i>'.intval($lastcrawl->crr_count).' '.mb_strtolower($this->lang->line('subscriptions')).'</li>';
+					$content['last_crawl'] .= '<li class="block"><i class="icon icon-bell"></i>'.$errors.' errors</li>';
 					$content['last_crawl'] .= '<li class="block"><i class="icon icon-rocket"></i>'.intval($lastcrawl->crr_time).' secondes</li>';
 					$content['last_crawl'] .= '<li class="block"><i class="icon icon-leaf"></i>'.number_format($lastcrawl->crr_memory, 0, '.', ' ').' bytes</li>';
 					$content['last_crawl'] .= '</ul>';
