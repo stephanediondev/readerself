@@ -8,9 +8,9 @@
 <meta content="noindex, nofollow, noarchive" name="robots">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 <link href="<?php echo base_url(); ?>thirdparty/fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-<link href="<?php echo base_url(); ?>styles/_html.css" rel="stylesheet" type="text/css">
+<link href="<?php echo base_url(); ?>styles/_html.css?modified=<?php echo filemtime('styles/_html.css'); ?>" rel="stylesheet" type="text/css">
 <?php if(file_exists('styles/'.$this->router->class.'.css')) { ?>
-<link href="<?php echo base_url(); ?>styles/<?php echo $this->router->class; ?>.css" rel="stylesheet" type="text/css">
+<link href="<?php echo base_url(); ?>styles/<?php echo $this->router->class; ?>.css?modified=<?php echo filemtime('styles/'.$this->router->class.'.css'); ?>" rel="stylesheet" type="text/css">
 <?php } ?>
 </head>
 <body<?php if(count($this->reader_library->errors) > 0) { ?> class="error"<?php } ?>>
@@ -70,9 +70,9 @@ var uri_string = '<?php echo $this->uri->uri_string(); ?>';
 <script src="<?php echo base_url(); ?>thirdparty/jquery/jquery.timeago.js"></script>
 <script src="<?php echo base_url(); ?>thirdparty/jquery/jquery.timeago.<?php echo $this->config->item('language'); ?>.js"></script>
 
-<script src="<?php echo base_url(); ?>scripts/_html.js"></script>
+<script src="<?php echo base_url(); ?>scripts/_html.js?modified=<?php echo filemtime('scripts/_html.js'); ?>"></script>
 <?php if(file_exists('scripts/'.$this->router->class.'.js')) { ?>
-<script src="<?php echo base_url(); ?>scripts/<?php echo $this->router->class; ?>.js"></script>
+<script src="<?php echo base_url(); ?>scripts/<?php echo $this->router->class; ?>.js?modified=<?php echo filemtime('scripts/'.$this->router->class.'.js'); ?>"></script>
 <?php } ?>
 
 <?php echo $this->reader_library->get_debug(); ?>
