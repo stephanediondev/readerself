@@ -85,15 +85,25 @@ $lang['shortcut_m'] = 'm : lu / non lu sur l\'élément sélectionné';
 $lang['shortcut_s'] = 's : favori / non favori sur l\'élément sélectionné';
 $lang['shortcut_shift_s'] = 'maj. + s : partagé / non partagé sur l\'élément sélectionné';
 $lang['shortcut_o'] = 'o ou entrée : ouvrir / fermer sur l\'élément sélectionné';
-$lang['shortcut_shift_a'] = 'maj. + a :marquer tous les éléments comme lu';
+$lang['shortcut_shift_a'] = 'maj. + a : marquer tous les éléments comme lu';
 $lang['shortcut_g_a'] = 'g puis a : afficher tous les éléments';
 $lang['shortcut_g_p'] = 'g puis p : afficher éléments prioritaires';
 $lang['shortcut_g_s'] = 'g puis s : afficher les éléments favoris';
-$lang['shortcut_g_shift_s'] = 'g puis maj. + a : afficher les éléments partagés';
+$lang['shortcut_g_shift_s'] = 'g puis maj. + s : afficher les éléments partagés';
 $lang['shortcut_1'] = '1 : fermer tous les éléments';
 $lang['shortcut_2'] = '2 : ouvrir tous les éléments';
 $lang['shortcut_shift_1'] = 'maj. + 1: éléments lu et non';
 $lang['shortcut_shift_2'] = 'maj. + 2: élements uniquement non lu';
+
+$lang['title_esc'] = 'échap.';
+$lang['title_shift_a'] = 'maj + a';
+$lang['title_g_a'] = 'g puis a';
+$lang['title_g_p'] = 'g puis p';
+$lang['title_g_s'] = 'g puis s';
+$lang['title_g_shift_s'] = 'g puis maj. + s';
+$lang['title_shift_1'] = 'maj. + 1';
+$lang['title_shift_2'] = 'maj. + 2';
+
 $lang['no_more_items'] = 'Pas d\'éléments supplémentaires';
 $lang['active_connections'] = 'Connexions actives';
 $lang['connections'] = 'Connexions';

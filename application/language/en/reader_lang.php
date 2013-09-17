@@ -94,6 +94,16 @@ $lang['shortcut_1'] = '1: collapse all items';
 $lang['shortcut_2'] = '2: expand all items';
 $lang['shortcut_shift_1'] = 'shift + 1: read and unread items';
 $lang['shortcut_shift_2'] = 'shift + 2: only unread items';
+
+$lang['title_esc'] = 'esc';
+$lang['title_shift_a'] = 'shift + a';
+$lang['title_g_a'] = 'g then a';
+$lang['title_g_p'] = 'g then p';
+$lang['title_g_s'] = 'g then s';
+$lang['title_g_shift_s'] = 'g then shift + s';
+$lang['title_shift_1'] = 'shift + 1';
+$lang['title_shift_2'] = 'shift + 2';
+
 $lang['no_more_items'] = 'No additional elements';
 $lang['active_connections'] = 'Active connections';
 $lang['connections'] = 'Connections';
