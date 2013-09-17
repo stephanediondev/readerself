@@ -20,7 +20,7 @@
 	</article>
 	<?php if($folders) { ?>
 		<?php foreach($folders as $folder) { ?>
-		<article class="cell">
+		<article<?php if($folder->flr_direction) { ?> dir="<?php echo $folder->flr_direction; ?>"<?php } ?> class="cell">
 			<ul class="actions">
 				<li><a href="<?php echo base_url(); ?>folders/update/<?php echo $folder->flr_id; ?>"><i class="icon icon-pencil"></i><?php echo $this->lang->line('update'); ?></a></li>
 				<li><a href="<?php echo base_url(); ?>folders/delete/<?php echo $folder->flr_id; ?>"><i class="icon icon-trash"></i><?php echo $this->lang->line('delete'); ?></a></li>

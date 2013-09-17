@@ -582,8 +582,8 @@ $(document).ready(function() {
 		$('aside ul li').removeClass('active');
 
 		$('aside ul').find('.result').remove();
-		if(ref.data('sub_direction') == 'rtl') {
-			content = '<li dir="rtl" class="result active">';
+		if(ref.data('direction')) {
+			content = '<li dir="' + ref.data('direction') + '" class="result active">';
 		} else {
 			content = '<li class="result active">';
 		}
@@ -670,17 +670,12 @@ $(document).ready(function() {
 						$('aside ul').find('.result').remove();
 						for(i in data_return.subscriptions) {
 							sub = data_return.subscriptions[i];
-							if(sub.sub_title) {
-								title = sub.sub_title;
-							} else {
-								title = sub.fed_title;
-							}
-							if(sub.sub_direction == 'rtl') {
-								content = '<li dir="rtl" class="result">';
+							if(sub.direction) {
+								content = '<li dir="' + sub.direction + '" class="result">';
 							} else {
 								content = '<li class="result">';
 							}
-							content += '<a id="load-sub-' + sub.sub_id + '-items" href="' + base_url + 'home/items/subscription/' + sub.sub_id + '"><i class="icon icon-rss"></i>' + title + ' (<span>0</span>)</a></li>';
+							content += '<a id="load-sub-' + sub.sub_id + '-items" href="' + base_url + 'home/items/subscription/' + sub.sub_id + '"><i class="icon icon-rss"></i>' + sub.title + ' (<span>0</span>)</a></li>';
 							result_subscriptions.push(sub.sub_id);
 							$('aside ul').append(content);
 						}

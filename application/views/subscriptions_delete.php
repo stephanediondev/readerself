@@ -11,7 +11,7 @@
 		<h2><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?></h2>
 	</article>
 
-	<article<?php if($sub->sub_direction == 'rtl') { ?> dir="rtl"<?php } ?> class="cell">
+	<article<?php if($sub->direction) { ?> dir="<?php echo $sub->direction; ?>"<?php } ?> class="cell">
 		<ul class="actions">
 			<li><a href="<?php echo base_url(); ?>subscriptions/update/<?php echo $sub->sub_id; ?>"><i class="icon icon-pencil"></i><?php echo $this->lang->line('update'); ?></a></li>
 		</ul>

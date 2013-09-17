@@ -9,13 +9,13 @@
 		<?php if($errors) { ?>
 		<li><h2><i class="icon icon-bell"></i><?php echo $this->lang->line('errors'); ?></h2></li>
 			<?php foreach($errors as $error) { ?>
-			<li<?php if($error->sub_direction == 'rtl') { ?> dir="rtl"<?php } ?>><a href="<?php echo base_url(); ?>subscriptions/read/<?php echo $error->sub_id; ?>"><i class="icon icon-rss"></i><?php echo $error->fed_title; ?></a></li>
+			<li<?php if($error->direction) { ?> dir="<?php echo $error->direction; ?>"<?php } ?>><a href="<?php echo base_url(); ?>subscriptions/read/<?php echo $error->sub_id; ?>"><i class="icon icon-rss"></i><?php echo $error->fed_title; ?></a></li>
 			<?php } ?>
 		<?php } ?>
 		<?php if($last_added) { ?>
 		<li><h2><i class="icon icon-bookmark-empty"></i><?php echo $this->lang->line('last_added'); ?></h2></li>
 			<?php foreach($last_added as $added) { ?>
-			<li<?php if($added->sub_direction == 'rtl') { ?> dir="rtl"<?php } ?>><a href="<?php echo base_url(); ?>subscriptions/read/<?php echo $added->sub_id; ?>"><i class="icon icon-rss"></i><?php echo $added->fed_title; ?></a></li>
+			<li<?php if($added->direction) { ?> dir="<?php echo $added->direction; ?>"<?php } ?>><a href="<?php echo base_url(); ?>subscriptions/read/<?php echo $added->sub_id; ?>"><i class="icon icon-rss"></i><?php echo $added->fed_title; ?></a></li>
 			<?php } ?>
 		<?php } ?>
 	</ul>
@@ -28,7 +28,7 @@
 		<h2><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?></h2>
 	</article>
 
-	<article<?php if($sub->sub_direction == 'rtl') { ?> dir="rtl"<?php } ?> class="cell">
+	<article<?php if($sub->direction) { ?> dir="<?php echo $sub->direction; ?>"<?php } ?> class="cell">
 		<ul class="actions">
 			<li><a href="<?php echo base_url(); ?>subscriptions/update/<?php echo $sub->sub_id; ?>"><i class="icon icon-pencil"></i><?php echo $this->lang->line('update'); ?></a></li>
 			<li><a href="<?php echo base_url(); ?>subscriptions/delete/<?php echo $sub->sub_id; ?>"><i class="icon icon-trash"></i><?php echo $this->lang->line('delete'); ?></a></li>

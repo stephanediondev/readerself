@@ -21,7 +21,7 @@
 
 	<?php if($feeds) { ?>
 		<?php foreach($feeds as $fed) { ?>
-		<article class="cell">
+		<article<?php if($fed->fed_direction) { ?> dir="<?php echo $fed->fed_direction; ?>"<?php } ?> class="cell">
 			<ul class="actions">
 				<li><a href="<?php echo base_url(); ?>explore/add/<?php echo $fed->fed_id; ?>"><i class="icon icon-plus"></i><?php echo $this->lang->line('add'); ?></a></li>
 			</ul>

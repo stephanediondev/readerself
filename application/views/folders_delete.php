@@ -1,6 +1,6 @@
 	<nav>
 		<ul class="actions">
-			<li><a href="<?php echo base_url(); ?>folders/read/<?php echo $folder->flr_id; ?>"><i class="icon icon-step-backward"></i><?php echo $this->lang->line('back'); ?></a></li>
+			<li><a href="<?php echo base_url(); ?>folders/read/<?php echo $flr->flr_id; ?>"><i class="icon icon-step-backward"></i><?php echo $this->lang->line('back'); ?></a></li>
 		</ul>
 	</nav>
 </header>
@@ -11,13 +11,13 @@
 			<h2><i class="icon icon-folder-close"></i><?php echo $this->lang->line('folders'); ?></h2>
 		</article>
 
-		<article class="cell">
+		<article<?php if($flr->flr_direction) { ?> dir="<?php echo $flr->flr_direction; ?>"<?php } ?> class="cell">
 			<ul class="actions">
-				<li><a href="<?php echo base_url(); ?>folders/update/<?php echo $folder->flr_id; ?>"><i class="icon icon-pencil"></i><?php echo $this->lang->line('update'); ?></a></li>
+				<li><a href="<?php echo base_url(); ?>folders/update/<?php echo $flr->flr_id; ?>"><i class="icon icon-pencil"></i><?php echo $this->lang->line('update'); ?></a></li>
 			</ul>
-			<h2><i class="icon icon-folder-close"></i><?php echo $folder->flr_title; ?></h2>
+			<h2><i class="icon icon-folder-close"></i><?php echo $flr->flr_title; ?></h2>
 			<ul class="item-details">
-				<li><i class="icon icon-rss"></i><?php echo $folder->subscriptions; ?> <?php if($folder->subscriptions > 1) { ?><?php echo mb_strtolower($this->lang->line('subscriptions')); ?><?php } else { ?><?php echo mb_strtolower($this->lang->line('subscription')); ?><?php } ?></li>
+				<li><i class="icon icon-rss"></i><?php echo $flr->subscriptions; ?> <?php if($flr->subscriptions > 1) { ?><?php echo mb_strtolower($this->lang->line('subscriptions')); ?><?php } else { ?><?php echo mb_strtolower($this->lang->line('subscription')); ?><?php } ?></li>
 			</ul>
 		</article>
 

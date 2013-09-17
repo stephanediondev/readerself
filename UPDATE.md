@@ -3,6 +3,13 @@
 ##### 2013-09-16
 
 ```sql
+ALTER TABLE `feeds` ADD `fed_direction` CHAR( 3 ) NULL AFTER `fed_description`;
+ALTER TABLE `folders` ADD `flr_direction` CHAR( 3 ) NULL AFTER `flr_title`;
+```
+
+##### 2013-09-16
+
+```sql
 ALTER TABLE `subscriptions` ADD `sub_direction` CHAR( 3 ) NULL AFTER `sub_priority`;
 ```
 

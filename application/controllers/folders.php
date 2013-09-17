@@ -64,11 +64,11 @@ class Folders extends CI_Controller {
 
 			$legend = array();
 			$values = array();
-			$query = $this->db->query('SELECT IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS ref, sub.sub_id AS id, sub.sub_direction AS direction, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = fed.fed_id WHERE hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? AND sub.mbr_id = ? AND sub.flr_id = ? GROUP BY id ORDER BY nb DESC LIMIT 0,30', array(1, $date_ref, $this->member->mbr_id, $this->member->mbr_id, $flr_id));
+			$query = $this->db->query('SELECT IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS ref, sub.sub_id AS id, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = fed.fed_id WHERE hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? AND sub.mbr_id = ? AND sub.flr_id = ? GROUP BY id ORDER BY nb DESC LIMIT 0,30', array(1, $date_ref, $this->member->mbr_id, $this->member->mbr_id, $flr_id));
 			if($query->num_rows() > 0) {
 				foreach($query->result() as $row) {
-					if($row->direction == 'rtl') {
-						$legend[] = '<a dir="rtl" href="'.base_url().'subscriptions/read/'.$row->id.'">'.$row->ref.'</a>';
+					if($row->direction) {
+						$legend[] = '<a dir="'.$row->direction.'" href="'.base_url().'subscriptions/read/'.$row->id.'">'.$row->ref.'</a>';
 					} else {
 						$legend[] = '<a href="'.base_url().'subscriptions/read/'.$row->id.'">'.$row->ref.'</a>';
 					}
@@ -139,8 +139,8 @@ class Folders extends CI_Controller {
 
 		$this->load->library('form_validation');
 		$data = array();
-		$data['folder'] = $this->reader_model->get_flr_row($flr_id);
-		if($data['folder']) {
+		$data['flr'] = $this->reader_model->get_flr_row($flr_id);
+		if($data['flr']) {
 			$this->form_validation->set_rules('flr_title', 'lang:flr_title', 'required|max_length[255]');
 			if($this->form_validation->run() == FALSE) {
 				$content = $this->load->view('folders_update', $data, TRUE);
@@ -165,8 +165,8 @@ class Folders extends CI_Controller {
 
 		$this->load->library('form_validation');
 		$data = array();
-		$data['folder'] = $this->reader_model->get_flr_row($flr_id);
-		if($data['folder']) {
+		$data['flr'] = $this->reader_model->get_flr_row($flr_id);
+		if($data['flr']) {
 			$this->form_validation->set_rules('confirm', 'lang:confirm', 'required');
 			if($this->form_validation->run() == FALSE) {
 				$content = $this->load->view('folders_delete', $data, TRUE);
