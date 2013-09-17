@@ -61,6 +61,7 @@ class Home extends CI_Controller {
 		$clouds = array('tags', 'authors');
 
 		$content = array();
+		$introduction_direction = false;
 		$introduction_title = false;
 		$introduction_actions = false;
 		$introduction_details = false;
@@ -273,6 +274,7 @@ class Home extends CI_Controller {
 				}
 
 				if($is_subscription) {
+					$introduction_direction = $is_subscription->sub_direction;
 					$introduction_title = '<i class="icon icon-rss"></i>'.$is_subscription->fed_title.' (<span id="intro-load-sub-'.$is_subscription->sub_id.'-items">0</span>)';
 					$introduction_actions = '<ul class="actions"><li><a class="priority" href="'.base_url().'subscriptions/priority/'.$is_subscription->sub_id.'"><span class="priority"';
 					if($is_subscription->sub_priority == 0) {
@@ -414,7 +416,11 @@ class Home extends CI_Controller {
 			}
 
 			if($introduction_title) {
-				$content['begin'] = '<article id="introduction" class="neutral title">';
+				if($introduction_direction == 'rtl') {
+					$content['begin'] = '<article id="introduction" class="neutral title rtl">';
+				} else {
+					$content['begin'] = '<article id="introduction" class="neutral title">';
+				}
 				if($introduction_actions) {
 					$content['begin'] .= $introduction_actions;
 				}
