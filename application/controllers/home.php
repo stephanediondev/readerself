@@ -417,7 +417,7 @@ class Home extends CI_Controller {
 
 			if($introduction_title) {
 				if($introduction_direction == 'rtl') {
-					$content['begin'] = '<article id="introduction" class="neutral title rtl">';
+					$content['begin'] = '<article dir="rtl" id="introduction" class="neutral title">';
 				} else {
 					$content['begin'] = '<article id="introduction" class="neutral title">';
 				}

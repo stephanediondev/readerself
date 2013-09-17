@@ -17,13 +17,13 @@
 		<?php if($errors) { ?>
 		<li><h2><i class="icon icon-bell"></i><?php echo $this->lang->line('errors'); ?></h2></li>
 			<?php foreach($errors as $error) { ?>
-			<li<?php if($error->sub_direction == 'rtl') { ?> class="rtl"<?php } ?>><a href="<?php echo base_url(); ?>subscriptions/read/<?php echo $error->sub_id; ?>"><i class="icon icon-rss"></i><?php echo $error->fed_title; ?></a></li>
+			<li<?php if($error->sub_direction == 'rtl') { ?> dir="rtl"<?php } ?>><a href="<?php echo base_url(); ?>subscriptions/read/<?php echo $error->sub_id; ?>"><i class="icon icon-rss"></i><?php echo $error->fed_title; ?></a></li>
 			<?php } ?>
 		<?php } ?>
 		<?php if($last_added) { ?>
 		<li><h2><i class="icon icon-bookmark-empty"></i><?php echo $this->lang->line('last_added'); ?></h2></li>
 			<?php foreach($last_added as $added) { ?>
-			<li<?php if($added->sub_direction == 'rtl') { ?> class="rtl"<?php } ?>><a href="<?php echo base_url(); ?>subscriptions/read/<?php echo $added->sub_id; ?>"><i class="icon icon-rss"></i><?php echo $added->fed_title; ?></a></li>
+			<li<?php if($added->sub_direction == 'rtl') { ?> dir="rtl"<?php } ?>><a href="<?php echo base_url(); ?>subscriptions/read/<?php echo $added->sub_id; ?>"><i class="icon icon-rss"></i><?php echo $added->fed_title; ?></a></li>
 			<?php } ?>
 		<?php } ?>
 	</ul>
@@ -36,7 +36,7 @@
 		</article>
 	<?php if($subscriptions) { ?>
 		<?php foreach($subscriptions as $sub) { ?>
-		<article class="<?php if($sub->sub_direction == 'rtl') { ?>rtl <?php } ?>cell">
+		<article<?php if($sub->sub_direction == 'rtl') { ?> dir="rtl"<?php } ?> class="cell">
 			<ul class="actions">
 				<li><a class="priority" href="<?php echo base_url(); ?>subscriptions/priority/<?php echo $sub->sub_id; ?>"><span class="priority"<?php if($sub->sub_priority == 0) { ?> style="display:none;"<?php } ?>><i class="icon icon-flag"></i><?php echo $this->lang->line('not_priority'); ?></span><span class="not_priority"<?php if($sub->sub_priority == 1) { ?> style="display:none;"<?php } ?>><i class="icon icon-flag-alt"></i><?php echo $this->lang->line('priority'); ?></span></a></li>
 				<li><a href="<?php echo base_url(); ?>subscriptions/update/<?php echo $sub->sub_id; ?>"><i class="icon icon-pencil"></i><?php echo $this->lang->line('update'); ?></a></li>

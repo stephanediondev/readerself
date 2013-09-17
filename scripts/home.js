@@ -324,7 +324,7 @@ function display_expand() {
 $(document).ready(function() {
 	var menu = 'load-all-items';
 	if($.cookie('menu')) {
-		if($('#' + menu).length > 0) {
+		if($('#' + $.cookie('menu')).length > 0) {
 			menu = $.cookie('menu');
 		}
 	}
@@ -395,8 +395,8 @@ $(document).ready(function() {
 					load_items( $('aside ul').find('li.active').find('a').attr('href') );
 				}
 
-			//f
-			} else if(keycode == 70) {
+			//shift + f
+			} else if(event.shiftKey && keycode == 70) {
 				event.preventDefault();
 				if($('body').hasClass('fullscreen')) {
 					$('body').removeClass('fullscreen');
@@ -582,11 +582,12 @@ $(document).ready(function() {
 		$('aside ul li').removeClass('active');
 
 		$('aside ul').find('.result').remove();
-		content = '<li class="result ';
 		if(ref.data('sub_direction') == 'rtl') {
-			content += 'rtl ';
+			content = '<li dir="rtl" class="result active">';
+		} else {
+			content = '<li class="result active">';
 		}
-		content += 'active"><a id="load-sub-' + ref.data('sub_id') + '-items" href="' + base_url + 'home/items/subscription/' + ref.data('sub_id') + '"><i class="icon icon-rss"></i>' + ref.text() + ' (<span>0</span>)</a></li>';
+		content += '<a id="load-sub-' + ref.data('sub_id') + '-items" href="' + base_url + 'home/items/subscription/' + ref.data('sub_id') + '"><i class="icon icon-rss"></i>' + ref.text() + ' (<span>0</span>)</a></li>';
 		result_subscriptions.push(ref.data('sub_id'));
 		$('aside ul').append(content);
 
@@ -674,11 +675,12 @@ $(document).ready(function() {
 							} else {
 								title = sub.fed_title;
 							}
-							content = '<li class="result';
 							if(sub.sub_direction == 'rtl') {
-								content += ' rtl';
+								content = '<li dir="rtl" class="result">';
+							} else {
+								content = '<li class="result">';
 							}
-							content += '"><a id="load-sub-' + sub.sub_id + '-items" href="' + base_url + 'home/items/subscription/' + sub.sub_id + '"><i class="icon icon-rss"></i>' + title + ' (<span>0</span>)</a></li>';
+							content += '<a id="load-sub-' + sub.sub_id + '-items" href="' + base_url + 'home/items/subscription/' + sub.sub_id + '"><i class="icon icon-rss"></i>' + title + ' (<span>0</span>)</a></li>';
 							result_subscriptions.push(sub.sub_id);
 							$('aside ul').append(content);
 						}

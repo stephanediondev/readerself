@@ -1,4 +1,4 @@
-<article class="<?php if($itm->sub->sub_direction == 'rtl') { ?>rtl <?php } ?>item<?php if($itm->history == 'read') { ?> read<?php } ?><?php if($this->input->get('display-items') == 'collapse' || $this->input->cookie('display-items') == 'collapse') { ?> collapse<?php } ?>" id="item_<?php echo $itm->itm_id; ?>">
+<article<?php if($itm->sub->sub_direction == 'rtl') { ?> dir="rtl"<?php } ?> class="item<?php if($itm->history == 'read') { ?> read<?php } ?><?php if($this->input->get('display-items') == 'collapse' || $this->input->cookie('display-items') == 'collapse') { ?> collapse<?php } ?>" id="item_<?php echo $itm->itm_id; ?>">
 	<ul class="actions">
 		<li><a class="history" href="<?php echo base_url(); ?>home/history/toggle/<?php echo $itm->itm_id; ?>"><span class="unread"<?php if($itm->history == 'unread') { ?> style="display:none;"<?php } ?>><i class="icon icon-eye-close"></i><?php echo $this->lang->line('keep_unread'); ?></span><span class="read"<?php if($itm->history == 'read') { ?> style="display:none;"<?php } ?>><i class="icon icon-eye-open"></i><?php echo $this->lang->line('mark_as_read'); ?></span></a></li>
 		<?php if($this->config->item('star')) { ?>
