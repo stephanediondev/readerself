@@ -19,14 +19,22 @@
 	<ul class="item-details">
 		<li><i class="icon icon-calendar"></i><?php echo $itm->explode_date; ?></li>
 		<li><i class="icon icon-time"></i><?php echo $itm->explode_time; ?> (<span class="timeago" title="<?php echo $itm->itm_date; ?>"></span>)</li>
-		<?php if($itm->itm_author) { ?><li class="hide-phone"><a class="author" data-itm_id="<?php echo $itm->itm_id; ?>" href="<?php echo base_url(); ?>home/items/author/<?php echo $itm->itm_id; ?>"><i class="icon icon-user"></i><?php echo $itm->itm_author; ?></a></li><?php } ?>
+		<?php if($itm->itm_author) { ?>
+			<li class="hide-phone"><a class="author" data-itm_id="<?php echo $itm->itm_id; ?>" href="<?php echo base_url(); ?>home/items/author/<?php echo $itm->itm_id; ?>"><i class="icon icon-user"></i><?php echo $itm->itm_author; ?></a></li>
+		<?php } ?>
 		<li><a class="from" data-sub_id="<?php echo $itm->sub->sub_id; ?>" data-direction="<?php echo $itm->sub->direction; ?>" href="<?php echo base_url(); ?>home/items/subscription/<?php echo $itm->sub->sub_id; ?>"><i class="icon icon-rss"></i><?php echo $itm->sub->title; ?></a></li>
-		<?php if($itm->sub->flr_id && $this->config->item('folders')) { ?><li class="hide-phone"><a class="folder" data-flr_id="<?php echo $itm->sub->flr_id; ?>" href="<?php echo base_url(); ?>home/items/folder/<?php echo $itm->sub->flr_id; ?>"><i class="icon icon-folder-close"></i><?php echo $itm->sub->flr_title; ?></a></li><?php } ?>
+		<?php if($this->config->item('folders')) { ?>
+			<?php if($itm->sub->flr_id) { ?>
+				<li class="hide-phone"><a class="folder" href="#load-folder-<?php echo $itm->sub->flr_id; ?>-items"><i class="icon icon-folder-close"></i><?php echo $itm->sub->flr_title; ?></a></li>
+			<?php } else { ?>
+				<li class="hide-phone"><a class="folder" href="#load-nofolder-items"><i class="icon icon-folder-close"></i><em><?php echo $this->lang->line('no_folder'); ?></em></a></li>
+			<?php } ?>
+		<?php } ?>
 		<?php if($this->config->item('tags') && $itm->categories) { ?>
-		<li class="block hide-phone"><i class="icon icon-tags"></i><?php echo implode(', ', $itm->categories); ?></li>
+			<li class="block hide-phone"><i class="icon icon-tags"></i><?php echo implode(', ', $itm->categories); ?></li>
 		<?php } ?>
 		<?php if($itm->foursquare) { ?>
-		<li class="block hide-phone"><a target="_blank" href="https://foursquare.com/venue/<?php echo $itm->foursquare; ?>"><i class="icon icon-foursquare"></i>Foursquare</a></li>
+			<li class="block hide-phone"><a target="_blank" href="https://foursquare.com/venue/<?php echo $itm->foursquare; ?>"><i class="icon icon-foursquare"></i>Foursquare</a></li>
 		<?php } ?>
 	</ul>
 	<div class="item-content hide-collapse">

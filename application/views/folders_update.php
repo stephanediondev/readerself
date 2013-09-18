@@ -33,6 +33,11 @@
 	</p>
 
 	<p>
+	<?php echo form_label($this->lang->line('direction'), 'direction'); ?>
+	<?php echo form_dropdown('direction', array('' => '-', 'ltr' => $this->lang->line('direction_ltr'), 'rtl' => $this->lang->line('direction_rtl')), set_value('direction', $flr->flr_direction), 'id="direction" class="select numeric"'); ?>
+	</p>
+
+	<p>
 	<button type="submit"><?php echo $this->lang->line('send'); ?></button>
 	</p>
 

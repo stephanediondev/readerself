@@ -556,8 +556,8 @@ $(document).ready(function() {
 
 		$('aside ul li').removeClass('active');
 
-		$('#load-folder-' + ref.data('flr_id') + '-items').parent().addClass('active');
-		load_items(ref.attr('href'));
+		$(ref.attr('href')).parent().addClass('active');
+		load_items( $('aside ul').find('li.active').find('a').attr('href') );
 	});
 
 	$('.item a.author, #cloud a.author').live('click', function(event) {

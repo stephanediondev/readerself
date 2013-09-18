@@ -34,12 +34,14 @@ class Folders extends CI_Controller {
 		$data = array();
 		$this->load->library(array('form_validation'));
 		$this->form_validation->set_rules('flr_title', 'lang:flr_title', 'required|max_length[255]');
+		$this->form_validation->set_rules('direction', 'lang:direction', '');
 		if($this->form_validation->run() == FALSE) {
 			$content = $this->load->view('folders_create', $data, TRUE);
 			$this->reader_library->set_content($content);
 		} else {
 			$this->db->set('mbr_id', $this->member->mbr_id);
 			$this->db->set('flr_title', $this->input->post('flr_title'));
+			$this->db->set('flr_direction', $this->input->post('direction'));
 			$this->db->set('flr_datecreated', date('Y-m-d H:i:s'));
 			$this->db->insert('folders');
 			$flr_id = $this->db->insert_id();
@@ -142,11 +144,13 @@ class Folders extends CI_Controller {
 		$data['flr'] = $this->reader_model->get_flr_row($flr_id);
 		if($data['flr']) {
 			$this->form_validation->set_rules('flr_title', 'lang:flr_title', 'required|max_length[255]');
+			$this->form_validation->set_rules('direction', 'lang:direction', '');
 			if($this->form_validation->run() == FALSE) {
 				$content = $this->load->view('folders_update', $data, TRUE);
 				$this->reader_library->set_content($content);
 			} else {
 				$this->db->set('flr_title', $this->input->post('flr_title'));
+				$this->db->set('flr_direction', $this->input->post('direction'));
 				$this->db->where('flr_id', $flr_id);
 				$this->db->update('folders');
 
