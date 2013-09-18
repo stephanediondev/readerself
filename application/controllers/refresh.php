@@ -114,7 +114,7 @@ class Refresh extends CI_Controller {
 					$content['last_crawl'] .= '<li><i class="icon icon-calendar"></i>'.$date.'</li>';
 					$content['last_crawl'] .= '<li><i class="icon icon-time"></i>'.$time.' (<span class="timeago" title="'.$lastcrawl->crr_datecreated.'"></span>)</li>';
 					$content['last_crawl'] .= '<li class="block"><i class="icon icon-rss"></i>'.intval($lastcrawl->crr_count).' '.mb_strtolower($this->lang->line('subscriptions')).'</li>';
-					$content['last_crawl'] .= '<li class="block"><i class="icon icon-bell"></i>'.$errors.' errors</li>';
+					$content['last_crawl'] .= '<li class="block"><i class="icon icon-bell"></i>'.$errors.' error(s)</li>';
 					$content['last_crawl'] .= '<li class="block"><i class="icon icon-rocket"></i>'.intval($lastcrawl->crr_time).' secondes</li>';
 					$content['last_crawl'] .= '<li class="block"><i class="icon icon-leaf"></i>'.number_format($lastcrawl->crr_memory, 0, '.', ' ').' bytes</li>';
 					$content['last_crawl'] .= '</ul>';
