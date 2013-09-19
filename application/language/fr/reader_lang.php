@@ -96,6 +96,10 @@ $lang['shortcut_shift_1'] = 'maj. + 1: éléments lu et non';
 $lang['shortcut_shift_2'] = 'maj. + 2: élements uniquement non lu';
 
 $lang['title_esc'] = 'échap.';
+$lang['title_k'] = 'k ou p ou maj. + espace';
+$lang['title_j'] = 'j ou n ou espace';
+$lang['title_shift_s'] = 'maj. + s';
+$lang['title_o'] = 'o ou entrée';
 $lang['title_shift_a'] = 'maj + a';
 $lang['title_g_a'] = 'g puis a';
 $lang['title_g_p'] = 'g puis p';

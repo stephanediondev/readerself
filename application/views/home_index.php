@@ -12,8 +12,8 @@
 			<li><a href="#" class="display-items" id="display-items"><span class="expand" title="2"><i class="icon icon-collapse"></i><?php echo $this->lang->line('expand'); ?></span><span class="collapse" title="1"><i class="icon icon-collapse-top"></i><?php echo $this->lang->line('collapse'); ?></span></a></li>
 			<?php } ?>
 			<li class="hide-phone"><a href="<?php echo base_url(); ?>home/history/dialog" title="<?php echo $this->lang->line('title_shift_a'); ?>" id="read_all" class="read_all modal_show"><i class="icon icon-ok"></i><?php echo $this->lang->line('mark_all_as_read'); ?>...</a></li>
-			<li><a href="#" class="item-up" id="item-up"><i class="icon icon-chevron-up"></i><?php echo $this->lang->line('up'); ?></a></li>
-			<li><a href="#" class="item-down" id="item-down"><i class="icon icon-chevron-down"></i><?php echo $this->lang->line('down'); ?></a></li>
+			<li><a href="#" class="item-up" id="item-up" title="<?php echo $this->lang->line('title_k'); ?>"><i class="icon icon-chevron-up"></i><?php echo $this->lang->line('up'); ?></a></li>
+			<li><a href="#" class="item-down" id="item-down" title="<?php echo $this->lang->line('title_j'); ?>"><i class="icon icon-chevron-down"></i><?php echo $this->lang->line('down'); ?></a></li>
 		</ul>
 	</nav>
 </header>
