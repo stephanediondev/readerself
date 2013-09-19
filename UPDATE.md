@@ -1,5 +1,11 @@
 #### Update
 
+##### 2013-09-19
+
+```sql
+ALTER TABLE `feeds` ADD `fed_type` ENUM( 'rss', 'atom' ) NULL AFTER `fed_link`;
+```
+
 ##### 2013-09-16
 
 ```sql
