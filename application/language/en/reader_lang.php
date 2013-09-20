@@ -1,4 +1,8 @@
 <?php
+$lang['share_email'] = 'Email';
+$lang['email_subject'] = 'Subject';
+$lang['email_to'] = 'To';
+$lang['email_confirm'] = 'Email sent';
 $lang['add'] = 'Add';
 $lang['all_items'] = 'All items';
 $lang['priority_items'] = 'Priority items';

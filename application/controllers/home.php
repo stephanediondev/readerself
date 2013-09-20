@@ -707,6 +707,76 @@ class Home extends CI_Controller {
 		}
 		$this->reader_library->set_content($content);
 	}
+	public function email($itm_id) {
+		if(!$this->session->userdata('mbr_id')) {
+			redirect(base_url());
+		}
+
+		$data = array();
+
+		$content = array();
+
+		if($this->input->is_ajax_request()) {
+			$query = $this->db->query('SELECT itm.* FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id', array($itm_id));
+			if($query->num_rows() > 0) {
+				$data['itm'] = $query->row();
+
+				$data['itm']->categories = false;
+
+				if($this->config->item('tags')) {
+					$categories = $this->db->query('SELECT cat.* FROM categories AS cat WHERE cat.itm_id = ? GROUP BY cat.cat_id', array($itm_id))->result();
+					if($categories) {
+						$data['itm']->categories = array();
+						foreach($categories as $cat) {
+							if(substr($cat->cat_title, 0, 17) == 'foursquare:venue=') {
+							} else {
+								$data['itm']->categories[] = $cat->cat_title;
+							}
+						}
+					}
+				}
+
+				$this->reader_library->set_template('_json');
+				$this->reader_library->set_content_type('application/json');
+
+				$this->load->library(array('form_validation'));
+
+				$this->form_validation->set_rules('email_subject', 'lang:email_subject', 'required');
+				$this->form_validation->set_rules('email_to', 'lang:email_to', 'required|valid_email');
+
+				if($this->form_validation->run() == FALSE) {
+					$content['modal'] = $this->load->view('home_email', $data, TRUE);
+
+				} else {
+					$to = $this->input->post('email_to');
+					$subject = $this->input->post('email_subject');
+					$message = $data['itm']->itm_link."\n\n";
+					if($this->config->item('tags') && $data['itm']->categories) {
+						$message .= implode(', ', $data['itm']->categories)."\n\n";
+					}
+					$message .= strip_tags($data['itm']->itm_content)."\n\n";
+
+					$this->load->library('email');
+					$this->email->clear();
+
+					$this->email->initialize();
+					$this->email->from($this->config->item('sender_email'), $this->config->item('sender_name'));
+					$this->email->to($to);
+					$this->email->reply_to($this->member->mbr_email);
+					$this->email->subject($subject);
+					$this->email->message($message);
+					$this->email->send();
+
+					$content['modal'] = $this->load->view('home_email_confirm', $data, TRUE);
+				}
+			} else {
+				$this->output->set_status_header(403);
+			}
+		} else {
+			$this->output->set_status_header(403);
+		}
+		$this->reader_library->set_content($content);
+	}
 	public function shortcuts() {
 		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
