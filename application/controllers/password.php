@@ -16,8 +16,9 @@ class Password extends CI_Controller {
 
 		$this->form_validation->set_rules('mbr_email', 'lang:mbr_email', 'required|valid_email|max_length[255]|callback_email');
 
+		$data = array();
+
 		if($this->form_validation->run() == FALSE) {
-			$data = array();
 			$content = $this->load->view('password_index', $data, TRUE);
 			$this->reader_library->set_content($content);
 		} else {
@@ -30,14 +31,16 @@ class Password extends CI_Controller {
 				$this->db->where('mbr_id', $member->mbr_id);
 				$this->db->update('members');
 
+				$data['token_password'] = $token_password;
+
 				$to = $member->mbr_email;
 				$subject = $this->config->item('title').' / '.$this->lang->line('subject_password');
-				$message = base_url().'password/token/'.$token_password;
+				$message = $this->load->view('password_email', $data, TRUE);
 
 				$this->load->library('email');
 				$this->email->clear();
 
-				$this->email->initialize();
+				$this->email->initialize(array('mailtype' => 'html'));
 				$this->email->from($this->config->item('sender_email'), $this->config->item('sender_name'));
 				$this->email->to($to);
 				$this->email->subject($subject);
