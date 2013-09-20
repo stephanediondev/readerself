@@ -716,10 +716,13 @@ class Home extends CI_Controller {
 
 		$content = array();
 
-		if($this->input->is_ajax_request()) {
-			$query = $this->db->query('SELECT itm.* FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id', array($itm_id));
+		if($this->input->is_ajax_request() && $this->config->item('share_by_email')) {
+			$query = $this->db->query('SELECT itm.* FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? ) GROUP BY itm.itm_id', array($itm_id, $this->member->mbr_id));
 			if($query->num_rows() > 0) {
 				$data['itm'] = $query->row();
+
+				$sql = 'SELECT sub.sub_id, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction, flr.flr_id, flr.flr_title, flr.flr_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
+				$data['itm']->sub = $this->db->query($sql, array($data['itm']->fed_id, $this->member->mbr_id))->row();
 
 				$data['itm']->categories = false;
 
@@ -736,6 +739,8 @@ class Home extends CI_Controller {
 					}
 				}
 
+				list($data['itm']->explode_date, $data['itm']->explode_time) = explode(' ', $data['itm']->itm_date);
+
 				$this->reader_library->set_template('_json');
 				$this->reader_library->set_content_type('application/json');
 
@@ -749,20 +754,17 @@ class Home extends CI_Controller {
 
 				} else {
 					$to = $this->input->post('email_to');
+					$reply_to = $this->member->mbr_email;
 					$subject = $this->input->post('email_subject');
-					$message = $data['itm']->itm_link."\n\n";
-					if($this->config->item('tags') && $data['itm']->categories) {
-						$message .= implode(', ', $data['itm']->categories)."\n\n";
-					}
-					$message .= strip_tags($data['itm']->itm_content)."\n\n";
-
+					$message = $this->load->view('share_email', $data, TRUE);
+					//echo $message;exit(0);
 					$this->load->library('email');
 					$this->email->clear();
 
-					$this->email->initialize();
+					$this->email->initialize(array('mailtype' => 'html'));
 					$this->email->from($this->config->item('sender_email'), $this->config->item('sender_name'));
 					$this->email->to($to);
-					$this->email->reply_to($this->member->mbr_email);
+					$this->email->reply_to($reply_to);
 					$this->email->subject($subject);
 					$this->email->message($message);
 					$this->email->send();
