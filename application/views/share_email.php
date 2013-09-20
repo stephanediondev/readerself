@@ -21,7 +21,7 @@
 	</ul>
 </div>
 
-<div style="background-color:#F5F5F5;border:1px solid #E3E3E3;border-radius:3px 3px 3px 3px;color:#333333;font-family:Helvetica,Arial,sans-serif;font-size:14px;margin-bottom:0px;margin-left:10px;margin-right:10px;margin-top:10px;padding:5px 10px;">
+<div style="background-color:#F5F5F5;border:1px solid #E3E3E3;border-radius:3px 3px 3px 3px;color:#333333;font-family:Helvetica,Arial,sans-serif;font-size:14px;margin-bottom:10px;margin-left:10px;margin-right:10px;margin-top:10px;padding:5px 10px;">
 	<?php echo html_entity_decode($itm->itm_content, ENT_QUOTES, 'UTF-8'); ?>
 </div>
 
