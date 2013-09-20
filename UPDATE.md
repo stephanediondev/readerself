@@ -6,7 +6,7 @@
 ALTER TABLE `feeds` ADD `fed_type` ENUM( 'rss', 'atom' ) NULL AFTER `fed_link`;
 ```
 
-##### 2013-09-16
+##### 2013-09-17
 
 ```sql
 ALTER TABLE `feeds` ADD `fed_direction` CHAR( 3 ) NULL AFTER `fed_description`;
