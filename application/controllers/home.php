@@ -717,7 +717,7 @@ class Home extends CI_Controller {
 		$content = array();
 
 		if($this->input->is_ajax_request() && $this->config->item('share_by_email')) {
-			$query = $this->db->query('SELECT itm.* FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? ) GROUP BY itm.itm_id', array($itm_id, $this->member->mbr_id));
+			$query = $this->db->query('SELECT itm.*, DATE_ADD(itm.itm_date, INTERVAL ? HOUR) AS itm_date FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? ) GROUP BY itm.itm_id', array($this->session->userdata('timezone'), $itm_id, $this->member->mbr_id));
 			if($query->num_rows() > 0) {
 				$data['itm'] = $query->row();
 
@@ -757,7 +757,6 @@ class Home extends CI_Controller {
 					$reply_to = $this->member->mbr_email;
 					$subject = $this->input->post('email_subject');
 					$message = $this->load->view('share_email', $data, TRUE);
-					//echo $message;exit(0);
 					$this->load->library('email');
 					$this->email->clear();
 
