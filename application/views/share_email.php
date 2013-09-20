@@ -6,7 +6,7 @@
 </head>
 <body style="background-color:#FFFFFF;">
 <div style="background-color:#FFFFFF;border:1px solid #E3E3E3;border-radius:3px 3px 3px 3px;color:#333333;font-family:Helvetica,Arial,sans-serif;font-size:14px;margin:10px;padding:5px 10px;">
-	<h2 style="font-size:14px;font-weight:bold;margin:5px 0px;"><a style="color:#777777;text-decoration:none;" href="<?php echo $itm->itm_link; ?>"><?php echo $itm->itm_title; ?></a></h2>
+	<h2 style="font-size:14px;font-weight:bold;margin:5px 0px;"><a style="color:#777777;" href="<?php echo $itm->itm_link; ?>"><?php echo $itm->itm_title; ?></a></h2>
 	<ul style="margin:5px 0px;padding:0px 20px;">
 	<li><?php echo $itm->explode_date; ?></li>
 	<li><?php echo $itm->explode_time; ?></li>

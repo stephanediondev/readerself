@@ -35,6 +35,7 @@ example
 * Import starred items from Google Takeout (starred.json)
 * Shared items with public feed (optional)
 * Share and like on Facebook, Google and Twitter (optional)
+* Share by email (optional)
 * Search subscriptions
 * Search items (title only right now)
 * Main keyboard shortcuts from Google Reader
