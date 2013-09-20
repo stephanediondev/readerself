@@ -81,7 +81,7 @@ header nav:first-child ul:first-child a:link, nav:first-child ul:first-child a:v
 header nav ul li:last-child{margin-right:0px;}
 
 button{background-color:#9EA64B;cursor:pointer;margin-top:10px;}
-aside ul li{margin:5px 0px 10px 0px;}
+aside ul li{margin:5px 0px 5px 0px;}
 aside ul li.active{font-weight:bold;}
 aside ul li a:link, aside ul li a:visited{display:block;padding:5px 0px;text-decoration:none;}
 aside ul li label{display:block;padding:0px 0px 0px 0px;text-decoration:none;}
