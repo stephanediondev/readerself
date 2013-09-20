@@ -20,6 +20,11 @@
 	</p>
 
 	<p>
+	<?php echo form_label($this->lang->line('email_message')); ?>
+	<?php echo form_textarea('email_message', set_value('email_message', ''), 'id="email_message"'); ?>
+	</p>
+
+	<p>
 	<button type="submit"><?php echo $this->lang->line('send'); ?></button>
 	</p>
 	<?php echo form_close(); ?>

@@ -2,6 +2,7 @@
 $lang['share_email'] = 'Email';
 $lang['email_subject'] = 'Subject';
 $lang['email_to'] = 'To';
+$lang['email_message'] = 'Message';
 $lang['email_confirm'] = 'Email sent';
 $lang['add'] = 'Add';
 $lang['all_items'] = 'All items';
