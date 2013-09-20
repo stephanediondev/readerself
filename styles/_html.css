@@ -63,9 +63,9 @@ strong{font-weight:bold;}
 del{text-decoration:line-through;}
 ins{font-style:italic;font-weight:bold;}
 pre{border:1px dashed #000000;padding:5px;}
-label,.label{cursor:text;display:block;padding-bottom:2px;padding-top:5px;position:relative;}
-input{border: 1px solid #777777;padding:5px;}
-input[type=text], input[type=password]{width:200px;}
+label, .label{cursor:text;display:block;padding-bottom:2px;padding-top:5px;position:relative;}
+input, textarea{border: 1px solid #777777;padding:5px;}
+textarea, input[type=text], input[type=password]{width:200px;}
 aside input[type=text], aside input[type=password]{width:170px;}
 .actions{font-size:12px;margin-bottom:5px;}
 .actions li{display:inline-block;margin:5px 5px 5px 0px;white-space:nowrap;}
@@ -90,6 +90,7 @@ aside ul li label{display:block;padding:0px 0px 0px 0px;text-decoration:none;}
 #modal-display{padding:10px;}
 #modal .actions{text-align:right;}
 #modal h1{margin:0px 0px 15px 0px;}
+#modal textarea{height:100px;resize:none;}
 #overlay{background-color:#000000;opacity:0.7;z-index:10000;}
 .icon{line-height:inherit !important;margin-right:3px;vertical-align:top;}
 .show-phone{display:none !important;}
