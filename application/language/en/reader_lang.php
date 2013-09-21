@@ -1,4 +1,5 @@
 <?php
+$lang['fullscreen'] = 'Fullscreen';
 $lang['share_email'] = 'Email';
 $lang['email_subject'] = 'Subject';
 $lang['email_to'] = 'To';
@@ -81,7 +82,7 @@ $lang['shortcut_esc'] = 'esc: close modal window';
 $lang['shortcut_help'] = 'h or ? : open this modal window';
 $lang['shortcut_r'] = 'r: reload';
 $lang['shortcut_slash'] = '/ : focus search box';
-$lang['shortcut_shift_f'] = 'shift + f: full screen';
+$lang['shortcut_shift_f'] = 'shift + f: fullscreen';
 $lang['shortcut_a'] = 'a: add a subscription';
 $lang['shortcut_k'] = 'k or p or shift + space: up / previous item';
 $lang['shortcut_j'] = 'j or n or space: down / next item';
@@ -102,6 +103,7 @@ $lang['shortcut_shift_2'] = 'shift + 2: only unread items';
 
 $lang['title_esc'] = 'esc';
 $lang['title_help'] = 'h or ?';
+$lang['title_shift_f'] = 'shift + f';
 $lang['title_k'] = 'k or p or shift + space';
 $lang['title_j'] = 'j or n or space';
 $lang['title_shift_s'] = 'shift + s';

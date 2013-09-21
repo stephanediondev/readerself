@@ -1,4 +1,5 @@
 <?php
+$lang['fullscreen'] = 'plein écran';
 $lang['share_email'] = 'Email';
 $lang['email_subject'] = 'Sujet';
 $lang['email_to'] = 'Destinataire';
@@ -102,6 +103,7 @@ $lang['shortcut_shift_2'] = 'maj. + 2: élements uniquement non lu';
 
 $lang['title_esc'] = 'échap.';
 $lang['title_help'] = 'h ou ?';
+$lang['title_shift_f'] = 'maj. + f';
 $lang['title_k'] = 'k ou p ou maj. + espace';
 $lang['title_j'] = 'j ou n ou espace';
 $lang['title_shift_s'] = 'maj. + s';

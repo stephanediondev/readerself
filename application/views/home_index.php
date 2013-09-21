@@ -1,5 +1,6 @@
 	<nav>
 		<ul class="actions">
+			<li class="hide-phone"><a href="#" title="<?php echo $this->lang->line('title_shift_f'); ?>" class="fullscreen"><i class="icon icon-resize-full"></i><?php echo $this->lang->line('fullscreen'); ?></a></li>
 			<li><a href="#" title="r" class="items_refresh" id="items_refresh"><i class="icon icon-refresh"></i><?php echo $this->lang->line('refresh'); ?></a></li>
 			<?php if($this->input->cookie('items_mode') == 'read_and_unread') { ?>
 				<li class="hide-phone"><a href="#" id="items_mode" class="items_mode"><span class="unread_only" title="<?php echo $this->lang->line('title_shift_2'); ?>" style="display:inline-block;"><i class="icon icon-eye-close"></i><?php echo $this->lang->line('unread_only'); ?></span><span class="read_and_unread" title="<?php echo $this->lang->line('title_shift_1'); ?>" style="display:none;"><i class="icon icon-eye-open"></i><?php echo $this->lang->line('read_and_unread'); ?></span></a></li>
@@ -17,6 +18,11 @@
 		</ul>
 	</nav>
 </header>
+<div id="fullscreen_back">
+	<ul class="actions">
+		<li class="hide-phone"><a href="#" title="<?php echo $this->lang->line('title_shift_f'); ?>" class="fullscreen"><i class="icon icon-resize-small"></i><?php echo $this->lang->line('fullscreen'); ?></a></li>
+	</ul>
+</div>
 <aside>
 	<ul>
 		<li><a id="load-all-items" href="<?php echo base_url(); ?>items/get/all" title="<?php echo $this->lang->line('title_g_a'); ?>"><i class="icon icon-asterisk"></i><?php echo $this->lang->line('all_items'); ?> (<span>0</span>)</a></li>

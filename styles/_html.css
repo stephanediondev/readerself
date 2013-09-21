@@ -165,9 +165,12 @@ main section article[dir=rtl] .item-footer .actions li:last-child{margin-left:0p
 .data_table table td.result{text-align:center;}
 .data_table tr:hover td{background-color:#E7E7E7;}
 
-.fullscreen header, .fullscreen aside{display:none;}
-.fullscreen main > section{margin:10px 0px 0px 10px;}
-.fullscreen .item, .fullscreen .neutral, .fullscreen .cell{max-width:none;}
+#fullscreen_back{display:none;}
+#fullscreen_back{margin:10px 10px;}
+.fullscreen_body #fullscreen_back{display:block;}
+.fullscreen_body header, .fullscreen_body aside{display:none;}
+.fullscreen_body main > section{margin:10px 0px 0px 10px;}
+.fullscreen_body .item, .fullscreen_body .neutral, .fullscreen_body .cell{max-width:none;}
 
 @media(max-width:1000px){
 header nav{margin:5px 0px 0px 10px;}
