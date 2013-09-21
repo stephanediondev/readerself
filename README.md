@@ -49,6 +49,7 @@ example
 * Swipe on the right to expand / collapse an item
 * Swipe on the left to show / hide sidebar
 * Custom text direction by subscription (ltr / rtl)
+* Fullscreen mode
 
 ### Third party
 
