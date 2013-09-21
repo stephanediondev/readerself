@@ -18,7 +18,7 @@
 </div>
 
 <div<?php if($itm->sub->direction) { ?> dir="<?php echo $itm->sub->direction; ?>"<?php } ?> style="background-color:#F5F5F5;border:1px solid #E3E3E3;border-radius:3px 3px 3px 3px;color:#333333;font-family:Helvetica,Arial,sans-serif;font-size:14px;margin-bottom:10px;margin-left:10px;margin-right:10px;margin-top:10px;overflow:hidden;padding:10px 10px;-webkit-text-size-adjust:none;">
-	<?php echo html_entity_decode(str_replace('<img ', '<img style="max-width:100%;" ', $itm->itm_content), ENT_QUOTES, 'UTF-8'); ?>
+	<?php echo html_entity_decode(str_replace(array('<img ', '<a '), array('<img style="max-width:100%;" ', '<a style="color:#777777;" '), $itm->itm_content), ENT_QUOTES, 'UTF-8'); ?>
 </div>
 
 </body>
