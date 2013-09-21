@@ -65,7 +65,7 @@ function load_items(url) {
 				if(data_return.result_type == 'items') {
 					for(i in data_return.items) {
 						itm = data_return.items[i];
-						add_swipe('#item_' + itm.itm_id);
+						item_swipe('#item_' + itm.itm_id);
 					}
 					$('.timeago').timeago();
 				}
@@ -114,7 +114,7 @@ function add_items(url) {
 					$('main section section').append(content);
 					for(i in data_return.items) {
 						itm = data_return.items[i];
-						add_swipe('#item_' + itm.itm_id);
+						item_swipe('#item_' + itm.itm_id);
 					}
 					$('.timeago').timeago();
 					lock_add_items = false;
@@ -127,7 +127,7 @@ function add_items(url) {
 		});
 	}
 }
-function add_swipe(selector) {
+function item_swipe(selector) {
 	$(selector).swipe('destroy');
 	$(selector).swipe({
 		swipeRight:function(event, direction, distance, duration, fingerCount) {
@@ -304,6 +304,14 @@ function item_expand(ref) {
 		url: ref.attr('href')
 	});
 }
+function item_collapse(ref) {
+	ref.find('.item-content').hide();
+	ref.find('.item-content').html('');
+	ref.find('.collapse').parent().hide();
+	ref.find('.expand').parent().show();
+	ref.addClass('collapse');
+	location.hash = '#' + ref.attr('id');
+}
 function items_collapse() {
 	var ref = $('.display-items');
 	ref.find('.collapse').hide();
@@ -463,12 +471,7 @@ $(document).ready(function() {
 					if(ref.hasClass('collapse')) {
 						item_expand(ref.find('.expand'));
 					} else {
-						ref.find('.item-content').hide();
-						ref.find('.item-content').html('');
-						ref.find('.collapse').parent().hide();
-						ref.find('.expand').parent().show();
-						ref.addClass('collapse');
-						location.hash = '#' + ref.attr('id');
+						item_collapse(ref);
 					}
 				}
 
@@ -712,12 +715,7 @@ $(document).ready(function() {
 	$('.item .collapse').live('click', function(event) {
 		event.preventDefault();
 		var href = $(this).attr('href');
-		$(href).find('.item-content').hide();
-		$(href).find('.item-content').html('');
-		$(href).find('.collapse').parent().hide();
-		$(href).find('.expand').parent().show();
-		$(href).addClass('collapse');
-		location.hash = href;
+		item_collapse($(href));
 	});
 
 	$('.link-item-share').live('click', function(event) {
