@@ -131,8 +131,8 @@ main section .item .item-footer .actions{float:none;margin-bottom:10px;text-alig
 .item-details li.block{display:block;margin-top:4px;}
 .item-details li a:link, .item-details li a:visited{text-decoration:none;}
 .item table td{background-color:transparent!important;border:none;}
-.mode-items .unread_only{display:none;}
-.display-items .expand{display:none;}
+.items_mode .unread_only{display:none;}
+.items_display .expand{display:none;}
 .item.collapse .hide-collapse{display:none;}
 .item.collapse .item-details{margin-bottom:5px;}
 

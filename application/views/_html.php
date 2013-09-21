@@ -38,7 +38,7 @@
 		</ul>
 		<ul class="actions">
 			<?php if($this->session->userdata('mbr_id')) { ?>
-				<?php if($this->router->class == 'home') { ?><li class="show-phone"><a href="#" class="mode-items"><span class="unread_only"><i class="icon icon-eye-close"></i><?php echo $this->lang->line('unread_only'); ?></span><span class="read_and_unread"><i class="icon icon-eye-open"></i><?php echo $this->lang->line('read_and_unread'); ?></span></a></li><?php } ?>
+				<?php if($this->router->class == 'home') { ?><li class="show-phone"><a href="#" class="items_mode"><span class="unread_only"><i class="icon icon-eye-close"></i><?php echo $this->lang->line('unread_only'); ?></span><span class="read_and_unread"><i class="icon icon-eye-open"></i><?php echo $this->lang->line('read_and_unread'); ?></span></a></li><?php } ?>
 			<?php } ?>
 		</ul>
 	</nav>

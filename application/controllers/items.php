@@ -59,21 +59,21 @@ class Items extends CI_Controller {
 			$this->session->set_userdata('items-id', $id);
 
 			$content['nav'] = array();
-			$content['nav']['refresh-items'] = true;
-			$content['nav']['mode-items'] = true;
-			$content['nav']['display-items'] = true;
-			$content['nav']['read_all'] = true;
-			$content['nav']['item-up'] = true;
-			$content['nav']['item-down'] = true;
+			$content['nav']['items_refresh'] = true;
+			$content['nav']['items_mode'] = true;
+			$content['nav']['items_display'] = true;
+			$content['nav']['items_read'] = true;
+			$content['nav']['item_up'] = true;
+			$content['nav']['item_down'] = true;
 
 			if($mode == 'cloud' && in_array($id, $clouds)) {
 				$content['result_type'] = 'cloud';
 
-				$content['nav']['mode-items'] = false;
-				$content['nav']['display-items'] = false;
-				$content['nav']['read_all'] = false;
-				$content['nav']['item-up'] = false;
-				$content['nav']['item-down'] = false;
+				$content['nav']['items_mode'] = false;
+				$content['nav']['items_display'] = false;
+				$content['nav']['items_read'] = false;
+				$content['nav']['item_up'] = false;
+				$content['nav']['item_down'] = false;
 
 				$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
 
@@ -168,8 +168,8 @@ class Items extends CI_Controller {
 					$where[] = 'itm.itm_id IN ( SELECT fav.itm_id FROM favorites AS fav WHERE fav.itm_id = itm.itm_id AND fav.mbr_id = ? )';
 					$bindings[] = $this->member->mbr_id;
 
-					$content['nav']['mode-items'] = false;
-					$content['nav']['read_all'] = false;
+					$content['nav']['items_mode'] = false;
+					$content['nav']['items_read'] = false;
 
 				} else if($mode == 'shared') {
 					if(!$this->member->token_share) {
@@ -184,8 +184,8 @@ class Items extends CI_Controller {
 					$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM share AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
 					$bindings[] = $this->member->mbr_id;
 
-					$content['nav']['mode-items'] = false;
-					$content['nav']['read_all'] = false;
+					$content['nav']['items_mode'] = false;
+					$content['nav']['items_read'] = false;
 
 				} else {
 					if($mode == 'search') {
@@ -209,11 +209,11 @@ class Items extends CI_Controller {
 							}
 						}
 						$where[] = '('.implode(' OR ', $word_or).')';
-						$content['nav']['refresh-items'] = false;
-						$content['nav']['mode-items'] = false;
-						$content['nav']['read_all'] = false;
+						$content['nav']['items_refresh'] = false;
+						$content['nav']['items_mode'] = false;
+						$content['nav']['items_read'] = false;
 
-					} else if($this->input->get('mode-items') == 'unread_only') {
+					} else if($this->input->get('items_mode') == 'unread_only') {
 						$where[] = 'itm.itm_id NOT IN ( SELECT hst.itm_id FROM history AS hst WHERE hst.itm_id = itm.itm_id AND hst.mbr_id = ? )';
 						$bindings[] = $this->member->mbr_id;
 					}
@@ -288,7 +288,7 @@ class Items extends CI_Controller {
 				} else {
 					if($mode == 'search') {
 						$sql .= ' LIMIT '.intval($this->input->post('pagination')).',10';
-					} else if($this->input->get('mode-items') == 'unread_only') {
+					} else if($this->input->get('items_mode') == 'unread_only') {
 						$sql .= ' LIMIT 0,10';
 					} else {
 						$sql .= ' LIMIT '.intval($this->input->post('pagination')).',10';

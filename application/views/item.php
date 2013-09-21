@@ -1,4 +1,4 @@
-<article<?php if($itm->sub->direction) { ?> dir="<?php echo $itm->sub->direction; ?>"<?php } ?> class="item<?php if($itm->history == 'read') { ?> read<?php } ?><?php if($this->input->get('display-items') == 'collapse' || $this->input->cookie('display-items') == 'collapse') { ?> collapse<?php } ?>" id="item_<?php echo $itm->itm_id; ?>">
+<article<?php if($itm->sub->direction) { ?> dir="<?php echo $itm->sub->direction; ?>"<?php } ?> class="item<?php if($itm->history == 'read') { ?> read<?php } ?><?php if($this->input->get('items_display') == 'collapse' || $this->input->cookie('items_display') == 'collapse') { ?> collapse<?php } ?>" id="item_<?php echo $itm->itm_id; ?>">
 	<ul class="actions">
 		<li><a class="history" href="<?php echo base_url(); ?>item/read/<?php echo $itm->itm_id; ?>" title="m"><span class="unread"<?php if($itm->history == 'unread') { ?> style="display:none;"<?php } ?>><i class="icon icon-eye-close"></i><?php echo $this->lang->line('keep_unread'); ?></span><span class="read"<?php if($itm->history == 'read') { ?> style="display:none;"<?php } ?>><i class="icon icon-eye-open"></i><?php echo $this->lang->line('mark_as_read'); ?></span></a></li>
 		<?php if($this->config->item('star')) { ?>
@@ -7,10 +7,10 @@
 		<?php if($this->config->item('share')) { ?>
 			<li class="hide-collapse"><a class="share" href="<?php echo base_url(); ?>item/share/<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_shift_s'); ?>"><span class="unshare"<?php if($itm->share == 0) { ?> style="display:none;"<?php } ?>><i class="icon icon-heart"></i><?php echo $this->lang->line('unshare'); ?></span><span class="share"<?php if($itm->share == 1) { ?> style="display:none;"<?php } ?>><i class="icon icon-heart-empty"></i><?php echo $this->lang->line('share'); ?></span></a></li>
 		<?php } ?>
-		<?php if($this->input->get('display-items') == 'collapse' || $this->input->cookie('display-items') == 'collapse') { ?>
+		<?php if($this->input->get('items_display') == 'collapse' || $this->input->cookie('items_display') == 'collapse') { ?>
 			<li><a class="expand" href="<?php echo base_url(); ?>item/expand/<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_o'); ?>"><i class="icon icon-collapse"></i><?php echo $this->lang->line('expand'); ?></a></li>
 			<li style="display:none;"><a class="collapse" href="#item_<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_o'); ?>"><i class="icon icon-collapse-top"></i><?php echo $this->lang->line('collapse'); ?></a></li>
-		<?php } else if($this->input->get('display-items') == 'expand') { ?>
+		<?php } else if($this->input->get('items_display') == 'expand') { ?>
 			<li style="display:none;"><a class="expand" href="<?php echo base_url(); ?>item/expand/<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_o'); ?>"><i class="icon icon-collapse"></i><?php echo $this->lang->line('expand'); ?></a></li>
 			<li><a class="collapse" href="#item_<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_o'); ?>"><i class="icon icon-collapse-top"></i><?php echo $this->lang->line('collapse'); ?></a></li>
 		<?php } ?>
@@ -38,8 +38,8 @@
 		<?php } ?>
 	</ul>
 	<div class="item-content hide-collapse">
-		<?php if($this->input->get('display-items') == 'collapse' || $this->input->cookie('display-items') == 'collapse') { ?>
-		<?php } else if($this->input->get('display-items') == 'expand') { ?>
+		<?php if($this->input->get('items_display') == 'collapse' || $this->input->cookie('items_display') == 'collapse') { ?>
+		<?php } else if($this->input->get('items_display') == 'expand') { ?>
 			<?php echo $this->load->view('item_expand', array('itm', $itm), TRUE); ?>
 		<?php } ?>
 	</div>
