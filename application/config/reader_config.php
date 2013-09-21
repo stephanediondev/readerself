@@ -3,6 +3,7 @@
 $config['folders'] = TRUE;
 $config['menu_geolocation_items'] = TRUE;
 $config['menu_audio_items'] = TRUE;
+$config['readability_parser_key'] = '';
 $config['register_multi'] = FALSE;
 $config['salt_password'] = '';
 $config['sender_email'] = 'mailer@readerself.com';

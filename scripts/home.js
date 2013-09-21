@@ -729,6 +729,31 @@ $(document).ready(function() {
 		$(ref).find('.item-share').removeClass('hide');
 	});
 
+	$('.link-item-readability').live('click', function(event) {
+		event.preventDefault();
+		var ref = $(this);
+		var params = [];
+		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
+		$.ajax({
+			async: true,
+			cache: true,
+			data: params,
+			dataType: 'json',
+			statusCode: {
+				200: function(data_return, textStatus, jqXHR) {
+					if(data_return.readability) {
+						if(data_return.readability.content) {
+							$('#item_' + data_return.itm_id).find('.item-content-result').html(data_return.readability.content);
+							location.hash = '#item_' + data_return.itm_id;
+						}
+					}
+				}
+			},
+			type: 'POST',
+			url: ref.attr('href')
+		});
+	});
+
 	$('.link-item-like').live('click', function(event) {
 		event.preventDefault();
 		var ref = $(this).attr('href');

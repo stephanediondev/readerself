@@ -44,9 +44,12 @@
 		<?php } ?>
 	</div>
 	<div class="item-footer hide-collapse">
-		<?php if($this->config->item('social')) { ?>
 		<ul class="actions">
-			<li><a class="link-item-like" href="#item-like-<?php echo $itm->itm_id; ?>" data-url="<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-thumbs-up-alt "></i><?php echo $this->lang->line('like'); ?></a></li>
+		<?php if($this->config->item('readability_parser_key')) { ?>
+			<li class="hide-phone"><a class="link-item-readability" href="<?php echo base_url(); ?>item/readability/<?php echo $itm->itm_id; ?>"><i class="icon icon-file-text"></i><?php echo $this->lang->line('readability'); ?></a></li>
+		<?php } ?>
+		<?php if($this->config->item('social')) { ?>
+			<li><a class="link-item-like" href="#item-like-<?php echo $itm->itm_id; ?>" data-url="<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-thumbs-up-alt"></i><?php echo $this->lang->line('like'); ?></a></li>
 			<li><a class="link-item-share" href="#item_<?php echo $itm->itm_id; ?>"><i class="icon icon-share"></i><?php echo $this->lang->line('share'); ?></a></li>
 			<?php if($this->config->item('share_by_email')) { ?>
 				<li class="hide item-share"><a class="modal_show" href="<?php echo base_url(); ?>item/email/<?php echo $itm->itm_id; ?>"><i class="icon icon-envelope"></i><?php echo $this->lang->line('share_email'); ?></a></li>
@@ -54,9 +57,11 @@
 			<li class="hide item-share"><a target="_blank" href="https://www.facebook.com/sharer.php?u=<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-facebook-sign"></i>Facebook</a></li>
 			<li class="hide item-share"><a target="_blank" href="https://plus.google.com/share?url=<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-google-plus-sign"></i>Google</a></li>
 			<li class="hide item-share"><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text=<?php echo urlencode($itm->itm_title.' '.$itm->itm_link); ?>"><i class="icon icon-twitter-sign"></i>Twitter</a></li> 
+		<?php } ?>
 		</ul>
-		<div class="item-like" id="item-like-<?php echo $itm->itm_id; ?>">
-		</div>
+		<?php if($this->config->item('social')) { ?>
+			<div class="item-like" id="item-like-<?php echo $itm->itm_id; ?>">
+			</div>
 		<?php } ?>
 	</div>
 </article>

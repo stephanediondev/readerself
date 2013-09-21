@@ -202,4 +202,29 @@ class Item extends CI_Controller {
 		}
 		$this->reader_library->set_content($content);
 	}
+	public function readability($itm_id) {
+		if(!$this->session->userdata('mbr_id')) {
+			redirect(base_url());
+		}
+
+		$content = array();
+
+		if($this->input->is_ajax_request()) {
+			$this->reader_library->set_template('_json');
+			$this->reader_library->set_content_type('application/json');
+
+			$query = $this->db->query('SELECT * FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )GROUP BY itm.itm_id', array($itm_id, $this->member->mbr_id));
+			if($query->num_rows() > 0) {
+				$itm = $query->row();
+
+				$content['itm_id'] = $itm->itm_id;
+
+				$json = file_get_contents('https://www.readability.com/api/content/v1/parser?url='.$itm->itm_link.'&token='.$this->config->item('readability_parser_key'));
+				$content['readability'] = json_decode($json);
+			}
+		} else {
+			$this->output->set_status_header(403);
+		}
+		$this->reader_library->set_content($content);
+	}
 }

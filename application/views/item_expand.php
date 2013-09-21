@@ -1,4 +1,6 @@
-<?php echo $itm->itm_content; ?>
+<div class="item-content-result">
+	<?php echo $itm->itm_content; ?>
+</div>
 <?php if($itm->itm_latitude && $itm->itm_longitude) { ?>
 	<div class="item-geolocation">
 		<p><a target="_blank" href="http://maps.google.com/maps?q=<?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?>&oe=UTF-8&ie=UTF-8"><i class="icon icon-map-marker"></i><?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?></a></p>
