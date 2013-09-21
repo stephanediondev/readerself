@@ -1,6 +1,5 @@
 * [Install](/INSTALL.md)
 * [Update](/UPDATE.md)
-* [Comparison](/COMPARISON.md)
 
 ![Screenshot](medias/screenshot.png)
 ![Database](medias/database.png)
