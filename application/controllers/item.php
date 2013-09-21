@@ -219,7 +219,7 @@ class Item extends CI_Controller {
 
 				$content['itm_id'] = $itm->itm_id;
 
-				$json = file_get_contents('https://www.readability.com/api/content/v1/parser?url='.$itm->itm_link.'&token='.$this->config->item('readability_parser_key'));
+				$json = file_get_contents('https://www.readability.com/api/content/v1/parser?url='.urlencode($itm->itm_link).'&token='.$this->config->item('readability_parser_key'));
 				$content['readability'] = json_decode($json);
 			}
 		} else {
