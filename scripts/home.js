@@ -548,7 +548,7 @@ $(document).ready(function() {
 		$.cookie('menu', ref.attr('id'), { expires: 30, path: '/' });
 		load_items(ref.attr('href'));
 		if($('aside').css('position') == 'absolute') {
-			$('aside').hide();
+			toggle_sidebar();
 		}
 	});
 
