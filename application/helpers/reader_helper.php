@@ -57,18 +57,29 @@ if( ! function_exists('generate_string')) {
 }
 
 if( ! function_exists('build_table_progression')) {
-	function build_table_progression($title, $data, $legend, $suffix_data = FALSE, $total = TRUE) {
+	function build_table_progression($title, $data, $legend) {
 		$data = array_reverse($data);
 		$legend = array_reverse($legend);
 
 		$content = '<div class="data_table">';
 		$content .= '<h3>'.$title.'</h3>';
 
+		if(count($data) > 0) {
+			$total = max(array_values($data));
+		} else {
+			$total = 0;
+		}
+
 		$total_resume = 0;
 		$lines = array();
 		$prev = FALSE;
 		foreach($legend as $k => $v) {
 			$total_resume += $data[$k];
+			if($total > 0) {
+				$percent = ($data[$k] * 100) / $total;
+			} else {
+				$percent = 0;
+			}
 			if($prev) {
 				$progression = round($data[$k] - $prev, 1);
 			} else {
@@ -76,7 +87,7 @@ if( ! function_exists('build_table_progression')) {
 			}
 			$prev = $data[$k];
 
-			$lines[] = array($legend[$k], $data[$k], $progression);
+			$lines[] = array($legend[$k], $data[$k], $progression, round($percent, 1));
 		}
 		$lines = array_reverse($lines);
 
@@ -84,56 +95,25 @@ if( ! function_exists('build_table_progression')) {
 		foreach($lines as $line) {
 			$content .= '<tr>';
 			$content .= '<td>'.$line[0].'</td>';
-			if($suffix_data) {
-				$content .= '<td class="result">'.$line[1].$suffix_data.'</td>';
-			} else {
-				$content .= '<td class="result">'.$line[1].'</td>';
-			}
+			$content .= '<td class="result">'.$line[1].'</td>';
 			if(is_null($line[2])) {
 				$content .= '<td>&nbsp;</td>';
-				$content .= '<td style="width:100px;">&nbsp;</td>';
 			} else if($line[2] == 0) {
 				$content .= '<td class="result">=</td>';
-				$content .= '<td style="width:100px;"><span class="color color_5gray">&nbsp;</span></td>';
 			} else if($line[2] > 0) {
 				$content .= '<td class="result">+'.$line[2].'</td>';
-				$content .= '<td style="width:100px;"><span class="color color_2green">&nbsp;</span></td>';
 			} else if($line[2] < 0) {
 				$content .= '<td class="result">'.$line[2].'</td>';
-				$content .= '<td style="width:100px;"><span class="color color_1red">&nbsp;</span></td>';
 			}
+			$content .= '<td style="width:100px;"><span class="color color_percent" style="width:'.$line[3].'%;">&nbsp;</span></td>';
 			$content .= '</tr>';
 		}
 		$total_lines = count($lines);
-		/*if($total_lines < 24) {
-			$reste = 24 - $total_lines;
-			if($reste > 0) {
-				for($i=0;$i<$reste;$i++) {
-					$content .= '<tr>';
-					$content .= '<td>&nbsp;</td>';
-					$content .= '<td>&nbsp;</td>';
-					$content .= '<td>&nbsp;</td>';
-					$content .= '<td>&nbsp;</td>';
-					$content .= '</tr>';
-				}
-			}
-		}*/
 		$content .= '<tr>';
-		if($total) {
-			$content .= '<td>Total on '.$total_lines.'</td>';
-			if($suffix_data) {
-				$content .= '<td class="result"><strong>'.$total_resume.$suffix_data.'</strong></td>';
-			} else {
-				$content .= '<td class="result"><strong>'.$total_resume.'</strong></td>';
-			}
-			$content .= '<td>&nbsp;</td>';
-			$content .= '<td>&nbsp;</td>';
-		} else {
-			$content .= '<td>&nbsp;</td>';
-			$content .= '<td>&nbsp;</td>';
-			$content .= '<td>&nbsp;</td>';
-			$content .= '<td>&nbsp;</td>';
-		}
+		$content .= '<td>Total on '.$total_lines.'</td>';
+		$content .= '<td class="result"><strong>'.$total_resume.'</strong></td>';
+		$content .= '<td>&nbsp;</td>';
+		$content .= '<td>&nbsp;</td>';
 		$content .= '</tr>';
 		$content .= '</table>';
 		$content .= '</div>';
@@ -143,7 +123,7 @@ if( ! function_exists('build_table_progression')) {
 }
 
 if( ! function_exists('build_table_repartition')) {
-	function build_table_repartition($title, $data, $legend, $suffix_data = FALSE) {
+	function build_table_repartition($title, $data, $legend) {
 		$content = '<div class="data_table">';
 		$content .= '<h3>'.$title.'</h3>';
 
@@ -168,36 +148,15 @@ if( ! function_exists('build_table_repartition')) {
 		foreach($lines as $line) {
 			$content .= '<tr>';
 			$content .= '<td>'.$line[0].'</td>';
-			if($suffix_data) {
-				$content .= '<td class="result">'.$line[1].$suffix_data.'</td>';
-			} else {
-				$content .= '<td class="result">'.$line[1].'</td>';
-			}
+			$content .= '<td class="result">'.$line[1].'</td>';
 			$content .= '<td class="result">'.$line[2].'%</td>';
 			$content .= '<td style="width:100px;"><span class="color color_percent" style="width:'.$line[2].'%;">&nbsp;</span></td>';
 			$content .= '</tr>';
 		}
 		$total_lines = count($lines);
-		/*if($total_lines < 24) {
-			$reste = 24 - $total_lines;
-			if($reste > 0) {
-				for($i=0;$i<$reste;$i++) {
-					$content .= '<tr>';
-					$content .= '<td>&nbsp;</td>';
-					$content .= '<td>&nbsp;</td>';
-					$content .= '<td>&nbsp;</td>';
-					$content .= '<td>&nbsp;</td>';
-					$content .= '</tr>';
-				}
-			}
-		}*/
 		$content .= '<tr>';
 		$content .= '<td>Total on '.$total_lines.'</td>';
-		if($suffix_data) {
-			$content .= '<td class="result"><strong>'.$total_resume.$suffix_data.'</strong></td>';
-		} else {
-			$content .= '<td class="result"><strong>'.$total_resume.'</strong></td>';
-		}
+		$content .= '<td class="result"><strong>'.$total_resume.'</strong></td>';
 		$content .= '<td class="result"><strong>'.round($percent_resume, 1).'%</strong></td>';
 		$content .= '<td>&nbsp;</td>';
 		$content .= '</tr>';
