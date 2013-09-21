@@ -385,20 +385,22 @@ $(document).ready(function() {
 			//shift + 1
 			} else if(event.shiftKey && keycode == 49) {
 				event.preventDefault();
-				if($('.items_mode').find('.read_and_unread').is(':visible')) {
+				if(items_mode == 'unread_only') {
 					$('.items_mode').find('.read_and_unread').hide();
 					$('.items_mode').find('.unread_only').show();
 					items_mode = 'read_and_unread';
+					$.cookie('items_mode', items_mode, { expires: 30, path: '/' });
 					load_items( $('aside ul').find('li.active').find('a').attr('href') );
 				}
 
 			//shift + 2
 			} else if(event.shiftKey && keycode == 50) {
 				event.preventDefault();
-				if($('.items_mode').find('.unread_only').is(':visible')) {
+				if(items_mode == 'read_and_unread') {
 					$('.items_mode').find('.unread_only').hide();
 					$('.items_mode').find('.read_and_unread').show();
 					items_mode = 'unread_only';
+					$.cookie('items_mode', items_mode, { expires: 30, path: '/' });
 					load_items( $('aside ul').find('li.active').find('a').attr('href') );
 				}
 
@@ -419,7 +421,7 @@ $(document).ready(function() {
 			} else if(keycode == 49) {
 				event.preventDefault();
 				var ref = $('.items_display');
-				if(ref.find('.collapse').is(':visible')) {
+				if(items_display == 'expand') {
 					items_collapse();
 				}
 
@@ -427,7 +429,7 @@ $(document).ready(function() {
 			} else if(keycode == 50) {
 				event.preventDefault();
 				var ref = $('.items_display');
-				if(ref.find('.expand').is(':visible')) {
+				if(items_display == 'collapse') {
 					items_expand();
 				}
 
@@ -512,7 +514,6 @@ $(document).ready(function() {
 				add_items( $('aside ul').find('li.active').find('a').attr('href') );
 			}
 
-			//$('aside input').val(itm_id);
 			var offset = $(this).offset()
 			if(offset.top + ref.height() - 60 < 0) {
 				item_read_auto(ref);
@@ -617,12 +618,12 @@ $(document).ready(function() {
 
 	$('.items_mode').bind('click', function(event) {
 		event.preventDefault();
-		if($('.items_mode').find('.unread_only').is(':visible')) {
+		if(items_mode == 'read_and_unread') {
 			$('.items_mode').find('.unread_only').hide();
 			$('.items_mode').find('.read_and_unread').show();
 			items_mode = 'unread_only';
 
-		} else if($('.items_mode').find('.read_and_unread').is(':visible')) {
+		} else if(items_mode == 'unread_only') {
 			$('.items_mode').find('.read_and_unread').hide();
 			$('.items_mode').find('.unread_only').show();
 			items_mode = 'read_and_unread';
@@ -634,10 +635,10 @@ $(document).ready(function() {
 	$('.items_display').bind('click', function(event) {
 		event.preventDefault();
 		var ref = $(this);
-		if(ref.find('.expand').is(':visible')) {
+		if(items_display == 'collapse') {
 			items_expand();
 
-		} else if(ref.find('.collapse').is(':visible')) {
+		} else if(items_display == 'expand') {
 			items_collapse();
 		}
 	});

@@ -101,6 +101,7 @@ $lang['shortcut_shift_1'] = 'shift + 1: read and unread items';
 $lang['shortcut_shift_2'] = 'shift + 2: only unread items';
 
 $lang['title_esc'] = 'esc';
+$lang['title_help'] = 'h or ?';
 $lang['title_k'] = 'k or p or shift + space';
 $lang['title_j'] = 'j or n or space';
 $lang['title_shift_s'] = 'shift + s';
