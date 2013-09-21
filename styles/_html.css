@@ -69,7 +69,7 @@ textarea, input[type=text], input[type=password]{width:200px;}
 aside input[type=text], aside input[type=password]{width:170px;}
 .actions{font-size:12px;margin-bottom:5px;}
 .actions li{display:inline-block;margin:5px 5px 5px 0px;white-space:nowrap;}
-.actions li.hide{display:none;}
+.actions li.hide{display:none !important;}
 .actions a span{display:inline-block;}
 button, .actions a:link, .actions a:visited{background-color:#A4374F;border:none;color:#EEEEEE;margin:0px;padding:3px 3px 3px 3px;position:relative;text-decoration:none;vertical-align:top;}
 
@@ -173,6 +173,7 @@ main section article[dir=rtl] .item-footer .actions li:last-child{margin-left:0p
 .fullscreen_body .item, .fullscreen_body .neutral, .fullscreen_body .cell{max-width:none;}
 
 @media(max-width:1000px){
+#fullscreen_back{margin:5px 10px 10px 10px;}
 header nav{margin:5px 0px 0px 10px;}
 .hide-tablet{display:none !important;}
 .show-tablet{display:inline-block !important;}
