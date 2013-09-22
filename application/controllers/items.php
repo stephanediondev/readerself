@@ -194,9 +194,9 @@ class Items extends CI_Controller {
 				} else if($mode == 'shared') {
 					$introduction_title = '<i class="icon icon-heart"></i>'.$this->lang->line('shared_items').' {<span id="intro-load-shared-items"></span>}';
 					if($this->member->mbr_nickname) {
-						$introduction_details = '<ul class="item-details"><li class="hide-phone"><a href="'.base_url().'member/'.$this->member->mbr_nickname.'"><i class="icon icon-unlock"></i>'.base_url().'member/'.$this->member->mbr_nickname.'</a></li></ul>';
+						$introduction_actions = '<ul class="actions"><li class="hide-phone"><a href="'.base_url().'member/'.$this->member->mbr_nickname.'"><i class="icon icon-unlock"></i>'.$this->lang->line('public_profile').'</a></li></ul>';
 					} else {
-						$introduction_details = '<ul class="item-details"><li class="hide-phone"><a target="_blank" href="'.base_url().'share/'.$this->member->token_share.'"><i class="icon icon-rss"></i>'.base_url().'share/'.$this->member->token_share.'</a></li></ul>';
+						$introduction_actions = '<ul class="actions"><li class="hide-phone"><a target="_blank" href="'.base_url().'share/'.$this->member->token_share.'"><i class="icon icon-rss"></i>RSS</a></li></ul>';
 					}
 					$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM share AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
 					$bindings[] = $this->member->mbr_id;
