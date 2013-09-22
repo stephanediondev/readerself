@@ -121,7 +121,7 @@ $lang['title_g_shift_s'] = 'g then shift + s';
 $lang['title_shift_1'] = 'shift + 1';
 $lang['title_shift_2'] = 'shift + 2';
 
-$lang['no_more_items'] = 'No additional elements';
+$lang['no_more_items'] = 'No additional items';
 $lang['active_connections'] = 'Active connections';
 $lang['connections'] = 'Connections';
 $lang['connection_agent'] = 'Agent';
