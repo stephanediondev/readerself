@@ -1,5 +1,5 @@
 <?php
-$lang['readability'] = 'Contenu entier avec Readability';
+$lang['readability'] = 'Readability';
 $lang['fullscreen'] = 'plein écran';
 $lang['share_email'] = 'Email';
 $lang['email_subject'] = 'Sujet';
