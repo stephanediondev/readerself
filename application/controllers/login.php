@@ -5,7 +5,7 @@ class Login extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
-		if($this->reader_model->count_members() == 0) {
+		if($this->reader_model->count_members() == 0 && !$this->config->item('ldap')) {
 			redirect(base_url().'register');
 		}
 		if($this->session->userdata('mbr_id')) {
