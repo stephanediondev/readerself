@@ -107,6 +107,19 @@ class Reader_model extends CI_Model {
 		return $this->db->query('SELECT COUNT(DISTINCT(mbr.mbr_id)) AS count FROM '.$this->db->dbprefix('members').' AS mbr')->row()->count;
 	}
 
+	function get_members_total($flt) {
+		$query = $this->db->query('SELECT COUNT(mbr.mbr_id) AS count FROM '.$this->db->dbprefix('members').' mbr WHERE '.implode(' AND ', $flt));
+		return $query->row();
+	}
+	function get_members_rows($flt, $num, $offset, $order) {
+		$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE '.implode(' AND ', $flt).' GROUP BY mbr.mbr_id ORDER BY '.$order.' LIMIT '.$offset.', '.$num);
+		return $query->result();
+	}
+	function get_member_row($mbr_id) {
+		$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_nickname IS NOT NULL AND mbr.mbr_id = ? GROUP BY mbr.mbr_id', array($mbr_id));
+		return $query->row();
+	}
+
 	function get_subscriptions_total($flt) {
 		$query = $this->db->query('SELECT COUNT(sub.sub_id) AS count FROM '.$this->db->dbprefix('subscriptions').' sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE '.implode(' AND ', $flt));
 		return $query->row();

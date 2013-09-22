@@ -1,4 +1,5 @@
 <?php
+$lang['members'] = 'Membres';
 $lang['public_profile'] = 'Profil public';
 $lang['gravatar'] = 'Gravatar';
 $lang['member_not_found'] = 'Membre non trouvé';
