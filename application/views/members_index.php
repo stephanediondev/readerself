@@ -24,6 +24,7 @@
 				<?php if($mbr->subscriptions_common) { ?>
 				<li><i class="icon icon-rss"></i><?php echo $mbr->subscriptions_common; ?> subscription(s) in common</li>
 				<?php } ?>
+				<li><i class="icon icon-heart"></i><?php echo $mbr->shared_items; ?> shared item(s)</li>
 			</ul>
 			<div class="item-content">
 				<?php if($this->config->item('gravatar') && $mbr->mbr_gravatar) { ?>
