@@ -151,15 +151,20 @@ class Items extends CI_Controller {
 					$introduction_title = '<i class="icon icon-user"></i>'.$is_member->mbr_nickname;
 					$introduction_actions = '<ul class="actions">';
 					if($this->config->item('social')) {
-						$introduction_actions .= '<li class="hide-phone"><a target="_blank" href="https://www.facebook.com/sharer.php?u='.urlencode(base_url().'member/'.$member->mbr_nickname).'"><i class="icon icon-share"></i>Facebook</a></li>';
-						$introduction_actions .= '<li class="hide-phone"><a target="_blank" href="https://plus.google.com/share?url='.urlencode(base_url().'member/'.$member->mbr_nickname).'"><i class="icon icon-share"></i>Google</a></li>';
-						$introduction_actions .= '<li class="hide-phone"><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text='.urlencode($member->mbr_nickname.' - '.$this->config->item('title').' '.base_url().'member/'.$member->mbr_nickname).'"><i class="icon icon-share"></i>Twitter</a></li>';
+						$introduction_actions .= '<li class="hide-phone"><a target="_blank" href="https://www.facebook.com/sharer.php?u='.urlencode(base_url().'member/'.$is_member->mbr_nickname).'"><i class="icon icon-share"></i>Facebook</a></li>';
+						$introduction_actions .= '<li class="hide-phone"><a target="_blank" href="https://plus.google.com/share?url='.urlencode(base_url().'member/'.$is_member->mbr_nickname).'"><i class="icon icon-share"></i>Google</a></li>';
+						$introduction_actions .= '<li class="hide-phone"><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text='.urlencode($is_member->mbr_nickname.' - '.$this->config->item('title').' '.base_url().'member/'.$is_member->mbr_nickname).'"><i class="icon icon-share"></i>Twitter</a></li>';
 					}
-					$introduction_actions .= '<li class="hide-phone"><a href="'.base_url().'share/'.$member->token_share.'"><i class="icon icon-rss"></i>RSS</a></li>';
+					$introduction_actions .= '<li class="hide-phone"><a href="'.base_url().'share/'.$is_member->token_share.'"><i class="icon icon-rss"></i>RSS</a></li>';
 					$introduction_actions .= '</ul>';
 
+					$introduction_details = '';
+					if($this->config->item('gravatar') && $is_member->mbr_gravatar) {
+						$introduction_details .= '<p><img alt="" src="http://www.gravatar.com/avatar/'.md5(strtolower($is_member->mbr_gravatar)).'?rating='.$this->config->item('gravatar_rating').'&size='.$this->config->item('gravatar_size').'&default='.$this->config->item('gravatar_default').'">';
+					}
+
 					if($is_member->mbr_description) {
-						$introduction_details = '<p>'.strip_tags($is_member->mbr_description).'</p>';
+						$introduction_details .= '<p>'.strip_tags($is_member->mbr_description).'</p>';
 					}
 					$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM share AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
 					$bindings[] = $is_member->mbr_id;
@@ -394,6 +399,10 @@ class Items extends CI_Controller {
 									$itm->share = 0;
 								}
 							}
+						} else {
+							$itm->history = 'unread';
+							$itm->star = 0;
+							$itm->share = 0;
 						}
 
 						list($itm->explode_date, $itm->explode_time) = explode(' ', $itm->itm_date);

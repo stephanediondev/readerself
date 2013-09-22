@@ -13,6 +13,9 @@
 			<?php if($this->member->mbr_nickname) { ?><li><a href="<?php echo base_url(); ?>member/<?php echo $this->member->mbr_nickname; ?>"><i class="icon icon-unlock"></i><?php echo $this->lang->line('public_profile'); ?></a></li><?php } ?>
 		</ul>
 		<h2><i class="icon icon-user"></i><?php if($this->member->mbr_nickname) { ?><?php echo $this->member->mbr_nickname; ?><?php } else { ?><?php echo $this->lang->line('profile'); ?><?php } ?></h2>
+		<?php if($this->config->item('gravatar') && $this->member->mbr_gravatar) { ?>
+			<p><img alt="" src="http://www.gravatar.com/avatar/<?php echo md5(strtolower($this->member->mbr_gravatar)); ?>?rating=<?php echo $this->config->item('gravatar_rating'); ?>&size=<?php echo $this->config->item('gravatar_size'); ?>&default=<?php echo $this->config->item('gravatar_default'); ?>">
+		<?php } ?>
 		<?php if($this->member->mbr_description) { ?>
 			<p><?php echo strip_tags($this->member->mbr_description); ?></p>
 		<?php } ?>
@@ -48,6 +51,13 @@
 	<?php echo form_label($this->lang->line('mbr_nickname'), 'mbr_nickname'); ?>
 	<?php echo form_input('mbr_nickname', set_value('mbr_nickname', $this->member->mbr_nickname), 'id="mbr_nickname"'); ?>
 	</p>
+
+	<?php if($this->config->item('gravatar')) { ?>
+		<p>
+		<?php echo form_label($this->lang->line('gravatar'), 'mbr_gravatar'); ?>
+		<?php echo form_input('mbr_gravatar', set_value('mbr_gravatar', $this->member->mbr_gravatar), 'id="mbr_gravatar" class="valid_email"'); ?>
+		</p>
+	<?php } ?>
 
 	<p>
 	<?php echo form_label($this->lang->line('description'), 'mbr_description'); ?>

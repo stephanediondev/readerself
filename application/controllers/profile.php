@@ -15,7 +15,10 @@ class Profile extends CI_Controller {
 		$this->form_validation->set_rules('mbr_email_confirm', 'lang:mbr_email_confirm', 'required|valid_email|max_length[255]|matches[mbr_email]');
 		$this->form_validation->set_rules('mbr_password', 'lang:mbr_password');
 		$this->form_validation->set_rules('mbr_password_confirm', 'lang:mbr_password_confirm', 'matches[mbr_password]');
-		$this->form_validation->set_rules('mbr_nickname', 'lang:mbr_nickname', 'alpha_dash|callback_nickname');
+		$this->form_validation->set_rules('mbr_nickname', 'lang:mbr_nickname', 'alpha_dash|max_length[255]|callback_nickname');
+		if($this->config->item('gravatar')) {
+			$this->form_validation->set_rules('mbr_gravatar', 'lang:gravatar', 'valid_email|max_length[255]');
+		}
 		$this->form_validation->set_rules('mbr_description', 'lang:description');
 
 		if($this->form_validation->run() == FALSE) {
@@ -29,6 +32,9 @@ class Profile extends CI_Controller {
 				$this->db->set('mbr_password', $this->reader_library->set_salt_password($this->input->post('mbr_password')));
 			}
 			$this->db->set('mbr_nickname', $this->input->post('mbr_nickname'));
+			if($this->config->item('gravatar')) {
+				$this->db->set('mbr_gravatar', $this->input->post('mbr_gravatar'));
+			}
 			$this->db->set('mbr_description', $this->input->post('mbr_description'));
 			$this->db->where('mbr_id', $this->member->mbr_id);
 			$this->db->update('members');

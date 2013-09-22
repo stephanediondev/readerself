@@ -1,5 +1,6 @@
 <?php
 $lang['public_profile'] = 'Profil public';
+$lang['gravatar'] = 'Gravatar';
 $lang['member_not_found'] = 'Membre non trouvé';
 $lang['readability'] = 'Readability';
 $lang['fullscreen'] = 'plein écran';

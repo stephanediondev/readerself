@@ -126,6 +126,7 @@ CREATE TABLE IF NOT EXISTS `members` (
   `mbr_email` varchar(255) NOT NULL,
   `mbr_password` char(40) NOT NULL,
   `mbr_nickname` varchar(255) DEFAULT NULL,
+  `mbr_gravatar` varchar(255) DEFAULT NULL,
   `mbr_description` text,
   `token_password` char(40) DEFAULT NULL,
   `token_share` char(40) DEFAULT NULL,
