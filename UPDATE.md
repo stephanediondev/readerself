@@ -5,6 +5,7 @@
 ```sql
 ALTER TABLE `members` ADD `mbr_nickname` VARCHAR( 255 ) NULL AFTER `mbr_password`;
 ALTER TABLE `members` ADD UNIQUE (`mbr_nickname`);
+ALTER TABLE `members` ADD `mbr_description` TEXT NULL AFTER `mbr_nickname`;
 ```
 
 ##### 2013-09-19

@@ -149,6 +149,9 @@ class Items extends CI_Controller {
 
 				if($is_member) {
 					$introduction_title = '<i class="icon icon-user"></i>'.$is_member->mbr_nickname;
+					if($is_member->mbr_description) {
+						$introduction_details = '<p>'.strip_tags($is_member->mbr_description).'</p>';
+					}
 					$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM share AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
 					$bindings[] = $is_member->mbr_id;
 

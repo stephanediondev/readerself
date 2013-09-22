@@ -45,6 +45,11 @@
 	</p>
 
 	<p>
+	<?php echo form_label($this->lang->line('description'), 'mbr_description'); ?>
+	<?php echo form_textarea('mbr_description', set_value('mbr_description', $this->member->mbr_description), 'id="mbr_description"'); ?>
+	</p>
+
+	<p>
 	<button type="submit"><?php echo $this->lang->line('send'); ?></button>
 	</p>
 

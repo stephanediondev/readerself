@@ -48,7 +48,6 @@ function load_items(url) {
 					}
 					$('.timeago').timeago();
 				}
-				refresh();
 			}
 		},
 		type: 'POST',

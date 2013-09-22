@@ -1,11 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><?php echo $this->config->item('title'); ?></title>
 <?php if($this->router->class == 'member') { ?>
 	<?php if($member) { ?>
-		<link rel="alternate" type="application/atom+xml" title="<?php echo $member->mbr_nickname; ?> - <?php echo $this->lang->line('shared_items'); ?>" href="<?php echo base_url(); ?>share/<?php echo $member->token_share; ?>" />
+<title><?php echo $member->mbr_nickname; ?> - <?php echo $this->config->item('title'); ?></title>
+<?php if($member->mbr_description) { ?>
+<meta content="<?php echo $member->mbr_description; ?>" name="description">
+<meta content="<?php echo $member->mbr_description; ?>" property="og:description">
+<?php } ?>
+<meta property="og:image" content="http://readerself.com/medias/readerself_200x200.png">
+<meta property="og:site_name" content="Reader Self - Google Reader alternative">
+<meta property="og:title" content="<?php echo $member->mbr_nickname; ?> - <?php echo $this->config->item('title'); ?>">
+<meta property="og:type" content="profile">
+<meta property="og:url" content="<?php echo base_url(); ?>member/<?php echo $member->mbr_nickname; ?>">
+<link rel="alternate" type="application/atom+xml" title="<?php echo $member->mbr_nickname; ?> - <?php echo $this->lang->line('shared_items'); ?>" href="<?php echo base_url(); ?>share/<?php echo $member->token_share; ?>" />
 	<?php } ?>
+<?php } else { ?>
+<title><?php echo $this->config->item('title'); ?></title>
 <?php } ?>
 <link rel="icon" href="<?php echo base_url(); ?>favicon.ico" type="image/x-icon">
 <link rel="shortcut icon" href="<?php echo base_url(); ?>favicon.ico" type="image/x-icon">

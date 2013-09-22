@@ -2,9 +2,9 @@
 
 include('thirdparty/feedwriter/Item.php');
 include('thirdparty/feedwriter/Feed.php');
-include('thirdparty/feedwriter/ATOM.php');
+include('thirdparty/feedwriter/RSS2.php');
 
-use \FeedWriter\ATOM;
+use \FeedWriter\RSS2;
 
 class Share extends CI_Controller {
 	public function __construct() {
@@ -25,9 +25,16 @@ class Share extends CI_Controller {
 
 			$member = $query->row();
 
-			$feed = new ATOM;
-			$feed->setTitle($this->lang->line('shared_items'));
+			$feed = new RSS2;
+			if($member->mbr_nickname) {
+				$feed->setTitle($member->mbr_nickname.' - '.$this->config->item('title'));
+			} else {
+				$feed->setTitle($this->lang->line('shared_items'));
+			}
 			$feed->setLink(base_url().'share/'.$token_share);
+			if($member->mbr_description) {
+				$feed->setDescription($member->mbr_description);
+			}
 			$feed->setDate(new DateTime());
 
 			$where = array();
@@ -57,7 +64,7 @@ class Share extends CI_Controller {
 							$feed_item->setEnclosure($enr->enr_link, $enr->enr_length, $enr->enr_type);
 						}
 					}
-					$feed_item->setContent($itm->itm_content);
+					$feed_item->setDescription($itm->itm_content);
 					$feed->addItem($feed_item);
 				}
 			}
