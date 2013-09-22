@@ -155,6 +155,9 @@ class Items extends CI_Controller {
 					$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM share AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
 					$bindings[] = $is_member->mbr_id;
 
+					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
+					$bindings[] = $is_member->mbr_id;
+
 				} else if($mode == 'priority') {
 					$introduction_title = '<i class="icon icon-flag"></i>'.$this->lang->line('priority_items').' (<span id="intro-load-priority-items"></span>)';
 					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? AND sub.sub_priority = ? )';
@@ -384,6 +387,10 @@ class Items extends CI_Controller {
 					$lastcrawl = $this->db->query('SELECT DATE_ADD(crr.crr_datecreated, INTERVAL ? HOUR) AS crr_datecreated FROM '.$this->db->dbprefix('crawler').' AS crr GROUP BY crr.crr_id ORDER BY crr.crr_id DESC LIMIT 0,1', array($this->session->userdata('timezone')))->row();
 					if($lastcrawl && $mode != 'member') {
 						$content['end'] = '<article id="last_crawl" class="neutral title">';
+						$content['end'] .= '</article>';
+					} else if($mode == 'member') {
+						$content['end'] = '<article class="neutral title">';
+						$content['end'] .= '<p><i class="icon icon-smile"></i>'.$this->lang->line('no_more_items').'</p>';
 						$content['end'] .= '</article>';
 					}
 				}

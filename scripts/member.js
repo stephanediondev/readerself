@@ -249,6 +249,10 @@ $(document).ready(function() {
 			//j or n or space
 			} else if(keycode == 74 || keycode == 78|| keycode == 32) {
 				item_down();
+
+			//r
+			} else if(keycode == 82) {
+				load_items(url);
 			}
 		}
 	});
