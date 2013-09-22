@@ -5,7 +5,7 @@ class Members extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->session->userdata('mbr_id') || !$this->config->item('members_list')) {
 			redirect(base_url());
 		}
 

@@ -16,6 +16,8 @@ $config['ldap_rootpw'] = 'secret';
 $config['ldap_basedn'] = 'dc=my-domain,dc=com';
 $config['ldap_filter'] = 'mail=[email]';
 
+$config['members_list'] = FALSE;
+
 $config['menu_geolocation_items'] = TRUE;
 $config['menu_audio_items'] = TRUE;
 
