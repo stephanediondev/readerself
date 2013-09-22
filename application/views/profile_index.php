@@ -1,5 +1,6 @@
 	<nav>
 		<ul class="actions">
+			<?php if($this->member->mbr_nickname) { ?><li><a href="<?php echo base_url(); ?>member/<?php echo $this->member->mbr_nickname; ?>" target="_blank"><i class="icon icon-unlock"></i><?php echo $this->lang->line('public_profile'); ?></a></li><?php } ?>
 			<li><a href="<?php echo base_url(); ?>profile/connections"><i class="icon icon-signin"></i><?php echo $this->lang->line('active_connections'); ?></a></li>
 		</ul>
 	</nav>
@@ -9,10 +10,10 @@
 		<section>
 
 	<article class="cell title">
-		<h2><i class="icon icon-user"></i><?php echo $this->lang->line('profile'); ?></h2>
+		<h2><i class="icon icon-user"></i><?php if($this->member->mbr_nickname) { ?><?php echo $this->member->mbr_nickname; ?><?php } else { ?><?php echo $this->lang->line('profile'); ?><?php } ?></h2>
 	</article>
 
-	<h2><i class="icon icon-pencil"></i><?php echo $this->lang->line('update'); ?></h2>
+	<h2><i class="icon icon-wrench"></i><?php echo $this->lang->line('update'); ?></h2>
 
 	<?php echo validation_errors(); ?>
 
@@ -36,6 +37,11 @@
 	<p>
 	<?php echo form_label($this->lang->line('mbr_password_confirm'), 'mbr_password_confirm'); ?>
 	<?php echo form_password('mbr_password_confirm', set_value('mbr_password_confirm'), 'id="mbr_password_confirm"'); ?>
+	</p>
+
+	<p>
+	<?php echo form_label($this->lang->line('mbr_nickname'), 'mbr_nickname'); ?>
+	<?php echo form_input('mbr_nickname', set_value('mbr_nickname', $this->member->mbr_nickname), 'id="mbr_nickname"'); ?>
 	</p>
 
 	<p>

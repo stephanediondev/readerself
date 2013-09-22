@@ -1,4 +1,6 @@
 <?php
+$lang['public_profile'] = 'Profil public';
+$lang['member_not_found'] = 'Membre non trouvé';
 $lang['readability'] = 'Readability';
 $lang['fullscreen'] = 'plein écran';
 $lang['share_email'] = 'Email';
@@ -13,7 +15,8 @@ $lang['geolocation_items'] = 'Géolocalisation';
 $lang['audio_items'] = 'Audio';
 $lang['all'] = 'Tous';
 $lang['back'] = 'Retour';
-$lang['callback_email'] = 'Erreur';
+$lang['callback_email'] = 'Erreur email';
+$lang['callback_nickname'] = 'Erreur pseudo';
 $lang['cancel'] = 'Annuler';
 $lang['collapse'] = 'Fermer';
 $lang['confirm'] = 'Confirmer';
@@ -43,6 +46,7 @@ $lang['mbr_email_confirm'] = 'Confirmation d\'email';
 $lang['mbr_email'] = 'Email';
 $lang['mbr_password_confirm'] = 'Confirmation de mot de passe';
 $lang['mbr_password'] = 'Mot de passe';
+$lang['mbr_nickname'] = 'Pseudo';
 $lang['no_folder'] = 'Pas de dossier';
 $lang['opml_file'] = 'Fichier OPML';
 $lang['password'] = 'Mot de passe';

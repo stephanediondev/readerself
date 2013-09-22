@@ -81,7 +81,7 @@ class Items extends CI_Controller {
 					$introduction_title = '<i class="icon icon-tags"></i>'.$this->lang->line('tags').'*';
 				}
 				if($id == 'authors') {
-					$introduction_title = '<i class="icon icon-group"></i>'.$this->lang->line('authors').'*';
+					$introduction_title = '<i class="icon icon-pencil"></i>'.$this->lang->line('authors').'*';
 				}
 				$content['end'] = '<article class="neutral title">';
 				$content['end'] .= '<p>*'.$this->lang->line('last_30_days').'</p>';
@@ -172,13 +172,6 @@ class Items extends CI_Controller {
 					$content['nav']['items_read'] = false;
 
 				} else if($mode == 'shared') {
-					if(!$this->member->token_share) {
-						$token_share = sha1(uniqid($this->member->mbr_id, 1).mt_rand());
-						$this->db->set('token_share', $token_share);
-						$this->db->where('mbr_id', $this->member->mbr_id);
-						$this->db->update('members');
-						$this->member = $this->reader_model->get($this->session->userdata('mbr_id'));
-					}
 					$introduction_title = '<i class="icon icon-heart"></i>'.$this->lang->line('shared_items').' {<span id="intro-load-shared-items"></span>}';
 					$introduction_details = '<ul class="item-details"><li><a target="_blank" href="'.base_url().'share/'.$this->member->token_share.'"><i class="icon icon-rss"></i>'.base_url().'share/'.$this->member->token_share.'</a></li></ul>';
 					$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM share AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
@@ -246,7 +239,7 @@ class Items extends CI_Controller {
 				}
 
 				if($is_author) {
-					$introduction_title = '<i class="icon icon-user"></i>'.$is_author.' (<span id="intro-load-author-items">0</span>)';
+					$introduction_title = '<i class="icon icon-pencil"></i>'.$is_author.' (<span id="intro-load-author-items">0</span>)';
 					$where[] = 'itm.itm_author = ?';
 					$bindings[] = $is_author;
 				}

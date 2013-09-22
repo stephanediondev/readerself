@@ -1,5 +1,12 @@
 #### Update
 
+##### 2013-09-22
+
+```sql
+ALTER TABLE `members` ADD `mbr_nickname` VARCHAR( 255 ) NULL AFTER `mbr_password`;
+ALTER TABLE `members` ADD UNIQUE (`mbr_nickname`);
+```
+
 ##### 2013-09-19
 
 ```sql

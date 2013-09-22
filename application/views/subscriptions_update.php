@@ -31,7 +31,7 @@
 		</div>
 	</article>
 
-	<h2><i class="icon icon-pencil"></i><?php echo $this->lang->line('update'); ?></h2>
+	<h2><i class="icon icon-wrench"></i><?php echo $this->lang->line('update'); ?></h2>
 
 	<?php echo validation_errors(); ?>
 

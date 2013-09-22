@@ -36,7 +36,7 @@
 		<?php if($this->config->item('tags')) { ?>
 			<li><a id="load-cloud-tags-items" href="<?php echo base_url(); ?>items/get/cloud/tags"><i class="icon icon-tags"></i><?php echo $this->lang->line('tags'); ?></a></li>
 		<?php } ?>
-		<li><a id="load-cloud-authors-items" href="<?php echo base_url(); ?>items/get/cloud/authors"><i class="icon icon-group"></i><?php echo $this->lang->line('authors'); ?></a></li>
+		<li><a id="load-cloud-authors-items" href="<?php echo base_url(); ?>items/get/cloud/authors"><i class="icon icon-pencil"></i><?php echo $this->lang->line('authors'); ?></a></li>
 		<?php if($this->config->item('menu_geolocation_items')) { ?>
 			<li><a id="load-geolocation-items" href="<?php echo base_url(); ?>items/get/geolocation"><i class="icon icon-map-marker"></i><?php echo $this->lang->line('geolocation_items'); ?> (<span>0</span>)</a></li>
 		<?php } ?>

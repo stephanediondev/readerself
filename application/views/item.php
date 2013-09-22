@@ -20,7 +20,7 @@
 		<li><i class="icon icon-calendar"></i><?php echo $itm->explode_date; ?></li>
 		<li><i class="icon icon-time"></i><?php echo $itm->explode_time; ?> (<span class="timeago" title="<?php echo $itm->itm_date; ?>"></span>)</li>
 		<?php if($itm->itm_author) { ?>
-			<li class="hide-phone"><a class="author" data-itm_id="<?php echo $itm->itm_id; ?>" href="<?php echo base_url(); ?>items/get/author/<?php echo $itm->itm_id; ?>"><i class="icon icon-user"></i><?php echo $itm->itm_author; ?></a></li>
+			<li class="hide-phone"><a class="author" data-itm_id="<?php echo $itm->itm_id; ?>" href="<?php echo base_url(); ?>items/get/author/<?php echo $itm->itm_id; ?>"><i class="icon icon-pencil"></i><?php echo $itm->itm_author; ?></a></li>
 		<?php } ?>
 		<li><a class="from" data-sub_id="<?php echo $itm->sub->sub_id; ?>" data-direction="<?php echo $itm->sub->direction; ?>" href="<?php echo base_url(); ?>items/get/subscription/<?php echo $itm->sub->sub_id; ?>"><i class="icon icon-rss"></i><?php echo $itm->sub->title; ?></a></li>
 		<?php if($this->config->item('folders')) { ?>

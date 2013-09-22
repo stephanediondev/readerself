@@ -21,6 +21,8 @@ class Share extends CI_Controller {
 	public function index($token_share = false) {
 		$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.token_share = ? GROUP BY mbr.mbr_id', array($token_share));
 		if($query->num_rows() > 0) {
+			//header('content-type: application/atom+xml; charset=UTF-8');
+
 			$member = $query->row();
 
 			$feed = new ATOM;

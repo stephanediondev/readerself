@@ -15,6 +15,7 @@ class Profile extends CI_Controller {
 		$this->form_validation->set_rules('mbr_email_confirm', 'lang:mbr_email_confirm', 'required|valid_email|max_length[255]|matches[mbr_email]');
 		$this->form_validation->set_rules('mbr_password', 'lang:mbr_password');
 		$this->form_validation->set_rules('mbr_password_confirm', 'lang:mbr_password_confirm', 'matches[mbr_password]');
+		$this->form_validation->set_rules('mbr_nickname', 'lang:mbr_nickname', 'alpha_dash|callback_nickname');
 
 		if($this->form_validation->run() == FALSE) {
 			$data = array();
@@ -26,10 +27,11 @@ class Profile extends CI_Controller {
 			if($this->input->post('mbr_password') != '' && $this->input->post('mbr_password_confirm') != '') {
 				$this->db->set('mbr_password', $this->reader_library->set_salt_password($this->input->post('mbr_password')));
 			}
+			$this->db->set('mbr_nickname', $this->input->post('mbr_nickname'));
 			$this->db->where('mbr_id', $this->member->mbr_id);
 			$this->db->update('members');
 
-			redirect(base_url().'home');
+			redirect(base_url().'profile');
 		}
 	}
 	public function connections() {
@@ -62,6 +64,17 @@ class Profile extends CI_Controller {
 			$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_email = ? AND mbr.mbr_email != ? GROUP BY mbr.mbr_id', array($this->input->post('mbr_email'), $this->member->mbr_email));
 			if($query->num_rows() > 0) {
 				$this->form_validation->set_message('email', $this->lang->line('callback_email'));
+				return FALSE;
+			} else {
+				return TRUE;
+			}
+		}
+	}
+	public function nickname() {
+		if($this->input->post('mbr_nickname')) {
+			$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_nickname = ? AND mbr.mbr_nickname != ? GROUP BY mbr.mbr_id', array($this->input->post('mbr_nickname'), $this->member->mbr_nickname));
+			if($query->num_rows() > 0) {
+				$this->form_validation->set_message('nickname', $this->lang->line('callback_nickname'));
 				return FALSE;
 			} else {
 				return TRUE;

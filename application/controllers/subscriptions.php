@@ -436,7 +436,7 @@ class Subscriptions extends CI_Controller {
 							}
 							$content_folders .= '<article class="cell">
 								<ul class="actions">
-									<li><a href="'.base_url().'folders/update/'.$folders[$value].'"><i class="icon icon-pencil"></i>'.$this->lang->line('update').'</a></li>
+									<li><a href="'.base_url().'folders/update/'.$folders[$value].'"><i class="icon icon-wrench"></i>'.$this->lang->line('update').'</a></li>
 									<li><a href="'.base_url().'folders/delete/'.$folders[$value].'"><i class="icon icon-trash"></i>'.$this->lang->line('delete').'</a></li>
 								</ul>
 								<h2><a href="'.base_url().'folders/read/'.$folders[$value].'"><i class="icon icon-'.$icon.'"></i>'.$value.'</a></h2>
@@ -506,7 +506,7 @@ class Subscriptions extends CI_Controller {
 							}
 							$content .= '<article class="cell">
 								<ul class="actions">
-									<li><a href="'.base_url().'subscriptions/update/'.$sub_id.'"><i class="icon icon-pencil"></i>'.$this->lang->line('update').'</a></li>
+									<li><a href="'.base_url().'subscriptions/update/'.$sub_id.'"><i class="icon icon-wrench"></i>'.$this->lang->line('update').'</a></li>
 									<li><a href="'.base_url().'subscriptions/delete/'.$sub_id.'"><i class="icon icon-trash"></i>'.$this->lang->line('delete').'</a></li>
 								</ul>
 								<h2><a href="'.base_url().'subscriptions/read/'.$sub_id.'"><i class="icon icon-'.$icon.'"></i>'.$obj->title.'</a></h2>

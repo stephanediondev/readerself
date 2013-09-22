@@ -45,6 +45,13 @@ class Reader_model extends CI_Model {
 		if($query->num_rows() > 0) {
 			$member = $query->row();
 
+			if(!$member->token_share) {
+				$member->token_share = sha1(uniqid($member->mbr_id, 1).mt_rand());
+				$this->db->set('token_share', $member->token_share);
+				$this->db->where('mbr_id', $member->mbr_id);
+				$this->db->update('members');
+			}
+
 			$query = $this->db->query('SELECT cnt.* FROM '.$this->db->dbprefix('connections').' AS cnt WHERE cnt.mbr_id = ? AND token_connection IS NOT NULL AND token_connection = ? GROUP BY cnt.cnt_id', array($mbr_id, $this->input->cookie('token_connection')));
 			if($query->num_rows() > 0) {
 				$member->token_connection = $query->row()->token_connection;

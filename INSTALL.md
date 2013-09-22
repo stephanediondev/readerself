@@ -125,12 +125,14 @@ CREATE TABLE IF NOT EXISTS `members` (
   `mbr_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `mbr_email` varchar(255) NOT NULL,
   `mbr_password` char(40) NOT NULL,
+  `mbr_nickname` varchar(255) DEFAULT NULL,
   `token_password` char(40) DEFAULT NULL,
   `token_share` char(40) DEFAULT NULL,
   `mbr_datecreated` datetime NOT NULL,
   PRIMARY KEY (`mbr_id`),
   UNIQUE KEY `mbr_email` (`mbr_email`),
-  UNIQUE KEY `token_password` (`token_password`)
+  UNIQUE KEY `token_password` (`token_password`),
+  UNIQUE KEY `mbr_nickname` (`mbr_nickname`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `share` (

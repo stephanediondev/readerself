@@ -574,7 +574,7 @@ $(document).ready(function() {
 		$('aside ul li').removeClass('active');
 
 		$('aside ul').find('.result').remove();
-		var content = '<li class="result active"><a id="load-author-items" href="' + base_url + 'items/get/author/' + ref.data('itm_id') + '"><i class="icon icon-user"></i>' + ref.text() + ' (<span>0</span>)</a></li>';
+		var content = '<li class="result active"><a id="load-author-items" href="' + base_url + 'items/get/author/' + ref.data('itm_id') + '"><i class="icon icon-pencil"></i>' + ref.text() + ' (<span>0</span>)</a></li>';
 		$('aside ul').append(content);
 
 		load_items(ref.attr('href'));
