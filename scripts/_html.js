@@ -130,6 +130,17 @@ function toggle_sidebar() {
 		$('header nav:first-child ul:last-child').hide();
 	}
 }
+function fullscreen() {
+	if($('body').hasClass('fullscreen_body')) {
+		$('body').removeClass('fullscreen_body');
+	} else {
+		$('body').addClass('fullscreen_body');
+	}
+	set_positions();
+	if($('.item-selected').length > 0) {
+		location.hash = '#' + $('.item-selected').attr('id');
+	}
+}
 $(document).ready(function() {
 	if($('aside').length == 0) {
 		$('#toggle-sidebar').parent().remove();
@@ -258,4 +269,8 @@ $(document).ready(function() {
 			}
 		});
 	}
+
+	$('.fullscreen').bind('click', function(event) {
+		fullscreen();
+	});
 });

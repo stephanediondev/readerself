@@ -328,17 +328,6 @@ function items_expand() {
 	$.cookie('items_display', items_display, { expires: 30, path: '/' });
 	load_items( $('aside ul').find('li.active').find('a').attr('href') );
 }
-function fullscreen() {
-	if($('body').hasClass('fullscreen_body')) {
-		$('body').removeClass('fullscreen_body');
-	} else {
-		$('body').addClass('fullscreen_body');
-	}
-	set_positions();
-	if($('.item-selected').length > 0) {
-		location.hash = '#' + $('.item-selected').attr('id');
-	}
-}
 $(document).ready(function() {
 	var menu = 'load-all-items';
 	if($.cookie('menu')) {
@@ -764,9 +753,5 @@ $(document).ready(function() {
 		content += '<iframe style="width:110px;height:21px;" allowtransparency="true" frameborder="0" scrolling="no" src="https://platform.twitter.com/widgets/tweet_button.html?url=' + url + '"></iframe>';
 		$(ref).html(content);
 		$(ref).show();
-	});
-
-	$('.fullscreen').bind('click', function(event) {
-		fullscreen();
 	});
 });

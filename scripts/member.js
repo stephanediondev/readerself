@@ -209,8 +209,13 @@ $(document).ready(function() {
 	$(document).bind('keydown', function(event) {
 		var keycode = event.which || event.keyCode;
 		if($(event.target).parents('form').length == 0) {
+			//shift + f
+			if(event.shiftKey && keycode == 70) {
+				event.preventDefault();
+				fullscreen();
+
 			//1
-			if(keycode == 49) {
+			} else if(keycode == 49) {
 				event.preventDefault();
 				var ref = $('.items_display');
 				if(items_display == 'expand') {
@@ -287,6 +292,11 @@ $(document).ready(function() {
 	$('#item_down').live('click', function(event) {
 		event.preventDefault();
 		item_down();
+	});
+
+	$('.items_refresh').bind('click', function(event) {
+		event.preventDefault();
+		load_items(url);
 	});
 
 	$('.items_display').bind('click', function(event) {
