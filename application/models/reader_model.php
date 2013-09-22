@@ -112,8 +112,22 @@ class Reader_model extends CI_Model {
 		return $query->row();
 	}
 	function get_members_rows($flt, $num, $offset, $order) {
+		$members = false;
 		$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE '.implode(' AND ', $flt).' GROUP BY mbr.mbr_id ORDER BY '.$order.' LIMIT '.$offset.', '.$num);
-		return $query->result();
+		if($query->num_rows() > 0) {
+			$members = array();
+			foreach($query->result() as $mbr) {
+				if($mbr->mbr_id != $this->member->mbr_id) {
+					$subscriptions_common = $this->db->query('SELECT COUNT(DISTINCT(sub.fed_id)) AS count FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id IN( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.mbr_id = ? ) AND sub.mbr_id = ?', array($this->member->mbr_id, $mbr->mbr_id))->row()->count;
+				} else {
+					$subscriptions_common = false;
+				}
+				$mbr->subscriptions_common = $subscriptions_common;
+
+				$members[] = $mbr;
+			}
+		}
+		return $members;
 	}
 	function get_member_row($mbr_id) {
 		$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_nickname IS NOT NULL AND mbr.mbr_id = ? GROUP BY mbr.mbr_id', array($mbr_id));

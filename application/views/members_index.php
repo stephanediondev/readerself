@@ -16,8 +16,14 @@
 	<?php if($members) { ?>
 		<?php foreach($members as $mbr) { ?>
 		<article class="cell<?php if($mbr->mbr_id == $this->member->mbr_id) { ?> item-selected<?php } ?>">
+			<ul class="actions">
+				<li><a href="<?php echo base_url(); ?>member/<?php echo $mbr->mbr_nickname; ?>"><i class="icon icon-unlock"></i><?php echo $this->lang->line('public_profile'); ?></a></h2>
+			</ul>
 			<h2><a href="<?php echo base_url(); ?>member/<?php echo $mbr->mbr_nickname; ?>"><i class="icon icon-user"></i><?php echo $mbr->mbr_nickname; ?></a></h2>
 			<ul class="item-details">
+				<?php if($mbr->subscriptions_common) { ?>
+				<li><i class="icon icon-rss"></i><?php echo $mbr->subscriptions_common; ?> subscription(s) in common</li>
+				<?php } ?>
 			</ul>
 			<div class="item-content">
 				<?php if($this->config->item('gravatar') && $mbr->mbr_gravatar) { ?>
