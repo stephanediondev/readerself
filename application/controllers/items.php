@@ -185,7 +185,10 @@ class Items extends CI_Controller {
 					$introduction_actions .= '<li class="geolocation"><a href="'.base_url().'home/geolocation"><i class="icon icon-user"></i>'.$this->lang->line('get_geolocation').'</a></li>';
 					$introduction_actions .= '</ul>';
 					if($this->session->userdata('latitude') && $this->session->userdata('longitude')) {
-						$introduction_details = '<ul class="item-details"><li><a target="_blank" href="http://maps.google.com/maps?q='.$this->session->userdata('latitude').','.$this->session->userdata('longitude').'&oe=UTF-8&ie=UTF-8"><i class="icon icon-user"></i>'.$this->session->userdata('latitude').','.$this->session->userdata('longitude').'</a></li></ul>';
+						$introduction_details = '<ul class="item-details">';
+						$introduction_details .= '<li><a target="_blank" href="http://maps.google.com/maps?q='.$this->session->userdata('latitude').','.$this->session->userdata('longitude').'&oe=UTF-8&ie=UTF-8"><i class="icon icon-user"></i>'.$this->session->userdata('latitude').','.$this->session->userdata('longitude').'</a></li>';
+						$introduction_details .= '<li class="block"><a target="_blank" href="http://maps.google.com/maps?q='.$this->session->userdata('latitude').','.$this->session->userdata('longitude').'&oe=UTF-8&ie=UTF-8"><img src="http://maps.googleapis.com/maps/api/staticmap?center='.$this->session->userdata('latitude').','.$this->session->userdata('longitude').'&markers=color:red|'.$this->session->userdata('latitude').','.$this->session->userdata('longitude').'&zoom=12&size=540x200&sensor=false" alt=""></a></li>';
+						$introduction_details .= '</ul>';
 					}
 					$where[] = 'itm.itm_latitude IS NOT NULL';
 					$where[] = 'itm.itm_longitude IS NOT NULL';
