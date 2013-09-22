@@ -151,9 +151,9 @@ class Items extends CI_Controller {
 					$introduction_title = '<i class="icon icon-user"></i>'.$is_member->mbr_nickname;
 					$introduction_actions = '<ul class="actions">';
 					if($this->config->item('social')) {
-						$introduction_actions .= '<li class="hide-phone"><a target="_blank" href="https://www.facebook.com/sharer.php?u='.urlencode(base_url().'member/'.$is_member->mbr_nickname).'"><i class="icon icon-share"></i>Facebook</a></li>';
-						$introduction_actions .= '<li class="hide-phone"><a target="_blank" href="https://plus.google.com/share?url='.urlencode(base_url().'member/'.$is_member->mbr_nickname).'"><i class="icon icon-share"></i>Google</a></li>';
-						$introduction_actions .= '<li class="hide-phone"><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text='.urlencode($is_member->mbr_nickname.' - '.$this->config->item('title').' '.base_url().'member/'.$is_member->mbr_nickname).'"><i class="icon icon-share"></i>Twitter</a></li>';
+						$introduction_actions .= '<li><a target="_blank" href="https://www.facebook.com/sharer.php?u='.urlencode(base_url().'member/'.$is_member->mbr_nickname).'"><i class="icon icon-share"></i>Facebook</a></li>';
+						$introduction_actions .= '<li><a target="_blank" href="https://plus.google.com/share?url='.urlencode(base_url().'member/'.$is_member->mbr_nickname).'"><i class="icon icon-share"></i>Google</a></li>';
+						$introduction_actions .= '<li><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text='.urlencode($is_member->mbr_nickname.' - '.$this->config->item('title').' '.base_url().'member/'.$is_member->mbr_nickname).'"><i class="icon icon-share"></i>Twitter</a></li>';
 					}
 					$introduction_actions .= '<li class="hide-phone"><a href="'.base_url().'share/'.$is_member->token_share.'"><i class="icon icon-rss"></i>RSS</a></li>';
 					$introduction_actions .= '</ul>';
@@ -217,7 +217,7 @@ class Items extends CI_Controller {
 				} else if($mode == 'shared') {
 					$introduction_title = '<i class="icon icon-heart"></i>'.$this->lang->line('shared_items').' {<span id="intro-load-shared-items"></span>}';
 					if($this->member->mbr_nickname) {
-						$introduction_actions = '<ul class="actions"><li class="hide-phone"><a href="'.base_url().'member/'.$this->member->mbr_nickname.'"><i class="icon icon-unlock"></i>'.$this->lang->line('public_profile').'</a></li></ul>';
+						$introduction_actions = '<ul class="actions"><li><a href="'.base_url().'member/'.$this->member->mbr_nickname.'"><i class="icon icon-unlock"></i>'.$this->lang->line('public_profile').'</a></li></ul>';
 					} else {
 						$introduction_actions = '<ul class="actions"><li class="hide-phone"><a target="_blank" href="'.base_url().'share/'.$this->member->token_share.'"><i class="icon icon-rss"></i>RSS</a></li></ul>';
 					}
