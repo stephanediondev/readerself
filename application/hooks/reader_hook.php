@@ -19,6 +19,10 @@ class Reader_hook {
 		$this->CI->reader_library->set_charset('UTF-8');
 		$this->CI->reader_library->set_template('_html');
 
+		if(!$this->CI->config->item('salt_password') && $this->CI->router->class != 'configuration') {
+			redirect(base_url().'configuration/error');
+		}
+
 		if($this->CI->session->userdata('mbr_id')) {
 			$this->CI->member = $this->CI->reader_model->get($this->CI->session->userdata('mbr_id'));
 			if(!$this->CI->member || !$this->CI->input->cookie('token_connection') || $this->CI->input->cookie('token_connection') != $this->CI->member->token_connection) {
