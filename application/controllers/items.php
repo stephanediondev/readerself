@@ -190,7 +190,11 @@ class Items extends CI_Controller {
 
 				} else if($mode == 'shared') {
 					$introduction_title = '<i class="icon icon-heart"></i>'.$this->lang->line('shared_items').' {<span id="intro-load-shared-items"></span>}';
-					$introduction_details = '<ul class="item-details"><li><a target="_blank" href="'.base_url().'share/'.$this->member->token_share.'"><i class="icon icon-rss"></i>'.base_url().'share/'.$this->member->token_share.'</a></li></ul>';
+					if($this->member->mbr_nickname) {
+						$introduction_details = '<ul class="item-details"><li><a href="'.base_url().'member/'.$this->member->mbr_nickname.'"><i class="icon icon-unlock"></i>'.base_url().'member/'.$this->member->mbr_nickname.'</a></li></ul>';
+					} else {
+						$introduction_details = '<ul class="item-details"><li><a target="_blank" href="'.base_url().'share/'.$this->member->token_share.'"><i class="icon icon-rss"></i>'.base_url().'share/'.$this->member->token_share.'</a></li></ul>';
+					}
 					$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM share AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
 					$bindings[] = $this->member->mbr_id;
 
@@ -310,7 +314,11 @@ class Items extends CI_Controller {
 				if($query->num_rows() > 0) {
 					foreach($query->result() as $itm) {
 						$sql = 'SELECT sub.sub_id, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction, flr.flr_id, flr.flr_title, flr.flr_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
-						$itm->sub = $this->db->query($sql, array($itm->fed_id, $this->member->mbr_id))->row();
+						if($is_member) {
+							$itm->sub = $this->db->query($sql, array($itm->fed_id, $is_member->mbr_id))->row();
+						} else {
+							$itm->sub = $this->db->query($sql, array($itm->fed_id, $this->member->mbr_id))->row();
+						}
 
 						$itm->foursquare = false;
 
@@ -336,31 +344,33 @@ class Items extends CI_Controller {
 						$sql = 'SELECT enr.* FROM enclosures AS enr WHERE enr.itm_id = ? GROUP BY enr.enr_id ORDER BY enr.enr_type ASC';
 						$itm->enclosures = $this->db->query($sql, array($itm->itm_id))->result();
 
-						$sql = 'SELECT hst.* FROM history AS hst WHERE hst.itm_id = ? AND hst.mbr_id = ? GROUP BY hst.hst_id';
-						$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
-						if($query->num_rows > 0) {
-							$itm->history = 'read';
-						} else {
-							$itm->history = 'unread';
-						}
-
-						if($this->config->item('star')) {
-							$sql = 'SELECT fav.* FROM favorites AS fav WHERE fav.itm_id = ? AND fav.mbr_id = ? GROUP BY fav.fav_id';
+						if(!$is_member) {
+							$sql = 'SELECT hst.* FROM history AS hst WHERE hst.itm_id = ? AND hst.mbr_id = ? GROUP BY hst.hst_id';
 							$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
 							if($query->num_rows > 0) {
-								$itm->star = 1;
+								$itm->history = 'read';
 							} else {
-								$itm->star = 0;
+								$itm->history = 'unread';
 							}
-						}
 
-						if($this->config->item('share')) {
-							$sql = 'SELECT shr.* FROM share AS shr WHERE shr.itm_id = ? AND shr.mbr_id = ? GROUP BY shr.shr_id';
-							$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
-							if($query->num_rows > 0) {
-								$itm->share = 1;
-							} else {
-								$itm->share = 0;
+							if($this->config->item('star')) {
+								$sql = 'SELECT fav.* FROM favorites AS fav WHERE fav.itm_id = ? AND fav.mbr_id = ? GROUP BY fav.fav_id';
+								$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
+								if($query->num_rows > 0) {
+									$itm->star = 1;
+								} else {
+									$itm->star = 0;
+								}
+							}
+
+							if($this->config->item('share')) {
+								$sql = 'SELECT shr.* FROM share AS shr WHERE shr.itm_id = ? AND shr.mbr_id = ? GROUP BY shr.shr_id';
+								$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
+								if($query->num_rows > 0) {
+									$itm->share = 1;
+								} else {
+									$itm->share = 0;
+								}
 							}
 						}
 

@@ -71,7 +71,7 @@ function set_positions_modal() {
 	$('#modal').css({'margin-left': margin_left, 'top': _top});
 }
 function refresh() {
-	if(!lock_refresh) {
+	if(!lock_refresh && ci_controller != 'member') {
 		params = [];
 		if($('#last_crawl').length > 0) {
 			params.push({'name': 'last_crawl', 'value': true});
