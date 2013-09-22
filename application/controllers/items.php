@@ -333,6 +333,7 @@ class Items extends CI_Controller {
 				$content['total'] = $query->num_rows();
 
 				if($query->num_rows() > 0) {
+					$u = 0;
 					foreach($query->result() as $itm) {
 						$sql = 'SELECT sub.sub_id, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction, flr.flr_id, flr.flr_title, flr.flr_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
 						if($is_member) {
@@ -399,7 +400,8 @@ class Items extends CI_Controller {
 
 						$itm->itm_content = $this->reader_library->prepare_content($itm->itm_content);
 
-						$content['items'][$itm->itm_id] = array('itm_id' => $itm->itm_id, 'itm_content' => $this->load->view('item', array('itm'=>$itm, 'mode'=>$mode), TRUE));
+						$content['items'][$u] = array('itm_id' => $itm->itm_id, 'itm_content' => $this->load->view('item', array('itm'=>$itm, 'mode'=>$mode), TRUE));
+						$u++;
 					}
 				} else {
 					$lastcrawl = $this->db->query('SELECT DATE_ADD(crr.crr_datecreated, INTERVAL ? HOUR) AS crr_datecreated FROM '.$this->db->dbprefix('crawler').' AS crr GROUP BY crr.crr_id ORDER BY crr.crr_id DESC LIMIT 0,1', array($this->session->userdata('timezone')))->row();
