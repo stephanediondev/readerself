@@ -372,7 +372,7 @@ class Items extends CI_Controller {
 					}
 				} else {
 					$lastcrawl = $this->db->query('SELECT DATE_ADD(crr.crr_datecreated, INTERVAL ? HOUR) AS crr_datecreated FROM '.$this->db->dbprefix('crawler').' AS crr GROUP BY crr.crr_id ORDER BY crr.crr_id DESC LIMIT 0,1', array($this->session->userdata('timezone')))->row();
-					if($lastcrawl) {
+					if($lastcrawl && $mode != 'member') {
 						$content['end'] = '<article id="last_crawl" class="neutral title">';
 						$content['end'] .= '</article>';
 					}

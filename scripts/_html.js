@@ -111,7 +111,7 @@ function set_positions() {
 	_offset = $('main > section').offset();
 	_height = _window_height - _offset.top;
 	$('main > section').css({ 'height': _height});
-	if(ci_controller == 'home') {
+	if(ci_controller == 'home' || ci_controller == 'member') {
 		$('main section section').css({ 'padding-bottom': _height});
 	}
 
