@@ -399,7 +399,7 @@ class Items extends CI_Controller {
 						$content['end'] .= '</article>';
 					} else if($mode == 'member') {
 						$content['end'] = '<article class="neutral title">';
-						$content['end'] .= '<p><i class="icon icon-smile"></i>'.$this->lang->line('no_more_items').'</p>';
+						$content['end'] .= '<p><i class="icon icon-check"></i>'.$this->lang->line('no_more_items').'</p>';
 						$content['end'] .= '</article>';
 					}
 				}
