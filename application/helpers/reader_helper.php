@@ -166,3 +166,26 @@ if( ! function_exists('build_table_repartition')) {
 		return $content;
 	}
 }
+
+if( ! function_exists('haversineGreatCircleDistance')) {
+	function haversineGreatCircleDistance($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371000) {
+		$latFrom = deg2rad($latitudeFrom);
+		$lonFrom = deg2rad($longitudeFrom);
+		$latTo = deg2rad($latitudeTo);
+		$lonTo = deg2rad($longitudeTo);
+
+		$latDelta = $latTo - $latFrom;
+		$lonDelta = $lonTo - $lonFrom;
+
+		$angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) + cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
+		$distance = $angle * $earthRadius;
+		if($distance < 1000) {
+			$distance = round($distance);
+			$distance .= ' m.';
+		} else {
+			$distance = round($distance/1000);
+			$distance .= ' km.';
+		}
+		return $distance;
+	}
+}

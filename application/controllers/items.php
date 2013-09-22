@@ -181,6 +181,12 @@ class Items extends CI_Controller {
 
 				if($mode == 'geolocation') {
 					$introduction_title = '<i class="icon icon-map-marker"></i>'.$this->lang->line('geolocation_items').' (<span id="intro-load-geolocation-items"></span>)';
+					$introduction_actions = '<ul class="actions">';
+					$introduction_actions .= '<li class="geolocation"><a href="'.base_url().'home/geolocation"><i class="icon icon-user"></i>'.$this->lang->line('get_geolocation').'</a></li>';
+					$introduction_actions .= '</ul>';
+					if($this->session->userdata('latitude') && $this->session->userdata('longitude')) {
+						$introduction_details = '<ul class="item-details"><li><a target="_blank" href="http://maps.google.com/maps?q='.$this->session->userdata('latitude').','.$this->session->userdata('longitude').'&oe=UTF-8&ie=UTF-8"><i class="icon icon-user"></i>'.$this->session->userdata('latitude').','.$this->session->userdata('longitude').'</a></li></ul>';
+					}
 					$where[] = 'itm.itm_latitude IS NOT NULL';
 					$where[] = 'itm.itm_longitude IS NOT NULL';
 				}

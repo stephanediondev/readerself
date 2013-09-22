@@ -12,6 +12,7 @@ $lang['add'] = 'Add';
 $lang['all_items'] = 'All items';
 $lang['priority_items'] = 'Priority items';
 $lang['geolocation_items'] = 'Geolocation';
+$lang['get_geolocation'] = 'Get geolocation';
 $lang['audio_items'] = 'Audio';
 $lang['all'] = 'All';
 $lang['back'] = 'Back';

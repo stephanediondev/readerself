@@ -754,4 +754,43 @@ $(document).ready(function() {
 		$(ref).html(content);
 		$(ref).show();
 	});
+
+	$('.geolocation a').live('click', function(event) {
+		event.preventDefault();
+		if(navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(
+				function(position) {
+					params = [];
+					params.push({'name': 'latitude', 'value': position.coords.latitude});
+					params.push({'name': 'longitude', 'value': position.coords.longitude});
+					params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
+					$.ajax({
+						async: false,
+						cache: true,
+						data: params,
+						dataType: 'json',
+						statusCode: {
+							200: function(data_return, textStatus, jqXHR) {
+								load_items( $('aside ul').find('li.active').find('a').attr('href') );
+							}
+						},
+						type: 'POST',
+						url: base_url + 'home/geolocation'
+					});
+				},
+				function(error) {
+					if(error.code == 1) {
+						modal_show(base_url + 'home/error/geo1');
+					} else if(error.code == 2) {
+						modal_show(base_url + 'home/error/geo2');
+					} else if(error.code == 3) {
+						modal_show(base_url + 'home/error/geo3');
+					} else {
+						modal_show(base_url + 'home/error/geo0');
+					}
+				},
+				{'enableHighAccuracy': true, 'timeout': 30000}
+			);
+		}
+	});
 });
