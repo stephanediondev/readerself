@@ -69,6 +69,11 @@ class Profile extends CI_Controller {
 	}
 	public function email() {
 		if($this->input->post('mbr_email')) {
+			if($this->member->mbr_email == 'example@example.com') {
+				$this->form_validation->set_message('email', 'Demo account');
+				return FALSE;
+			}
+
 			$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_email = ? AND mbr.mbr_email != ? GROUP BY mbr.mbr_id', array($this->input->post('mbr_email'), $this->member->mbr_email));
 			if($query->num_rows() > 0) {
 				$this->form_validation->set_message('email', $this->lang->line('callback_email'));
