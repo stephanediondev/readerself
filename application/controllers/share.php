@@ -61,7 +61,9 @@ class Share extends CI_Controller {
 					$enclosures = $this->db->query($sql, array($itm->itm_id))->result();
 					if($enclosures) {
 						foreach($enclosures as $enr) {
-							$feed_item->setEnclosure($enr->enr_link, $enr->enr_length, $enr->enr_type);
+							if($enr->enr_length && $enr->enr_length > 0) {
+								$feed_item->setEnclosure($enr->enr_link, $enr->enr_length, $enr->enr_type);
+							}
 						}
 					}
 					$feed_item->setDescription($itm->itm_content);
