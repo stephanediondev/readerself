@@ -5,11 +5,11 @@ class Items extends CI_Controller {
 		parent::__construct();
 	}
 	public function get($mode, $id = FALSE) {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->session->userdata('mbr_id') && $mode != 'member') {
 			redirect(base_url());
 		}
 
-		$modes = array('all', 'priority', 'geolocation', 'audio', 'starred', 'shared', 'nofolder', 'folder', 'subscription', 'category', 'author', 'search', 'cloud');
+		$modes = array('all', 'priority', 'geolocation', 'audio', 'starred', 'shared', 'nofolder', 'folder', 'subscription', 'category', 'author', 'search', 'cloud', 'member');
 		$clouds = array('tags', 'authors');
 
 		$content = array();
@@ -17,6 +17,14 @@ class Items extends CI_Controller {
 		$introduction_title = false;
 		$introduction_actions = false;
 		$introduction_details = false;
+
+		$is_member = FALSE;
+		if($mode == 'member') {
+			$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_nickname = ? GROUP BY mbr.mbr_id', array($id));
+			if($query->num_rows() > 0) {
+				$is_member = $query->row();
+			}
+		}
 
 		$is_folder = FALSE;
 		if($mode == 'folder') {
@@ -139,11 +147,17 @@ class Items extends CI_Controller {
 				$where = array();
 				$bindings = array();
 
-				if($mode == 'priority') {
+				if($is_member) {
+					$introduction_title = '<i class="icon icon-user"></i>'.$is_member->mbr_nickname;
+					$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM share AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
+					$bindings[] = $is_member->mbr_id;
+
+				} else if($mode == 'priority') {
 					$introduction_title = '<i class="icon icon-flag"></i>'.$this->lang->line('priority_items').' (<span id="intro-load-priority-items"></span>)';
 					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? AND sub.sub_priority = ? )';
 					$bindings[] = $this->member->mbr_id;
 					$bindings[] = 1;
+
 				} else {
 					$introduction_title = '<i class="icon icon-asterisk"></i>'.$this->lang->line('all_items').' (<span id="intro-load-all-items"></span>)';
 					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
@@ -306,7 +320,11 @@ class Items extends CI_Controller {
 									if(substr($cat->cat_title, 0, 17) == 'foursquare:venue=') {
 										$itm->foursquare = substr($cat->cat_title, 17);
 									} else {
-										$itm->categories[] = '<a class="category" data-cat_id="'.$cat->cat_id.'" href="'.base_url().'items/get/category/'.$cat->cat_id.'">'.$cat->cat_title.'</a>';
+										if($is_member) {
+											$itm->categories[] = $cat->cat_title;
+										} else {
+											$itm->categories[] = '<a class="category" data-cat_id="'.$cat->cat_id.'" href="'.base_url().'items/get/category/'.$cat->cat_id.'">'.$cat->cat_title.'</a>';
+										}
 									}
 								}
 							}
@@ -347,7 +365,7 @@ class Items extends CI_Controller {
 
 						$itm->itm_content = $this->reader_library->prepare_content($itm->itm_content);
 
-						$content['items'][$itm->itm_id] = array('itm_id' => $itm->itm_id, 'itm_content' => $this->load->view('item', array('itm'=>$itm), TRUE));
+						$content['items'][$itm->itm_id] = array('itm_id' => $itm->itm_id, 'itm_content' => $this->load->view('item', array('itm'=>$itm, 'mode'=>$mode), TRUE));
 					}
 				} else {
 					$lastcrawl = $this->db->query('SELECT DATE_ADD(crr.crr_datecreated, INTERVAL ? HOUR) AS crr_datecreated FROM '.$this->db->dbprefix('crawler').' AS crr GROUP BY crr.crr_id ORDER BY crr.crr_id DESC LIMIT 0,1', array($this->session->userdata('timezone')))->row();
