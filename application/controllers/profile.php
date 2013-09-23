@@ -53,7 +53,7 @@ class Profile extends CI_Controller {
 
 		$this->load->library('form_validation');
 		$data = array();
-		$this->form_validation->set_rules('confirm', 'lang:confirm', 'required');
+		$this->form_validation->set_rules('confirm', 'lang:confirm', 'required|callback_confirm');
 		if($this->form_validation->run() == FALSE) {
 
 			$data['connections_total'] = $this->db->query('SELECT COUNT(DISTINCT(cnt.cnt_id)) AS ref_value FROM '.$this->db->dbprefix('connections').' AS cnt WHERE cnt.mbr_id = ?', array($this->member->mbr_id))->row()->ref_value;
@@ -136,6 +136,14 @@ class Profile extends CI_Controller {
 			} else {
 				return TRUE;
 			}
+		}
+	}
+	public function confirm() {
+		if($this->member->mbr_email == 'example@example.com') {
+			$this->form_validation->set_message('confirm', 'Demo account');
+			return FALSE;
+		} else {
+			return TRUE;
 		}
 	}
 	public function nickname() {
