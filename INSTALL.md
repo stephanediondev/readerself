@@ -161,4 +161,10 @@ CREATE TABLE IF NOT EXISTS `subscriptions` (
   KEY `fed_id` (`fed_id`),
   KEY `flr_id` (`flr_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+INSERT INTO `feeds` (`fed_id`, `fed_title`, `fed_url`, `fed_link`, `fed_type`, `fed_image`, `fed_description`, `fed_direction`, `fed_lasterror`, `fed_lastcrawl`, `fed_nextcrawl`, `fed_datecreated`) VALUES
+(1, 'The Verge -  All Posts', 'http://www.theverge.com/', 'http://www.theverge.com/rss/index.xml', 'atom', 'http://cdn1.sbnation.com/community_logos/34086/verge-fv.png', NULL, NULL, NULL, NULL, NULL, NOW()),
+(2, 'Slashdot', 'http://slashdot.org/', 'http://rss.slashdot.org/Slashdot/slashdot', 'rss', 'http://a.fsdn.com/sd/topics/topicslashdot.gif', 'News for nerds, stuff that matters', NULL, NULL, NULL, NULL, NOW()),
+(3, 'The Next Web', 'http://thenextweb.com/', 'http://feeds2.feedburner.com/thenextweb', 'rss', NULL, 'International technology news, business &amp; culture', NULL, NULL, NULL, NULL, NOW()),
+(4, 'Fubiz™', 'http://www.fubiz.net/', 'http://www.fubiz.net/en/feed/', 'rss', NULL, 'Daily dose of inspiration', NULL, NULL, NULL, NULL, NOW());
 ```

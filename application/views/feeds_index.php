@@ -1,6 +1,8 @@
 	<nav>
 		<ul class="actions">
-			<li><a href="<?php echo base_url(); ?>feeds/export"><i class="icon icon-upload-alt"></i><?php echo $this->lang->line('export'); ?></a></li>
+			<?php if($feeds) { ?>
+				<li><a href="<?php echo base_url(); ?>feeds/export"><i class="icon icon-upload-alt"></i><?php echo $this->lang->line('export'); ?></a></li>
+			<?php } ?>
 		</ul>
 	</nav>
 </header>
