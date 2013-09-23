@@ -1,5 +1,6 @@
 	<nav>
 		<ul class="actions">
+			<li><a href="<?php echo base_url(); ?>profile/delete"><i class="icon icon-trash"></i><?php echo $this->lang->line('delete'); ?></a></li>
 			<li><a href="<?php echo base_url(); ?>profile/connections"><i class="icon icon-signin"></i><?php echo $this->lang->line('active_connections'); ?></a></li>
 		</ul>
 	</nav>

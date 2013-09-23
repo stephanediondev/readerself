@@ -46,6 +46,57 @@ class Profile extends CI_Controller {
 			redirect(base_url().'profile');
 		}
 	}
+	public function delete() {
+		if(!$this->session->userdata('mbr_id')) {
+			redirect(base_url());
+		}
+
+		$this->load->library('form_validation');
+		$data = array();
+		$this->form_validation->set_rules('confirm', 'lang:confirm', 'required');
+		if($this->form_validation->run() == FALSE) {
+
+			$data['connections_total'] = $this->db->query('SELECT COUNT(DISTINCT(cnt.cnt_id)) AS ref_value FROM '.$this->db->dbprefix('connections').' AS cnt WHERE cnt.mbr_id = ?', array($this->member->mbr_id))->row()->ref_value;
+
+			$data['subscriptions_total'] = $this->db->query('SELECT COUNT(DISTINCT(sub.sub_id)) AS ref_value FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND fed.fed_id IS NOT NULL', array($this->member->mbr_id))->row()->ref_value;
+
+			$data['folders_total'] = $this->db->query('SELECT COUNT(DISTINCT(flr.flr_id)) AS ref_value FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ?', array($this->member->mbr_id))->row()->ref_value;
+
+			$data['read_items_total'] = $this->db->query('SELECT COUNT(DISTINCT(hst.itm_id)) AS ref_value FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.mbr_id = ?', array(1, $this->member->mbr_id))->row()->ref_value;
+
+			$data['starred_items_total'] = $this->db->query('SELECT COUNT(DISTINCT(fav.itm_id)) AS ref_value FROM '.$this->db->dbprefix('favorites').' AS fav WHERE fav.mbr_id = ?', array($this->member->mbr_id))->row()->ref_value;
+
+			$data['shared_items_total'] = $this->db->query('SELECT COUNT(DISTINCT(shr.itm_id)) AS ref_value FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.mbr_id = ?', array($this->member->mbr_id))->row()->ref_value;
+
+			$content = $this->load->view('profile_delete', $data, TRUE);
+			$this->reader_library->set_content($content);
+		} else {
+			$this->db->where('mbr_id', $this->member->mbr_id);
+			$this->db->delete('connections');
+
+			$this->db->where('mbr_id', $this->member->mbr_id);
+			$this->db->delete('favorites');
+
+			$this->db->where('mbr_id', $this->member->mbr_id);
+			$this->db->delete('folders');
+
+			$this->db->where('mbr_id', $this->member->mbr_id);
+			$this->db->delete('history');
+
+			$this->db->where('mbr_id', $this->member->mbr_id);
+			$this->db->delete('members');
+
+			$this->db->where('mbr_id', $this->member->mbr_id);
+			$this->db->delete('share');
+
+			$this->db->where('mbr_id', $this->member->mbr_id);
+			$this->db->delete('subscriptions');
+
+			$this->reader_model->logout();
+
+			redirect(base_url());
+		}
+	}
 	public function connections() {
 		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
