@@ -1,14 +1,14 @@
 	<nav>
 		<ul class="actions">
-			<li><a href="<?php echo base_url(); ?>explore/export"><i class="icon icon-upload-alt"></i><?php echo $this->lang->line('export'); ?></a></li>
+			<li><a href="<?php echo base_url(); ?>feeds/export"><i class="icon icon-upload-alt"></i><?php echo $this->lang->line('export'); ?></a></li>
 		</ul>
 	</nav>
 </header>
 <aside>
 	<ul>
-		<li><label for="explore_fed_title"><i class="icon icon-search"></i><?php echo $this->lang->line('search'); ?></label></li>
+		<li><label for="feeds_fed_title"><i class="icon icon-search"></i><?php echo $this->lang->line('search'); ?></label></li>
 		<li><?php echo form_open(current_url()); ?>
-			<?php echo form_input($this->router->class.'_explore_fed_title', set_value($this->router->class.'_explore_fed_title', $this->session->userdata($this->router->class.'_explore_fed_title')), 'id="explore_fed_title" class="inputtext"'); ?>
+			<?php echo form_input($this->router->class.'_feeds_fed_title', set_value($this->router->class.'_feeds_fed_title', $this->session->userdata($this->router->class.'_feeds_fed_title')), 'id="feeds_fed_title" class="inputtext"'); ?>
 			<?php echo form_close(); ?></li>
 	</ul>
 </aside>
@@ -16,14 +16,17 @@
 	<section>
 		<section>
 	<article class="cell title">
-		<h2><i class="icon icon-cloud"></i><?php echo $this->lang->line('explore'); ?> (<?php echo $position; ?>)</h2>
+		<h2><i class="icon icon-rss"></i><?php echo $this->lang->line('feeds'); ?> (<?php echo $position; ?>)</h2>
 	</article>
 
 	<?php if($feeds) { ?>
 		<?php foreach($feeds as $fed) { ?>
 		<article<?php if($fed->fed_direction) { ?> dir="<?php echo $fed->fed_direction; ?>"<?php } ?> class="cell">
 			<ul class="actions">
-				<li><a href="<?php echo base_url(); ?>explore/add/<?php echo $fed->fed_id; ?>"><i class="icon icon-plus"></i><?php echo $this->lang->line('add'); ?></a></li>
+				<?php if($fed->subscribers == 0) { ?>
+					<li><a href="<?php echo base_url(); ?>feeds/delete/<?php echo $fed->fed_id; ?>"><i class="icon icon-trash"></i><?php echo $this->lang->line('delete'); ?></a></li>
+				<?php } ?>
+				<li><a href="<?php echo base_url(); ?>feeds/add/<?php echo $fed->fed_id; ?>"><i class="icon icon-bookmark-empty"></i><?php echo $this->lang->line('subscribe'); ?></a></li>
 			</ul>
 			<h2><i class="icon icon-rss"></i><?php echo $fed->fed_title; ?></h2>
 			<ul class="item-details">

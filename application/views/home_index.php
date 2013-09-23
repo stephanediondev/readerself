@@ -55,7 +55,7 @@
 			<?php echo form_input('search_items', '', 'id="search_items" title="/"'); ?>
 			<?php echo form_close(); ?>
 		</li>
-		<li><label for="fed_title"><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?></label></li>
+		<li><label for="fed_title"><i class="icon icon-bookmark"></i><?php echo $this->lang->line('subscriptions'); ?></label></li>
 		<li>
 			<?php echo form_open(base_url().'subscriptions/search', array('id'=>'search_subscriptions_form')); ?>
 			<?php echo form_input('fed_title', '', 'id="fed_title"'); ?>

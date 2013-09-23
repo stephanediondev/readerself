@@ -8,7 +8,7 @@
 	<section>
 		<section>
 	<article class="cell title">
-		<h2><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?></h2>
+		<h2><i class="icon icon-bookmark"></i><?php echo $this->lang->line('subscriptions'); ?></h2>
 	</article>
 
 	<h2><i class="icon icon-plus"></i><?php echo $this->lang->line('add'); ?></h2>

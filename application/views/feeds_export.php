@@ -1,5 +1,5 @@
 <head>
-<title>Explore from <?php echo $this->config->item('title'); ?></title>
+<title>Feeds from <?php echo $this->config->item('title'); ?></title>
 <docs>http://dev.opml.org/spec2.html</docs>
 </head>
 <body>

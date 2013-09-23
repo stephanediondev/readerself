@@ -8,7 +8,7 @@
 	<section>
 		<section>
 	<article class="cell title">
-		<h2><i class="icon icon-rss"></i><?php echo $this->lang->line('subscriptions'); ?></h2>
+		<h2><i class="icon icon-bookmark"></i><?php echo $this->lang->line('subscriptions'); ?></h2>
 	</article>
 
 	<article<?php if($sub->direction) { ?> dir="<?php echo $sub->direction; ?>"<?php } ?> class="cell">
@@ -31,7 +31,7 @@
 		</div>
 	</article>
 
-	<h2><i class="icon icon-trash"></i><?php echo $this->lang->line('delete'); ?></h2>
+	<h2><i class="icon icon-bookmark"></i><?php echo $this->lang->line('unsubscribe'); ?></h2>
 
 	<?php echo validation_errors(); ?>
 

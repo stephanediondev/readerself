@@ -192,11 +192,11 @@ class Reader_model extends CI_Model {
 		return $query->row();
 	}
 
-	function get_explore_total($flt) {
+	function get_feeds_total($flt) {
 		$query = $this->db->query('SELECT COUNT(DISTINCT(fed.fed_id)) AS count FROM '.$this->db->dbprefix('feeds').' fed WHERE '.implode(' AND ', $flt).' AND fed.fed_id NOT IN( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.mbr_id = ?)', array($this->member->mbr_id));
 		return $query->row();
 	}
-	function get_explore_rows($flt, $num, $offset, $order) {
+	function get_feeds_rows($flt, $num, $offset, $order) {
 		$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
 
 		$feeds = false;
@@ -219,6 +219,10 @@ class Reader_model extends CI_Model {
 			}
 		}
 		return $feeds;
+	}
+	function get_feed_row($fed_id) {
+		$query = $this->db->query('SELECT fed.*, (SELECT COUNT(DISTINCT(count_sub.mbr_id)) FROM '.$this->db->dbprefix('subscriptions').' AS count_sub WHERE count_sub.fed_id = fed.fed_id) AS subscribers FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_id = ? GROUP BY fed.fed_id', array($fed_id));
+		return $query->row();
 	}
 	function count_unread($type, $id = false) {
 		if($type == 'all') {
