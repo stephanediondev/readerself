@@ -125,7 +125,7 @@ class Profile extends CI_Controller {
 	public function email() {
 		if($this->input->post('mbr_email')) {
 			if($this->member->mbr_email == 'example@example.com') {
-				$this->form_validation->set_message('email', 'Demo account');
+				$this->form_validation->set_message('email', '<i class="icon icon-bell"></i>Demo account');
 				return FALSE;
 			}
 
@@ -140,7 +140,7 @@ class Profile extends CI_Controller {
 	}
 	public function confirm() {
 		if($this->member->mbr_email == 'example@example.com') {
-			$this->form_validation->set_message('confirm', 'Demo account');
+			$this->form_validation->set_message('confirm', '<i class="icon icon-bell"></i>Demo account');
 			return FALSE;
 		} else {
 			return TRUE;
