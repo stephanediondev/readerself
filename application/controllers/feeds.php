@@ -69,6 +69,8 @@ class Feeds extends CI_Controller {
 					$this->db->where('fed_id', $fed_id);
 					$this->db->delete('feeds');
 
+					$this->db->query('OPTIMIZE TABLE categories, enclosures, favorites, history, share, items, feeds');
+
 					redirect(base_url().'feeds');
 				}
 			} else {

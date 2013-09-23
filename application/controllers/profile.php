@@ -84,13 +84,15 @@ class Profile extends CI_Controller {
 			$this->db->delete('history');
 
 			$this->db->where('mbr_id', $this->member->mbr_id);
-			$this->db->delete('members');
-
-			$this->db->where('mbr_id', $this->member->mbr_id);
 			$this->db->delete('share');
 
 			$this->db->where('mbr_id', $this->member->mbr_id);
 			$this->db->delete('subscriptions');
+
+			$this->db->where('mbr_id', $this->member->mbr_id);
+			$this->db->delete('members');
+
+			$this->db->query('OPTIMIZE TABLE connections, favorites, folders, history, share, subscriptions, members');
 
 			$this->reader_model->logout();
 
