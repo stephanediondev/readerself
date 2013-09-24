@@ -131,19 +131,18 @@ function item_swipe(selector) {
 	$(selector).swipe('destroy');
 	$(selector).swipe({
 		swipeRight:function(event, direction, distance, duration, fingerCount) {
-			if(direction == 'right' && distance > 120) {
-				if($(selector).hasClass('collapse')) {
-					item_expand($(selector).find('.expand'));
-				} else {
-					$(selector).find('.item-content').hide();
-					$(selector).find('.item-content').html('');
-					$(selector).find('.collapse').parent().hide();
-					$(selector).find('.expand').parent().show();
-					$(selector).addClass('collapse');
-					location.hash = '#' + $(selector).attr('id');
-				}
+			if($(selector).hasClass('collapse')) {
+				item_expand($(selector).find('.expand'));
+			} else {
+				$(selector).find('.item-content').hide();
+				$(selector).find('.item-content').html('');
+				$(selector).find('.collapse').parent().hide();
+				$(selector).find('.expand').parent().show();
+				$(selector).addClass('collapse');
+				location.hash = '#' + $(selector).attr('id');
 			}
-		}
+		},
+		threshold: 120
 	});
 }
 function item_up() {

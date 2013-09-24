@@ -261,12 +261,11 @@ $(document).ready(function() {
 	if($('aside').length > 0) {
 		$(document).swipe({
 			swipeLeft:function(event, direction, distance, duration, fingerCount) {
-				if(direction == 'left' && distance > 120) {
-					if($('#toggle-sidebar').is(':visible')) {
-						toggle_sidebar();
-					}
+				if($('#toggle-sidebar').is(':visible')) {
+					toggle_sidebar();
 				}
-			}
+			},
+			threshold: 120
 		});
 	}
 
