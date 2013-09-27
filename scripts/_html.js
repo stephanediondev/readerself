@@ -138,9 +138,14 @@ function fullscreen() {
 	}
 	set_positions();
 	if($('.item-selected').length > 0) {
-		location.hash = '#' + $('.item-selected').attr('id');
+		scroll_to('#' + $('.item-selected').attr('id'));
 	}
 }
+function scroll_to(anchor) {
+	//location.hash = anchor;
+	$('main > section').scrollTo(anchor);
+}
+
 $(document).ready(function() {
 	if($('aside').length == 0) {
 		$('#toggle-sidebar').parent().remove();
