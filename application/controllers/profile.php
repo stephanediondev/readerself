@@ -106,7 +106,7 @@ class Profile extends CI_Controller {
 
 		$data = array();
 
-		include('thirdparty/PhpUserAgent/UserAgentParser.php');
+		include('thirdparty/phpuseragent/UserAgentParser.php');
 
 		$data['connections'] = $this->db->query('SELECT cnt.*, DATE_ADD(cnt.cnt_datecreated, INTERVAL ? HOUR) AS cnt_datecreated FROM '.$this->db->dbprefix('connections').' AS cnt WHERE cnt.token_connection IS NOT NULL AND cnt.mbr_id = ? GROUP BY cnt.cnt_id ORDER BY cnt.cnt_id DESC LIMIT 0,30', array($this->session->userdata('timezone'), $this->member->mbr_id))->result();
 
