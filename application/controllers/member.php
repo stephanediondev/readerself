@@ -12,7 +12,7 @@ class Member extends CI_Controller {
 			$this->index($method);
 		}
 	}
-	public function index($mbr_nickname = false) {
+	public function index($mbr_nickname = '') {
 		$data = array();
 
 		$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_nickname = ? GROUP BY mbr.mbr_id', array($mbr_nickname));
