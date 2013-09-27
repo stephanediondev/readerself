@@ -7,11 +7,11 @@
 <main>
 	<section>
 		<section>
-	<article class="cell title">
+	<article class="title">
 		<h2><i class="icon icon-bookmark"></i><?php echo $this->lang->line('subscriptions'); ?></h2>
 	</article>
 
-	<article<?php if($sub->direction) { ?> dir="<?php echo $sub->direction; ?>"<?php } ?> class="cell">
+	<article<?php if($sub->direction) { ?> dir="<?php echo $sub->direction; ?>"<?php } ?>>
 		<ul class="actions">
 			<li><a href="<?php echo base_url(); ?>subscriptions/update/<?php echo $sub->sub_id; ?>"><i class="icon icon-wrench"></i><?php echo $this->lang->line('update'); ?></a></li>
 		</ul>

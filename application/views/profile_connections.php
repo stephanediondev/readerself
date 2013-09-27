@@ -9,7 +9,7 @@
 	<section>
 		<section>
 
-	<article class="cell title">
+	<article class="title">
 		<h2><i class="icon icon-signin"></i><?php echo $this->lang->line('active_connections'); ?></h2>
 	</article>
 
@@ -17,7 +17,7 @@
 		<?php foreach($connections as $cnt) { ?>
 		<?php $ua_info = parse_user_agent($cnt->cnt_agent); ?>
 		<?php list($date, $time) = explode(' ', $cnt->cnt_datecreated); ?>
-			<article class="cell<?php if($this->member->token_connection == $cnt->token_connection) { ?> item-selected<?php } ?>">
+			<article<?php if($this->member->token_connection == $cnt->token_connection) { ?> class="item-selected"<?php } ?>">
 				<h2><i class="icon icon-signin"></i><?php echo $ua_info['platform']; ?> <?php echo $ua_info['browser']; ?> <?php echo $ua_info['version']; ?><?php if($this->member->token_connection == $cnt->token_connection) { ?> / <em><?php echo $this->lang->line('current_connection'); ?></em><?php } ?></h2>
 				<ul class="item-details">
 					<li><i class="icon icon-bolt"></i><?php echo $cnt->cnt_ip; ?></li>

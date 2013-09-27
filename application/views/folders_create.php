@@ -7,7 +7,7 @@
 <main>
 	<section>
 		<section>
-	<article class="cell title">
+	<article class="title">
 		<h2><i class="icon icon-folder-close"></i><?php echo $this->lang->line('folders'); ?></h2>
 	</article>
 

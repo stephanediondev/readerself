@@ -2,7 +2,7 @@
 <main>
 	<section>
 		<section>
-		<article class="cell title">
+		<article class="title">
 			<h2><i class="icon icon-star"></i><?php echo $this->lang->line('starred_items'); ?></h2>
 		</article>
 

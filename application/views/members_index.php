@@ -10,12 +10,12 @@
 <main>
 	<section>
 		<section>
-		<article class="cell title">
+		<article class="title">
 			<h2><i class="icon icon-group"></i><?php echo $this->lang->line('members'); ?> (<?php echo $position; ?>)</h2>
 		</article>
 	<?php if($members) { ?>
 		<?php foreach($members as $mbr) { ?>
-		<article class="cell<?php if($mbr->mbr_id == $this->member->mbr_id) { ?> item-selected<?php } ?>">
+		<article<?php if($mbr->mbr_id == $this->member->mbr_id) { ?> class="item-selected"<?php } ?>>
 			<ul class="actions">
 				<li><a href="<?php echo base_url(); ?>member/<?php echo $mbr->mbr_nickname; ?>"><i class="icon icon-unlock"></i><?php echo $this->lang->line('public_profile'); ?></a></h2>
 			</ul>

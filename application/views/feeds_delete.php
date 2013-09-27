@@ -7,11 +7,11 @@
 <main>
 	<section>
 		<section>
-	<article class="cell title">
+	<article class="title">
 		<h2><i class="icon icon-rss"></i><?php echo $this->lang->line('feeds'); ?></h2>
 	</article>
 
-	<article<?php if($fed->fed_direction) { ?> dir="<?php echo $fed->fed_direction; ?>"<?php } ?> class="cell">
+	<article<?php if($fed->fed_direction) { ?> dir="<?php echo $fed->fed_direction; ?>"<?php } ?>>
 		<h2><i class="icon icon-rss"></i><?php echo $fed->fed_title; ?></h2>
 		<ul class="item-details">
 			<?php if($fed->fed_lastcrawl) { ?><li><i class="icon icon-truck"></i><?php echo $fed->fed_lastcrawl; ?></li><?php } ?>

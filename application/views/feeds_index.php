@@ -17,13 +17,13 @@
 <main>
 	<section>
 		<section>
-	<article class="cell title">
+	<article class="title">
 		<h2><i class="icon icon-rss"></i><?php echo $this->lang->line('feeds'); ?> (<?php echo $position; ?>)</h2>
 	</article>
 
 	<?php if($feeds) { ?>
 		<?php foreach($feeds as $fed) { ?>
-		<article<?php if($fed->fed_direction) { ?> dir="<?php echo $fed->fed_direction; ?>"<?php } ?> class="cell">
+		<article<?php if($fed->fed_direction) { ?> dir="<?php echo $fed->fed_direction; ?>"<?php } ?>>
 			<ul class="actions">
 				<?php if($fed->subscribers == 0) { ?>
 					<li><a href="<?php echo base_url(); ?>feeds/delete/<?php echo $fed->fed_id; ?>"><i class="icon icon-trash"></i><?php echo $this->lang->line('delete'); ?></a></li>

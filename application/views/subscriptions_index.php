@@ -31,12 +31,12 @@
 <main>
 	<section>
 		<section>
-		<article class="cell title">
+		<article class="title">
 			<h2><i class="icon icon-bookmark"></i><?php echo $this->lang->line('subscriptions'); ?> (<?php echo $position; ?>)</h2>
 		</article>
 	<?php if($subscriptions) { ?>
 		<?php foreach($subscriptions as $sub) { ?>
-		<article<?php if($sub->direction) { ?> dir="<?php echo $sub->direction; ?>"<?php } ?> class="cell">
+		<article<?php if($sub->direction) { ?> dir="<?php echo $sub->direction; ?>"<?php } ?>>
 			<ul class="actions">
 				<li><a class="priority" href="<?php echo base_url(); ?>subscriptions/priority/<?php echo $sub->sub_id; ?>"><span class="priority"<?php if($sub->sub_priority == 0) { ?> style="display:none;"<?php } ?>><i class="icon icon-flag"></i><?php echo $this->lang->line('not_priority'); ?></span><span class="not_priority"<?php if($sub->sub_priority == 1) { ?> style="display:none;"<?php } ?>><i class="icon icon-flag-alt"></i><?php echo $this->lang->line('priority'); ?></span></a></li>
 				<li><a href="<?php echo base_url(); ?>subscriptions/update/<?php echo $sub->sub_id; ?>"><i class="icon icon-wrench"></i><?php echo $this->lang->line('update'); ?></a></li>

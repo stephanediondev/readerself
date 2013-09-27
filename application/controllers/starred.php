@@ -120,7 +120,7 @@ class Starred extends CI_Controller {
 					}
 				}
 			}
-			$content .= '<article class="cell title"><h2><i class="icon icon-star"></i>'.$this->lang->line('starred_items').' ('.$starred_items.')</h2></article>';
+			$content .= '<article class="title"><h2><i class="icon icon-star"></i>'.$this->lang->line('starred_items').' ('.$starred_items.')</h2></article>';
 			$content .= '</section></section></main>';
 		}
 		$this->readerself_library->set_content($content);

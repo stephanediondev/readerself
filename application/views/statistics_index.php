@@ -2,7 +2,7 @@
 <main>
 	<section>
 		<section>
-	<article class="cell">
+	<article>
 	<h2><i class="icon icon-bar-chart"></i><?php echo $this->lang->line('statistics'); ?></h2>
 	<ul class="item-details">
 		<li>*<?php echo $this->lang->line('last_30_days'); ?></li>

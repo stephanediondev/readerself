@@ -2,7 +2,7 @@
 <main>
 	<section>
 		<section>
-	<article class="cell title">
+	<article class="title">
 		<h2><i class="icon icon-user"></i><?php echo $this->lang->line('register'); ?></h2>
 	</article>
 

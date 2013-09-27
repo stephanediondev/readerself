@@ -91,7 +91,7 @@ class Items extends CI_Controller {
 				if($id == 'authors') {
 					$introduction_title = '<i class="icon icon-pencil"></i>'.$this->lang->line('authors').'*';
 				}
-				$content['end'] = '<article class="neutral title">';
+				$content['end'] = '<article class="title">';
 				$content['end'] .= '<p>*'.$this->lang->line('last_30_days').'</p>';
 				$content['end'] .= '</article>';
 
@@ -122,7 +122,7 @@ class Items extends CI_Controller {
 						}
 					}
 					ksort($items);
-					$content['cloud'] = '<div id="cloud" class="neutral"><p>';
+					$content['cloud'] = '<article id="cloud"><p>';
 					foreach($items as $k => $v) {
 						$percent = ($v['count'] * 100) / $max;
 						$percent = $percent - ($percent % 10);
@@ -134,7 +134,7 @@ class Items extends CI_Controller {
 							$content['cloud'] .= '<a class="author" data-itm_id="'.$v['id'].'" href="'.base_url().'items/get/author/'.$v['id'].'" style="font-size:'.$percent.'%;">'.$k.'</a> ';
 						}
 					}
-					$content['cloud'] .= '</p></div>';
+					$content['cloud'] .= '</p></article>';
 				} else {
 					$content['cloud'] = '';
 				}
@@ -415,10 +415,10 @@ class Items extends CI_Controller {
 				} else {
 					$lastcrawl = $this->db->query('SELECT DATE_ADD(crr.crr_datecreated, INTERVAL ? HOUR) AS crr_datecreated FROM '.$this->db->dbprefix('crawler').' AS crr GROUP BY crr.crr_id ORDER BY crr.crr_id DESC LIMIT 0,1', array($this->session->userdata('timezone')))->row();
 					if($lastcrawl && $mode != 'member') {
-						$content['end'] = '<article id="last_crawl" class="neutral title">';
+						$content['end'] = '<article id="last_crawl" class="title">';
 						$content['end'] .= '</article>';
 					} else if($mode == 'member') {
-						$content['end'] = '<article class="neutral title">';
+						$content['end'] = '<article class="title">';
 						$content['end'] .= '<p><i class="icon icon-check"></i>'.$this->lang->line('no_more_items').'</p>';
 						$content['end'] .= '</article>';
 					}
@@ -427,9 +427,9 @@ class Items extends CI_Controller {
 
 			if($introduction_title) {
 				if($introduction_direction) {
-					$content['begin'] = '<article dir="'.$introduction_direction.'" id="introduction" class="neutral title">';
+					$content['begin'] = '<article dir="'.$introduction_direction.'" id="introduction" class="title">';
 				} else {
-					$content['begin'] = '<article id="introduction" class="neutral title">';
+					$content['begin'] = '<article id="introduction" class="title">';
 				}
 				if($introduction_actions) {
 					$content['begin'] .= $introduction_actions;

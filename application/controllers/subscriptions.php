@@ -417,7 +417,7 @@ class Subscriptions extends CI_Controller {
 <main><section><section>';
 
 					if(count($this->folders) > 0) {
-						$content_folders = '<article class="cell title"><h2><i class="icon icon-folder-close"></i>'.$this->lang->line('folders').' ('.count($this->folders).')</h2></article>';
+						$content_folders = '<article class="title"><h2><i class="icon icon-folder-close"></i>'.$this->lang->line('folders').' ('.count($this->folders).')</h2></article>';
 						$folders = array();
 						foreach($this->folders as $value) {
 							$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.flr_title = ? AND flr.mbr_id = ? GROUP BY flr.flr_id', array($value, $this->member->mbr_id));
@@ -434,7 +434,7 @@ class Subscriptions extends CI_Controller {
 								$folders[$value] = $flr->flr_id;
 								$icon = 'repeat';
 							}
-							$content_folders .= '<article class="cell">
+							$content_folders .= '<article>
 								<ul class="actions">
 									<li><a href="'.base_url().'folders/update/'.$folders[$value].'"><i class="icon icon-wrench"></i>'.$this->lang->line('update').'</a></li>
 									<li><a href="'.base_url().'folders/delete/'.$folders[$value].'"><i class="icon icon-trash"></i>'.$this->lang->line('delete').'</a></li>
@@ -448,7 +448,7 @@ class Subscriptions extends CI_Controller {
 					}
 
 					if(count($this->feeds) > 0) {
-						$content .= '<article class="cell title"><h2><i class="icon icon-rss"></i>'.$this->lang->line('subscriptions').' ('.count($this->feeds).')</h2></article>';
+						$content .= '<article class="title"><h2><i class="icon icon-rss"></i>'.$this->lang->line('subscriptions').' ('.count($this->feeds).')</h2></article>';
 						foreach($this->feeds as $obj) {
 							if(isset($obj->title) == 0 && isset($obj->text) == 1) {
 								$obj->title = $obj->text;
@@ -504,7 +504,7 @@ class Subscriptions extends CI_Controller {
 									$icon = 'plus';
 								}
 							}
-							$content .= '<article class="cell">
+							$content .= '<article>
 								<ul class="actions">
 									<li><a href="'.base_url().'subscriptions/update/'.$sub_id.'"><i class="icon icon-wrench"></i>'.$this->lang->line('update').'</a></li>
 									<li><a href="'.base_url().'subscriptions/delete/'.$sub_id.'"><i class="icon icon-trash"></i>'.$this->lang->line('delete').'</a></li>

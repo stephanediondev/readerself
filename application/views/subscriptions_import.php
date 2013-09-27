@@ -7,7 +7,7 @@
 <main>
 	<section>
 		<section>
-		<article class="cell title">
+		<article class="title">
 			<h2><i class="icon icon-bookmark"></i><?php echo $this->lang->line('subscriptions'); ?></h2>
 		</article>
 

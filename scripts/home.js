@@ -43,7 +43,7 @@ function load_items(url) {
 				var content = '';
 				if(data_return.errors_count > 0) {
 					for(i in data_return.errors) {
-						content += '<article class="neutral title"><p><i class="icon icon-bug"></i>' + data_return.errors[i] + '</p></article>';
+						content += '<article class="title"><p><i class="icon icon-bug"></i>' + data_return.errors[i] + '</p></article>';
 					}
 				}
 				if(data_return.begin) {
@@ -104,7 +104,7 @@ function add_items(url) {
 					var content = '';
 					if(data_return.errors_count > 0) {
 						for(i in data_return.errors) {
-							content += '<article class="neutral title"><p><i class="icon icon-bug"></i>' + data_return.errors[i] + '</p></article>';
+							content += '<article class="title"><p><i class="icon icon-bug"></i>' + data_return.errors[i] + '</p></article>';
 						}
 					}
 					if(data_return.total > 0) {
