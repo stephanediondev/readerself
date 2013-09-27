@@ -44,19 +44,19 @@ class Readerself_library {
 			if(function_exists('memory_get_usage')) {
 				$debug['memory_get_usage'] = number_format(memory_get_usage(), 0, '.', ' ');
 			}
-			$key = 'errors ('.count($this->errors).')'; 
-			$debug[$key] = array();
+			$debug['errors_count'] = count($this->errors);
+			$debug['errors'] = array();
 			foreach($this->errors as $error) {
-				$debug[$key][] = $error; 
+				$debug['errors'][] = $error; 
 			}
-			$key = 'queries ('.count($this->CI->db->queries).')';
-			$debug[$key] = array();
+			$debug['queries_count'] = count($this->CI->db->queries);
+			$debug['queries'] = array();
 			$u = 0;
 			foreach($this->CI->db->queries as $k => $query) {
 				$query_time = number_format($this->CI->db->query_times[$k], 20, '.', '');
-				$debug[$key][$u] = array();
-				$debug[$key][$u]['query'] = $query;
-				$debug[$key][$u]['time'] = $query_time;
+				$debug['queries'][$u] = array();
+				$debug['queries'][$u]['query'] = $query;
+				$debug['queries'][$u]['time'] = $query_time;
 				$u++;
 			}
 		}

@@ -41,6 +41,11 @@ function load_items(url) {
 					}
 				}
 				var content = '';
+				if(data_return.errors_count > 0) {
+					for(i in data_return.errors) {
+						content += '<article class="neutral title"><p><i class="icon icon-bug"></i>' + data_return.errors[i] + '</p></article>';
+					}
+				}
 				if(data_return.begin) {
 					content += data_return.begin;
 				}
