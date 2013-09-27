@@ -18,7 +18,7 @@ class Share extends CI_Controller {
 			$this->index($method);
 		}
 	}
-	public function index($token_share = false) {
+	public function index($token_share = '') {
 		$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.token_share = ? GROUP BY mbr.mbr_id', array($token_share));
 		if($query->num_rows() > 0) {
 			//header('content-type: application/atom+xml; charset=UTF-8');
@@ -72,7 +72,13 @@ class Share extends CI_Controller {
 			}
 
 			$feed->printFeed();
+			exit(0);
+		} else {
+			$this->output->set_status_header(404);
+
+			$data = array();
+			$content = $this->load->view('error404_index', $data, TRUE);
+			$this->readerself_library->set_content($content);
 		}
-		exit(0);
 	}
 }

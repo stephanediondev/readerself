@@ -21,6 +21,8 @@ class Member extends CI_Controller {
 
 			$content = $this->load->view('member_index', $data, TRUE);
 		} else {
+			$this->output->set_status_header(404);
+
 			$data['member'] = false;
 
 			$content = $this->load->view('member_error', $data, TRUE);
