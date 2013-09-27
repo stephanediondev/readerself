@@ -102,6 +102,11 @@ function add_items(url) {
 			statusCode: {
 				200: function(data_return, textStatus, jqXHR) {
 					var content = '';
+					if(data_return.errors_count > 0) {
+						for(i in data_return.errors) {
+							content += '<article class="neutral title"><p><i class="icon icon-bug"></i>' + data_return.errors[i] + '</p></article>';
+						}
+					}
 					if(data_return.total > 0) {
 						for(i in data_return.items) {
 							var itm = data_return.items[i];
