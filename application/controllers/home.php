@@ -16,34 +16,34 @@ class Home extends CI_Controller {
 		$data = array();
 		$data['folders'] = $query->result();
 		$content = $this->load->view('home_index', $data, TRUE);
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 	public function timezone() {
 		$content = array();
 
 		if($this->input->is_ajax_request()) {
-			$this->reader_library->set_template('_json');
-			$this->reader_library->set_content_type('application/json');
+			$this->readerself_library->set_template('_json');
+			$this->readerself_library->set_content_type('application/json');
 
 			$this->session->set_userdata('timezone', $this->input->post('timezone'));
 		} else {
 			$this->output->set_status_header(403);
 		}
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 	public function geolocation() {
 		$content = array();
 
 		if($this->input->is_ajax_request()) {
-			$this->reader_library->set_template('_json');
-			$this->reader_library->set_content_type('application/json');
+			$this->readerself_library->set_template('_json');
+			$this->readerself_library->set_content_type('application/json');
 
 			$this->session->set_userdata('latitude', floatval($this->input->post('latitude')));
 			$this->session->set_userdata('longitude', floatval($this->input->post('longitude')));
 		} else {
 			$this->output->set_status_header(403);
 		}
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 	public function shortcuts() {
 		if(!$this->session->userdata('mbr_id')) {
@@ -55,14 +55,14 @@ class Home extends CI_Controller {
 		$content = array();
 
 		if($this->input->is_ajax_request()) {
-			$this->reader_library->set_template('_json');
-			$this->reader_library->set_content_type('application/json');
+			$this->readerself_library->set_template('_json');
+			$this->readerself_library->set_content_type('application/json');
 
 			$content['modal'] = $this->load->view('home_shortcuts', $data, TRUE);
 		} else {
 			$this->output->set_status_header(403);
 		}
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 
 	public function error($type) {
@@ -75,8 +75,8 @@ class Home extends CI_Controller {
 		$content = array();
 
 		if($this->input->is_ajax_request()) {
-			$this->reader_library->set_template('_json');
-			$this->reader_library->set_content_type('application/json');
+			$this->readerself_library->set_template('_json');
+			$this->readerself_library->set_content_type('application/json');
 
 			if($type == 'geo1') {
 				$data['error'] = '<p>Geolocation: permission denied</p>';
@@ -94,6 +94,6 @@ class Home extends CI_Controller {
 		} else {
 			$this->output->set_status_header(403);
 		}
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 }

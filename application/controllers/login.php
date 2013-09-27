@@ -5,7 +5,7 @@ class Login extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
-		if($this->reader_model->count_members() == 0 && !$this->config->item('ldap')) {
+		if($this->readerself_model->count_members() == 0 && !$this->config->item('ldap')) {
 			redirect(base_url().'register');
 		}
 		if($this->session->userdata('mbr_id')) {
@@ -24,7 +24,7 @@ class Login extends CI_Controller {
 		if($this->form_validation->run() == FALSE) {
 			$data = array();
 			$content = $this->load->view('login_index', $data, TRUE);
-			$this->reader_library->set_content($content);
+			$this->readerself_library->set_content($content);
 		} else {
 			if($this->input->get('u')) {
 				redirect(base_url().'subscriptions/create/?u='.$this->input->get('u'));
@@ -35,7 +35,7 @@ class Login extends CI_Controller {
 	}
 	public function email() {
 		if($this->input->post('mbr_email') && $this->input->post('mbr_password')) {
-			if($this->reader_model->login($this->input->post('mbr_email'), $this->input->post('mbr_password'))) {
+			if($this->readerself_model->login($this->input->post('mbr_email'), $this->input->post('mbr_password'))) {
 				return TRUE;
 			} else {
 				$this->form_validation->set_message('email', $this->lang->line('callback_email'));

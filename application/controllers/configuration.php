@@ -8,6 +8,6 @@ class Configuration extends CI_Controller {
 
 		$data = array();
 		$content = $this->load->view('configuration_error', $data, TRUE);
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 }

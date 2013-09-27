@@ -6,6 +6,6 @@ class Error404 extends CI_Controller {
 
 		$data = array();
 		$content = $this->load->view('error404_index', $data, TRUE);
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 }

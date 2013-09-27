@@ -11,17 +11,17 @@
 */
 
 $hook['post_controller_constructor'][] = array(
-'class'    => 'reader_hook',
+'class'    => 'readerself_hook',
 'function' => 'post_controller_constructor',
-'filename' => 'reader_hook.php',
+'filename' => 'readerself_hook.php',
 'filepath' => 'hooks',
 'params'   => array()
 );
 
 $hook['post_controller'][] = array(
-'class'    => 'reader_hook',
+'class'    => 'readerself_hook',
 'function' => 'post_controller',
-'filename' => 'reader_hook.php',
+'filename' => 'readerself_hook.php',
 'filepath' => 'hooks',
 'params'   => array()
 );

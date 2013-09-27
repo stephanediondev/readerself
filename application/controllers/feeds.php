@@ -13,17 +13,17 @@ class Feeds extends CI_Controller {
 
 		$filters = array();
 		$filters[$this->router->class.'_feeds_fed_title'] = array('fed.fed_title', 'like');
-		$flt = $this->reader_library->build_filters($filters);
+		$flt = $this->readerself_library->build_filters($filters);
 		$flt[] = 'fed.fed_id IS NOT NULL';
-		$results = $this->reader_model->get_feeds_total($flt);
-		$build_pagination = $this->reader_library->build_pagination($results->count, 20, $this->router->class.'_feeds');
+		$results = $this->readerself_model->get_feeds_total($flt);
+		$build_pagination = $this->readerself_library->build_pagination($results->count, 20, $this->router->class.'_feeds');
 		$data = array();
 		$data['pagination'] = $build_pagination['output'];
 		$data['position'] = $build_pagination['position'];
-		$data['feeds'] = $this->reader_model->get_feeds_rows($flt, $build_pagination['limit'], $build_pagination['start'], 'subscribers DESC');
+		$data['feeds'] = $this->readerself_model->get_feeds_rows($flt, $build_pagination['limit'], $build_pagination['start'], 'subscribers DESC');
 
 		$content = $this->load->view('feeds_index', $data, TRUE);
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 	public function add($fed_id) {
 		if(!$this->session->userdata('mbr_id')) {
@@ -49,13 +49,13 @@ class Feeds extends CI_Controller {
 
 		$this->load->library('form_validation');
 		$data = array();
-		$data['fed'] = $this->reader_model->get_feed_row($fed_id);
+		$data['fed'] = $this->readerself_model->get_feed_row($fed_id);
 		if($data['fed']) {
 			if($data['fed']->subscribers == 0) {
 				$this->form_validation->set_rules('confirm', 'lang:confirm', 'required');
 				if($this->form_validation->run() == FALSE) {
 					$content = $this->load->view('feeds_delete', $data, TRUE);
-					$this->reader_library->set_content($content);
+					$this->readerself_library->set_content($content);
 				} else {
 					$query = $this->db->query('DELETE FROM '.$this->db->dbprefix('categories').' WHERE itm_id IN ( SELECT itm.itm_id FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id )', array($fed_id));
 					$query = $this->db->query('DELETE FROM '.$this->db->dbprefix('enclosures').' WHERE itm_id IN ( SELECT itm.itm_id FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id )', array($fed_id));
@@ -85,8 +85,8 @@ class Feeds extends CI_Controller {
 			redirect(base_url());
 		}
 
-		$this->reader_library->set_template('_opml');
-		$this->reader_library->set_content_type('application/xml');
+		$this->readerself_library->set_template('_opml');
+		$this->readerself_library->set_content_type('application/xml');
 
 		header('Content-Disposition: inline; filename="feeds-'.date('Y-m-d').'.opml";');
 
@@ -102,6 +102,6 @@ class Feeds extends CI_Controller {
 		$data['feeds'] = $feeds;
 
 		$content = $this->load->view('feeds_export', $data, TRUE);
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 }

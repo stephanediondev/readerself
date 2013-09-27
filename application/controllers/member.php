@@ -25,6 +25,6 @@ class Member extends CI_Controller {
 
 			$content = $this->load->view('member_error', $data, TRUE);
 		}
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 }

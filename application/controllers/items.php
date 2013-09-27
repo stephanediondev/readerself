@@ -58,8 +58,8 @@ class Items extends CI_Controller {
 			}
 		}
 
-		$this->reader_library->set_template('_json');
-		$this->reader_library->set_content_type('application/json');
+		$this->readerself_library->set_template('_json');
+		$this->readerself_library->set_content_type('application/json');
 
 		if($this->input->is_ajax_request() && in_array($mode, $modes)) {
 
@@ -407,7 +407,7 @@ class Items extends CI_Controller {
 
 						list($itm->explode_date, $itm->explode_time) = explode(' ', $itm->itm_date);
 
-						$itm->itm_content = $this->reader_library->prepare_content($itm->itm_content);
+						$itm->itm_content = $this->readerself_library->prepare_content($itm->itm_content);
 
 						$content['items'][$u] = array('itm_id' => $itm->itm_id, 'itm_content' => $this->load->view('item', array('itm'=>$itm, 'mode'=>$mode), TRUE));
 						$u++;
@@ -443,7 +443,7 @@ class Items extends CI_Controller {
 		} else {
 			$this->output->set_status_header(403);
 		}
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 	public function read() {
 		if(!$this->session->userdata('mbr_id')) {
@@ -457,8 +457,8 @@ class Items extends CI_Controller {
 		$content = array();
 
 		if($this->input->is_ajax_request()) {
-			$this->reader_library->set_template('_json');
-			$this->reader_library->set_content_type('application/json');
+			$this->readerself_library->set_template('_json');
+			$this->readerself_library->set_content_type('application/json');
 
 			if($this->session->userdata('items-mode')) {
 				$this->load->library(array('form_validation'));
@@ -466,23 +466,23 @@ class Items extends CI_Controller {
 				if($this->session->userdata('items-mode') == 'priority') {
 					$data['title'] = $this->lang->line('priority_items');
 					$data['icon'] = 'flag';
-					$data['count'] = $this->reader_model->count_unread('priority');
+					$data['count'] = $this->readerself_model->count_unread('priority');
 				} else {
 					$data['title'] = $this->lang->line('all_items');
 					$data['icon'] = 'asterisk';
-					$data['count'] = $this->reader_model->count_unread('all');
+					$data['count'] = $this->readerself_model->count_unread('all');
 				}
 
 				if($this->session->userdata('items-mode') == 'geolocation') {
 					$data['title'] = $this->lang->line('geolocation_items');
 					$data['icon'] = 'map-marker';
-					$data['count'] = $this->reader_model->count_unread('geolocation');
+					$data['count'] = $this->readerself_model->count_unread('geolocation');
 				}
 
 				if($this->session->userdata('items-mode') == 'audio') {
 					$data['title'] = $this->lang->line('audio_items');
 					$data['icon'] = 'volume-up';
-					$data['count'] = $this->reader_model->count_unread('audio');
+					$data['count'] = $this->readerself_model->count_unread('audio');
 				}
 
 				$is_folder = FALSE;
@@ -530,7 +530,7 @@ class Items extends CI_Controller {
 						$is_author = $query->row()->itm_author;
 						$data['title'] = $is_author;
 						$data['icon'] = 'user';
-						$data['count'] = $this->reader_model->count_unread('author', $is_author);
+						$data['count'] = $this->readerself_model->count_unread('author', $is_author);
 					}
 				}
 
@@ -541,14 +541,14 @@ class Items extends CI_Controller {
 						$is_category = $query->row()->cat_title;
 						$data['title'] = $is_category;
 						$data['icon'] = 'tag';
-						$data['count'] = $this->reader_model->count_unread('category', $is_category);
+						$data['count'] = $this->readerself_model->count_unread('category', $is_category);
 					}
 				}
 
 				if($this->session->userdata('items-mode') == 'nofolder') {
 					$data['title'] = '<em>'.$this->lang->line('no_folder').'</em>';
 					$data['icon'] = 'folder-close';
-					$data['count'] = $this->reader_model->count_unread('nofolder');
+					$data['count'] = $this->readerself_model->count_unread('nofolder');
 				}
 
 				$this->form_validation->set_rules('age', 'lang:age', 'required');
@@ -638,6 +638,6 @@ class Items extends CI_Controller {
 		} else {
 			$this->output->set_status_header(403);
 		}
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 }

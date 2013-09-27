@@ -27,12 +27,12 @@ class Profile extends CI_Controller {
 			$data = array();
 
 			$content = $this->load->view('profile_index', $data, TRUE);
-			$this->reader_library->set_content($content);
+			$this->readerself_library->set_content($content);
 		} else {
 			if(!$this->config->item('ldap')) {
 				$this->db->set('mbr_email', $this->input->post('mbr_email'));
 				if($this->input->post('mbr_password') != '' && $this->input->post('mbr_password_confirm') != '') {
-					$this->db->set('mbr_password', $this->reader_library->set_salt_password($this->input->post('mbr_password')));
+					$this->db->set('mbr_password', $this->readerself_library->set_salt_password($this->input->post('mbr_password')));
 				}
 			}
 			$this->db->set('mbr_nickname', $this->input->post('mbr_nickname'));
@@ -69,7 +69,7 @@ class Profile extends CI_Controller {
 			$data['shared_items_total'] = $this->db->query('SELECT COUNT(DISTINCT(shr.itm_id)) AS ref_value FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.mbr_id = ?', array($this->member->mbr_id))->row()->ref_value;
 
 			$content = $this->load->view('profile_delete', $data, TRUE);
-			$this->reader_library->set_content($content);
+			$this->readerself_library->set_content($content);
 		} else {
 			$this->db->where('mbr_id', $this->member->mbr_id);
 			$this->db->delete('connections');
@@ -94,7 +94,7 @@ class Profile extends CI_Controller {
 
 			$this->db->query('OPTIMIZE TABLE connections, favorites, folders, history, share, subscriptions, members');
 
-			$this->reader_model->logout();
+			$this->readerself_model->logout();
 
 			redirect(base_url());
 		}
@@ -111,7 +111,7 @@ class Profile extends CI_Controller {
 		$data['connections'] = $this->db->query('SELECT cnt.*, DATE_ADD(cnt.cnt_datecreated, INTERVAL ? HOUR) AS cnt_datecreated FROM '.$this->db->dbprefix('connections').' AS cnt WHERE cnt.token_connection IS NOT NULL AND cnt.mbr_id = ? GROUP BY cnt.cnt_id ORDER BY cnt.cnt_id DESC LIMIT 0,30', array($this->session->userdata('timezone'), $this->member->mbr_id))->result();
 
 		$content = $this->load->view('profile_connections', $data, TRUE);
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 	public function logout_purge() {
 		if(!$this->session->userdata('mbr_id')) {

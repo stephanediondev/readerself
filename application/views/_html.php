@@ -29,7 +29,7 @@
 <link href="<?php echo base_url(); ?>styles/<?php echo $this->router->class; ?>.css?modified=<?php echo filemtime('styles/'.$this->router->class.'.css'); ?>" rel="stylesheet" type="text/css">
 <?php } ?>
 </head>
-<body<?php if(count($this->reader_library->errors) > 0) { ?> class="error"<?php } ?>>
+<body<?php if(count($this->readerself_library->errors) > 0) { ?> class="error"<?php } ?>>
 
 <header>
 	<nav>
@@ -105,7 +105,7 @@ var uri_string = '<?php echo $this->uri->uri_string(); ?>';
 <script src="<?php echo base_url(); ?>scripts/<?php echo $this->router->class; ?>.js?modified=<?php echo filemtime('scripts/'.$this->router->class.'.js'); ?>"></script>
 <?php } ?>
 
-<?php echo $this->reader_library->get_debug(); ?>
+<?php echo $this->readerself_library->get_debug(); ?>
 
 </body>
 </html>

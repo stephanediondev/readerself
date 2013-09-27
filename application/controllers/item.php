@@ -12,8 +12,8 @@ class Item extends CI_Controller {
 		$content = array();
 
 		if($this->input->is_ajax_request()) {
-			$this->reader_library->set_template('_json');
-			$this->reader_library->set_content_type('application/json');
+			$this->readerself_library->set_template('_json');
+			$this->readerself_library->set_content_type('application/json');
 
 			$query = $this->db->query('SELECT * FROM '.$this->db->dbprefix('favorites').' AS fav WHERE fav.itm_id = ? AND fav.mbr_id = ? GROUP BY fav.fav_id', array($itm_id, $this->member->mbr_id));
 			if($query->num_rows() > 0) {
@@ -31,7 +31,7 @@ class Item extends CI_Controller {
 		} else {
 			$this->output->set_status_header(403);
 		}
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 	public function share($itm_id) {
 		if(!$this->session->userdata('mbr_id')) {
@@ -41,8 +41,8 @@ class Item extends CI_Controller {
 		$content = array();
 
 		if($this->input->is_ajax_request()) {
-			$this->reader_library->set_template('_json');
-			$this->reader_library->set_content_type('application/json');
+			$this->readerself_library->set_template('_json');
+			$this->readerself_library->set_content_type('application/json');
 
 			$query = $this->db->query('SELECT * FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = ? AND shr.mbr_id = ? GROUP BY shr.shr_id', array($itm_id, $this->member->mbr_id));
 			if($query->num_rows() > 0) {
@@ -60,7 +60,7 @@ class Item extends CI_Controller {
 		} else {
 			$this->output->set_status_header(403);
 		}
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 	public function read($itm_id, $auto = FALSE) {
 		if(!$this->session->userdata('mbr_id')) {
@@ -74,8 +74,8 @@ class Item extends CI_Controller {
 		$content = array();
 
 		if($this->input->is_ajax_request()) {
-			$this->reader_library->set_template('_json');
-			$this->reader_library->set_content_type('application/json');
+			$this->readerself_library->set_template('_json');
+			$this->readerself_library->set_content_type('application/json');
 
 			$query = $this->db->query('SELECT * FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.itm_id = ? AND hst.mbr_id = ? GROUP BY hst.hst_id', array($itm_id, $this->member->mbr_id));
 			if($query->num_rows() > 0) {
@@ -100,7 +100,7 @@ class Item extends CI_Controller {
 		} else {
 			$this->output->set_status_header(403);
 		}
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 	public function email($itm_id) {
 		if(!$this->session->userdata('mbr_id')) {
@@ -136,8 +136,8 @@ class Item extends CI_Controller {
 
 				list($data['itm']->explode_date, $data['itm']->explode_time) = explode(' ', $data['itm']->itm_date);
 
-				$this->reader_library->set_template('_json');
-				$this->reader_library->set_content_type('application/json');
+				$this->readerself_library->set_template('_json');
+				$this->readerself_library->set_content_type('application/json');
 
 				$this->load->library(array('form_validation'));
 
@@ -172,7 +172,7 @@ class Item extends CI_Controller {
 		} else {
 			$this->output->set_status_header(403);
 		}
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 	public function expand($itm_id) {
 		if(!$this->session->userdata('mbr_id')) {
@@ -182,8 +182,8 @@ class Item extends CI_Controller {
 		$content = array();
 
 		if($this->input->is_ajax_request()) {
-			$this->reader_library->set_template('_json');
-			$this->reader_library->set_content_type('application/json');
+			$this->readerself_library->set_template('_json');
+			$this->readerself_library->set_content_type('application/json');
 
 			$query = $this->db->query('SELECT * FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )GROUP BY itm.itm_id', array($itm_id, $this->member->mbr_id));
 			if($query->num_rows() > 0) {
@@ -192,7 +192,7 @@ class Item extends CI_Controller {
 				$sql = 'SELECT enr.* FROM enclosures AS enr WHERE enr.itm_id = ? GROUP BY enr.enr_id ORDER BY enr.enr_type ASC';
 				$itm->enclosures = $this->db->query($sql, array($itm->itm_id))->result();
 
-				$itm->itm_content = $this->reader_library->prepare_content($itm->itm_content);
+				$itm->itm_content = $this->readerself_library->prepare_content($itm->itm_content);
 
 				$content['itm_id'] = $itm_id;
 				$content['itm_content'] = $this->load->view('item_expand', array('itm'=>$itm), TRUE);
@@ -200,7 +200,7 @@ class Item extends CI_Controller {
 		} else {
 			$this->output->set_status_header(403);
 		}
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 	public function readability($itm_id) {
 		if(!$this->session->userdata('mbr_id')) {
@@ -210,8 +210,8 @@ class Item extends CI_Controller {
 		$content = array();
 
 		if($this->input->is_ajax_request()) {
-			$this->reader_library->set_template('_json');
-			$this->reader_library->set_content_type('application/json');
+			$this->readerself_library->set_template('_json');
+			$this->readerself_library->set_content_type('application/json');
 
 			$query = $this->db->query('SELECT * FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )GROUP BY itm.itm_id', array($itm_id, $this->member->mbr_id));
 			if($query->num_rows() > 0) {
@@ -225,6 +225,6 @@ class Item extends CI_Controller {
 		} else {
 			$this->output->set_status_header(403);
 		}
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 }

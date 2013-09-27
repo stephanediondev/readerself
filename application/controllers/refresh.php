@@ -2,22 +2,22 @@
 
 class Refresh extends CI_Controller {
 	public function client() {
-		$this->reader_library->set_template('_json');
-		$this->reader_library->set_content_type('application/json');
+		$this->readerself_library->set_template('_json');
+		$this->readerself_library->set_content_type('application/json');
 
 		if($this->input->is_ajax_request()) {
 			$content = array();
 
-			$content['count']['all'] = $this->reader_model->count_unread('all');
+			$content['count']['all'] = $this->readerself_model->count_unread('all');
 
-			$content['count']['priority'] = $this->reader_model->count_unread('priority');
+			$content['count']['priority'] = $this->readerself_model->count_unread('priority');
 
 			if($this->config->item('menu_geolocation_items')) {
-				$content['count']['geolocation'] = $this->reader_model->count_unread('geolocation');
+				$content['count']['geolocation'] = $this->readerself_model->count_unread('geolocation');
 			}
 
 			if($this->config->item('menu_audio_items')) {
-				$content['count']['audio'] = $this->reader_model->count_unread('audio');
+				$content['count']['audio'] = $this->readerself_model->count_unread('audio');
 			}
 
 			if($this->config->item('folders')) {
@@ -34,7 +34,7 @@ class Refresh extends CI_Controller {
 					}
 				}
 
-				$content['count']['nofolder'] = $this->reader_model->count_unread('nofolder');
+				$content['count']['nofolder'] = $this->readerself_model->count_unread('nofolder');
 			}
 
 			if($this->input->post('subscriptions')) {
@@ -84,7 +84,7 @@ class Refresh extends CI_Controller {
 				$query = $this->db->query('SELECT itm.itm_author FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id', array($this->session->userdata('items-id')));
 				if($query->num_rows() > 0) {
 					$is_author = $query->row()->itm_author;
-					$content['count']['author'] = $this->reader_model->count_unread('author', $is_author);
+					$content['count']['author'] = $this->readerself_model->count_unread('author', $is_author);
 				}
 			}
 
@@ -93,7 +93,7 @@ class Refresh extends CI_Controller {
 					$query = $this->db->query('SELECT cat.cat_title FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_id = ? GROUP BY cat.cat_id', array($this->session->userdata('items-id')));
 					if($query->num_rows() > 0) {
 						$is_category = $query->row()->cat_title;
-						$content['count']['category'] = $this->reader_model->count_unread('category', $is_category);
+						$content['count']['category'] = $this->readerself_model->count_unread('category', $is_category);
 					}
 				}
 			}
@@ -125,14 +125,14 @@ class Refresh extends CI_Controller {
 				$content['last_crawl'] = false;
 			}
 
-			$this->reader_library->set_content($content);
+			$this->readerself_library->set_content($content);
 		} else {
 			$this->output->set_status_header(403);
 		}
 	}
 	public function items() {
-		$this->reader_library->set_template('_plain');
-		$this->reader_library->set_content_type('text/plain');
+		$this->readerself_library->set_template('_plain');
+		$this->readerself_library->set_content_type('text/plain');
 
 		$content = '';
 
@@ -159,7 +159,7 @@ class Refresh extends CI_Controller {
 					$this->db->where('fed_id', $fed->fed_id);
 					$this->db->update('feeds');
 				} else {
-					$this->reader_library->crawl_items($fed->fed_id, $sp_feed->get_items());
+					$this->readerself_library->crawl_items($fed->fed_id, $sp_feed->get_items());
 
 					$lastitem = $this->db->query('SELECT itm.itm_datecreated FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id ORDER BY itm.itm_id DESC LIMIT 0,1', array($fed->fed_id))->row();
 
@@ -211,6 +211,6 @@ class Refresh extends CI_Controller {
 
 			$this->db->query('OPTIMIZE TABLE categories, connections, enclosures, favorites, feeds, folders, history, items, members, share, subscriptions');
 		}
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 }

@@ -13,17 +13,17 @@ class Folders extends CI_Controller {
 
 		$filters = array();
 		$filters[$this->router->class.'_folders_flr_title'] = array('flr.flr_title', 'like');
-		$flt = $this->reader_library->build_filters($filters);
+		$flt = $this->readerself_library->build_filters($filters);
 		$flt[] = 'flr.mbr_id = \''.$this->member->mbr_id.'\'';
-		$results = $this->reader_model->get_folders_total($flt);
-		$build_pagination = $this->reader_library->build_pagination($results->count, 20, $this->router->class.'_folders');
+		$results = $this->readerself_model->get_folders_total($flt);
+		$build_pagination = $this->readerself_library->build_pagination($results->count, 20, $this->router->class.'_folders');
 		$data = array();
 		$data['pagination'] = $build_pagination['output'];
 		$data['position'] = $build_pagination['position'];
-		$data['folders'] = $this->reader_model->get_folders_rows($flt, $build_pagination['limit'], $build_pagination['start'], 'flr.flr_title ASC');
+		$data['folders'] = $this->readerself_model->get_folders_rows($flt, $build_pagination['limit'], $build_pagination['start'], 'flr.flr_title ASC');
 
 		$content = $this->load->view('folders_index', $data, TRUE);
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 
 	public function create() {
@@ -37,7 +37,7 @@ class Folders extends CI_Controller {
 		$this->form_validation->set_rules('direction', 'lang:direction', '');
 		if($this->form_validation->run() == FALSE) {
 			$content = $this->load->view('folders_create', $data, TRUE);
-			$this->reader_library->set_content($content);
+			$this->readerself_library->set_content($content);
 		} else {
 			$this->db->set('mbr_id', $this->member->mbr_id);
 			$this->db->set('flr_title', $this->input->post('flr_title'));
@@ -57,7 +57,7 @@ class Folders extends CI_Controller {
 		}
 
 		$data = array();
-		$data['flr'] = $this->reader_model->get_flr_row($flr_id);
+		$data['flr'] = $this->readerself_model->get_flr_row($flr_id);
 		if($data['flr']) {
 
 			$data['tables'] = '';
@@ -128,7 +128,7 @@ class Folders extends CI_Controller {
 			}
 
 			$content = $this->load->view('folders_read', $data, TRUE);
-			$this->reader_library->set_content($content);
+			$this->readerself_library->set_content($content);
 		} else {
 			$this->index();
 		}
@@ -141,13 +141,13 @@ class Folders extends CI_Controller {
 
 		$this->load->library('form_validation');
 		$data = array();
-		$data['flr'] = $this->reader_model->get_flr_row($flr_id);
+		$data['flr'] = $this->readerself_model->get_flr_row($flr_id);
 		if($data['flr']) {
 			$this->form_validation->set_rules('flr_title', 'lang:flr_title', 'required|max_length[255]');
 			$this->form_validation->set_rules('direction', 'lang:direction', '');
 			if($this->form_validation->run() == FALSE) {
 				$content = $this->load->view('folders_update', $data, TRUE);
-				$this->reader_library->set_content($content);
+				$this->readerself_library->set_content($content);
 			} else {
 				$this->db->set('flr_title', $this->input->post('flr_title'));
 				$this->db->set('flr_direction', $this->input->post('direction'));
@@ -169,12 +169,12 @@ class Folders extends CI_Controller {
 
 		$this->load->library('form_validation');
 		$data = array();
-		$data['flr'] = $this->reader_model->get_flr_row($flr_id);
+		$data['flr'] = $this->readerself_model->get_flr_row($flr_id);
 		if($data['flr']) {
 			$this->form_validation->set_rules('confirm', 'lang:confirm', 'required');
 			if($this->form_validation->run() == FALSE) {
 				$content = $this->load->view('folders_delete', $data, TRUE);
-				$this->reader_library->set_content($content);
+				$this->readerself_library->set_content($content);
 			} else {
 				$this->db->set('flr_id', '');
 				$this->db->where('flr_id', $flr_id);

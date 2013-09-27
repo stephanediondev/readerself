@@ -157,6 +157,6 @@ class Statistics extends CI_Controller {
 		}
 
 		$content = $this->load->view('statistics_index', $data, TRUE);
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 }

@@ -5,7 +5,7 @@ class Register extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
-		if($this->reader_model->count_members() > 0 && !$this->config->item('register_multi')) {
+		if($this->readerself_model->count_members() > 0 && !$this->config->item('register_multi')) {
 			redirect(base_url());
 		}
 		if($this->config->item('register_multi') && $this->config->item('ldap')) {
@@ -25,15 +25,15 @@ class Register extends CI_Controller {
 		if($this->form_validation->run() == FALSE) {
 			$data = array();
 			$content = $this->load->view('register_index', $data, TRUE);
-			$this->reader_library->set_content($content);
+			$this->readerself_library->set_content($content);
 		} else {
 			$this->db->set('mbr_email', $this->input->post('mbr_email'));
-			$this->db->set('mbr_password', $this->reader_library->set_salt_password($this->input->post('mbr_password')));
+			$this->db->set('mbr_password', $this->readerself_library->set_salt_password($this->input->post('mbr_password')));
 			$this->db->set('mbr_datecreated', date('Y-m-d H:i:s'));
 			$this->db->insert('members');
 			$mbr_id = $this->db->insert_id();
 
-			$this->reader_model->connect($mbr_id);
+			$this->readerself_model->connect($mbr_id);
 
 			redirect(base_url().'home');
 		}

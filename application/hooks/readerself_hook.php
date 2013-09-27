@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Reader_hook {
+class Readerself_hook {
 	public function post_controller_constructor() {
 		$this->CI =& get_instance();
 
@@ -13,20 +13,20 @@ class Reader_hook {
 			$language = 'en';
 		}
 		$this->CI->config->set_item('language', $language);
-		$this->CI->load->language('reader');
+		$this->CI->load->language('readerself');
 
-		$this->CI->reader_library->set_content_type('text/html');
-		$this->CI->reader_library->set_charset('UTF-8');
-		$this->CI->reader_library->set_template('_html');
+		$this->CI->readerself_library->set_content_type('text/html');
+		$this->CI->readerself_library->set_charset('UTF-8');
+		$this->CI->readerself_library->set_template('_html');
 
 		if(!$this->CI->config->item('salt_password') && $this->CI->router->class != 'configuration') {
 			redirect(base_url().'configuration/error');
 		}
 
 		if($this->CI->session->userdata('mbr_id')) {
-			$this->CI->member = $this->CI->reader_model->get($this->CI->session->userdata('mbr_id'));
+			$this->CI->member = $this->CI->readerself_model->get($this->CI->session->userdata('mbr_id'));
 			if(!$this->CI->member || !$this->CI->input->cookie('token_connection') || $this->CI->input->cookie('token_connection') != $this->CI->member->token_connection) {
-				$this->CI->reader_model->logout();
+				$this->CI->readerself_model->logout();
 			}
 
 		} else {
@@ -44,16 +44,16 @@ class Reader_hook {
 						redirect(base_url().'home');
 					}
 				} else {
-					$this->CI->reader_model->logout();
+					$this->CI->readerself_model->logout();
 				}
 			}
 		}
 	}
 	public function post_controller() {
 		$this->CI =& get_instance();
-		header('content-type: '.$this->CI->reader_library->content_type.'; charset='.$this->CI->reader_library->charset);
+		header('content-type: '.$this->CI->readerself_library->content_type.'; charset='.$this->CI->readerself_library->charset);
 		$data = array();
-		$data['content'] = $this->CI->reader_library->content;
-		$this->CI->load->view($this->CI->reader_library->template, $data, FALSE);
+		$data['content'] = $this->CI->readerself_library->content;
+		$this->CI->load->view($this->CI->readerself_library->template, $data, FALSE);
 	}
 }

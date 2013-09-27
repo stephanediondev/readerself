@@ -2,7 +2,7 @@
 
 class Logout  extends CI_Controller {
 	public function index() {
-		$this->reader_model->logout();
+		$this->readerself_model->logout();
 
 		redirect(base_url());
 	}

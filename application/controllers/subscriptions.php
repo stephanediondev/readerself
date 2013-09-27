@@ -11,22 +11,22 @@ class Subscriptions extends CI_Controller {
 
 		$filters = array();
 		$filters[$this->router->class.'_subscriptions_fed_title'] = array('fed.fed_title', 'like');
-		$flt = $this->reader_library->build_filters($filters);
+		$flt = $this->readerself_library->build_filters($filters);
 		$flt[] = 'sub.mbr_id = \''.$this->member->mbr_id.'\'';
 		$flt[] = 'fed.fed_id IS NOT NULL';
-		$results = $this->reader_model->get_subscriptions_total($flt);
-		$build_pagination = $this->reader_library->build_pagination($results->count, 20, $this->router->class.'_subscriptions');
+		$results = $this->readerself_model->get_subscriptions_total($flt);
+		$build_pagination = $this->readerself_library->build_pagination($results->count, 20, $this->router->class.'_subscriptions');
 		$data = array();
 		$data['pagination'] = $build_pagination['output'];
 		$data['position'] = $build_pagination['position'];
-		$data['subscriptions'] = $this->reader_model->get_subscriptions_rows($flt, $build_pagination['limit'], $build_pagination['start'], 'fed.fed_title ASC');
+		$data['subscriptions'] = $this->readerself_model->get_subscriptions_rows($flt, $build_pagination['limit'], $build_pagination['start'], 'fed.fed_title ASC');
 
 		$data['errors'] = $this->db->query('SELECT fed.*, sub.sub_id, sub.sub_title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE fed.fed_lasterror IS NOT NULL AND fed.fed_id IS NOT NULL AND sub.mbr_id = ? GROUP BY sub.sub_id ORDER BY fed.fed_lastcrawl DESC LIMIT 0,5', array($this->member->mbr_id))->result();
 
 		$data['last_added'] = $this->db->query('SELECT fed.*, sub.sub_id, sub.sub_title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE fed.fed_id IS NOT NULL AND sub.mbr_id = ? GROUP BY sub.sub_id ORDER BY sub.sub_id DESC LIMIT 0,5', array($this->member->mbr_id))->result();
 
 		$content = $this->load->view('subscriptions_index', $data, TRUE);
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 
 	public function create() {
@@ -144,7 +144,7 @@ class Subscriptions extends CI_Controller {
 					$data['sub_id'] = $sub_id;
 					$data['fed_title'] = $sp_feed->get_title();
 
-					$this->reader_library->crawl_items($fed_id, $sp_feed->get_items());
+					$this->readerself_library->crawl_items($fed_id, $sp_feed->get_items());
 				}
 				$sp_feed->__destruct();
 				unset($sp_feed);
@@ -175,7 +175,7 @@ class Subscriptions extends CI_Controller {
 				redirect(base_url().'subscriptions');
 			}
 		}
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 
 	public function read($sub_id) {
@@ -184,7 +184,7 @@ class Subscriptions extends CI_Controller {
 		}
 
 		$data = array();
-		$data['sub'] = $this->reader_model->get_subscription_row($sub_id);
+		$data['sub'] = $this->readerself_model->get_subscription_row($sub_id);
 		if($data['sub']) {
 
 			$data['errors'] = $this->db->query('SELECT fed.*, sub.sub_id, sub.sub_title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE fed.fed_lasterror IS NOT NULL AND fed.fed_id IS NOT NULL AND sub.mbr_id = ? GROUP BY sub.sub_id ORDER BY fed.fed_lastcrawl DESC LIMIT 0,5', array($this->member->mbr_id))->result();
@@ -255,7 +255,7 @@ class Subscriptions extends CI_Controller {
 			}
 
 			$content = $this->load->view('subscriptions_read', $data, TRUE);
-			$this->reader_library->set_content($content);
+			$this->readerself_library->set_content($content);
 		} else {
 			$this->index();
 		}
@@ -268,7 +268,7 @@ class Subscriptions extends CI_Controller {
 
 		$this->load->library('form_validation');
 		$data = array();
-		$data['sub'] = $this->reader_model->get_subscription_row($sub_id);
+		$data['sub'] = $this->readerself_model->get_subscription_row($sub_id);
 		if($data['sub']) {
 			$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? GROUP BY flr.flr_id ORDER BY flr.flr_title ASC', array($this->member->mbr_id));
 			$data['folders'] = array();
@@ -285,7 +285,7 @@ class Subscriptions extends CI_Controller {
 			$this->form_validation->set_rules('direction', 'lang:direction', '');
 			if($this->form_validation->run() == FALSE) {
 				$content = $this->load->view('subscriptions_update', $data, TRUE);
-				$this->reader_library->set_content($content);
+				$this->readerself_library->set_content($content);
 			} else {
 				$this->db->set('sub_title', $this->input->post('sub_title'));
 				if($this->input->post('folder') == 0) {
@@ -315,12 +315,12 @@ class Subscriptions extends CI_Controller {
 
 		$this->load->library('form_validation');
 		$data = array();
-		$data['sub'] = $this->reader_model->get_subscription_row($sub_id);
+		$data['sub'] = $this->readerself_model->get_subscription_row($sub_id);
 		if($data['sub']) {
 			$this->form_validation->set_rules('confirm', 'lang:confirm', 'required');
 			if($this->form_validation->run() == FALSE) {
 				$content = $this->load->view('subscriptions_delete', $data, TRUE);
-				$this->reader_library->set_content($content);
+				$this->readerself_library->set_content($content);
 			} else {
 				$this->db->where('sub_id', $sub_id);
 				$this->db->delete('subscriptions');
@@ -340,10 +340,10 @@ class Subscriptions extends CI_Controller {
 		$content = array();
 
 		if($this->input->is_ajax_request()) {
-			$this->reader_library->set_template('_json');
-			$this->reader_library->set_content_type('application/json');
+			$this->readerself_library->set_template('_json');
+			$this->readerself_library->set_content_type('application/json');
 
-			$sub = $this->reader_model->get_subscription_row($sub_id);
+			$sub = $this->readerself_model->get_subscription_row($sub_id);
 			if($sub) {
 				if($sub->sub_priority == 1) {
 					$this->db->set('sub_priority', 0);
@@ -359,7 +359,7 @@ class Subscriptions extends CI_Controller {
 		} else {
 			$this->output->set_status_header(403);
 		}
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 
 	public function export() {
@@ -367,8 +367,8 @@ class Subscriptions extends CI_Controller {
 			redirect(base_url());
 		}
 
-		$this->reader_library->set_template('_opml');
-		$this->reader_library->set_content_type('application/xml');
+		$this->readerself_library->set_template('_opml');
+		$this->readerself_library->set_content_type('application/xml');
 
 		header('Content-Disposition: inline; filename="subscriptions-'.date('Y-m-d').'.opml";');
 
@@ -384,7 +384,7 @@ class Subscriptions extends CI_Controller {
 		$data['subscriptions'] = $subscriptions;
 
 		$content = $this->load->view('subscriptions_export', $data, TRUE);
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 
 	public function import() {
@@ -528,7 +528,7 @@ class Subscriptions extends CI_Controller {
 				}
 			}
 		}
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 	function import_opml($obj, $flr = false) {
 		$feeds = array();
@@ -565,8 +565,8 @@ class Subscriptions extends CI_Controller {
 		}
 
 		if($this->input->is_ajax_request()) {
-			$this->reader_library->set_template('_json');
-			$this->reader_library->set_content_type('application/json');
+			$this->readerself_library->set_template('_json');
+			$this->readerself_library->set_content_type('application/json');
 			$content = array();
 
 			if($this->input->post('fed_title')) {
@@ -578,6 +578,6 @@ class Subscriptions extends CI_Controller {
 		} else {
 			$this->output->set_status_header(403);
 		}
-		$this->reader_library->set_content($content);
+		$this->readerself_library->set_content($content);
 	}
 }

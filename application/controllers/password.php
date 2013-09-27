@@ -5,7 +5,7 @@ class Password extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
-		if($this->reader_model->count_members() == 0) {
+		if($this->readerself_model->count_members() == 0) {
 			redirect(base_url().'register');
 		}
 		if($this->session->userdata('mbr_id')) {
@@ -20,7 +20,7 @@ class Password extends CI_Controller {
 
 		if($this->form_validation->run() == FALSE) {
 			$content = $this->load->view('password_index', $data, TRUE);
-			$this->reader_library->set_content($content);
+			$this->readerself_library->set_content($content);
 		} else {
 			$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_email = ? GROUP BY mbr.mbr_id', array($this->input->post('mbr_email')));
 			if($query->num_rows() > 0) {
@@ -61,7 +61,7 @@ class Password extends CI_Controller {
 			$member = $query->row();
 
 			$mbr_password = generate_string(6);
-			$this->db->set('mbr_password', $this->reader_library->set_salt_password($mbr_password));
+			$this->db->set('mbr_password', $this->readerself_library->set_salt_password($mbr_password));
 			$this->db->set('token_password', '');
 			$this->db->where('mbr_id', $member->mbr_id);
 			$this->db->update('members');
@@ -69,7 +69,7 @@ class Password extends CI_Controller {
 			$data = array();
 			$data['mbr_password'] = $mbr_password;
 			$content = $this->load->view('password_token', $data, TRUE);
-			$this->reader_library->set_content($content);
+			$this->readerself_library->set_content($content);
 		} else {
 			redirect(base_url());
 		}

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Reader_library {
+class Readerself_library {
 	public function __construct($params = array()) {
 		set_error_handler(array($this, 'error_handler'));
 		$this->CI =& get_instance();

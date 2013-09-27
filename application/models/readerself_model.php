@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Reader_model extends CI_Model {
+class Readerself_model extends CI_Model {
 	function __construct() {
 		parent::__construct();
 	}
@@ -23,13 +23,13 @@ class Reader_model extends CI_Model {
 										$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_email = ? GROUP BY mbr.mbr_id', array($email));
 										if($query->num_rows() > 0) {
 											$member = $query->row();
-											$this->db->set('mbr_password', $this->reader_library->set_salt_password($password));
+											$this->db->set('mbr_password', $this->readerself_library->set_salt_password($password));
 											$this->db->where('mbr_id', $member->mbr_id);
 											$this->db->update('members');
 	
 										} else {
 											$this->db->set('mbr_email', $email);
-											$this->db->set('mbr_password', $this->reader_library->set_salt_password($password));
+											$this->db->set('mbr_password', $this->readerself_library->set_salt_password($password));
 											$this->db->set('mbr_datecreated', date('Y-m-d H:i:s'));
 											$this->db->insert('members');
 											$member = $this->get($this->db->insert_id());
@@ -50,7 +50,7 @@ class Reader_model extends CI_Model {
 				$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_email = ? GROUP BY mbr.mbr_id', array($email));
 				if($query->num_rows() > 0) {
 					$member = $query->row();
-					if($this->reader_library->set_salt_password($password) == $member->mbr_password) {
+					if($this->readerself_library->set_salt_password($password) == $member->mbr_password) {
 						$this->connect($member->mbr_id);
 						return TRUE;
 					}
