@@ -118,6 +118,7 @@ article.title{background-color:transparent;}
 main > section .item .actions, main > section .neutral .actions{float:right;margin-right:0px;}
 .item .actions li{margin:5px 0px 5px 4px;}
 .item .actions a:link, .item .actions a:visited{background-color:#5660d1;}
+article.title .actions a:link, article.title .actions a:visited{background-color:#255966;}
 .item-content{line-height:1.4;}
 .item .item-geolocation, .item .item-enclosures, .item .item-footer{clear:both;padding-top:10px;}
 .item .item-geolocation p, .item .item-enclosures p{margin:10px 0px 5px 0px;}
