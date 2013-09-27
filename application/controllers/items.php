@@ -155,7 +155,7 @@ class Items extends CI_Controller {
 						$introduction_actions .= '<li><a target="_blank" href="https://plus.google.com/share?url='.urlencode(base_url().'member/'.$is_member->mbr_nickname).'"><i class="icon icon-share"></i>Google</a></li>';
 						$introduction_actions .= '<li><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text='.urlencode($is_member->mbr_nickname.' - '.$this->config->item('title').' '.base_url().'member/'.$is_member->mbr_nickname).'"><i class="icon icon-share"></i>Twitter</a></li>';
 					}
-					$introduction_actions .= '<li class="hide-phone"><a href="'.base_url().'share/'.$is_member->token_share.'"><i class="icon icon-rss"></i>RSS</a></li>';
+					$introduction_actions .= '<li class="hide-phone"><a href="'.base_url().'share/'.$is_member->token_share.'"><i class="icon icon-rss"></i><acronym title="Really Simple Syndication">RSS</acronym></a></li>';
 					$introduction_actions .= '</ul>';
 
 					$introduction_details = '';
