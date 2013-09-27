@@ -166,21 +166,21 @@ class Items extends CI_Controller {
 					if($is_member->mbr_description) {
 						$introduction_details .= '<p>'.strip_tags($is_member->mbr_description).'</p>';
 					}
-					$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM share AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
+					$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
 					$bindings[] = $is_member->mbr_id;
 
-					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
+					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
 					$bindings[] = $is_member->mbr_id;
 
 				} else if($mode == 'priority') {
 					$introduction_title = '<i class="icon icon-flag"></i>'.$this->lang->line('priority_items').' (<span id="intro-load-priority-items"></span>)';
-					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? AND sub.sub_priority = ? )';
+					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? AND sub.sub_priority = ? )';
 					$bindings[] = $this->member->mbr_id;
 					$bindings[] = 1;
 
 				} else {
 					$introduction_title = '<i class="icon icon-asterisk"></i>'.$this->lang->line('all_items').' (<span id="intro-load-all-items"></span>)';
-					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
+					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
 					$bindings[] = $this->member->mbr_id;
 				}
 
@@ -208,7 +208,7 @@ class Items extends CI_Controller {
 				if($mode == 'starred') {
 					$introduction_title = '<i class="icon icon-star"></i>'.$this->lang->line('starred_items').' {<span id="intro-load-starred-items"></span>}';
 					$introduction_actions = '<ul class="actions"><li><a href="'.base_url().'starred/import"><i class="icon icon-download-alt"></i>'.$this->lang->line('import').'</a></li></ul>';
-					$where[] = 'itm.itm_id IN ( SELECT fav.itm_id FROM favorites AS fav WHERE fav.itm_id = itm.itm_id AND fav.mbr_id = ? )';
+					$where[] = 'itm.itm_id IN ( SELECT fav.itm_id FROM '.$this->db->dbprefix('favorites').' AS fav WHERE fav.itm_id = itm.itm_id AND fav.mbr_id = ? )';
 					$bindings[] = $this->member->mbr_id;
 
 					$content['nav']['items_mode'] = false;
@@ -221,7 +221,7 @@ class Items extends CI_Controller {
 					} else {
 						$introduction_actions = '<ul class="actions"><li class="hide-phone"><a target="_blank" href="'.base_url().'share/'.$this->member->token_share.'"><i class="icon icon-rss"></i>RSS</a></li></ul>';
 					}
-					$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM share AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
+					$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
 					$bindings[] = $this->member->mbr_id;
 
 					$content['nav']['items_mode'] = false;
@@ -244,7 +244,7 @@ class Items extends CI_Controller {
 								$word_or[] = 'itm.itm_author LIKE ?';
 								$bindings[] = '%'.$word.'%';
 
-								$word_or[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM categories AS cat WHERE cat.cat_title LIKE ? )';
+								$word_or[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_title LIKE ? )';
 								$bindings[] = '%'.$word.'%';
 							}
 						}
@@ -254,7 +254,7 @@ class Items extends CI_Controller {
 						$content['nav']['items_read'] = false;
 
 					} else if($this->input->get('items_mode') == 'unread_only') {
-						$where[] = 'itm.itm_id NOT IN ( SELECT hst.itm_id FROM history AS hst WHERE hst.itm_id = itm.itm_id AND hst.mbr_id = ? )';
+						$where[] = 'itm.itm_id NOT IN ( SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.itm_id = itm.itm_id AND hst.mbr_id = ? )';
 						$bindings[] = $this->member->mbr_id;
 					}
 				}
@@ -262,7 +262,7 @@ class Items extends CI_Controller {
 				if($is_folder) {
 					$introduction_direction = $is_folder->flr_direction;
 					$introduction_title = '<i class="icon icon-folder-close"></i>'.$is_folder->flr_title.' (<span id="intro-load-folder-'.$is_folder->flr_id.'-items">0</span>)';
-					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id = ? )';
+					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id = ? )';
 					$bindings[] = $is_folder->flr_id;
 				}
 
@@ -281,7 +281,7 @@ class Items extends CI_Controller {
 					if($is_subscription->fed_url) {
 						$introduction_details = '<ul class="item-details"><li><a target="_blank" href="'.$is_subscription->fed_url.'"><i class="icon icon-external-link"></i>'.$is_subscription->fed_url.'</a></li></ul>';
 					}
-					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
+					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
 					$bindings[] = $is_subscription->sub_id;
 				}
 
@@ -293,18 +293,18 @@ class Items extends CI_Controller {
 
 				if($is_category) {
 					$introduction_title = '<i class="icon icon-tag"></i>'.$is_category.' (<span id="intro-load-category-items">0</span>)';
-					$where[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM categories AS cat WHERE cat.cat_title = ? )';
+					$where[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_title = ? )';
 					$bindings[] = $is_category;
 				}
 
 				if($mode == 'nofolder') {
 					$introduction_title = '<i class="icon icon-folder-close"></i><em>'.$this->lang->line('no_folder').'</em> (<span id="intro-load-nofolder-items">0</span>)';
-					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id IS NULL )';
+					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id IS NULL )';
 				}
 
 				if($mode == 'search') {
 					$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS global_total
-					FROM items AS itm
+					FROM '.$this->db->dbprefix('items').' AS itm
 					WHERE '.implode(' AND ', $where);
 					$query = $this->db->query($sql, $bindings);
 					$content['total_global'] = intval($query->row()->global_total);
@@ -314,7 +314,7 @@ class Items extends CI_Controller {
 				array_unshift($bindings, $this->session->userdata('timezone'));
 
 				$sql = 'SELECT itm.*, DATE_ADD(itm.itm_date, INTERVAL ? HOUR) AS itm_date
-				FROM items AS itm ';
+				FROM '.$this->db->dbprefix('items').' AS itm ';
 				if($mode == 'audio') {
 					$sql .= 'LEFT JOIN '.$this->db->dbprefix('enclosures').' AS enr ON enr.itm_id = itm.itm_id ';
 				}
@@ -351,7 +351,7 @@ class Items extends CI_Controller {
 
 						$itm->categories = false;
 						if($this->config->item('tags')) {
-							$categories = $this->db->query('SELECT cat.* FROM categories AS cat WHERE cat.itm_id = ? GROUP BY cat.cat_id', array($itm->itm_id))->result();
+							$categories = $this->db->query('SELECT cat.* FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.itm_id = ? GROUP BY cat.cat_id', array($itm->itm_id))->result();
 							if($categories) {
 								$itm->categories = array();
 								foreach($categories as $cat) {
@@ -368,11 +368,11 @@ class Items extends CI_Controller {
 							}
 						}
 
-						$sql = 'SELECT enr.* FROM enclosures AS enr WHERE enr.itm_id = ? GROUP BY enr.enr_id ORDER BY enr.enr_type ASC';
+						$sql = 'SELECT enr.* FROM '.$this->db->dbprefix('enclosures').' AS enr WHERE enr.itm_id = ? GROUP BY enr.enr_id ORDER BY enr.enr_type ASC';
 						$itm->enclosures = $this->db->query($sql, array($itm->itm_id))->result();
 
 						if(!$is_member) {
-							$sql = 'SELECT hst.* FROM history AS hst WHERE hst.itm_id = ? AND hst.mbr_id = ? GROUP BY hst.hst_id';
+							$sql = 'SELECT hst.* FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.itm_id = ? AND hst.mbr_id = ? GROUP BY hst.hst_id';
 							$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
 							if($query->num_rows > 0) {
 								$itm->history = 'read';
@@ -381,7 +381,7 @@ class Items extends CI_Controller {
 							}
 
 							if($this->config->item('star')) {
-								$sql = 'SELECT fav.* FROM favorites AS fav WHERE fav.itm_id = ? AND fav.mbr_id = ? GROUP BY fav.fav_id';
+								$sql = 'SELECT fav.* FROM '.$this->db->dbprefix('favorites').' AS fav WHERE fav.itm_id = ? AND fav.mbr_id = ? GROUP BY fav.fav_id';
 								$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
 								if($query->num_rows > 0) {
 									$itm->star = 1;
@@ -391,7 +391,7 @@ class Items extends CI_Controller {
 							}
 
 							if($this->config->item('share')) {
-								$sql = 'SELECT shr.* FROM share AS shr WHERE shr.itm_id = ? AND shr.mbr_id = ? GROUP BY shr.shr_id';
+								$sql = 'SELECT shr.* FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = ? AND shr.mbr_id = ? GROUP BY shr.shr_id';
 								$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
 								if($query->num_rows > 0) {
 									$itm->share = 1;
@@ -563,11 +563,11 @@ class Items extends CI_Controller {
 					$bindings[] = date('Y-m-d H:i:s');
 
 					if($this->session->userdata('items-mode') == 'priority') {
-						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? AND sub.sub_priority = ? )';
+						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? AND sub.sub_priority = ? )';
 						$bindings[] = $this->member->mbr_id;
 						$bindings[] = 1;
 					} else {
-						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
+						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
 						$bindings[] = $this->member->mbr_id;
 					}
 
@@ -581,16 +581,16 @@ class Items extends CI_Controller {
 						$bindings[] = 'audio/%';
 					}
 
-					$where[] = 'itm.itm_id NOT IN ( SELECT hst.itm_id FROM history AS hst WHERE hst.itm_id = itm.itm_id AND hst.mbr_id = ? )';
+					$where[] = 'itm.itm_id NOT IN ( SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.itm_id = itm.itm_id AND hst.mbr_id = ? )';
 					$bindings[] = $this->member->mbr_id;
 
 					if($is_folder) {
-						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id = ? )';
+						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id = ? )';
 						$bindings[] = $is_folder->flr_id;
 					}
 
 					if($is_subscription) {
-						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
+						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
 						$bindings[] = $is_subscription->sub_id;
 					}
 
@@ -600,12 +600,12 @@ class Items extends CI_Controller {
 					}
 
 					if($is_category) {
-						$where[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM categories AS cat WHERE cat.cat_title = ? )';
+						$where[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_title = ? )';
 						$bindings[] = $is_category;
 					}
 
 					if($this->session->userdata('items-mode') == 'nofolder') {
-						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id IS NULL )';
+						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id IS NULL )';
 					}
 
 					if($this->input->post('age') == 'one-day') {

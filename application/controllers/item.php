@@ -112,7 +112,7 @@ class Item extends CI_Controller {
 		$content = array();
 
 		if($this->input->is_ajax_request() && $this->config->item('share_by_email')) {
-			$query = $this->db->query('SELECT itm.*, DATE_ADD(itm.itm_date, INTERVAL ? HOUR) AS itm_date FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? ) GROUP BY itm.itm_id', array($this->session->userdata('timezone'), $itm_id, $this->member->mbr_id));
+			$query = $this->db->query('SELECT itm.*, DATE_ADD(itm.itm_date, INTERVAL ? HOUR) AS itm_date FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? ) GROUP BY itm.itm_id', array($this->session->userdata('timezone'), $itm_id, $this->member->mbr_id));
 			if($query->num_rows() > 0) {
 				$data['itm'] = $query->row();
 
@@ -122,7 +122,7 @@ class Item extends CI_Controller {
 				$data['itm']->categories = false;
 
 				if($this->config->item('tags')) {
-					$categories = $this->db->query('SELECT cat.* FROM categories AS cat WHERE cat.itm_id = ? GROUP BY cat.cat_id', array($itm_id))->result();
+					$categories = $this->db->query('SELECT cat.* FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.itm_id = ? GROUP BY cat.cat_id', array($itm_id))->result();
 					if($categories) {
 						$data['itm']->categories = array();
 						foreach($categories as $cat) {
@@ -185,11 +185,11 @@ class Item extends CI_Controller {
 			$this->readerself_library->set_template('_json');
 			$this->readerself_library->set_content_type('application/json');
 
-			$query = $this->db->query('SELECT * FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )GROUP BY itm.itm_id', array($itm_id, $this->member->mbr_id));
+			$query = $this->db->query('SELECT * FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? ) GROUP BY itm.itm_id', array($itm_id, $this->member->mbr_id));
 			if($query->num_rows() > 0) {
 				$itm = $query->row();
 
-				$sql = 'SELECT enr.* FROM enclosures AS enr WHERE enr.itm_id = ? GROUP BY enr.enr_id ORDER BY enr.enr_type ASC';
+				$sql = 'SELECT enr.* FROM '.$this->db->dbprefix('enclosures').' AS enr WHERE enr.itm_id = ? GROUP BY enr.enr_id ORDER BY enr.enr_type ASC';
 				$itm->enclosures = $this->db->query($sql, array($itm->itm_id))->result();
 
 				$itm->itm_content = $this->readerself_library->prepare_content($itm->itm_content);
@@ -213,7 +213,7 @@ class Item extends CI_Controller {
 			$this->readerself_library->set_template('_json');
 			$this->readerself_library->set_content_type('application/json');
 
-			$query = $this->db->query('SELECT * FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM subscriptions AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )GROUP BY itm.itm_id', array($itm_id, $this->member->mbr_id));
+			$query = $this->db->query('SELECT * FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? ) GROUP BY itm.itm_id', array($itm_id, $this->member->mbr_id));
 			if($query->num_rows() > 0) {
 				$itm = $query->row();
 
