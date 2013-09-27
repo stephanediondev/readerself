@@ -264,14 +264,16 @@ $(document).ready(function() {
 	});
 
 	if($('aside').length > 0) {
-		$(document).swipe({
-			swipeLeft:function(event, direction, distance, duration, fingerCount) {
-				if($('#toggle-sidebar').is(':visible')) {
-					toggle_sidebar();
-				}
-			},
-			threshold: 120
-		});
+		if($('aside').css('position') == 'absolute') {
+			$(document).swipe({
+				swipeLeft:function(event, direction, distance, duration, fingerCount) {
+					if($('#toggle-sidebar').is(':visible')) {
+						toggle_sidebar();
+					}
+				},
+				threshold: 120
+			});
+		}
 	}
 
 	$('.fullscreen').bind('click', function(event) {
