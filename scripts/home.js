@@ -641,7 +641,12 @@ $(document).ready(function() {
 		} else {
 			var content = '<li class="result active">';
 		}
-		content += '<a id="load-sub-' + ref.data('sub_id') + '-items" class="menu" href="' + base_url + 'items/get/subscription/' + ref.data('sub_id') + '"><i class="icon icon-rss"></i>' + ref.text() + ' (<span>0</span>)</a></li>';
+		if(ref.data('priority') == 1) {
+			var icon = 'flag';
+		} else {
+			var icon = 'rss';
+		}
+		content += '<a id="load-sub-' + ref.data('sub_id') + '-items" class="menu" href="' + base_url + 'items/get/subscription/' + ref.data('sub_id') + '"><i class="icon icon-' + icon + '"></i>' + ref.text() + ' (<span>0</span>)</a></li>';
 		result_subscriptions.push(ref.data('sub_id'));
 		$('aside > ul').append(content);
 
@@ -729,7 +734,12 @@ $(document).ready(function() {
 							} else {
 								var content = '<li class="result">';
 							}
-							content += '<a id="load-sub-' + sub.sub_id + '-items" class="menu" href="' + base_url + 'items/get/subscription/' + sub.sub_id + '"><i class="icon icon-rss"></i>' + sub.title + ' (<span>0</span>)</a></li>';
+							if(sub.sub_priority == 1) {
+								var icon = 'flag';
+							} else {
+								var icon = 'rss';
+							}
+							content += '<a id="load-sub-' + sub.sub_id + '-items" class="menu" href="' + base_url + 'items/get/subscription/' + sub.sub_id + '"><i class="icon icon-' + icon + '"></i>' + sub.title + ' (<span>0</span>)</a></li>';
 							result_subscriptions.push(sub.sub_id);
 							$('aside > ul').append(content);
 						}

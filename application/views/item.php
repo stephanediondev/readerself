@@ -25,7 +25,7 @@
 			<?php if($itm->itm_author) { ?>
 				<li class="hide-phone"><a class="author" data-itm_id="<?php echo $itm->itm_id; ?>" href="<?php echo base_url(); ?>items/get/author/<?php echo $itm->itm_id; ?>"><i class="icon icon-pencil"></i><?php echo $itm->itm_author; ?></a></li>
 			<?php } ?>
-			<li><a class="from" data-sub_id="<?php echo $itm->sub->sub_id; ?>" data-direction="<?php echo $itm->sub->direction; ?>" href="<?php echo base_url(); ?>items/get/subscription/<?php echo $itm->sub->sub_id; ?>"><i class="icon icon-rss"></i><?php echo $itm->sub->title; ?></a></li>
+			<li><a class="from" data-sub_id="<?php echo $itm->sub->sub_id; ?>" data-direction="<?php echo $itm->sub->direction; ?>" data-priority="<?php echo $itm->sub->priority; ?>" href="<?php echo base_url(); ?>items/get/subscription/<?php echo $itm->sub->sub_id; ?>"><i class="icon icon-rss"></i><?php echo $itm->sub->title; ?></a></li>
 			<?php if($this->config->item('folders')) { ?>
 				<?php if($itm->sub->flr_id) { ?>
 					<li class="hide-phone"><a class="folder" href="#load-folder-<?php echo $itm->sub->flr_id; ?>-items"><i class="icon icon-folder-close"></i><?php echo $itm->sub->flr_title; ?></a></li>

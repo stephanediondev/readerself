@@ -352,6 +352,7 @@ class Subscriptions extends CI_Controller {
 					$this->db->set('sub_priority', 1);
 					$content['status'] = 'priority';
 				}
+				$content['sub_id'] = $sub_id;
 				$this->db->where('sub_id', $sub_id);
 				$this->db->where('mbr_id', $this->member->mbr_id);
 				$this->db->update('subscriptions');
@@ -608,7 +609,7 @@ class Subscriptions extends CI_Controller {
 			$content = array();
 
 			if($this->input->post('fed_title')) {
-				$query = $this->db->query('SELECT sub.sub_id, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND (fed.fed_title LIKE ? OR sub.sub_title LIKE ?) GROUP BY fed.fed_id ORDER BY fed.fed_title ASC', array($this->member->mbr_id, '%'.$this->input->post('fed_title').'%', '%'.$this->input->post('fed_title').'%'));
+				$query = $this->db->query('SELECT sub.sub_id, sub.sub_priority, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND (fed.fed_title LIKE ? OR sub.sub_title LIKE ?) GROUP BY fed.fed_id ORDER BY fed.fed_title ASC', array($this->member->mbr_id, '%'.$this->input->post('fed_title').'%', '%'.$this->input->post('fed_title').'%'));
 				$content['subscriptions'] = $query->result();
 			} else {
 				$content['subscriptions'] = array();
