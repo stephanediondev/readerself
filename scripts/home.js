@@ -546,17 +546,17 @@ $(document).ready(function() {
 		event.preventDefault();
 		var ref = $(this);
 		if(ref.hasClass('folder')) {
-			var params = [];
-			params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
-			$.ajax({
-				async: true,
-				cache: true,
-				data: params,
-				dataType: 'json',
-				statusCode: {
-					200: function(data_return, textStatus, jqXHR) {
-						if(data_return.subscriptions) {
-							if(ref.find('i').hasClass('icon-folder-close')) {
+			if(ref.find('i').hasClass('icon-folder-close')) {
+				var params = [];
+				params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
+				$.ajax({
+					async: true,
+					cache: true,
+					data: params,
+					dataType: 'json',
+					statusCode: {
+						200: function(data_return, textStatus, jqXHR) {
+							if(data_return.subscriptions) {
 								ref.find('i').removeClass('icon-folder-close');
 								ref.find('i').addClass('icon-folder-open');
 
@@ -578,17 +578,17 @@ $(document).ready(function() {
 									ref.parent().find('ul').append(content);
 								}
 								refresh();
-							} else {
-								ref.parent().find('ul').html('');
-								ref.find('i').removeClass('icon-folder-open');
-								ref.find('i').addClass('icon-folder-close');
 							}
 						}
-					}
-				},
-				type: 'POST',
-				url: ref.attr('href')
-			});
+					},
+					type: 'POST',
+					url: ref.attr('href')
+				});
+			} else {
+				ref.parent().find('ul').html('');
+				ref.find('i').removeClass('icon-folder-open');
+				ref.find('i').addClass('icon-folder-close');
+			}
 
 		} else if(ref.hasClass('menu')) {
 			$('#search_items').val('');
