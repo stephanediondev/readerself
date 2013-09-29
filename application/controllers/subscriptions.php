@@ -559,6 +559,44 @@ class Subscriptions extends CI_Controller {
 		}
 		return $feeds;
 	}
+	public function get($mode, $id = FALSE) {
+		if(!$this->session->userdata('mbr_id') && $mode != 'member') {
+			redirect(base_url());
+		}
+
+		$modes = array('folder', 'nofolder');
+
+		$content = array();
+
+		$is_folder = FALSE;
+		if($mode == 'folder') {
+			$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? AND flr.flr_id = ? GROUP BY flr.flr_id', array($this->member->mbr_id, $id));
+			if($query->num_rows() > 0) {
+				$is_folder = $query->row();
+			}
+		}
+
+		$this->readerself_library->set_template('_json');
+		$this->readerself_library->set_content_type('application/json');
+
+		if($this->input->is_ajax_request() && in_array($mode, $modes)) {
+
+			if($mode == 'folder' && $is_folder) {
+				$query = $this->db->query('SELECT sub.sub_id, sub.sub_priority, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.flr_id = ? GROUP BY fed.fed_id ORDER BY fed.fed_title ASC', array($this->member->mbr_id, $id));
+				$content['subscriptions'] = $query->result();
+
+			} else if($mode == 'nofolder') {
+				$query = $this->db->query('SELECT sub.sub_id, sub.sub_priority, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.flr_id IS NULL GROUP BY fed.fed_id ORDER BY fed.fed_title ASC', array($this->member->mbr_id));
+				$content['subscriptions'] = $query->result();
+
+			} else {
+				$content['subscriptions'] = array();
+			}
+		} else {
+			$this->output->set_status_header(403);
+		}
+		$this->readerself_library->set_content($content);
+	}
 	function search() {
 		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
