@@ -585,9 +585,10 @@ $(document).ready(function() {
 					url: ref.attr('href')
 				});
 			} else {
-				ref.parent().find('ul').html('');
 				ref.find('i').removeClass('icon-folder-open');
 				ref.find('i').addClass('icon-folder-close');
+
+				ref.parent().find('ul').html('');
 			}
 
 		} else if(ref.hasClass('menu')) {
