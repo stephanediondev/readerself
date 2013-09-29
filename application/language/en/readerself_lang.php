@@ -71,6 +71,7 @@ $lang['no_folder'] = 'No folder';
 $lang['no_more_items'] = 'No additional items';
 $lang['no'] = 'No';
 $lang['not_priority'] = 'Not priority';
+$lang['open_close'] = 'Open / Close';
 $lang['opml_file'] = '<abbr title="Outline Processor Markup Language">OPML</abbr> file';
 $lang['password'] = 'Password';
 $lang['priority_items'] = 'Priority items';
