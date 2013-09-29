@@ -720,7 +720,7 @@ $(document).ready(function() {
 			statusCode: {
 				200: function(data_return, textStatus, jqXHR) {
 					if(data_return.subscriptions) {
-						var result_subscriptions = [];
+						//var result_subscriptions = [];
 						$('aside > ul').find('.result').remove();
 						for(i in data_return.subscriptions) {
 							var sub = data_return.subscriptions[i];
