@@ -36,7 +36,7 @@ class Items extends CI_Controller {
 
 		$is_subscription = FALSE;
 		if($mode == 'subscription') {
-			$query = $this->db->query('SELECT sub.*, fed.fed_url, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS fed_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.sub_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $id));
+			$query = $this->db->query('SELECT sub.*, flr.flr_title, fed.fed_url, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS fed_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.mbr_id = ? AND sub.sub_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $id));
 			if($query->num_rows() > 0) {
 				$is_subscription = $query->row();
 			}
@@ -278,9 +278,18 @@ class Items extends CI_Controller {
 						$introduction_actions .= ' style="display:none;"';
 					}
 					$introduction_actions .= '><i class="icon icon-flag-alt"></i>'.$this->lang->line('priority').'</span></a></li></ul>';
-					if($is_subscription->fed_url) {
-						$introduction_details = '<ul class="item-details"><li><a target="_blank" href="'.$is_subscription->fed_url.'"><i class="icon icon-external-link"></i>'.$is_subscription->fed_url.'</a></li></ul>';
+					$introduction_details = '<ul class="item-details">';
+					if($this->config->item('folders')) {
+						if($is_subscription->flr_id) {
+							$introduction_details .= '<li><a class="folder" href="#load-folder-'.$is_subscription->flr_id.'-items"><i class="icon icon-folder-close"></i>'.$is_subscription->flr_title.'</a></li>';
+						} else {
+							$introduction_details .= '<li><a class="folder" href="#load-nofolder-items"><i class="icon icon-folder-close"></i><em>'.$this->lang->line('no_folder').'</em></a></li>';
+						}
 					}
+					if($is_subscription->fed_url) {
+						$introduction_details .= '<li><a target="_blank" href="'.$is_subscription->fed_url.'"><i class="icon icon-external-link"></i>'.$is_subscription->fed_url.'</a></li>';
+					}
+					$introduction_details .= '</ul>';
 					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
 					$bindings[] = $is_subscription->sub_id;
 				}

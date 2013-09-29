@@ -603,7 +603,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$('.item a.folder').live('click', function(event) {
+	$('.title a.folder, .item a.folder').live('click', function(event) {
 		event.preventDefault();
 		$('#search_items').val('');
 		var ref = $(this);
