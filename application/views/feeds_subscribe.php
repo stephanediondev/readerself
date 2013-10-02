@@ -28,7 +28,7 @@
 		</div>
 	</article>
 
-	<h2><i class="icon icon-bookmark"></i><?php echo $this->lang->line('subscribe'); ?></h2>
+	<h2><i class="icon icon-bookmark-empty"></i><?php echo $this->lang->line('subscribe'); ?></h2>
 
 	<?php echo validation_errors(); ?>
 
@@ -48,7 +48,7 @@
 
 	<p>
 	<?php echo form_label($this->lang->line('direction'), 'direction'); ?>
-	<?php echo form_dropdown('direction', array('' => '-', 'ltr' => $this->lang->line('direction_ltr'), 'rtl' => $this->lang->line('direction_rtl')), set_value('direction', ''), 'id="direction" class="select numeric"'); ?>
+	<?php echo form_dropdown('direction', array('' => '-', 'ltr' => $this->lang->line('direction_ltr'), 'rtl' => $this->lang->line('direction_rtl')), set_value('direction', $fed->fed_direction), 'id="direction" class="select numeric"'); ?>
 	</p>
 
 	<p>
