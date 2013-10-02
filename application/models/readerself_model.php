@@ -124,7 +124,7 @@ class Readerself_model extends CI_Model {
 				}
 				$mbr->subscriptions_common = $subscriptions_common;
 
-				$mbr->shared_items = $this->db->query('SELECT COUNT(DISTINCT(shr.shr_id)) AS count FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.mbr_id = ?', array($mbr->mbr_id))->row()->count;
+				$mbr->shared_items = $this->db->query('SELECT COUNT(DISTINCT(shr.shr_id)) AS count FROM '.$this->db->dbprefix('share').' AS shr LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = shr.itm_id WHERE shr.mbr_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )', array($mbr->mbr_id, $mbr->mbr_id))->row()->count;
 
 				$members[] = $mbr;
 			}
