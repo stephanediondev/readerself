@@ -25,22 +25,70 @@ class Feeds extends CI_Controller {
 		$content = $this->load->view('feeds_index', $data, TRUE);
 		$this->readerself_library->set_content($content);
 	}
-	public function add($fed_id) {
+	public function subscribe($fed_id) {
 		if(!$this->session->userdata('mbr_id')) {
-			redirect(base_url());
+			redirect(base_url().'?u='.$this->input->get('u'));
 		}
 
-		$query = $this->db->query('SELECT fed.* FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_id = ? GROUP BY fed.fed_id', array($fed_id));
-		if($query->num_rows() > 0) {
-			$query = $this->db->query('SELECT sub.* FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id', array($fed_id, $this->member->mbr_id));
-			if($query->num_rows() == 0) {
+		$this->load->library(array('form_validation'));
+		$data = array();
+		$data['fed'] = $this->readerself_model->get_feed_row($fed_id);
+		if($data['fed']) {
+			$data['fed']->categories = false;
+			if($this->config->item('tags')) {
+				$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
+
+				$categories = $this->db->query('SELECT cat.cat_title AS ref, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND cat.cat_datecreated >= ? AND itm.fed_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,10', array($date_ref, $fed_id))->result();
+				if($categories) {
+					$data['fed']->categories = array();
+					foreach($categories as $cat) {
+						$data['fed']->categories[] = $cat->ref;
+					}
+				}
+			}
+
+			if($this->config->item('folders')) {
+				$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? GROUP BY flr.flr_id ORDER BY flr.flr_title ASC', array($this->member->mbr_id));
+				$data['folders'] = array();
+				$data['folders'][0] = $this->lang->line('no_folder');
+				if($query->num_rows() > 0) {
+					foreach($query->result() as $flr) {
+						$data['folders'][$flr->flr_id] = $flr->flr_title;
+					}
+				}
+			}
+
+			if($this->config->item('folders')) {
+				$this->form_validation->set_rules('folder', 'lang:folder', 'required');
+			}
+			$this->form_validation->set_rules('priority', 'lang:priority', 'numeric');
+			$this->form_validation->set_rules('direction', 'lang:direction', '');
+
+			if($this->form_validation->run() == FALSE) {
+				$content = $this->load->view('feeds_subscribe', $data, TRUE);
+				$this->readerself_library->set_content($content);
+			} else {
+				if($this->config->item('folders')) {
+					if($this->input->post('folder')) {
+						$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? AND flr.flr_id = ? GROUP BY flr.flr_id', array($this->member->mbr_id, $this->input->post('folder')));
+						if($query->num_rows() > 0) {
+							$this->db->set('flr_id', $this->input->post('folder'));
+						}
+					}
+				}
+
 				$this->db->set('mbr_id', $this->member->mbr_id);
 				$this->db->set('fed_id', $fed_id);
+				$this->db->set('sub_priority', $this->input->post('priority'));
+				$this->db->set('sub_direction', $this->input->post('direction'));
 				$this->db->set('sub_datecreated', date('Y-m-d H:i:s'));
 				$this->db->insert('subscriptions');
+
+				redirect(base_url().'feeds');
 			}
+		} else {
+			$this->index();
 		}
-		redirect(base_url().'feeds');
 	}
 	public function delete($fed_id) {
 		if(!$this->session->userdata('mbr_id')) {

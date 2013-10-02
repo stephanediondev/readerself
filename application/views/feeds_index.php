@@ -28,7 +28,7 @@
 				<?php if($fed->subscribers == 0) { ?>
 					<li><a href="<?php echo base_url(); ?>feeds/delete/<?php echo $fed->fed_id; ?>"><i class="icon icon-trash"></i><?php echo $this->lang->line('delete'); ?></a></li>
 				<?php } ?>
-				<li><a href="<?php echo base_url(); ?>feeds/add/<?php echo $fed->fed_id; ?>"><i class="icon icon-bookmark-empty"></i><?php echo $this->lang->line('subscribe'); ?></a></li>
+				<li><a href="<?php echo base_url(); ?>feeds/subscribe/<?php echo $fed->fed_id; ?>"><i class="icon icon-bookmark-empty"></i><?php echo $this->lang->line('subscribe'); ?></a></li>
 			</ul>
 			<h2><i class="icon icon-rss"></i><?php echo $fed->fed_title; ?></h2>
 			<ul class="item-details">
