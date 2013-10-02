@@ -64,9 +64,9 @@ class Profile extends CI_Controller {
 
 			$data['read_items_total'] = $this->db->query('SELECT COUNT(DISTINCT(hst.itm_id)) AS ref_value FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.mbr_id = ?', array(1, $this->member->mbr_id))->row()->ref_value;
 
-			$data['starred_items_total'] = $this->db->query('SELECT COUNT(DISTINCT(fav.itm_id)) AS ref_value FROM '.$this->db->dbprefix('favorites').' AS fav WHERE fav.mbr_id = ?', array($this->member->mbr_id))->row()->ref_value;
+			$data['starred_items_total'] = $this->db->query('SELECT COUNT(DISTINCT(fav.itm_id)) AS ref_value FROM '.$this->db->dbprefix('favorites').' AS fav LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = fav.itm_id WHERE fav.mbr_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )', array($this->member->mbr_id, $this->member->mbr_id))->row()->ref_value;
 
-			$data['shared_items_total'] = $this->db->query('SELECT COUNT(DISTINCT(shr.itm_id)) AS ref_value FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.mbr_id = ?', array($this->member->mbr_id))->row()->ref_value;
+			$data['shared_items_total'] = $this->db->query('SELECT COUNT(DISTINCT(shr.itm_id)) AS ref_value FROM '.$this->db->dbprefix('share').' AS shr LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = shr.itm_id WHERE shr.mbr_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )', array($this->member->mbr_id, $this->member->mbr_id))->row()->ref_value;
 
 			$content = $this->load->view('profile_delete', $data, TRUE);
 			$this->readerself_library->set_content($content);
