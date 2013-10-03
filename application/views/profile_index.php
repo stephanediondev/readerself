@@ -15,7 +15,7 @@
 		</ul>
 		<h2><i class="icon icon-user"></i><?php if($this->member->mbr_nickname) { ?><?php echo $this->member->mbr_nickname; ?><?php } else { ?><?php echo $this->lang->line('profile'); ?><?php } ?></h2>
 		<?php if($this->config->item('gravatar') && $this->member->mbr_gravatar) { ?>
-			<p><img alt="" src="http://www.gravatar.com/avatar/<?php echo md5(strtolower($this->member->mbr_gravatar)); ?>?rating=<?php echo $this->config->item('gravatar_rating'); ?>&size=<?php echo $this->config->item('gravatar_size'); ?>&default=<?php echo $this->config->item('gravatar_default'); ?>">
+			<p><img alt="" src="http://www.gravatar.com/avatar/<?php echo md5(strtolower($this->member->mbr_gravatar)); ?>?rating=<?php echo $this->config->item('gravatar_rating'); ?>&amp;size=<?php echo $this->config->item('gravatar_size'); ?>&amp;default=<?php echo $this->config->item('gravatar_default'); ?>">
 		<?php } ?>
 		<?php if($this->member->mbr_description) { ?>
 			<p><?php echo strip_tags($this->member->mbr_description); ?></p>

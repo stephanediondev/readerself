@@ -160,7 +160,7 @@ class Items extends CI_Controller {
 
 					$introduction_details = '';
 					if($this->config->item('gravatar') && $is_member->mbr_gravatar) {
-						$introduction_details .= '<p><img alt="" src="http://www.gravatar.com/avatar/'.md5(strtolower($is_member->mbr_gravatar)).'?rating='.$this->config->item('gravatar_rating').'&size='.$this->config->item('gravatar_size').'&default='.$this->config->item('gravatar_default').'">';
+						$introduction_details .= '<p><img alt="" src="http://www.gravatar.com/avatar/'.md5(strtolower($is_member->mbr_gravatar)).'?rating='.$this->config->item('gravatar_rating').'&amp;size='.$this->config->item('gravatar_size').'&amp;default='.$this->config->item('gravatar_default').'">';
 					}
 
 					if($is_member->mbr_description) {
