@@ -2,7 +2,7 @@
 <html>
 <head>
 <?php if($this->router->class == 'member') { ?>
-	<?php if($member) { ?>
+<?php if($member) { ?>
 <title><?php echo $member->mbr_nickname; ?> - <?php echo $this->config->item('title'); ?></title>
 <?php if($member->mbr_description) { ?>
 <meta content="<?php echo $member->mbr_description; ?>" name="description">
@@ -13,8 +13,8 @@
 <meta property="og:title" content="<?php echo $member->mbr_nickname; ?> - <?php echo $this->config->item('title'); ?>">
 <meta property="og:type" content="profile">
 <meta property="og:url" content="<?php echo base_url(); ?>member/<?php echo $member->mbr_nickname; ?>">
-<link rel="alternate" type="application/atom+xml" title="<?php echo $member->mbr_nickname; ?> - <?php echo $this->lang->line('shared_items'); ?>" href="<?php echo base_url(); ?>share/<?php echo $member->token_share; ?>" />
-	<?php } ?>
+<link rel="alternate" type="application/atom+xml" title="<?php echo $member->mbr_nickname; ?> - <?php echo $this->lang->line('shared_items'); ?>" href="<?php echo base_url(); ?>share/<?php echo $member->token_share; ?>">
+<?php } ?>
 <?php } else { ?>
 <title><?php echo $this->config->item('title'); ?></title>
 <?php } ?>
