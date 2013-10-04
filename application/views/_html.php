@@ -23,6 +23,9 @@
 <link rel="apple-touch-icon" href="<?php echo base_url(); ?>medias/readerself_200x200.png">
 <meta content="noindex, nofollow, noarchive" name="robots">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+<meta name="HandheldFriendly" content="true">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <link href="<?php echo base_url(); ?>thirdparty/fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link href="<?php echo base_url(); ?>styles/_html.css?modified=<?php echo filemtime('styles/_html.css'); ?>" rel="stylesheet" type="text/css">
 <?php if(file_exists('styles/'.$this->router->class.'.css')) { ?>
