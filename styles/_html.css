@@ -160,6 +160,7 @@ main section article[dir=rtl] .item-footer .actions li:last-child{margin-left:0p
 .data_table table td{border-bottom:1px solid #E7E7E7;font-size:12px;padding:4px 5px 4px 4px;text-align:left;vertical-align:middle;}
 .data_table table td.result{text-align:center;}
 .data_table tr:hover td{background-color:#E7E7E7;}
+.data_table table a:link, .data_table table a:visited{text-decoration:none;}
 
 #fullscreen_back{display:none;}
 #fullscreen_back{margin:10px 10px;}

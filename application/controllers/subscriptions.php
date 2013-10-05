@@ -206,7 +206,7 @@ class Subscriptions extends CI_Controller {
 				$query = $this->db->query('SELECT cat.cat_title AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? AND sub.sub_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,30', array(1, $date_ref, $this->member->mbr_id, $sub_id));
 				if($query->num_rows() > 0) {
 					foreach($query->result() as $row) {
-						$legend[] = $row->ref;
+						$legend[] = '<i class="icon icon-tag"></i>'.$row->ref;
 						$values[] = $row->nb;
 					}
 				}
@@ -218,7 +218,7 @@ class Subscriptions extends CI_Controller {
 			$query = $this->db->query('SELECT itm.itm_author AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE itm.itm_author IS NOT NULL AND hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? AND sub.sub_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,30', array(1, $date_ref, $this->member->mbr_id, $sub_id));
 			if($query->num_rows() > 0) {
 				foreach($query->result() as $row) {
-					$legend[] = $row->ref;
+					$legend[] = '<i class="icon icon-pencil"></i>'.$row->ref;
 					$values[] = $row->nb;
 				}
 			}
