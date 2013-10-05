@@ -119,10 +119,15 @@ class Subscriptions extends CI_Controller {
 					$data['error'] = $sp_feed->error();
 
 				} else {
+					$parse_url = parse_url($sp_feed->get_link());
+
 					$this->db->set('fed_title', $sp_feed->get_title());
 					$this->db->set('fed_url', $sp_feed->get_link());
 					$this->db->set('fed_description', $sp_feed->get_description());
 					$this->db->set('fed_link', $sp_feed->subscribe_url());
+					if(isset($parse_url['host']) == 1) {
+						$this->db->set('fed_host', $parse_url['host']);
+					}
 					$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
 					$this->db->set('fed_datecreated', date('Y-m-d H:i:s'));
 					$this->db->insert('feeds');
@@ -463,9 +468,14 @@ class Subscriptions extends CI_Controller {
 
 							$query = $this->db->query('SELECT fed.*, sub.sub_id FROM '.$this->db->dbprefix('feeds').' AS fed LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = fed.fed_id AND sub.mbr_id = ? WHERE fed.fed_link = ? GROUP BY fed.fed_id', array($this->member->mbr_id, $obj->xmlUrl));
 							if($query->num_rows() == 0) {
+								$parse_url = parse_url($obj->htmlUrl);
+
 								$this->db->set('fed_title', $obj->title);
 								$this->db->set('fed_url', $obj->htmlUrl);
 								$this->db->set('fed_link', $obj->xmlUrl);
+								if(isset($parse_url['host']) == 1) {
+									$this->db->set('fed_host', $parse_url['host']);
+								}
 								$this->db->set('fed_datecreated', date('Y-m-d H:i:s'));
 								$this->db->insert('feeds');
 								$fed_id = $this->db->insert_id();

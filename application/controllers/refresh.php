@@ -168,7 +168,9 @@ class Refresh extends CI_Controller {
 					$this->db->set('fed_title', $sp_feed->get_title());
 					$this->db->set('fed_url', $sp_feed->get_link());
 					$this->db->set('fed_link', $sp_feed->subscribe_url());
-					$this->db->set('fed_host', $parse_url['host']);
+					if(isset($parse_url['host']) == 1) {
+						$this->db->set('fed_host', $parse_url['host']);
+					}
 					if($sp_feed->get_type() & SIMPLEPIE_TYPE_RSS_ALL) {
 						$this->db->set('fed_type', 'rss');
 					} else if($sp_feed->get_type() & SIMPLEPIE_TYPE_ATOM_ALL) {
