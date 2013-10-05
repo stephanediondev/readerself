@@ -340,7 +340,7 @@ function items_expand() {
 	load_items( $('aside ul').find('li.active').find('a.menu').attr('href') );
 }
 function build_favicon(icon) {
-	return 'https://www.google.com/s2/favicons?domain=' + icon + '&alt=feed';
+	return 'https://www.google.com/s2/favicons?domain=' + icon + '&amp;alt=feed';
 }
 $(document).ready(function() {
 	var menu = 'load-all-items';

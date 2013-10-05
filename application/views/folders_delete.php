@@ -17,7 +17,7 @@
 			</ul>
 			<h2><i class="icon icon-folder-close"></i><?php echo $flr->flr_title; ?></h2>
 			<ul class="item-details">
-				<li><i class="icon icon-rss"></i><?php echo $flr->subscriptions; ?> <?php if($flr->subscriptions > 1) { ?><?php echo mb_strtolower($this->lang->line('subscriptions')); ?><?php } else { ?><?php echo mb_strtolower($this->lang->line('subscription')); ?><?php } ?></li>
+				<li><i class="icon icon-bookmark"></i><?php echo $flr->subscriptions; ?> <?php if($flr->subscriptions > 1) { ?><?php echo mb_strtolower($this->lang->line('subscriptions')); ?><?php } else { ?><?php echo mb_strtolower($this->lang->line('subscription')); ?><?php } ?></li>
 			</ul>
 		</article>
 

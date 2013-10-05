@@ -22,7 +22,7 @@
 		<li><i class="icon icon-calendar"></i><?php echo $itm->explode_date; ?></li>
 		<li><i class="icon icon-time"></i><?php echo $itm->explode_time; ?> (<span class="timeago" title="<?php echo $itm->itm_date; ?>"></span>)</li>
 		<?php if($mode != 'member') { ?>
-			<li><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $itm->sub->fed_host; ?>&alt=feed);" class="favicon from" data-sub_id="<?php echo $itm->sub->sub_id; ?>" data-fed_host="<?php echo $itm->sub->fed_host; ?>" data-direction="<?php echo $itm->sub->direction; ?>" data-priority="<?php echo $itm->sub->priority; ?>" href="<?php echo base_url(); ?>items/get/subscription/<?php echo $itm->sub->sub_id; ?>"><?php echo $itm->sub->title; ?></a></li>
+			<li><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $itm->sub->fed_host; ?>&amp;alt=feed);" class="favicon from" data-sub_id="<?php echo $itm->sub->sub_id; ?>" data-fed_host="<?php echo $itm->sub->fed_host; ?>" data-direction="<?php echo $itm->sub->direction; ?>" data-priority="<?php echo $itm->sub->priority; ?>" href="<?php echo base_url(); ?>items/get/subscription/<?php echo $itm->sub->sub_id; ?>"><?php echo $itm->sub->title; ?></a></li>
 			<?php if($itm->itm_author) { ?>
 				<li class="hide-phone"><a class="author" data-itm_id="<?php echo $itm->itm_id; ?>" href="<?php echo base_url(); ?>items/get/author/<?php echo $itm->itm_id; ?>"><i class="icon icon-pencil"></i><?php echo $itm->itm_author; ?></a></li>
 			<?php } ?>
@@ -37,7 +37,7 @@
 				<li class="block hide-phone"><i class="icon icon-tags"></i><?php echo implode(', ', $itm->categories); ?></li>
 			<?php } ?>
 		<?php } else { ?>
-			<li><span style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $itm->sub->fed_host; ?>&alt=feed);" class="favicon"><?php echo $itm->sub->title; ?></span></li>
+			<li><span style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $itm->sub->fed_host; ?>&amp;alt=feed);" class="favicon"><?php echo $itm->sub->title; ?></span></li>
 			<?php if($itm->itm_author) { ?>
 				<li class="hide-phone"><i class="icon icon-pencil"></i><?php echo $itm->itm_author; ?></li>
 			<?php } ?>

@@ -36,7 +36,7 @@ class Items extends CI_Controller {
 
 		$is_subscription = FALSE;
 		if($mode == 'subscription') {
-			$query = $this->db->query('SELECT sub.*, flr.flr_title, fed.fed_url, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS fed_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.mbr_id = ? AND sub.sub_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $id));
+			$query = $this->db->query('SELECT sub.*, fed.fed_host, flr.flr_title, fed.fed_url, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS fed_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.mbr_id = ? AND sub.sub_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $id));
 			if($query->num_rows() > 0) {
 				$is_subscription = $query->row();
 			}
@@ -268,7 +268,7 @@ class Items extends CI_Controller {
 
 				if($is_subscription) {
 					$introduction_direction = $is_subscription->sub_direction;
-					$introduction_title = '<i class="icon icon-rss"></i>'.$is_subscription->fed_title.' (<span id="intro-load-sub-'.$is_subscription->sub_id.'-items">0</span>)';
+					$introduction_title = '<span style="background-image:url(https://www.google.com/s2/favicons?domain='.$is_subscription->fed_host.'&amp;alt=feed);" class="favicon">'.$is_subscription->fed_title.'</span> (<span id="intro-load-sub-'.$is_subscription->sub_id.'-items">0</span>)';
 					$introduction_actions = '<ul class="actions"><li><a class="priority" href="'.base_url().'subscriptions/priority/'.$is_subscription->sub_id.'"><span class="priority"';
 					if($is_subscription->sub_priority == 0) {
 						$introduction_actions .= ' style="display:none;"';
@@ -520,7 +520,7 @@ class Items extends CI_Controller {
 					if($query->num_rows() > 0) {
 						$is_subscription = $query->row();
 						$data['title'] = $is_subscription->fed_title;
-						$data['icon'] = 'rss';
+						$data['icon'] = 'bookmark';
 
 						$sql = 'SELECT sub.sub_id, COUNT(DISTINCT(itm.itm_id)) AS count
 						FROM '.$this->db->dbprefix('subscriptions').' AS sub

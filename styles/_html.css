@@ -88,6 +88,7 @@ aside ul ul{margin:0px 0px 0px 5px;}
 aside ul li.result, aside ul li li{font-size:12px;margin:0px 0px 5px 0px;}
 aside ul li a:link, aside ul li a:visited{display:inline-block;padding:5px 0px;text-decoration:none;}
 .favicon, a.favicon:link, a.favicon:visited{background-position:center left;background-repeat:no-repeat;background-size:13px 13px;padding-left:16px;}
+h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited{background-size:16px 16px;padding-left:19px;}
 aside ul li label{display:block;padding:0px 0px 0px 0px;text-decoration:none;}
 #overlay, #modal{left:0px;position:absolute;top:0px;}
 #modal{background-color:#FFFFFF;z-index:20000;width:350px;}

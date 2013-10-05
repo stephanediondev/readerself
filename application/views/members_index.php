@@ -22,7 +22,7 @@
 			<h2><a href="<?php echo base_url(); ?>member/<?php echo $mbr->mbr_nickname; ?>"><i class="icon icon-user"></i><?php echo $mbr->mbr_nickname; ?></a></h2>
 			<ul class="item-details">
 				<?php if($mbr->subscriptions_common) { ?>
-				<li><i class="icon icon-rss"></i><?php echo $mbr->subscriptions_common; ?> subscription(s) in common</li>
+				<li><i class="icon icon-bookmark"></i><?php echo $mbr->subscriptions_common; ?> subscription(s) in common</li>
 				<?php } ?>
 				<li><i class="icon icon-heart"></i><?php echo $mbr->shared_items; ?> shared item(s)</li>
 			</ul>
