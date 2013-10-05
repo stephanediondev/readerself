@@ -573,7 +573,8 @@ $(document).ready(function() {
 									} else {
 										var icon = 'rss';
 									}
-									content += '<a id="load-sub-' + sub.sub_id + '-items" class="menu" href="' + base_url + 'items/get/subscription/' + sub.sub_id + '"><i class="icon icon-' + icon + '"></i>' + sub.title + ' (<span>0</span>)</a></li>';
+									var favicon = 'https://www.google.com/s2/favicons?domain=' + sub.fed_host + '&alt=feed';
+									content += '<a style="background-image:url(' + favicon + ');" id="load-sub-' + sub.sub_id + '-items" class="menu" href="' + base_url + 'items/get/subscription/' + sub.sub_id + '">' + sub.title + ' (<span>0</span>)</a></li>';
 									result_subscriptions.push(sub.sub_id);
 									ref.parent().find('ul').append(content);
 								}

@@ -583,11 +583,11 @@ class Subscriptions extends CI_Controller {
 		if($this->input->is_ajax_request() && in_array($mode, $modes)) {
 
 			if($mode == 'folder' && $is_folder) {
-				$query = $this->db->query('SELECT sub.sub_id, sub.sub_priority, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.flr_id = ? GROUP BY fed.fed_id ORDER BY fed.fed_title ASC', array($this->member->mbr_id, $id));
+				$query = $this->db->query('SELECT fed.fed_host, sub.sub_id, sub.sub_priority, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.flr_id = ? GROUP BY fed.fed_id ORDER BY fed.fed_title ASC', array($this->member->mbr_id, $id));
 				$content['subscriptions'] = $query->result();
 
 			} else if($mode == 'nofolder') {
-				$query = $this->db->query('SELECT sub.sub_id, sub.sub_priority, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.flr_id IS NULL GROUP BY fed.fed_id ORDER BY fed.fed_title ASC', array($this->member->mbr_id));
+				$query = $this->db->query('SELECT fed.fed_host, sub.sub_id, sub.sub_priority, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.flr_id IS NULL GROUP BY fed.fed_id ORDER BY fed.fed_title ASC', array($this->member->mbr_id));
 				$content['subscriptions'] = $query->result();
 
 			} else {

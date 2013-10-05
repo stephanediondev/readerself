@@ -1,5 +1,11 @@
 #### Update
 
+##### 2013-10-05
+
+```sql
+ALTER TABLE `feeds` ADD `fed_host` VARCHAR( 255 ) NULL AFTER `fed_link`;
+```
+
 ##### 2013-09-22
 
 ```sql

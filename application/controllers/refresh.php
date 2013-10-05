@@ -163,9 +163,12 @@ class Refresh extends CI_Controller {
 
 					$lastitem = $this->db->query('SELECT itm.itm_datecreated FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id ORDER BY itm.itm_id DESC LIMIT 0,1', array($fed->fed_id))->row();
 
+					$parse_url = parse_url($sp_feed->get_link());
+
 					$this->db->set('fed_title', $sp_feed->get_title());
 					$this->db->set('fed_url', $sp_feed->get_link());
 					$this->db->set('fed_link', $sp_feed->subscribe_url());
+					$this->db->set('fed_host', $parse_url['host']);
 					if($sp_feed->get_type() & SIMPLEPIE_TYPE_RSS_ALL) {
 						$this->db->set('fed_type', 'rss');
 					} else if($sp_feed->get_type() & SIMPLEPIE_TYPE_ATOM_ALL) {

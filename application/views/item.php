@@ -22,10 +22,10 @@
 		<li><i class="icon icon-calendar"></i><?php echo $itm->explode_date; ?></li>
 		<li><i class="icon icon-time"></i><?php echo $itm->explode_time; ?> (<span class="timeago" title="<?php echo $itm->itm_date; ?>"></span>)</li>
 		<?php if($mode != 'member') { ?>
+			<li><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $itm->sub->fed_host; ?>&alt=feed);" class="from" data-sub_id="<?php echo $itm->sub->sub_id; ?>" data-direction="<?php echo $itm->sub->direction; ?>" data-priority="<?php echo $itm->sub->priority; ?>" href="<?php echo base_url(); ?>items/get/subscription/<?php echo $itm->sub->sub_id; ?>"><?php echo $itm->sub->title; ?></a></li>
 			<?php if($itm->itm_author) { ?>
 				<li class="hide-phone"><a class="author" data-itm_id="<?php echo $itm->itm_id; ?>" href="<?php echo base_url(); ?>items/get/author/<?php echo $itm->itm_id; ?>"><i class="icon icon-pencil"></i><?php echo $itm->itm_author; ?></a></li>
 			<?php } ?>
-			<li><a class="from" data-sub_id="<?php echo $itm->sub->sub_id; ?>" data-direction="<?php echo $itm->sub->direction; ?>" data-priority="<?php echo $itm->sub->priority; ?>" href="<?php echo base_url(); ?>items/get/subscription/<?php echo $itm->sub->sub_id; ?>"><i class="icon icon-rss"></i><?php echo $itm->sub->title; ?></a></li>
 			<?php if($this->config->item('folders')) { ?>
 				<?php if($itm->sub->flr_id) { ?>
 					<li class="hide-phone"><a class="folder" href="#load-folder-<?php echo $itm->sub->flr_id; ?>-items"><i class="icon icon-folder-close"></i><?php echo $itm->sub->flr_title; ?></a></li>
@@ -37,10 +37,10 @@
 				<li class="block hide-phone"><i class="icon icon-tags"></i><?php echo implode(', ', $itm->categories); ?></li>
 			<?php } ?>
 		<?php } else { ?>
+			<li><span style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $itm->sub->fed_host; ?>&alt=feed);" class="from_neutral"><?php echo $itm->sub->title; ?></span></li>
 			<?php if($itm->itm_author) { ?>
 				<li class="hide-phone"><i class="icon icon-pencil"></i><?php echo $itm->itm_author; ?></li>
 			<?php } ?>
-			<li><i class="icon icon-rss"></i><?php echo $itm->sub->title; ?></li>
 			<?php if($this->config->item('tags') && $itm->categories) { ?>
 				<li class="block hide-phone"><i class="icon icon-tags"></i><?php echo implode(', ', $itm->categories); ?></li>
 			<?php } ?>

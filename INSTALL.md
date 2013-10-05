@@ -69,6 +69,7 @@ CREATE TABLE IF NOT EXISTS `feeds` (
   `fed_title` varchar(255) DEFAULT NULL,
   `fed_url` varchar(255) DEFAULT NULL,
   `fed_link` varchar(255) NOT NULL,
+  `fed_host` varchar(255) DEFAULT NULL,
   `fed_type` enum('rss','atom') DEFAULT NULL,
   `fed_image` varchar(255) DEFAULT NULL,
   `fed_description` text,
