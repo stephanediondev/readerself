@@ -339,6 +339,9 @@ function items_expand() {
 	$.cookie('items_display', items_display, { expires: 30, path: '/' });
 	load_items( $('aside ul').find('li.active').find('a.menu').attr('href') );
 }
+function build_favicon(icon) {
+	return 'https://www.google.com/s2/favicons?domain=' + icon + '&alt=feed';
+}
 $(document).ready(function() {
 	var menu = 'load-all-items';
 	if($.cookie('menu')) {
@@ -573,8 +576,7 @@ $(document).ready(function() {
 									} else {
 										var icon = 'rss';
 									}
-									var favicon = 'https://www.google.com/s2/favicons?domain=' + sub.fed_host + '&alt=feed';
-									content += '<a style="background-image:url(' + favicon + ');" id="load-sub-' + sub.sub_id + '-items" class="menu" href="' + base_url + 'items/get/subscription/' + sub.sub_id + '">' + sub.title + ' (<span>0</span>)</a></li>';
+									content += '<a style="background-image:url(' + build_favicon(sub.fed_host) + ');" id="load-sub-' + sub.sub_id + '-items" class="favicon menu" href="' + base_url + 'items/get/subscription/' + sub.sub_id + '">' + sub.title + ' (<span>0</span>)</a></li>';
 									result_subscriptions.push(sub.sub_id);
 									ref.parent().find('ul').append(content);
 								}
@@ -647,7 +649,7 @@ $(document).ready(function() {
 		} else {
 			var icon = 'rss';
 		}
-		content += '<a id="load-sub-' + ref.data('sub_id') + '-items" class="menu" href="' + base_url + 'items/get/subscription/' + ref.data('sub_id') + '"><i class="icon icon-' + icon + '"></i>' + ref.text() + ' (<span>0</span>)</a></li>';
+		content += '<a style="background-image:url(' + build_favicon(ref.data('fed_host')) + ');" id="load-sub-' + ref.data('sub_id') + '-items" class="favicon menu" href="' + base_url + 'items/get/subscription/' + ref.data('sub_id') + '">' + ref.text() + ' (<span>0</span>)</a></li>';
 		result_subscriptions.push(ref.data('sub_id'));
 		$('aside > ul').append(content);
 
@@ -740,7 +742,7 @@ $(document).ready(function() {
 							} else {
 								var icon = 'rss';
 							}
-							content += '<a id="load-sub-' + sub.sub_id + '-items" class="menu" href="' + base_url + 'items/get/subscription/' + sub.sub_id + '"><i class="icon icon-' + icon + '"></i>' + sub.title + ' (<span>0</span>)</a></li>';
+							content += '<a style="background-image:url(' + build_favicon(sub.fed_host) + ');" id="load-sub-' + sub.sub_id + '-items" class="favicon menu" href="' + base_url + 'items/get/subscription/' + sub.sub_id + '">' + sub.title + ' (<span>0</span>)</a></li>';
 							result_subscriptions.push(sub.sub_id);
 							$('aside > ul').append(content);
 						}
