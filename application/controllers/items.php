@@ -241,14 +241,14 @@ class Items extends CI_Controller {
 								$word_or[] = 'itm.itm_title LIKE ?';
 								$bindings[] = '%'.$word.'%';
 
-								$word_or[] = 'itm.itm_author LIKE ?';
-								$bindings[] = '%'.$word.'%';
+								//$word_or[] = 'itm.itm_author LIKE ?';
+								//$bindings[] = '%'.$word.'%';
 
-								$word_or[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_title LIKE ? )';
-								$bindings[] = '%'.$word.'%';
+								//$word_or[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_title LIKE ? )';
+								//$bindings[] = '%'.$word.'%';
 							}
 						}
-						$where[] = '('.implode(' OR ', $word_or).')';
+						$where[] = '('.implode(' AND ', $word_or).')';
 						$content['nav']['items_refresh'] = false;
 						$content['nav']['items_mode'] = false;
 						$content['nav']['items_read'] = false;
