@@ -64,7 +64,7 @@ class Statistics extends CI_Controller {
 		$query = $this->db->query('SELECT SUBSTRING(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), 1, 10) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.mbr_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,30', array($this->session->userdata('timezone'), 1, $this->member->mbr_id));
 		if($query->num_rows() > 0) {
 			foreach($query->result() as $row) {
-				$legend[] = date('F j, Y', strtotime($row->ref));
+				$legend[] = '<i class="icon icon-calendar"></i>'.date('F j, Y', strtotime($row->ref));
 				$values[] = $row->nb;
 			}
 		}
@@ -80,11 +80,10 @@ class Statistics extends CI_Controller {
 			}
 		}
 		for($i=0;$i<=23;$i++) {
+			$legend[] = '<i class="icon icon-time"></i>'.$i.'h';
 			if(isset($temp[$i]) == 1) {
-				$legend[] = $i.'h';
 				$values[] = $temp[$i];
 			} else {
-				$legend[] = $i.'h';
 				$values[] = 0;
 			}
 		}
@@ -101,11 +100,10 @@ class Statistics extends CI_Controller {
 			}
 		}
 		foreach($days as $i => $v) {
+				$legend[] = '<i class="icon icon-calendar"></i>'.$v;
 			if(isset($temp[$i]) == 1) {
-				$legend[] = $v;
 				$values[] = $temp[$i];
 			} else {
-				$legend[] = $v;
 				$values[] = 0;
 			}
 		}
@@ -137,7 +135,7 @@ class Statistics extends CI_Controller {
 		$query = $this->db->query('SELECT SUBSTRING(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), 1, 7) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.mbr_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,12', array($this->session->userdata('timezone'), 1, $this->member->mbr_id));
 		if($query->num_rows() > 0) {
 			foreach($query->result() as $row) {
-				$legend[] = date('F, Y', strtotime($row->ref));
+				$legend[] = '<i class="icon icon-calendar"></i>'.date('F, Y', strtotime($row->ref));
 				$values[] = $row->nb;
 			}
 		}
@@ -149,7 +147,7 @@ class Statistics extends CI_Controller {
 			$query = $this->db->query('SELECT SUBSTRING(DATE_ADD(fav.fav_datecreated, INTERVAL ? HOUR), 1, 7) AS ref, COUNT(DISTINCT(fav.itm_id)) AS nb FROM '.$this->db->dbprefix('favorites').' AS fav WHERE fav.mbr_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,12', array($this->session->userdata('timezone'), $this->member->mbr_id));
 			if($query->num_rows() > 0) {
 				foreach($query->result() as $row) {
-					$legend[] = date('F, Y', strtotime($row->ref));
+					$legend[] = '<i class="icon icon-calendar"></i>'.date('F, Y', strtotime($row->ref));
 					$values[] = $row->nb;
 				}
 			}
