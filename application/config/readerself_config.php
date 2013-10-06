@@ -20,6 +20,7 @@ $config['members_list'] = FALSE;
 
 $config['menu_geolocation_items'] = TRUE;
 $config['menu_audio_items'] = TRUE;
+$config['menu_video_items'] = TRUE;
 
 $config['readability_parser_key'] = '';
 $config['register_multi'] = FALSE;

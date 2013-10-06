@@ -3,6 +3,7 @@ $lang['active_connections'] = 'Active connections';
 $lang['add'] = 'Add';
 $lang['all_items'] = 'All items';
 $lang['audio_items'] = 'Audio';
+$lang['video_items'] = 'Video';
 $lang['authors'] = 'Authors';
 $lang['back'] = 'Back';
 $lang['callback_email'] = 'Email error';

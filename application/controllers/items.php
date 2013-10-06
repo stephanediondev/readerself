@@ -9,7 +9,7 @@ class Items extends CI_Controller {
 			redirect(base_url());
 		}
 
-		$modes = array('all', 'priority', 'geolocation', 'audio', 'starred', 'shared', 'nofolder', 'folder', 'subscription', 'category', 'author', 'search', 'cloud', 'member');
+		$modes = array('all', 'priority', 'geolocation', 'audio', 'video', 'starred', 'shared', 'nofolder', 'folder', 'subscription', 'category', 'author', 'search', 'cloud', 'member');
 		$clouds = array('tags', 'authors');
 
 		$content = array();
@@ -205,6 +205,12 @@ class Items extends CI_Controller {
 					$bindings[] = 'audio/%';
 				}
 
+				if($mode == 'video') {
+					$introduction_title = '<i class="icon icon-youtube-play"></i>'.$this->lang->line('video_items').' (<span id="intro-load-video-items"></span>)';
+					$where[] = 'enr.enr_type LIKE ?';
+					$bindings[] = 'video/%';
+				}
+
 				if($mode == 'starred') {
 					$introduction_title = '<i class="icon icon-star"></i>'.$this->lang->line('starred_items').' {<span id="intro-load-starred-items"></span>}';
 					$introduction_actions = '<ul class="actions"><li><a href="'.base_url().'starred/import"><i class="icon icon-download-alt"></i>'.$this->lang->line('import').'</a></li></ul>';
@@ -336,7 +342,7 @@ class Items extends CI_Controller {
 
 				$sql = 'SELECT itm.*, DATE_ADD(itm.itm_date, INTERVAL ? HOUR) AS itm_date
 				FROM '.$this->db->dbprefix('items').' AS itm ';
-				if($mode == 'audio') {
+				if($mode == 'audio' || $mode == 'video') {
 					$sql .= 'LEFT JOIN '.$this->db->dbprefix('enclosures').' AS enr ON enr.itm_id = itm.itm_id ';
 				}
 				$sql .= 'WHERE '.implode(' AND ', $where).'
@@ -514,6 +520,12 @@ class Items extends CI_Controller {
 					$data['count'] = $this->readerself_model->count_unread('audio');
 				}
 
+				if($this->session->userdata('items-mode') == 'video') {
+					$data['title'] = $this->lang->line('video_items');
+					$data['icon'] = 'youtube-play';
+					$data['count'] = $this->readerself_model->count_unread('video');
+				}
+
 				$is_folder = FALSE;
 				if($this->session->userdata('items-mode') == 'folder') {
 					$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? AND flr.flr_id = ? GROUP BY flr.flr_id', array($this->member->mbr_id, $this->session->userdata('items-id')));
@@ -610,6 +622,11 @@ class Items extends CI_Controller {
 						$bindings[] = 'audio/%';
 					}
 
+					if($this->session->userdata('items-mode') == 'video') {
+						$where[] = 'enr.enr_type LIKE ?';
+						$bindings[] = 'video/%';
+					}
+
 					$where[] = 'itm.itm_id NOT IN ( SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.itm_id = itm.itm_id AND hst.mbr_id = ? )';
 					$bindings[] = $this->member->mbr_id;
 
@@ -653,7 +670,7 @@ class Items extends CI_Controller {
 					$sql = 'INSERT INTO '.$this->db->dbprefix('history').' (itm_id, mbr_id, hst_real, hst_datecreated)
 					SELECT itm.itm_id AS itm_id, ? AS mbr_id, \'0\' AS hst_real, ? AS hst_datecreated
 					FROM '.$this->db->dbprefix('items').' AS itm ';
-					if($this->session->userdata('items-mode') == 'audio') {
+					if($this->session->userdata('items-mode') == 'audio' || $this->session->userdata('items-mode') == 'video') {
 						$sql .= 'LEFT JOIN '.$this->db->dbprefix('enclosures').' AS enr ON enr.itm_id = itm.itm_id ';
 					}
 					$sql .= 'WHERE '.implode(' AND ', $where).'

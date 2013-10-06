@@ -20,6 +20,10 @@ class Refresh extends CI_Controller {
 				$content['count']['audio'] = $this->readerself_model->count_unread('audio');
 			}
 
+			if($this->config->item('menu_video_items')) {
+				$content['count']['video'] = $this->readerself_model->count_unread('video');
+			}
+
 			if($this->config->item('folders')) {
 				$sql = 'SELECT flr.flr_id, COUNT(DISTINCT(itm.itm_id)) AS count
 				FROM '.$this->db->dbprefix('folders').' AS flr

@@ -290,6 +290,15 @@ class Readerself_model extends CI_Model {
 			WHERE hst.hst_id IS NULL AND sub.mbr_id = ? AND enr.enr_type LIKE ?';
 			return $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id, 'audio/%'))->row()->count;
 		}
+		if($type == 'video') {
+			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
+			FROM '.$this->db->dbprefix('subscriptions').' AS sub
+			LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id
+			LEFT JOIN '.$this->db->dbprefix('enclosures').' AS enr ON enr.itm_id = itm.itm_id
+			LEFT JOIN '.$this->db->dbprefix('history').' AS hst ON hst.itm_id = itm.itm_id AND hst.mbr_id = ?
+			WHERE hst.hst_id IS NULL AND sub.mbr_id = ? AND enr.enr_type LIKE ?';
+			return $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id, 'video/%'))->row()->count;
+		}
 		if($type == 'nofolder') {
 			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
 			FROM '.$this->db->dbprefix('subscriptions').' AS sub

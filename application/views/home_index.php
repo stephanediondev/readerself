@@ -39,6 +39,9 @@
 		<?php if($this->config->item('menu_audio_items')) { ?>
 			<li><a id="load-audio-items" class="menu" href="<?php echo base_url(); ?>items/get/audio"><i class="icon icon-volume-up"></i><?php echo $this->lang->line('audio_items'); ?> (<span>0</span>)</a></li>
 		<?php } ?>
+		<?php if($this->config->item('menu_video_items')) { ?>
+			<li><a id="load-video-items" class="menu" href="<?php echo base_url(); ?>items/get/video"><i class="icon icon-youtube-play"></i><?php echo $this->lang->line('video_items'); ?> (<span>0</span>)</a></li>
+		<?php } ?>
 		<li class="separator"><a id="load-cloud-authors-items" class="menu" href="<?php echo base_url(); ?>items/get/cloud/authors"><i class="icon icon-pencil"></i><?php echo $this->lang->line('authors'); ?></a></li>
 		<?php if($this->config->item('tags')) { ?>
 			<li><a id="load-cloud-tags-items" class="menu" href="<?php echo base_url(); ?>items/get/cloud/tags"><i class="icon icon-tags"></i><?php echo $this->lang->line('tags'); ?></a></li>
