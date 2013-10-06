@@ -1,3 +1,9 @@
+<?php
+namespace UAS;
+require 'thirdparty/uasparser/Parser.php';
+$parser = new Parser();
+$parser->SetCacheDir('application/cache/');
+?>
 	<nav>
 		<ul class="actions">
 			<li><a href="<?php echo base_url(); ?>profile"><i class="icon icon-step-backward"></i><?php echo $this->lang->line('back'); ?></a></li>
@@ -15,10 +21,10 @@
 
 	<?php if($connections) { ?>
 		<?php foreach($connections as $cnt) { ?>
-		<?php $ua_info = parse_user_agent($cnt->cnt_agent); ?>
+		<?php $ua_info = $parser->parse($cnt->cnt_agent); ?>
 		<?php list($date, $time) = explode(' ', $cnt->cnt_datecreated); ?>
 			<article<?php if($this->member->token_connection == $cnt->token_connection) { ?> class="item-selected"<?php } ?>>
-				<h2><i class="icon icon-signin"></i><?php echo $ua_info['platform']; ?> <?php echo $ua_info['browser']; ?> <?php echo $ua_info['version']; ?><?php if($this->member->token_connection == $cnt->token_connection) { ?> / <em><?php echo $this->lang->line('current_connection'); ?></em><?php } ?></h2>
+				<h2><i class="icon icon-signin"></i><?php echo $ua_info['os_name']; ?> / <?php echo $ua_info['ua_name']; ?> <?php if($this->member->token_connection == $cnt->token_connection) { ?> / <em><?php echo $this->lang->line('current_connection'); ?></em><?php } ?></h2>
 				<ul class="item-details">
 					<li><i class="icon icon-bolt"></i><?php echo $cnt->cnt_ip; ?></li>
 					<li><i class="icon icon-calendar"></i><?php echo $date; ?></li>

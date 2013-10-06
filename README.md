@@ -18,5 +18,5 @@ example
 * [SimplePie](http://simplepie.org)
 * [jQuery](http://jquery.com/)
 * [Font Awesome](http://fortawesome.github.io/Font-Awesome/)
-* [PhpUserAgent](https://github.com/donatj/PhpUserAgent)
+* [UASparser](https://github.com/Synchro/UASparser)
 * [FeedWriter](https://github.com/ajaxray/FeedWriter)

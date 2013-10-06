@@ -9,7 +9,7 @@
 	<section>
 		<section>
 
-	<article class="title">
+	<article class="title item-selected">
 		<ul class="actions">
 			<?php if($this->member->mbr_nickname) { ?><li><a href="<?php echo base_url(); ?>member/<?php echo $this->member->mbr_nickname; ?>"><i class="icon icon-unlock"></i><?php echo $this->lang->line('public_profile'); ?></a></li><?php } ?>
 		</ul>

@@ -450,7 +450,15 @@ class Items extends CI_Controller {
 				if($introduction_direction) {
 					$content['begin'] = '<article dir="'.$introduction_direction.'" id="introduction" class="title">';
 				} else {
-					$content['begin'] = '<article id="introduction" class="title">';
+					if($is_member) {
+						if($is_member->mbr_id == $this->member->mbr_id) {
+							$content['begin'] = '<article id="introduction" class="title item-selected">';
+						} else {
+							$content['begin'] = '<article id="introduction" class="title">';
+						}
+					} else {
+						$content['begin'] = '<article id="introduction" class="title">';
+					}
 				}
 				if($introduction_actions) {
 					$content['begin'] .= $introduction_actions;

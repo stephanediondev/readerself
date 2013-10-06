@@ -7,7 +7,7 @@
 <main>
 	<section>
 		<section>
-		<article class="title">
+		<article class="title<?php if($mbr->mbr_id == $this->member->mbr_id) { ?> item-selected<?php } ?>">
 			<ul class="actions">
 				<?php if($mbr->mbr_nickname) { ?><li><a href="<?php echo base_url(); ?>member/<?php echo $mbr->mbr_nickname; ?>"><i class="icon icon-unlock"></i><?php echo $this->lang->line('public_profile'); ?></a></li><?php } ?>
 			</ul>
