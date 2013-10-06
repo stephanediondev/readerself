@@ -132,7 +132,7 @@ class Readerself_model extends CI_Model {
 		return $members;
 	}
 	function get_member_row($mbr_id) {
-		$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_nickname IS NOT NULL AND mbr.mbr_id = ? GROUP BY mbr.mbr_id', array($mbr_id));
+		$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_id = ? GROUP BY mbr.mbr_id', array($mbr_id));
 		return $query->row();
 	}
 
