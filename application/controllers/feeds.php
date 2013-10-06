@@ -34,19 +34,6 @@ class Feeds extends CI_Controller {
 		$data = array();
 		$data['fed'] = $this->readerself_model->get_feed_row($fed_id);
 		if($data['fed']) {
-			$data['fed']->categories = false;
-			if($this->config->item('tags')) {
-				$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
-
-				$categories = $this->db->query('SELECT cat.cat_title AS ref, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND cat.cat_datecreated >= ? AND itm.fed_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,10', array($date_ref, $fed_id))->result();
-				if($categories) {
-					$data['fed']->categories = array();
-					foreach($categories as $cat) {
-						$data['fed']->categories[] = $cat->ref;
-					}
-				}
-			}
-
 			if($this->config->item('folders')) {
 				$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? GROUP BY flr.flr_id ORDER BY flr.flr_title ASC', array($this->member->mbr_id));
 				$data['folders'] = array();

@@ -289,6 +289,18 @@ class Items extends CI_Controller {
 					if($is_subscription->fed_url) {
 						$introduction_details .= '<li><a target="_blank" href="'.$is_subscription->fed_url.'"><i class="icon icon-external-link"></i>'.$is_subscription->fed_url.'</a></li>';
 					}
+					if($this->config->item('tags')) {
+						$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
+
+						$categories = $this->db->query('SELECT cat.cat_title AS ref, cat.cat_id AS id, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND cat.cat_datecreated >= ? AND sub.mbr_id = ? AND sub.sub_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,10', array($date_ref, $this->member->mbr_id, $is_subscription->sub_id))->result();
+						if($categories) {
+							$is_subscription->categories = array();
+							foreach($categories as $cat) {
+								$is_subscription->categories[] = '<a class="category" data-cat_id="'.$cat->id.'" href="'.base_url().'items/get/category/'.$cat->id.'">'.$cat->ref.'</a>';
+							}
+							$introduction_details .= '<li class="block hide-phone"><i class="icon icon-tags"></i>'.implode(', ', $is_subscription->categories).'</li>';
+						}
+					}
 					$introduction_details .= '</ul>';
 					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
 					$bindings[] = $is_subscription->sub_id;
