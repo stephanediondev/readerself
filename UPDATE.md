@@ -1,5 +1,12 @@
 #### Update
 
+##### 2013-10-06
+
+```sql
+ALTER TABLE `members` ADD `mbr_administrator` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0' AFTER `mbr_description`;
+UPDATE `members` SET `mbr_administrator` = '1' WHERE 1 LIMIT 1;
+```
+
 ##### 2013-10-05
 
 ```sql
