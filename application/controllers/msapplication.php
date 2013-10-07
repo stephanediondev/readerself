@@ -16,7 +16,7 @@ class Msapplication extends CI_Controller {
 
 			echo '<badge value="'.$this->db->query($sql, array($member->mbr_id, $member->mbr_id))->row()->count.'" />';
 		} else {
-			echo '<badge value="0" />';
+			echo '<badge value="error" />';
 		}
 		exit(0);
 	}
