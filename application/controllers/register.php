@@ -29,6 +29,9 @@ class Register extends CI_Controller {
 		} else {
 			$this->db->set('mbr_email', $this->input->post('mbr_email'));
 			$this->db->set('mbr_password', $this->readerself_library->set_salt_password($this->input->post('mbr_password')));
+			if($this->readerself_model->count_members() == 0) {
+				$this->db->set('mbr_administrator', 1);
+			}
 			$this->db->set('mbr_datecreated', date('Y-m-d H:i:s'));
 			$this->db->insert('members');
 			$mbr_id = $this->db->insert_id();
