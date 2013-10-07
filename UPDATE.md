@@ -1,5 +1,11 @@
 #### Update
 
+##### 2013-10-07
+
+```sql
+ALTER TABLE `members` ADD `token_msapplication` CHAR( 40 ) NULL AFTER `token_share`;
+```
+
 ##### 2013-10-06
 
 ```sql

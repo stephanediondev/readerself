@@ -94,6 +94,13 @@ class Readerself_model extends CI_Model {
 				$this->db->update('members');
 			}
 
+			if(!$member->token_msapplication) {
+				$member->token_msapplication = sha1(uniqid($member->mbr_id, 1).mt_rand());
+				$this->db->set('token_msapplication', $member->token_msapplication);
+				$this->db->where('mbr_id', $member->mbr_id);
+				$this->db->update('members');
+			}
+
 			$query = $this->db->query('SELECT cnt.* FROM '.$this->db->dbprefix('connections').' AS cnt WHERE cnt.mbr_id = ? AND token_connection IS NOT NULL AND token_connection = ? GROUP BY cnt.cnt_id', array($mbr_id, $this->input->cookie('token_connection')));
 			if($query->num_rows() > 0) {
 				$member->token_connection = $query->row()->token_connection;

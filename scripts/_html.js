@@ -94,6 +94,17 @@ function refresh() {
 						$('#intro-load-' + i + '-items').html(data_return.count[i]);
 					}
 					window.document.title = '(' + data_return.count.all + ')';
+					try {
+						if(window.external.msIsSiteMode()) {
+							try {
+								window.external.msSiteModeRefreshBadge();
+							}
+							catch (err) {
+							}
+						}
+					}
+					catch (err) { 
+					}
 					if($('#last_crawl').length > 0 && data_return.last_crawl) {
 						$('#last_crawl').html(data_return.last_crawl);
 						$('#last_crawl').find('.timeago').timeago();

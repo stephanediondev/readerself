@@ -132,6 +132,7 @@ CREATE TABLE IF NOT EXISTS `members` (
   `mbr_administrator` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `token_password` char(40) DEFAULT NULL,
   `token_share` char(40) DEFAULT NULL,
+  `token_msapplication` char(40) DEFAULT NULL,
   `mbr_datecreated` datetime NOT NULL,
   PRIMARY KEY (`mbr_id`),
   UNIQUE KEY `mbr_email` (`mbr_email`),

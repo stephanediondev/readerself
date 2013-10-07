@@ -8,7 +8,7 @@
 <meta content="<?php echo $member->mbr_description; ?>" name="description">
 <meta content="<?php echo $member->mbr_description; ?>" property="og:description">
 <?php } ?>
-<meta property="og:image" content="http://readerself.com/medias/readerself_200x200.png">
+<meta property="og:image" content="<?php echo base_url(); ?>medias/readerself_250x250.png">
 <meta property="og:site_name" content="Reader Self - Google Reader alternative">
 <meta property="og:title" content="<?php echo $member->mbr_nickname; ?> - <?php echo $this->config->item('title'); ?>">
 <meta property="og:type" content="profile">
@@ -18,6 +18,14 @@
 <?php } else { ?>
 <title><?php echo $this->config->item('title'); ?></title>
 <?php } ?>
+
+<?php if($this->session->userdata('mbr_id')) { ?>
+<meta name="application-name" content="<?php echo $this->config->item('title'); ?>">
+<meta name="msapplication-TileImage" content="<?php echo base_url(); ?>medias/readerself_250x250.png">
+<meta name="msapplication-TileColor" content="#FFFFFF">
+<meta name="msapplication-badge" content="frequency=30;polling-uri=<?php echo base_url(); ?>msapplication/badge/<?php echo $this->member->token_msapplication; ?>">
+<?php } ?>
+
 <link rel="icon" href="<?php echo base_url(); ?>favicon.ico" type="image/x-icon">
 <link rel="shortcut icon" href="<?php echo base_url(); ?>favicon.ico" type="image/x-icon">
 <link rel="apple-touch-icon" href="<?php echo base_url(); ?>medias/readerself_200x200.png">
