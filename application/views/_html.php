@@ -23,6 +23,7 @@
 <meta name="application-name" content="<?php echo $this->config->item('title'); ?>">
 <meta name="msapplication-TileImage" content="<?php echo base_url(); ?>medias/readerself_250x250.png">
 <meta name="msapplication-TileColor" content="#FFFFFF">
+<meta name="msapplication-square150x150logo" content="<?php echo base_url(); ?>medias/readerself_250x250.png">
 <meta name="msapplication-badge" content="frequency=30;polling-uri=<?php echo base_url(); ?>msapplication/badge/<?php echo $this->member->token_msapplication; ?>">
 <?php } ?>
 
