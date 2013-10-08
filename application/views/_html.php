@@ -21,6 +21,7 @@
 
 <?php if($this->session->userdata('mbr_id')) { ?>
 <meta name="application-name" content="<?php echo $this->config->item('title'); ?>">
+<meta name="msapplication-starturl" content="<?php echo base_url(); ?>">
 <meta name="msapplication-TileImage" content="<?php echo base_url(); ?>medias/readerself_250x250.png">
 <meta name="msapplication-TileColor" content="#FFFFFF">
 <meta name="msapplication-square150x150logo" content="<?php echo base_url(); ?>medias/readerself_250x250.png">
