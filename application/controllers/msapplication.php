@@ -20,4 +20,8 @@ class Msapplication extends CI_Controller {
 		}
 		exit(0);
 	}
+	public function pin() {
+		$this->readerself_library->set_template('_pin');
+		$this->readerself_library->set_content('');
+	}
 }
