@@ -1,83 +1,46 @@
-#### Update
-
-##### 2013-10-07
-
-```sql
+#2013-10-07
 ALTER TABLE `members` ADD `token_msapplication` CHAR( 40 ) NULL AFTER `token_share`;
-```
 
-##### 2013-10-06
-
-```sql
+#2013-10-06
 ALTER TABLE `members` ADD `mbr_administrator` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0' AFTER `mbr_description`;
 UPDATE `members` SET `mbr_administrator` = '1' WHERE 1 LIMIT 1;
-```
 
-##### 2013-10-05
-
-```sql
+#2013-10-05
 ALTER TABLE `feeds` ADD `fed_host` VARCHAR( 255 ) NULL AFTER `fed_link`;
-```
 
-##### 2013-09-22
-
-```sql
+#2013-09-22
 ALTER TABLE `members` ADD `mbr_nickname` VARCHAR( 255 ) NULL AFTER `mbr_password`;
 ALTER TABLE `members` ADD UNIQUE (`mbr_nickname`);
 ALTER TABLE `members` ADD `mbr_description` TEXT NULL AFTER `mbr_nickname`;
 ALTER TABLE `members` ADD `mbr_gravatar` VARCHAR( 255 ) NULL AFTER `mbr_nickname`;
-```
 
-##### 2013-09-19
-
-```sql
+#2013-09-19
 ALTER TABLE `feeds` ADD `fed_type` ENUM( 'rss', 'atom' ) NULL AFTER `fed_link`;
-```
 
-##### 2013-09-17
-
-```sql
+#2013-09-17
 ALTER TABLE `feeds` ADD `fed_direction` CHAR( 3 ) NULL AFTER `fed_description`;
 ALTER TABLE `folders` ADD `flr_direction` CHAR( 3 ) NULL AFTER `flr_title`;
-```
 
-##### 2013-09-16
-
-```sql
+#2013-09-16
 ALTER TABLE `subscriptions` ADD `sub_direction` CHAR( 3 ) NULL AFTER `sub_priority`;
-```
 
-##### 2013-09-15
-
-```sql
+#2013-09-15
 ALTER TABLE `subscriptions` ADD `sub_priority` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0' AFTER `sub_title`;
-```
 
-##### 2013-09-12
-
-```sql
+#2013-09-12
 ALTER TABLE `crawler` ADD `crr_memory` INT UNSIGNED NULL AFTER `crr_time`;
-```
 
-##### 2013-09-11
-
-```sql
+#2013-09-11
 DELETE FROM `connections` WHERE `token_connection` IS NULL;
 ALTER TABLE `enclosures` CHANGE `enr_length` `enr_length` INT( 10 ) UNSIGNED NULL;
 ALTER TABLE `enclosures` ADD `enr_width` INT UNSIGNED NULL AFTER `enr_length`;
 ALTER TABLE `enclosures` ADD `enr_height` INT UNSIGNED NULL AFTER `enr_width`;
-```
 
-##### 2013-09-08
-
-```sql
+#2013-09-08
 ALTER TABLE `items` ADD `itm_latitude` DOUBLE NULL AFTER `itm_content` ,
 ADD `itm_longitude` DOUBLE NULL AFTER `itm_latitude`;
-```
 
-##### 2013-09-01
-
-```sql
+#2013-09-01
 CREATE TABLE IF NOT EXISTS `crawler` (
   `crr_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `crr_time` double unsigned NOT NULL,
@@ -85,11 +48,8 @@ CREATE TABLE IF NOT EXISTS `crawler` (
   `crr_datecreated` datetime NOT NULL,
   PRIMARY KEY (`crr_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-```
 
-##### 2013-08-30
-
-```sql
+#2013-08-30
 ALTER TABLE `enclosures` ADD `enr_length` INT UNSIGNED NOT NULL AFTER `enr_type`;
 ALTER TABLE `members` ADD `token_share` CHAR( 40 ) NULL DEFAULT NULL AFTER `token_password`;
 CREATE TABLE IF NOT EXISTS `categories` (
@@ -102,11 +62,8 @@ CREATE TABLE IF NOT EXISTS `categories` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 ALTER TABLE `feeds` ADD `fed_lastcrawl` DATETIME NULL DEFAULT NULL AFTER `fed_lasterror`;
 ALTER TABLE `feeds` ADD `fed_nextcrawl` DATETIME NULL DEFAULT NULL AFTER `fed_lastcrawl`;
-```
 
-##### 2013-08-29
-
-```sql
+#2013-08-29
 RENAME TABLE `tags` TO `folders`;
 ALTER TABLE `folders` CHANGE `tag_id` `flr_id` BIGINT( 20 ) UNSIGNED NOT NULL AUTO_INCREMENT,
 CHANGE `tag_title` `flr_title` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
@@ -121,11 +78,8 @@ CREATE TABLE IF NOT EXISTS `share` (
   KEY `mbr_id` (`mbr_id`),
   KEY `itm_id` (`itm_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-```
 
-##### 2013-08-25
-
-```sql
+#2013-08-25
 ALTER TABLE `feeds` ADD `fed_image` VARCHAR( 255 ) NULL AFTER `fed_link`;
 CREATE TABLE IF NOT EXISTS `enclosures` (
   `enr_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -139,13 +93,8 @@ CREATE TABLE IF NOT EXISTS `enclosures` (
 ALTER TABLE `feeds` CHANGE `fed_title` `fed_title` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
 CHANGE `fed_url` `fed_url` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
 ALTER TABLE `feeds` DROP INDEX `fed_lasterror`;
-```
 
-##### 2013-08-24
-
-```sql
+#2013-08-24
 ALTER TABLE `history` ADD `hst_real` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '1' AFTER `itm_id`;
 ALTER TABLE `history` ADD INDEX ( `hst_real` );
 ALTER TABLE `subscriptions` ADD `sub_title` VARCHAR( 255 ) NULL AFTER `tag_id`;
-```
-

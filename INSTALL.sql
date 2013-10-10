@@ -1,16 +1,3 @@
-### Install
-
-Edit [/application/config/readerself_config.php](/application/config/readerself_config.php) to define "salt_password" (some letters and numbers to secure your password)
-
-Edit [/application/config/database.php](/application/config/database.php) to define "username", "password" and "database" ("hostname" if necessary)
-
-Load SQL commands below in your database
-
-Launch in a browser to register an account
-
-Add to cron (hourly) => cd /path-to-installation && php index.php refresh items
-
-```sql
 CREATE TABLE IF NOT EXISTS `categories` (
   `cat_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `itm_id` bigint(20) unsigned NOT NULL,
@@ -170,4 +157,3 @@ INSERT INTO `feeds` (`fed_id`, `fed_title`, `fed_url`, `fed_link`, `fed_type`, `
 (2, 'Slashdot', 'http://slashdot.org/', 'http://rss.slashdot.org/Slashdot/slashdot', 'rss', 'http://a.fsdn.com/sd/topics/topicslashdot.gif', 'News for nerds, stuff that matters', NULL, NULL, NULL, NULL, NOW()),
 (3, 'The Next Web', 'http://thenextweb.com/', 'http://feeds2.feedburner.com/thenextweb', 'rss', NULL, 'International technology news, business &amp; culture', NULL, NULL, NULL, NULL, NOW()),
 (4, 'Fubiz™', 'http://www.fubiz.net/', 'http://www.fubiz.net/en/feed/', 'rss', NULL, 'Daily dose of inspiration', NULL, NULL, NULL, NULL, NOW());
-```
