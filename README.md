@@ -18,7 +18,10 @@ Load SQL commands from [/INSTALL.sql](/INSTALL.sql) in your database
 
 Launch in a browser to register an account
 
-Add to cron (hourly) => cd /path-to-installation && php index.php refresh items
+Add to cron (hourly)
+```text
+cd /path-to-installation && php index.php refresh items
+```
 
 ### Third party
 
