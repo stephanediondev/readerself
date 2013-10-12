@@ -9,7 +9,4 @@ $config['ldap_rootpw'] = 'secret';
 $config['ldap_basedn'] = 'dc=my-domain,dc=com';
 $config['ldap_filter'] = 'mail=[email]';
 
-$config['members_list'] = FALSE;
-
-$config['register_multi'] = FALSE;
 $config['salt_password'] = '';

@@ -159,7 +159,9 @@ INSERT INTO `settings` (`stg_id`, `stg_code`, `stg_type`, `stg_value`, `stg_note
 (15, 'starred_items', 'boolean', '1', NULL, 1, 1, 0, '2013-10-12 21:38:51'),
 (16, 'tags', 'boolean', '1', NULL, 1, 1, 0, '2013-10-12 21:39:09'),
 (17, 'share_external', 'boolean', '1', NULL, 1, 1, 0, '2013-10-12 21:50:01'),
-(18, 'title', 'string', 'Reader Self', NULL, 1, 0, 0, '2013-10-12 22:06:44');
+(18, 'title', 'string', 'Reader Self', NULL, 1, 0, 0, '2013-10-12 22:06:44'),
+(19, 'members_list', 'boolean', '0', NULL, 1, 0, 0, '2013-10-12 22:21:19'),
+(20, 'register_multi', 'boolean', '0', NULL, 1, 0, 0, '2013-10-12 22:21:22');
 
 CREATE TABLE IF NOT EXISTS `share` (
   `shr_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,

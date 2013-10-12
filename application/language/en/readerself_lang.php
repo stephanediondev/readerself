@@ -168,3 +168,5 @@ $lang['stg_social_buttons'] = 'Social buttons';
 $lang['stg_starred_items'] = 'Starred items';
 $lang['stg_tags'] = 'Tags';
 $lang['stg_title'] = 'Title';
+$lang['stg_register_multi'] = 'Multi accounts';
+$lang['stg_members_list'] = 'Members list';
