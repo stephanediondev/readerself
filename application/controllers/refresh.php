@@ -64,7 +64,7 @@ class Refresh extends CI_Controller {
 				}
 			}
 
-			if($this->config->item('star')) {
+			if($this->config->item('starred_items')) {
 				$sql = 'SELECT COUNT(DISTINCT(fav.fav_id)) AS count
 				FROM '.$this->db->dbprefix('favorites').' AS fav
 				LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = fav.itm_id 
@@ -74,7 +74,7 @@ class Refresh extends CI_Controller {
 				$content['count']['starred'] = $query->row()->count;
 			}
 
-			if($this->config->item('share')) {
+			if($this->config->item('shared_items')) {
 				$sql = 'SELECT COUNT(DISTINCT(shr.shr_id)) AS count
 				FROM '.$this->db->dbprefix('share').' AS shr
 				LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = shr.itm_id 

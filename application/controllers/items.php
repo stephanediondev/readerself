@@ -407,7 +407,7 @@ class Items extends CI_Controller {
 								$itm->history = 'unread';
 							}
 
-							if($this->config->item('star')) {
+							if($this->config->item('starred_items')) {
 								$sql = 'SELECT fav.* FROM '.$this->db->dbprefix('favorites').' AS fav WHERE fav.itm_id = ? AND fav.mbr_id = ? GROUP BY fav.fav_id';
 								$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
 								if($query->num_rows > 0) {
@@ -417,7 +417,7 @@ class Items extends CI_Controller {
 								}
 							}
 
-							if($this->config->item('share')) {
+							if($this->config->item('shared_items')) {
 								$sql = 'SELECT shr.* FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = ? AND shr.mbr_id = ? GROUP BY shr.shr_id';
 								$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
 								if($query->num_rows > 0) {

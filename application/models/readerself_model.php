@@ -263,6 +263,10 @@ class Readerself_model extends CI_Model {
 		}
 		return $fed;
 	}
+	function get_settings_global() {
+		$query = $this->db->query('SELECT stg.* FROM '.$this->db->dbprefix('settings').' AS stg WHERE stg.stg_is_global = ? GROUP BY stg.stg_id ORDER BY stg.stg_code ASC', array(1));
+		return $query->result();
+	}
 	function count_unread($type, $id = false) {
 		if($type == 'all') {
 			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count

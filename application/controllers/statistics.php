@@ -141,7 +141,7 @@ class Statistics extends CI_Controller {
 		}
 		$data['tables'] .= build_table_progression($this->lang->line('items_read_by_month'), $values, $legend);
 
-		if($this->config->item('star')) {
+		if($this->config->item('starred_items')) {
 			$legend = array();
 			$values = array();
 			$query = $this->db->query('SELECT SUBSTRING(DATE_ADD(fav.fav_datecreated, INTERVAL ? HOUR), 1, 7) AS ref, COUNT(DISTINCT(fav.itm_id)) AS nb FROM '.$this->db->dbprefix('favorites').' AS fav WHERE fav.mbr_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,12', array($this->session->userdata('timezone'), $this->member->mbr_id));

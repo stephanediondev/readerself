@@ -64,6 +64,9 @@
 					<li class="hide-phone"><a href="<?php echo base_url(); ?>members"><i class="icon icon-group"></i><?php echo $this->lang->line('members'); ?></a></li>
 				<?php } ?>
 				<li class="hide-phone"><a href="<?php echo base_url(); ?>profile"><i class="icon icon-user"></i><?php if($this->member->mbr_nickname) { ?><?php echo $this->member->mbr_nickname; ?><?php } else { ?><?php echo $this->lang->line('profile'); ?><?php } ?></a></li>
+				<?php if($this->member->mbr_administrator == 1) { ?>
+					<li class="hide-phone"><a href="<?php echo base_url(); ?>settings"><i class="icon icon-gears"></i><?php echo $this->lang->line('settings'); ?></a></li>
+				<?php } ?>
 				<li><a href="<?php echo base_url(); ?>logout"><i class="icon icon-signout"></i><?php echo $this->lang->line('logout'); ?></a></li>
 			<?php } else { ?>
 				<li><a href="<?php echo base_url(); ?>login"><i class="icon icon-signin"></i><?php echo $this->lang->line('login'); ?></a></li>

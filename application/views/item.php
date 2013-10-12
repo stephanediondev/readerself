@@ -3,10 +3,10 @@
 		<?php if($mode != 'member') { ?>
 			<li><a class="history" href="<?php echo base_url(); ?>item/read/<?php echo $itm->itm_id; ?>" title="m"><span class="unread"<?php if($itm->history == 'unread') { ?> style="display:none;"<?php } ?>><i class="icon icon-eye-close"></i><?php echo $this->lang->line('keep_unread'); ?></span><span class="read"<?php if($itm->history == 'read') { ?> style="display:none;"<?php } ?>><i class="icon icon-eye-open"></i><?php echo $this->lang->line('mark_as_read'); ?></span></a></li>
 		<?php } ?>
-		<?php if($this->config->item('star') && $mode != 'member') { ?>
+		<?php if($this->config->item('starred_items') && $mode != 'member') { ?>
 			<li class="hide-collapse"><a class="star" href="<?php echo base_url(); ?>item/star/<?php echo $itm->itm_id; ?>" title="s"><span class="unstar"<?php if($itm->star == 0) { ?> style="display:none;"<?php } ?>><i class="icon icon-star"></i><?php echo $this->lang->line('unstar'); ?></span><span class="star"<?php if($itm->star == 1) { ?> style="display:none;"<?php } ?>><i class="icon icon-star-empty"></i><?php echo $this->lang->line('star'); ?></span></a></li>
 		<?php } ?>
-		<?php if($this->config->item('share') && $mode != 'member') { ?>
+		<?php if($this->config->item('shared_items') && $mode != 'member') { ?>
 			<li class="hide-collapse"><a class="share" href="<?php echo base_url(); ?>item/share/<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_shift_s'); ?>"><span class="unshare"<?php if($itm->share == 0) { ?> style="display:none;"<?php } ?>><i class="icon icon-heart"></i><?php echo $this->lang->line('unshare'); ?></span><span class="share"<?php if($itm->share == 1) { ?> style="display:none;"<?php } ?>><i class="icon icon-heart-empty"></i><?php echo $this->lang->line('share'); ?></span></a></li>
 		<?php } ?>
 		<?php if($this->input->get('items_display') == 'collapse' || $this->input->cookie('items_display') == 'collapse') { ?>
@@ -60,18 +60,21 @@
 		<?php if($this->config->item('readability_parser_key') && $mode != 'member') { ?>
 			<li class="hide-phone"><a class="link-item-readability" href="<?php echo base_url(); ?>item/readability/<?php echo $itm->itm_id; ?>"><i class="icon icon-file-text"></i><?php echo $this->lang->line('readability'); ?></a></li>
 		<?php } ?>
-		<?php if($this->config->item('social')) { ?>
+		<?php if($this->config->item('social_buttons')) { ?>
 			<li><a class="link-item-like" href="#item-like-<?php echo $itm->itm_id; ?>" data-url="<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-thumbs-up-alt"></i><?php echo $this->lang->line('like'); ?></a></li>
+		<?php } ?>
+
+		<?php if($this->config->item('share_external')) { ?>
 			<li><a class="link-item-share" href="#item_<?php echo $itm->itm_id; ?>"><i class="icon icon-share"></i><?php echo $this->lang->line('share'); ?></a></li>
-			<?php if($this->config->item('share_by_email') && $mode != 'member') { ?>
+			<?php if($this->config->item('share_external_email') && $mode != 'member') { ?>
 				<li class="hide item-share"><a class="modal_show" href="<?php echo base_url(); ?>item/email/<?php echo $itm->itm_id; ?>"><i class="icon icon-envelope"></i><?php echo $this->lang->line('share_email'); ?></a></li>
 			<?php } ?>
 			<li class="hide item-share"><a target="_blank" href="https://www.facebook.com/sharer.php?u=<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-share"></i>Facebook</a></li>
 			<li class="hide item-share"><a target="_blank" href="https://plus.google.com/share?url=<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-share"></i>Google</a></li>
-			<li class="hide item-share"><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text=<?php echo urlencode($itm->itm_title.' '.$itm->itm_link); ?>"><i class="icon icon-share"></i>Twitter</a></li> 
+			<li class="hide item-share"><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text=<?php echo urlencode($itm->itm_title.' '.$itm->itm_link); ?>"><i class="icon icon-share"></i>Twitter</a></li>
 		<?php } ?>
 		</ul>
-		<?php if($this->config->item('social')) { ?>
+		<?php if($this->config->item('social_buttons')) { ?>
 			<div class="item-like" id="item-like-<?php echo $itm->itm_id; ?>">
 			</div>
 		<?php } ?>

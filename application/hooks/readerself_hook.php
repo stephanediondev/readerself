@@ -23,6 +23,11 @@ class Readerself_hook {
 			redirect(base_url().'configuration/error');
 		}
 
+		$settings = $this->CI->readerself_model->get_settings_global();
+		foreach($settings as $stg) {
+			$this->CI->config->set_item($stg->stg_code, $stg->stg_value);
+		}
+
 		if($this->CI->session->userdata('mbr_id')) {
 			$this->CI->member = $this->CI->readerself_model->get($this->CI->session->userdata('mbr_id'));
 			if(!$this->CI->member || !$this->CI->input->cookie('token_connection') || $this->CI->input->cookie('token_connection') != $this->CI->member->token_connection) {

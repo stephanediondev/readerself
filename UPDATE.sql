@@ -1,3 +1,38 @@
+#2013-10-12
+CREATE TABLE IF NOT EXISTS `settings` (
+  `stg_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `stg_code` varchar(255) NOT NULL,
+  `stg_type` varchar(255) NOT NULL,
+  `stg_value` varchar(255) DEFAULT NULL,
+  `stg_note` varchar(255) DEFAULT NULL,
+  `stg_is_global` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `stg_is_member` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `stg_is_subscription` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `stg_datecreated` datetime NOT NULL,
+  PRIMARY KEY (`stg_id`),
+  UNIQUE KEY `stg_code` (`stg_code`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+INSERT INTO `settings` (`stg_id`, `stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is_global`, `stg_is_member`, `stg_is_subscription`, `stg_datecreated`) VALUES
+(1, 'folders', 'boolean', '1', NULL, 1, 0, 0, '2013-10-12 21:35:22'),
+(2, 'gravatar', 'boolean', '1', NULL, 1, 0, 0, '2013-10-12 21:35:25'),
+(3, 'gravatar_default', 'string', 'identicon', 'identicon, mm, monsterid, retro, wavatar', 1, 1, 0, '2013-10-12 21:35:51'),
+(4, 'gravatar_rating', 'string', 'pg', 'g, pg, r, x', 1, 1, 0, '2013-10-12 21:36:06'),
+(5, 'gravatar_size', 'integer', '70', NULL, 1, 0, 0, '2013-10-12 21:36:21'),
+(6, 'menu_geolocation_items', 'boolean', '1', NULL, 1, 1, 0, '2013-10-12 21:36:36'),
+(7, 'menu_audio_items', 'boolean', '1', NULL, 1, 1, 0, '2013-10-12 21:36:49'),
+(8, 'menu_video_items', 'boolean', '1', NULL, 1, 1, 0, '2013-10-12 21:37:01'),
+(9, 'readability_parser_key', 'string', NULL, NULL, 1, 1, 0, '2013-10-12 21:37:14'),
+(10, 'sender_email', 'email', 'mailer@readerself.com', NULL, 1, 0, 0, '2013-10-12 21:37:42'),
+(11, 'sender_name', 'string', 'Reader Self', NULL, 1, 0, 0, '2013-10-12 21:37:56'),
+(12, 'shared_items', 'boolean', '1', NULL, 1, 1, 0, '2013-10-12 21:38:11'),
+(13, 'share_external_email', 'boolean', '1', NULL, 1, 1, 0, '2013-10-12 21:38:21'),
+(14, 'social_buttons', 'boolean', '1', NULL, 1, 1, 0, '2013-10-12 21:38:38'),
+(15, 'starred_items', 'boolean', '1', NULL, 1, 1, 0, '2013-10-12 21:38:51'),
+(16, 'tags', 'boolean', '1', NULL, 1, 1, 0, '2013-10-12 21:39:09'),
+(17, 'share_external', 'boolean', '1', NULL, 1, 1, 0, '2013-10-12 21:50:01'),
+(18, 'title', 'string', 'Reader Self', NULL, 1, 0, 0, '2013-10-12 22:06:44');
+
 #2013-10-07
 ALTER TABLE `members` ADD `token_msapplication` CHAR( 40 ) NULL AFTER `token_share`;
 
