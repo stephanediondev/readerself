@@ -170,3 +170,4 @@ $lang['stg_tags'] = 'Tags';
 $lang['stg_title'] = 'Titre';
 $lang['stg_register_multi'] = 'Multi-comptes';
 $lang['stg_members_list'] = 'Liste des membres';
+$lang['stg_refresh_by_cron'] = 'Rechargement par cron';

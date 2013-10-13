@@ -161,7 +161,8 @@ INSERT INTO `settings` (`stg_id`, `stg_code`, `stg_type`, `stg_value`, `stg_note
 (17, 'share_external', 'boolean', '1', NULL, 1, 1, 0, '2013-10-12 21:50:01'),
 (18, 'title', 'string', 'Reader Self', NULL, 1, 0, 0, '2013-10-12 22:06:44'),
 (19, 'members_list', 'boolean', '0', NULL, 1, 0, 0, '2013-10-12 22:21:19'),
-(20, 'register_multi', 'boolean', '0', NULL, 1, 0, 0, '2013-10-12 22:21:22');
+(20, 'register_multi', 'boolean', '0', NULL, 1, 0, 0, '2013-10-12 22:21:22'),
+(21, 'refresh_by_cron', 'boolean', '1', NULL, 1, 0, 0, '2013-10-13 20:48:44');
 
 CREATE TABLE IF NOT EXISTS `share` (
   `shr_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,

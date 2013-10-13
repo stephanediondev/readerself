@@ -1,3 +1,7 @@
+#2013-10-13
+INSERT INTO `settings` (`stg_id`, `stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is_global`, `stg_is_member`, `stg_is_subscription`, `stg_datecreated`) VALUES
+(21, 'refresh_by_cron', 'boolean', '1', NULL, 1, 0, 0, '2013-10-13 20:48:44');
+
 #2013-10-12
 CREATE TABLE IF NOT EXISTS `settings` (
   `stg_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
