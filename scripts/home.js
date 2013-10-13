@@ -492,6 +492,12 @@ $(document).ready(function() {
 					window.location.href = base_url + 'subscriptions/create';
 				}
 
+			//nothing when meta + k
+			} else if(event.metaKey && keycode == 75) {
+
+			//nothing when ctrl + k
+			} else if(event.ctrlKey && keycode == 75) {
+
 			//k or p or shift + space
 			} else if(keycode == 75 || keycode == 80 || (keycode == 32 && event.shiftKey)) {
 				item_up();
