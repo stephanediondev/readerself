@@ -5,8 +5,8 @@ class Refresh extends CI_Controller {
 		$this->readerself_library->set_template('_json');
 		$this->readerself_library->set_content_type('application/json');
 
+		$content = array();
 		if($this->input->is_ajax_request()) {
-			$content = array();
 
 			$content['count']['all'] = $this->readerself_model->count_unread('all');
 
@@ -128,17 +128,22 @@ class Refresh extends CI_Controller {
 			} else {
 				$content['last_crawl'] = false;
 			}
-
-			$this->readerself_library->set_content($content);
 		} else {
 			$this->output->set_status_header(403);
 		}
+		$this->readerself_library->set_content($content);
 	}
 	public function items() {
-		$this->readerself_library->set_template('_plain');
-		$this->readerself_library->set_content_type('text/plain');
+		if($this->input->is_ajax_request()) {
+			$this->readerself_library->set_template('_json');
+			$this->readerself_library->set_content_type('application/json');
+			$content = array();
 
-		$content = '';
+		} else {
+			$this->readerself_library->set_template('_plain');
+			$this->readerself_library->set_content_type('text/plain');
+			$content = '';
+		}
 
 		if($this->input->is_cli_request() && !$this->config->item('refresh_by_cron')) {
 			$content .= 'Refresh by cron disabled'."\n";
