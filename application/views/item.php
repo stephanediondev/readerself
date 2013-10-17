@@ -1,13 +1,13 @@
 <article<?php if($itm->sub->direction) { ?> dir="<?php echo $itm->sub->direction; ?>"<?php } ?> class="item<?php if($itm->history == 'read') { ?> read<?php } ?><?php if($this->input->get('items_display') == 'collapse' || $this->input->cookie('items_display') == 'collapse') { ?> collapse<?php } ?>" id="item_<?php echo $itm->itm_id; ?>">
 	<ul class="actions">
-		<?php if($mode != 'member') { ?>
+		<?php if($itm->case_member != 'public_profile') { ?>
 			<li><a class="history" href="<?php echo base_url(); ?>item/read/<?php echo $itm->itm_id; ?>" title="m"><span class="unread"<?php if($itm->history == 'unread') { ?> style="display:none;"<?php } ?>><i class="icon icon-eye-close"></i><?php echo $this->lang->line('keep_unread'); ?></span><span class="read"<?php if($itm->history == 'read') { ?> style="display:none;"<?php } ?>><i class="icon icon-eye-open"></i><?php echo $this->lang->line('mark_as_read'); ?></span></a></li>
 		<?php } ?>
-		<?php if($mode != 'following') { ?>
-		<?php if($this->config->item('starred_items') && $mode != 'member') { ?>
+		<?php if($itm->case_member != 'following') { ?>
+		<?php if($this->config->item('starred_items') && $itm->case_member != 'public_profile') { ?>
 			<li class="hide-collapse"><a class="star" href="<?php echo base_url(); ?>item/star/<?php echo $itm->itm_id; ?>" title="s"><span class="unstar"<?php if($itm->star == 0) { ?> style="display:none;"<?php } ?>><i class="icon icon-star"></i><?php echo $this->lang->line('unstar'); ?></span><span class="star"<?php if($itm->star == 1) { ?> style="display:none;"<?php } ?>><i class="icon icon-star-empty"></i><?php echo $this->lang->line('star'); ?></span></a></li>
 		<?php } ?>
-		<?php if($this->config->item('shared_items') && $mode != 'member') { ?>
+		<?php if($this->config->item('shared_items') && $itm->case_member != 'public_profile') { ?>
 			<li class="hide-collapse"><a class="share" href="<?php echo base_url(); ?>item/share/<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_shift_s'); ?>"><span class="unshare"<?php if($itm->share == 0) { ?> style="display:none;"<?php } ?>><i class="icon icon-heart"></i><?php echo $this->lang->line('unshare'); ?></span><span class="share"<?php if($itm->share == 1) { ?> style="display:none;"<?php } ?>><i class="icon icon-heart-empty"></i><?php echo $this->lang->line('share'); ?></span></a></li>
 		<?php } ?>
 		<?php } ?>
@@ -23,7 +23,7 @@
 	<ul class="item-details">
 		<li><i class="icon icon-calendar"></i><?php echo $itm->explode_date; ?></li>
 		<li><i class="icon icon-time"></i><?php echo $itm->explode_time; ?> (<span class="timeago" title="<?php echo $itm->itm_date; ?>"></span>)</li>
-		<?php if($mode != 'member' && $mode != 'following') { ?>
+		<?php if($itm->case_member != 'public_profile' && $itm->case_member != 'following') { ?>
 			<li><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $itm->sub->fed_host; ?>&amp;alt=feed);" class="favicon from" data-sub_id="<?php echo $itm->sub->sub_id; ?>" data-fed_host="<?php echo $itm->sub->fed_host; ?>" data-direction="<?php echo $itm->sub->direction; ?>" data-priority="<?php echo $itm->sub->priority; ?>" href="<?php echo base_url(); ?>items/get/subscription/<?php echo $itm->sub->sub_id; ?>"><?php echo $itm->sub->title; ?></a></li>
 			<?php if($itm->itm_author) { ?>
 				<li class="hide-phone"><a class="author" data-itm_id="<?php echo $itm->itm_id; ?>" href="<?php echo base_url(); ?>items/get/author/<?php echo $itm->itm_id; ?>"><i class="icon icon-pencil"></i><?php echo $itm->itm_author; ?></a></li>
@@ -59,7 +59,7 @@
 	</div>
 	<div class="item-footer hide-collapse">
 		<ul class="actions">
-		<?php if($this->config->item('readability_parser_key') && $mode != 'member') { ?>
+		<?php if($this->config->item('readability_parser_key') && $itm->case_member != 'public_profile') { ?>
 			<li class="hide-phone"><a class="link-item-readability" href="<?php echo base_url(); ?>item/readability/<?php echo $itm->itm_id; ?>"><i class="icon icon-file-text"></i><?php echo $this->lang->line('readability'); ?></a></li>
 		<?php } ?>
 		<?php if($this->config->item('social_buttons')) { ?>
@@ -68,7 +68,7 @@
 
 		<?php if($this->config->item('share_external')) { ?>
 			<li><a class="link-item-share" href="#item_<?php echo $itm->itm_id; ?>"><i class="icon icon-share"></i><?php echo $this->lang->line('share'); ?></a></li>
-			<?php if($this->config->item('share_external_email') && $mode != 'member') { ?>
+			<?php if($this->config->item('share_external_email') && $itm->case_member != 'public_profile') { ?>
 				<li class="hide item-share"><a class="modal_show" href="<?php echo base_url(); ?>item/email/<?php echo $itm->itm_id; ?>"><i class="icon icon-envelope"></i><?php echo $this->lang->line('share_email'); ?></a></li>
 			<?php } ?>
 			<li class="hide item-share"><a target="_blank" href="https://www.facebook.com/sharer.php?u=<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-share"></i>Facebook</a></li>

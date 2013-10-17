@@ -275,23 +275,7 @@ class Readerself_model extends CI_Model {
 		return $query->result();
 	}
 	function count_unread($type, $id = false) {
-		if($type == 'all') {
-			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
-			FROM '.$this->db->dbprefix('subscriptions').' AS sub
-			LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id
-			LEFT JOIN '.$this->db->dbprefix('history').' AS hst ON hst.itm_id = itm.itm_id AND hst.mbr_id = ?
-			WHERE hst.hst_id IS NULL AND sub.mbr_id = ?';
-			return $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id))->row()->count;
-		}
-		if($type == 'priority') {
-			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
-			FROM '.$this->db->dbprefix('subscriptions').' AS sub
-			LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id
-			LEFT JOIN '.$this->db->dbprefix('history').' AS hst ON hst.itm_id = itm.itm_id AND hst.mbr_id = ?
-			WHERE hst.hst_id IS NULL AND sub.mbr_id = ? AND sub.sub_priority = ?';
-			return $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id, 1))->row()->count;
-		}
-		if($type == 'following') {
+		if($type == 'all' || $type == 'following') {
 			$where = array();
 			$bindings = array();
 
@@ -307,7 +291,28 @@ class Readerself_model extends CI_Model {
 			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
 			FROM '.$this->db->dbprefix('items').' AS itm
 			WHERE '.implode(' AND ', $where);
-			return $this->db->query($sql, $bindings)->row()->count;
+			if($type == 'following') {
+				return $this->db->query($sql, $bindings)->row()->count;
+			} else {
+				$count_following = $this->db->query($sql, $bindings)->row()->count;
+			}
+		}
+
+		if($type == 'all') {
+			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
+			FROM '.$this->db->dbprefix('subscriptions').' AS sub
+			LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id
+			LEFT JOIN '.$this->db->dbprefix('history').' AS hst ON hst.itm_id = itm.itm_id AND hst.mbr_id = ?
+			WHERE hst.hst_id IS NULL AND sub.mbr_id = ?';
+			return $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id))->row()->count + $count_following;
+		}
+		if($type == 'priority') {
+			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
+			FROM '.$this->db->dbprefix('subscriptions').' AS sub
+			LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id
+			LEFT JOIN '.$this->db->dbprefix('history').' AS hst ON hst.itm_id = itm.itm_id AND hst.mbr_id = ?
+			WHERE hst.hst_id IS NULL AND sub.mbr_id = ? AND sub.sub_priority = ?';
+			return $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id, 1))->row()->count;
 		}
 
 		if($type == 'geolocation') {

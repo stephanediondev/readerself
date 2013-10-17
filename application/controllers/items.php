@@ -148,9 +148,30 @@ class Items extends CI_Controller {
 				$bindings = array();
 
 				if($is_member) {
+					if($this->session->userdata('mbr_id')) {
+						$query = $this->db->query('SELECT fws.* FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? AND fws.fws_following = ?', array($this->member->mbr_id, $is_member->mbr_id));
+						if($query->num_rows() > 0) {
+							$is_member->following = 1;
+						} else {
+							$is_member->following = 0;
+						}
+					}
 					$introduction_title = '<i class="icon icon-user"></i>'.$is_member->mbr_nickname;
 					$introduction_actions = '<ul class="actions">';
-					if($this->config->item('social')) {
+					if($this->session->userdata('mbr_id')) {
+						if($is_member->mbr_id != $this->member->mbr_id) {
+							$introduction_actions .= '<li><a class="follow" href="'.base_url().'members/follow/'.$is_member->mbr_id.'"><span class="follow"';
+							if($is_member->following == 0) {
+								$introduction_actions .= 'style="display:none;"';
+							}
+							$introduction_actions .= '><i class="icon icon-check"></i>'.$this->lang->line('unfollow').'</span><span class="unfollow"';
+							if($is_member->following == 1) {
+								$introduction_actions .= 'style="display:none;"';
+							}
+							$introduction_actions .= '><i class="icon icon-check-empty"></i>'.$this->lang->line('follow').'</span></a></li>';
+						}
+					}
+					if($this->config->item('share_external')) {
 						$introduction_actions .= '<li><a target="_blank" href="https://www.facebook.com/sharer.php?u='.urlencode(base_url().'member/'.$is_member->mbr_nickname).'"><i class="icon icon-share"></i>Facebook</a></li>';
 						$introduction_actions .= '<li><a target="_blank" href="https://plus.google.com/share?url='.urlencode(base_url().'member/'.$is_member->mbr_nickname).'"><i class="icon icon-share"></i>Google</a></li>';
 						$introduction_actions .= '<li><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text='.urlencode($is_member->mbr_nickname.' - '.$this->config->item('title').' '.base_url().'member/'.$is_member->mbr_nickname).'"><i class="icon icon-share"></i>Twitter</a></li>';
@@ -183,13 +204,13 @@ class Items extends CI_Controller {
 					$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
 					$bindings[] = $this->member->mbr_id;
 
-					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
-					$bindings[] = $this->member->mbr_id;
-
+					//$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
+					//$bindings[] = $this->member->mbr_id;
 
 				} else {
 					$introduction_title = '<i class="icon icon-asterisk"></i>'.$this->lang->line('all_items').' (<span id="intro-load-all-items"></span>)';
-					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
+					$where[] = '( itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? ) OR ( itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) ) ) )';
+					$bindings[] = $this->member->mbr_id;
 					$bindings[] = $this->member->mbr_id;
 				}
 
@@ -376,15 +397,17 @@ class Items extends CI_Controller {
 				if($query->num_rows() > 0) {
 					$u = 0;
 					foreach($query->result() as $itm) {
-						if($mode == 'following') {
-							$sql = 'SELECT fed.fed_host, fed.fed_title AS title, fed.fed_direction AS direction FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_id = ? GROUP BY fed.fed_id';
-							$itm->sub = $this->db->query($sql, array($itm->fed_id))->row();
+						$sql = 'SELECT fed.fed_host, sub.sub_id, sub.sub_priority AS priority, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction, flr.flr_id, flr.flr_title, flr.flr_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
+						$itm->case_member = 'you';
+						if($is_member) {
+							$itm->sub = $this->db->query($sql, array($itm->fed_id, $is_member->mbr_id))->row();
+							$itm->case_member = 'public_profile';
 						} else {
-							$sql = 'SELECT fed.fed_host, sub.sub_id, sub.sub_priority AS priority, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction, flr.flr_id, flr.flr_title, flr.flr_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
-							if($is_member) {
-								$itm->sub = $this->db->query($sql, array($itm->fed_id, $is_member->mbr_id))->row();
+							if($itm->sub = $this->db->query($sql, array($itm->fed_id, $this->member->mbr_id))->row()) {
 							} else {
-								$itm->sub = $this->db->query($sql, array($itm->fed_id, $this->member->mbr_id))->row();
+								$sql = 'SELECT fed.fed_host, fed.fed_title AS title, fed.fed_direction AS direction FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_id = ? GROUP BY fed.fed_id';
+								$itm->sub = $this->db->query($sql, array($itm->fed_id))->row();
+								$itm->case_member = 'following';
 							}
 						}
 
@@ -606,6 +629,12 @@ class Items extends CI_Controller {
 					$data['count'] = $this->readerself_model->count_unread('nofolder');
 				}
 
+				if($this->session->userdata('items-mode') == 'following') {
+					$data['title'] = $this->lang->line('following_items');
+					$data['icon'] = 'check';
+					$data['count'] = $this->readerself_model->count_unread('following');
+				}
+
 				$this->form_validation->set_rules('age', 'lang:age', 'required');
 
 				if($this->form_validation->run() == FALSE) {
@@ -622,8 +651,17 @@ class Items extends CI_Controller {
 						$bindings[] = $this->member->mbr_id;
 						$bindings[] = 1;
 					} else {
-						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
-						$bindings[] = $this->member->mbr_id;
+						if($this->session->userdata('items-mode') == 'following') {
+							$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
+							$bindings[] = $this->member->mbr_id;
+
+							$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
+							$bindings[] = $this->member->mbr_id;
+						} else {
+							$where[] = '( itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? ) OR ( itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) ) ) )';
+							$bindings[] = $this->member->mbr_id;
+							$bindings[] = $this->member->mbr_id;
+						}
 					}
 
 					if($this->session->userdata('items-mode') == 'geolocation') {
