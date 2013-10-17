@@ -21,6 +21,9 @@
 					<li><a href="<?php echo base_url(); ?>members/delete/<?php echo $mbr->mbr_id; ?>"><i class="icon icon-trash"></i><?php echo $this->lang->line('delete'); ?></a></li>
 				<?php } ?>
 				<?php if($mbr->mbr_nickname) { ?>
+					<?php if($mbr->mbr_id != $this->member->mbr_id) { ?>
+						<li><a class="follow" href="<?php echo base_url(); ?>members/follow/<?php echo $mbr->mbr_id; ?>"><span class="follow"<?php if($mbr->following == 0) { ?> style="display:none;"<?php } ?>><i class="icon icon-check"></i><?php echo $this->lang->line('unfollow'); ?></span><span class="unfollow"<?php if($mbr->following == 1) { ?> style="display:none;"<?php } ?>><i class="icon icon-check-empty"></i><?php echo $this->lang->line('follow'); ?></span></a></li>
+					<?php } ?>
 					<li><a href="<?php echo base_url(); ?>member/<?php echo $mbr->mbr_nickname; ?>"><i class="icon icon-unlock"></i><?php echo $this->lang->line('public_profile'); ?></a></li>
 				<?php } ?>
 			</ul>

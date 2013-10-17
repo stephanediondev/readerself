@@ -95,4 +95,37 @@ class Members extends CI_Controller {
 			return TRUE;
 		}
 	}
+
+	public function follow($mbr_id) {
+		if(!$this->session->userdata('mbr_id')) {
+			redirect(base_url());
+		}
+
+		$content = array();
+
+		if($this->input->is_ajax_request()) {
+			$this->readerself_library->set_template('_json');
+			$this->readerself_library->set_content_type('application/json');
+
+			$mbr = $this->readerself_model->get_member_row($mbr_id);
+			if($mbr) {
+				$query = $this->db->query('SELECT fws.* FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? AND fws.fws_following = ?', array($this->member->mbr_id, $mbr->mbr_id));
+				if($query->num_rows() > 0) {
+					$this->db->where('fws_following', $mbr_id);
+					$this->db->where('mbr_id', $this->member->mbr_id);
+					$this->db->delete('followers');
+					$content['status'] = 'unfollow';
+				} else {
+					$this->db->set('fws_following', $mbr_id);
+					$this->db->set('mbr_id', $this->member->mbr_id);
+					$this->db->insert('followers');
+					$content['status'] = 'follow';
+				}
+				$content['mbr_id'] = $mbr_id;
+			}
+		} else {
+			$this->output->set_status_header(403);
+		}
+		$this->readerself_library->set_content($content);
+	}
 }

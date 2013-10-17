@@ -133,6 +133,13 @@ class Readerself_model extends CI_Model {
 
 				$mbr->shared_items = $this->db->query('SELECT COUNT(DISTINCT(shr.shr_id)) AS count FROM '.$this->db->dbprefix('share').' AS shr LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = shr.itm_id WHERE shr.mbr_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )', array($mbr->mbr_id, $mbr->mbr_id))->row()->count;
 
+				$query = $this->db->query('SELECT fws.* FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? AND fws.fws_following = ?', array($this->member->mbr_id, $mbr->mbr_id));
+				if($query->num_rows() > 0) {
+					$mbr->following = 1;
+				} else {
+					$mbr->following = 0;
+				}
+
 				$members[] = $mbr;
 			}
 		}
@@ -284,6 +291,25 @@ class Readerself_model extends CI_Model {
 			WHERE hst.hst_id IS NULL AND sub.mbr_id = ? AND sub.sub_priority = ?';
 			return $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id, 1))->row()->count;
 		}
+		if($type == 'following') {
+			$where = array();
+			$bindings = array();
+
+			$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
+			$bindings[] = $this->member->mbr_id;
+
+			$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
+			$bindings[] = $this->member->mbr_id;
+
+			$where[] = 'itm.itm_id NOT IN ( SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.itm_id = itm.itm_id AND hst.mbr_id = ? )';
+			$bindings[] = $this->member->mbr_id;
+
+			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
+			FROM '.$this->db->dbprefix('items').' AS itm
+			WHERE '.implode(' AND ', $where);
+			return $this->db->query($sql, $bindings)->row()->count;
+		}
+
 		if($type == 'geolocation') {
 			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
 			FROM '.$this->db->dbprefix('subscriptions').' AS sub

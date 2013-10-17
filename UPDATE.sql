@@ -1,3 +1,14 @@
+#2013-10-17
+CREATE TABLE IF NOT EXISTS `followers` (
+  `fws_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `mbr_id` bigint(20) unsigned NOT NULL,
+  `fws_following` bigint(20) unsigned NOT NULL,
+  `fws_datecreated` datetime NOT NULL,
+  PRIMARY KEY (`fws_id`),
+  KEY `mbr_id` (`mbr_id`),
+  KEY `fws_following` (`fws_following`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
 #2013-10-13
 INSERT INTO `settings` (`stg_id`, `stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is_global`, `stg_is_member`, `stg_is_subscription`, `stg_datecreated`) VALUES
 (21, 'refresh_by_cron', 'boolean', '1', NULL, 1, 0, 0, '2013-10-13 20:48:44');

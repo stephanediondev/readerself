@@ -278,6 +278,34 @@ $(document).ready(function() {
 		});
 	});
 
+	$('a.follow').live('click', function(event) {
+		event.preventDefault();
+		ref = $(this);
+		params = [];
+		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
+		$.ajax({
+			async: true,
+			cache: true,
+			data: params,
+			dataType: 'json',
+			statusCode: {
+				200: function(data_return, textStatus, jqXHR) {
+					if(data_return.status == 'follow') {
+						ref.find('.unfollow').hide();
+						ref.find('.follow').show();
+					}
+					if(data_return.status == 'unfollow') {
+						ref.find('.follow').hide();
+						ref.find('.unfollow').show();
+					}
+					refresh();
+				}
+			},
+			type: 'POST',
+			url: ref.attr('href')
+		});
+	});
+
 	if($('aside').length > 0) {
 		if($('aside').css('position') == 'absolute') {
 			$(document).swipe({

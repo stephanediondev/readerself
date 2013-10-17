@@ -80,6 +80,16 @@ CREATE TABLE IF NOT EXISTS `folders` (
   KEY `flr_title` (`flr_title`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `followers` (
+  `fws_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `mbr_id` bigint(20) unsigned NOT NULL,
+  `fws_following` bigint(20) unsigned NOT NULL,
+  `fws_datecreated` datetime NOT NULL,
+  PRIMARY KEY (`fws_id`),
+  KEY `mbr_id` (`mbr_id`),
+  KEY `fws_following` (`fws_following`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `history` (
   `hst_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `mbr_id` bigint(20) unsigned NOT NULL,

@@ -150,6 +150,10 @@ $lang['update'] = 'Update';
 $lang['url'] = '<abbr title="Uniform Resource Locator">URL</abbr>';
 $lang['yes'] = 'Yes';
 
+$lang['following_items'] = 'Members followed';
+$lang['follow'] = 'Follow';
+$lang['unfollow'] = 'Unfollow';
+
 $lang['stg_folders'] = 'Folders';
 $lang['stg_gravatar'] = 'Gravatar';
 $lang['stg_gravatar_default'] = 'Gravatar default';

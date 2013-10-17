@@ -9,7 +9,7 @@ class Items extends CI_Controller {
 			redirect(base_url());
 		}
 
-		$modes = array('all', 'priority', 'geolocation', 'audio', 'video', 'starred', 'shared', 'nofolder', 'folder', 'subscription', 'category', 'author', 'search', 'cloud', 'member');
+		$modes = array('all', 'priority', 'geolocation', 'audio', 'video', 'starred', 'shared', 'nofolder', 'folder', 'subscription', 'category', 'author', 'search', 'cloud', 'member', 'following');
 		$clouds = array('tags', 'authors');
 
 		$content = array();
@@ -177,6 +177,15 @@ class Items extends CI_Controller {
 					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? AND sub.sub_priority = ? )';
 					$bindings[] = $this->member->mbr_id;
 					$bindings[] = 1;
+
+				} else if($mode == 'following') {
+					$introduction_title = '<i class="icon icon-check"></i>'.$this->lang->line('following_items').' (<span id="intro-load-following-items"></span>)';
+					$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
+					$bindings[] = $this->member->mbr_id;
+
+					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
+					$bindings[] = $this->member->mbr_id;
+
 
 				} else {
 					$introduction_title = '<i class="icon icon-asterisk"></i>'.$this->lang->line('all_items').' (<span id="intro-load-all-items"></span>)';
@@ -367,11 +376,16 @@ class Items extends CI_Controller {
 				if($query->num_rows() > 0) {
 					$u = 0;
 					foreach($query->result() as $itm) {
-						$sql = 'SELECT fed.fed_host, sub.sub_id, sub.sub_priority AS priority, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction, flr.flr_id, flr.flr_title, flr.flr_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
-						if($is_member) {
-							$itm->sub = $this->db->query($sql, array($itm->fed_id, $is_member->mbr_id))->row();
+						if($mode == 'following') {
+							$sql = 'SELECT fed.fed_host, fed.fed_title AS title, fed.fed_direction AS direction FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_id = ? GROUP BY fed.fed_id';
+							$itm->sub = $this->db->query($sql, array($itm->fed_id))->row();
 						} else {
-							$itm->sub = $this->db->query($sql, array($itm->fed_id, $this->member->mbr_id))->row();
+							$sql = 'SELECT fed.fed_host, sub.sub_id, sub.sub_priority AS priority, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction, flr.flr_id, flr.flr_title, flr.flr_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
+							if($is_member) {
+								$itm->sub = $this->db->query($sql, array($itm->fed_id, $is_member->mbr_id))->row();
+							} else {
+								$itm->sub = $this->db->query($sql, array($itm->fed_id, $this->member->mbr_id))->row();
+							}
 						}
 
 						$itm->foursquare = false;
