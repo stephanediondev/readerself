@@ -24,7 +24,9 @@ class Refresh extends CI_Controller {
 				$content['count']['video'] = $this->readerself_model->count_unread('video');
 			}
 
-			$content['count']['following'] = $this->readerself_model->count_unread('following');
+			if($this->config->item('members_list')) {
+				$content['count']['following'] = $this->readerself_model->count_unread('following');
+			}
 
 			if($this->config->item('folders')) {
 				$sql = 'SELECT flr.flr_id, COUNT(DISTINCT(itm.itm_id)) AS count

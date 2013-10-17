@@ -34,7 +34,9 @@
 			<li><a id="load-shared-items" class="menu" href="<?php echo base_url(); ?>items/get/shared" title="<?php echo $this->lang->line('title_g_shift_s'); ?>"><i class="icon icon-heart"></i><?php echo $this->lang->line('shared_items'); ?> {<span>0</span>}</a></li>
 		<?php } ?>
 
-		<li><a id="load-following-items" class="menu" href="<?php echo base_url(); ?>items/get/following"><i class="icon icon-check"></i><?php echo $this->lang->line('following_items'); ?> (<span>0</span>)</a></li>
+		<?php if($this->config->item('members_list')) { ?>
+			<li><a id="load-following-items" class="menu" href="<?php echo base_url(); ?>items/get/following"><i class="icon icon-check"></i><?php echo $this->lang->line('following_items'); ?> (<span>0</span>)</a></li>
+		<?php } ?>
 
 		<?php if($this->config->item('menu_geolocation_items')) { ?>
 			<li><a id="load-geolocation-items" class="menu" href="<?php echo base_url(); ?>items/get/geolocation"><i class="icon icon-map-marker"></i><?php echo $this->lang->line('geolocation_items'); ?> (<span>0</span>)</a></li>
