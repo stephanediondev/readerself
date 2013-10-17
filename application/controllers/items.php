@@ -411,6 +411,18 @@ class Items extends CI_Controller {
 							}
 						}
 
+						$itm->shared_by = false;
+						if($this->session->userdata('mbr_id') && $mode != 'member') {
+							$sql = 'SELECT mbr.mbr_nickname FROM '.$this->db->dbprefix('share').' AS shr LEFT JOIN '.$this->db->dbprefix('followers').' AS fws ON fws.fws_following = shr.mbr_id LEFT JOIN '.$this->db->dbprefix('members').' AS mbr ON mbr.mbr_id = fws.fws_following WHERE fws.mbr_id = ? AND shr.itm_id = ? GROUP BY mbr.mbr_id ORDER BY mbr_nickname ASC';
+							$shared_by = $this->db->query($sql, array($this->member->mbr_id, $itm->itm_id))->result();
+							if($shared_by) {
+								$itm->shared_by = array();
+								foreach($shared_by as $shr) {
+									$itm->shared_by[] = $shr->mbr_nickname;
+								}
+							}
+						}
+
 						$itm->foursquare = false;
 
 						$itm->categories = false;
