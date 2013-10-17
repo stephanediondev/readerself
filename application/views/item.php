@@ -46,9 +46,9 @@
 			<?php if($this->config->item('tags') && $itm->categories) { ?>
 				<li class="block hide-phone"><i class="icon icon-tags"></i><?php echo implode(', ', $itm->categories); ?></li>
 			<?php } ?>
-			<?php if($this->config->item('members_list') && $itm->shared_by) { ?>
-				<li class="block hide-phone"><i class="icon icon-group"></i><?php echo implode(', ', $itm->shared_by); ?></li>
-			<?php } ?>
+		<?php } ?>
+		<?php if($this->config->item('members_list') && $itm->shared_by) { ?>
+			<li class="block hide-phone"><i class="icon icon-group"></i><?php echo implode(', ', $itm->shared_by); ?></li>
 		<?php } ?>
 		<?php if($itm->foursquare) { ?>
 			<li class="block hide-phone"><a target="_blank" href="https://foursquare.com/venue/<?php echo $itm->foursquare; ?>"><i class="icon icon-foursquare"></i>Foursquare</a></li>
