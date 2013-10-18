@@ -164,11 +164,11 @@ class Items extends CI_Controller {
 							if($is_member->following == 0) {
 								$introduction_actions .= 'style="display:none;"';
 							}
-							$introduction_actions .= '><i class="icon icon-check"></i>'.$this->lang->line('unfollow').'</span><span class="unfollow"';
+							$introduction_actions .= '><i class="icon icon-link"></i>'.$this->lang->line('unfollow').'</span><span class="unfollow"';
 							if($is_member->following == 1) {
 								$introduction_actions .= 'style="display:none;"';
 							}
-							$introduction_actions .= '><i class="icon icon-check-empty"></i>'.$this->lang->line('follow').'</span></a></li>';
+							$introduction_actions .= '><i class="icon icon-unlink"></i>'.$this->lang->line('follow').'</span></a></li>';
 						}
 					}
 					if($this->config->item('share_external')) {
