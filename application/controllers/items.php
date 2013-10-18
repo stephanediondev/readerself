@@ -200,7 +200,7 @@ class Items extends CI_Controller {
 					$bindings[] = 1;
 
 				} else if($mode == 'following') {
-					$introduction_title = '<i class="icon icon-group"></i>'.$this->lang->line('following_items').' (<span id="intro-load-following-items"></span>)';
+					$introduction_title = '<i class="icon icon-link"></i>'.$this->lang->line('following_items').' (<span id="intro-load-following-items"></span>)';
 					$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
 					$bindings[] = $this->member->mbr_id;
 
