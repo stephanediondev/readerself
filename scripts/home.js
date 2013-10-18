@@ -582,8 +582,8 @@ $(document).ready(function() {
 									} else {
 										var icon = 'rss';
 									}
-									content += '<a style="background-image:url(' + build_favicon(sub.fed_host) + ');" id="load-sub-' + sub.sub_id + '-items" class="favicon menu" href="' + base_url + 'items/get/subscription/' + sub.sub_id + '">' + sub.title + ' (<span>0</span>)</a></li>';
-									result_subscriptions.push(sub.sub_id);
+									content += '<a style="background-image:url(' + build_favicon(sub.fed_host) + ');" id="load-feed-' + sub.fed_id + '-items" class="favicon menu" href="' + base_url + 'items/get/feed/' + sub.fed_id + '">' + sub.title + ' (<span>0</span>)</a></li>';
+									result_subscriptions.push(sub.fed_id);
 									ref.parent().find('ul').append(content);
 								}
 								refresh();
@@ -655,8 +655,8 @@ $(document).ready(function() {
 		} else {
 			var icon = 'rss';
 		}
-		content += '<a style="background-image:url(' + build_favicon(ref.data('fed_host')) + ');" id="load-sub-' + ref.data('sub_id') + '-items" class="favicon menu" href="' + base_url + 'items/get/subscription/' + ref.data('sub_id') + '">' + ref.text() + ' (<span>0</span>)</a></li>';
-		result_subscriptions.push(ref.data('sub_id'));
+		content += '<a style="background-image:url(' + build_favicon(ref.data('fed_host')) + ');" id="load-feed-' + ref.data('fed_id') + '-items" class="favicon menu" href="' + base_url + 'items/get/feed/' + ref.data('fed_id') + '">' + ref.text() + ' (<span>0</span>)</a></li>';
+		result_subscriptions.push(ref.data('fed_id'));
 		$('aside > ul').append(content);
 
 		load_items(ref.attr('href'));
@@ -748,8 +748,8 @@ $(document).ready(function() {
 							} else {
 								var icon = 'rss';
 							}
-							content += '<a style="background-image:url(' + build_favicon(sub.fed_host) + ');" id="load-sub-' + sub.sub_id + '-items" class="favicon menu" href="' + base_url + 'items/get/subscription/' + sub.sub_id + '">' + sub.title + ' (<span>0</span>)</a></li>';
-							result_subscriptions.push(sub.sub_id);
+							content += '<a style="background-image:url(' + build_favicon(sub.fed_host) + ');" id="load-feed-' + sub.fed_id + '-items" class="favicon menu" href="' + base_url + 'items/get/feed/' + sub.fed_id + '">' + sub.title + ' (<span>0</span>)</a></li>';
+							result_subscriptions.push(sub.fed_id);
 							$('aside > ul').append(content);
 						}
 						refresh();

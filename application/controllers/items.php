@@ -9,7 +9,7 @@ class Items extends CI_Controller {
 			redirect(base_url());
 		}
 
-		$modes = array('all', 'priority', 'geolocation', 'audio', 'video', 'starred', 'shared', 'nofolder', 'folder', 'subscription', 'category', 'author', 'search', 'cloud', 'member', 'following');
+		$modes = array('all', 'priority', 'geolocation', 'audio', 'video', 'starred', 'shared', 'nofolder', 'folder', 'feed', 'category', 'author', 'search', 'cloud', 'member', 'following');
 		$clouds = array('tags', 'authors');
 
 		$content = array();
@@ -34,11 +34,18 @@ class Items extends CI_Controller {
 			}
 		}
 
-		$is_subscription = FALSE;
-		if($mode == 'subscription') {
-			$query = $this->db->query('SELECT sub.*, fed.fed_host, flr.flr_title, fed.fed_url, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS fed_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.mbr_id = ? AND sub.sub_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $id));
+		$is_feed = FALSE;
+		if($mode == 'feed') {
+			$query = $this->db->query('SELECT sub.*, fed.fed_host, flr.flr_title, fed.fed_url, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS fed_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.mbr_id = ? AND sub.fed_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $id));
 			if($query->num_rows() > 0) {
-				$is_subscription = $query->row();
+				$is_feed = $query->row();
+				$is_feed->subscribe = 1;
+			} else {
+				$query = $this->db->query('SELECT fed.*, fed.fed_direction AS direction FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_id = ? GROUP BY fed.fed_id', array($id));
+				if($query->num_rows() > 0) {
+					$is_feed = $query->row();
+					$is_feed->subscribe = 0;
+				}
 			}
 		}
 
@@ -209,9 +216,12 @@ class Items extends CI_Controller {
 
 				} else {
 					$introduction_title = '<i class="icon icon-asterisk"></i>'.$this->lang->line('all_items').' (<span id="intro-load-all-items"></span>)';
-					$where[] = '( itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? ) OR ( itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) ) ) )';
-					$bindings[] = $this->member->mbr_id;
-					$bindings[] = $this->member->mbr_id;
+					if($is_feed) {
+					} else {
+						$where[] = '( itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? ) OR ( itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) ) ) )';
+						$bindings[] = $this->member->mbr_id;
+						$bindings[] = $this->member->mbr_id;
+					}
 				}
 
 				if($mode == 'geolocation') {
@@ -302,44 +312,50 @@ class Items extends CI_Controller {
 					$bindings[] = $is_folder->flr_id;
 				}
 
-				if($is_subscription) {
-					$introduction_direction = $is_subscription->sub_direction;
-					$introduction_title = '<span style="background-image:url(https://www.google.com/s2/favicons?domain='.$is_subscription->fed_host.'&amp;alt=feed);" class="favicon">'.$is_subscription->fed_title.'</span> (<span id="intro-load-sub-'.$is_subscription->sub_id.'-items">0</span>)';
-					$introduction_actions = '<ul class="actions"><li><a class="priority" href="'.base_url().'subscriptions/priority/'.$is_subscription->sub_id.'"><span class="priority"';
-					if($is_subscription->sub_priority == 0) {
-						$introduction_actions .= ' style="display:none;"';
+				if($is_feed) {
+					$introduction_direction = $is_feed->direction;
+					$introduction_title = '<span style="background-image:url(https://www.google.com/s2/favicons?domain='.$is_feed->fed_host.'&amp;alt=feed);" class="favicon">'.$is_feed->fed_title.'</span> (<span id="intro-load-feed-'.$is_feed->fed_id.'-items">0</span>)';
+					$introduction_actions = '<ul class="actions">';
+					if($is_feed->subscribe == 1) {
+						$introduction_actions .= '<li><a class="priority" href="'.base_url().'subscriptions/priority/'.$is_feed->sub_id.'"><span class="priority"';
+						if($is_feed->sub_priority == 0) {
+							$introduction_actions .= ' style="display:none;"';
+						}
+						$introduction_actions .= '><i class="icon icon-flag"></i>'.$this->lang->line('not_priority').'</span><span class="not_priority"';
+						if($is_feed->sub_priority == 1) {
+							$introduction_actions .= ' style="display:none;"';
+						}
+						$introduction_actions .= '><i class="icon icon-flag-alt"></i>'.$this->lang->line('priority').'</span></a></li>';
+					} else {
+						$introduction_actions .= '<li><a href="'.base_url().'feeds/subscribe/'.$is_feed->fed_id.'"><i class="icon icon-bookmark-empty"></i>'.$this->lang->line('subscribe').'</a></li>';
 					}
-					$introduction_actions .= '><i class="icon icon-flag"></i>'.$this->lang->line('not_priority').'</span><span class="not_priority"';
-					if($is_subscription->sub_priority == 1) {
-						$introduction_actions .= ' style="display:none;"';
-					}
-					$introduction_actions .= '><i class="icon icon-flag-alt"></i>'.$this->lang->line('priority').'</span></a></li></ul>';
+					$introduction_actions .= '</ul>';
 					$introduction_details = '<ul class="item-details">';
-					if($this->config->item('folders')) {
-						if($is_subscription->flr_id) {
-							$introduction_details .= '<li><a class="folder" href="#load-folder-'.$is_subscription->flr_id.'-items"><i class="icon icon-folder-close"></i>'.$is_subscription->flr_title.'</a></li>';
+					if($is_feed->subscribe == 1 && $this->config->item('folders')) {
+						if($is_feed->flr_id) {
+							$introduction_details .= '<li><a class="folder" href="#load-folder-'.$is_feed->flr_id.'-items"><i class="icon icon-folder-close"></i>'.$is_feed->flr_title.'</a></li>';
 						} else {
 							$introduction_details .= '<li><a class="folder" href="#load-nofolder-items"><i class="icon icon-folder-close"></i><em>'.$this->lang->line('no_folder').'</em></a></li>';
 						}
 					}
-					if($is_subscription->fed_url) {
-						$introduction_details .= '<li><a target="_blank" href="'.$is_subscription->fed_url.'"><i class="icon icon-external-link"></i>'.$is_subscription->fed_url.'</a></li>';
+					if($is_feed->fed_url) {
+						$introduction_details .= '<li><a target="_blank" href="'.$is_feed->fed_url.'"><i class="icon icon-external-link"></i>'.$is_feed->fed_url.'</a></li>';
 					}
 					if($this->config->item('tags')) {
 						$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
 
-						$categories = $this->db->query('SELECT cat.cat_title AS ref, cat.cat_id AS id, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND cat.cat_datecreated >= ? AND sub.mbr_id = ? AND sub.sub_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,10', array($date_ref, $this->member->mbr_id, $is_subscription->sub_id))->result();
+						$categories = $this->db->query('SELECT cat.cat_title AS ref, cat.cat_id AS id, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND cat.cat_datecreated >= ? AND fed.fed_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,10', array($date_ref, $is_feed->fed_id))->result();
 						if($categories) {
-							$is_subscription->categories = array();
+							$is_feed->categories = array();
 							foreach($categories as $cat) {
-								$is_subscription->categories[] = '<a class="category" data-cat_id="'.$cat->id.'" href="'.base_url().'items/get/category/'.$cat->id.'">'.$cat->ref.'</a>';
+								$is_feed->categories[] = '<a class="category" data-cat_id="'.$cat->id.'" href="'.base_url().'items/get/category/'.$cat->id.'">'.$cat->ref.'</a>';
 							}
-							$introduction_details .= '<li class="block hide-phone"><i class="icon icon-tags"></i>'.implode(', ', $is_subscription->categories).'</li>';
+							$introduction_details .= '<li class="block hide-phone"><i class="icon icon-tags"></i>'.implode(', ', $is_feed->categories).'</li>';
 						}
 					}
 					$introduction_details .= '</ul>';
-					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
-					$bindings[] = $is_subscription->sub_id;
+					$where[] = 'itm.fed_id = ?';
+					$bindings[] = $is_feed->fed_id;
 				}
 
 				if($is_author) {
@@ -595,19 +611,19 @@ class Items extends CI_Controller {
 					}
 				}
 
-				$is_subscription = FALSE;
-				if($this->session->userdata('items-mode') == 'subscription') {
-					$query = $this->db->query('SELECT sub.*, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS fed_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.sub_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $this->session->userdata('items-id')));
+				$is_feed = FALSE;
+				if($this->session->userdata('items-mode') == 'feed') {
+					$query = $this->db->query('SELECT sub.*, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS fed_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.fed_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $this->session->userdata('items-id')));
 					if($query->num_rows() > 0) {
-						$is_subscription = $query->row();
-						$data['title'] = $is_subscription->fed_title;
+						$is_feed = $query->row();
+						$data['title'] = $is_feed->fed_title;
 						$data['icon'] = 'bookmark';
 
 						$sql = 'SELECT sub.sub_id, COUNT(DISTINCT(itm.itm_id)) AS count
 						FROM '.$this->db->dbprefix('subscriptions').' AS sub
 						LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id AND itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?)
 						WHERE sub.mbr_id = ? AND sub.sub_id = ? GROUP BY sub.sub_id';
-						$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id, $is_subscription->sub_id));
+						$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id, $is_feed->sub_id));
 
 						$data['count'] = $query->row()->count;
 					}
@@ -699,9 +715,9 @@ class Items extends CI_Controller {
 						$bindings[] = $is_folder->flr_id;
 					}
 
-					if($is_subscription) {
+					if($is_feed) {
 						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
-						$bindings[] = $is_subscription->sub_id;
+						$bindings[] = $is_feed->sub_id;
 					}
 
 					if($is_author) {
