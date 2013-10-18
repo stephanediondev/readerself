@@ -15,8 +15,6 @@ class Items extends CI_Controller {
 		$content = array();
 		$introduction_direction = false;
 		$introduction_title = false;
-		$introduction_actions = false;
-		$introduction_details = false;
 
 		$is_member = FALSE;
 		if($mode == 'member') {
@@ -163,37 +161,9 @@ class Items extends CI_Controller {
 							$is_member->following = 0;
 						}
 					}
-					$introduction_title = '<i class="icon icon-user"></i>'.$is_member->mbr_nickname;
-					$introduction_actions = '<ul class="actions">';
-					if($this->session->userdata('mbr_id')) {
-						if($is_member->mbr_id != $this->member->mbr_id) {
-							$introduction_actions .= '<li><a class="follow" href="'.base_url().'members/follow/'.$is_member->mbr_id.'"><span class="follow"';
-							if($is_member->following == 0) {
-								$introduction_actions .= 'style="display:none;"';
-							}
-							$introduction_actions .= '><i class="icon icon-link"></i>'.$this->lang->line('unfollow').'</span><span class="unfollow"';
-							if($is_member->following == 1) {
-								$introduction_actions .= 'style="display:none;"';
-							}
-							$introduction_actions .= '><i class="icon icon-unlink"></i>'.$this->lang->line('follow').'</span></a></li>';
-						}
-					}
-					if($this->config->item('share_external')) {
-						$introduction_actions .= '<li><a target="_blank" href="https://www.facebook.com/sharer.php?u='.urlencode(base_url().'member/'.$is_member->mbr_nickname).'"><i class="icon icon-share"></i>Facebook</a></li>';
-						$introduction_actions .= '<li><a target="_blank" href="https://plus.google.com/share?url='.urlencode(base_url().'member/'.$is_member->mbr_nickname).'"><i class="icon icon-share"></i>Google</a></li>';
-						$introduction_actions .= '<li><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text='.urlencode($is_member->mbr_nickname.' - '.$this->config->item('title').' '.base_url().'member/'.$is_member->mbr_nickname).'"><i class="icon icon-share"></i>Twitter</a></li>';
-					}
-					$introduction_actions .= '<li class="hide-phone"><a href="'.base_url().'share/'.$is_member->token_share.'"><i class="icon icon-rss"></i><abbr title="Really Simple Syndication">RSS</abbr></a></li>';
-					$introduction_actions .= '</ul>';
 
-					$introduction_details = '';
-					if($this->config->item('gravatar') && $is_member->mbr_gravatar) {
-						$introduction_details .= '<p><img alt="" src="http://www.gravatar.com/avatar/'.md5(strtolower($is_member->mbr_gravatar)).'?rating='.$this->config->item('gravatar_rating').'&amp;size='.$this->config->item('gravatar_size').'&amp;default='.$this->config->item('gravatar_default').'">';
-					}
+					$content['begin'] = $this->load->view('items_begin', array('is_member'=>$is_member, 'mode'=>$mode), TRUE);
 
-					if($is_member->mbr_description) {
-						$introduction_details .= '<p>'.strip_tags($is_member->mbr_description).'</p>';
-					}
 					$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
 					$bindings[] = $is_member->mbr_id;
 
@@ -225,16 +195,8 @@ class Items extends CI_Controller {
 				}
 
 				if($mode == 'geolocation') {
-					$introduction_title = '<i class="icon icon-map-marker"></i>'.$this->lang->line('geolocation_items').' (<span id="intro-load-geolocation-items"></span>)';
-					$introduction_actions = '<ul class="actions">';
-					$introduction_actions .= '<li class="geolocation"><a href="'.base_url().'home/geolocation"><i class="icon icon-user"></i>'.$this->lang->line('get_geolocation').'</a></li>';
-					$introduction_actions .= '</ul>';
-					if($this->session->userdata('latitude') && $this->session->userdata('longitude')) {
-						$introduction_details = '<ul class="item-details">';
-						$introduction_details .= '<li><a target="_blank" href="http://maps.google.com/maps?q='.$this->session->userdata('latitude').','.$this->session->userdata('longitude').'&oe=UTF-8&ie=UTF-8"><i class="icon icon-user"></i>'.$this->session->userdata('latitude').','.$this->session->userdata('longitude').'</a></li>';
-						$introduction_details .= '<li class="block"><a target="_blank" href="http://maps.google.com/maps?q='.$this->session->userdata('latitude').','.$this->session->userdata('longitude').'&oe=UTF-8&ie=UTF-8"><img src="http://maps.googleapis.com/maps/api/staticmap?center='.$this->session->userdata('latitude').','.$this->session->userdata('longitude').'&markers=color:red|'.$this->session->userdata('latitude').','.$this->session->userdata('longitude').'&zoom=12&size=540x200&sensor=false" alt=""></a></li>';
-						$introduction_details .= '</ul>';
-					}
+					$content['begin'] = $this->load->view('items_begin', array('mode'=>$mode), TRUE);
+
 					$where[] = 'itm.itm_latitude IS NOT NULL';
 					$where[] = 'itm.itm_longitude IS NOT NULL';
 				}
@@ -252,8 +214,8 @@ class Items extends CI_Controller {
 				}
 
 				if($mode == 'starred') {
-					$introduction_title = '<i class="icon icon-star"></i>'.$this->lang->line('starred_items').' {<span id="intro-load-starred-items"></span>}';
-					$introduction_actions = '<ul class="actions"><li><a href="'.base_url().'starred/import"><i class="icon icon-download-alt"></i>'.$this->lang->line('import').'</a></li></ul>';
+					$content['begin'] = $this->load->view('items_begin', array('mode'=>$mode), TRUE);
+
 					$where[] = 'itm.itm_id IN ( SELECT fav.itm_id FROM '.$this->db->dbprefix('favorites').' AS fav WHERE fav.itm_id = itm.itm_id AND fav.mbr_id = ? )';
 					$bindings[] = $this->member->mbr_id;
 
@@ -261,12 +223,8 @@ class Items extends CI_Controller {
 					$content['nav']['items_read'] = false;
 
 				} else if($mode == 'shared') {
-					$introduction_title = '<i class="icon icon-heart"></i>'.$this->lang->line('shared_items').' {<span id="intro-load-shared-items"></span>}';
-					if($this->member->mbr_nickname) {
-						$introduction_actions = '<ul class="actions"><li><a href="'.base_url().'member/'.$this->member->mbr_nickname.'"><i class="icon icon-unlock"></i>'.$this->lang->line('public_profile').'</a></li></ul>';
-					} else {
-						$introduction_actions = '<ul class="actions"><li class="hide-phone"><a target="_blank" href="'.base_url().'share/'.$this->member->token_share.'"><i class="icon icon-rss"></i>RSS</a></li></ul>';
-					}
+					$content['begin'] = $this->load->view('items_begin', array('mode'=>$mode), TRUE);
+
 					$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
 					$bindings[] = $this->member->mbr_id;
 
@@ -313,47 +271,18 @@ class Items extends CI_Controller {
 				}
 
 				if($is_feed) {
-					$introduction_direction = $is_feed->direction;
-					$introduction_title = '<span style="background-image:url(https://www.google.com/s2/favicons?domain='.$is_feed->fed_host.'&amp;alt=feed);" class="favicon">'.$is_feed->fed_title.'</span> (<span id="intro-load-feed-'.$is_feed->fed_id.'-items">0</span>)';
-					$introduction_actions = '<ul class="actions">';
-					if($is_feed->subscribe == 1) {
-						$introduction_actions .= '<li><a class="priority" href="'.base_url().'subscriptions/priority/'.$is_feed->sub_id.'"><span class="priority"';
-						if($is_feed->sub_priority == 0) {
-							$introduction_actions .= ' style="display:none;"';
-						}
-						$introduction_actions .= '><i class="icon icon-flag"></i>'.$this->lang->line('not_priority').'</span><span class="not_priority"';
-						if($is_feed->sub_priority == 1) {
-							$introduction_actions .= ' style="display:none;"';
-						}
-						$introduction_actions .= '><i class="icon icon-flag-alt"></i>'.$this->lang->line('priority').'</span></a></li>';
-					} else {
-						$introduction_actions .= '<li><a href="'.base_url().'feeds/subscribe/'.$is_feed->fed_id.'"><i class="icon icon-bookmark-empty"></i>'.$this->lang->line('subscribe').'</a></li>';
-					}
-					$introduction_actions .= '</ul>';
-					$introduction_details = '<ul class="item-details">';
-					if($is_feed->subscribe == 1 && $this->config->item('folders')) {
-						if($is_feed->flr_id) {
-							$introduction_details .= '<li><a class="folder" href="#load-folder-'.$is_feed->flr_id.'-items"><i class="icon icon-folder-close"></i>'.$is_feed->flr_title.'</a></li>';
-						} else {
-							$introduction_details .= '<li><a class="folder" href="#load-nofolder-items"><i class="icon icon-folder-close"></i><em>'.$this->lang->line('no_folder').'</em></a></li>';
-						}
-					}
-					if($is_feed->fed_url) {
-						$introduction_details .= '<li><a target="_blank" href="'.$is_feed->fed_url.'"><i class="icon icon-external-link"></i>'.$is_feed->fed_url.'</a></li>';
-					}
+					$is_feed->categories = array();
 					if($this->config->item('tags')) {
 						$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
-
 						$categories = $this->db->query('SELECT cat.cat_title AS ref, cat.cat_id AS id, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND cat.cat_datecreated >= ? AND fed.fed_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,10', array($date_ref, $is_feed->fed_id))->result();
 						if($categories) {
-							$is_feed->categories = array();
 							foreach($categories as $cat) {
 								$is_feed->categories[] = '<a class="category" data-cat_id="'.$cat->id.'" href="'.base_url().'items/get/category/'.$cat->id.'">'.$cat->ref.'</a>';
 							}
-							$introduction_details .= '<li class="block hide-phone"><i class="icon icon-tags"></i>'.implode(', ', $is_feed->categories).'</li>';
 						}
 					}
-					$introduction_details .= '</ul>';
+					$content['begin'] = $this->load->view('items_begin', array('is_feed'=>$is_feed, 'mode'=>$mode), TRUE);
+
 					$where[] = 'itm.fed_id = ?';
 					$bindings[] = $is_feed->fed_id;
 				}
@@ -517,27 +446,13 @@ class Items extends CI_Controller {
 				}
 			}
 
-			if($introduction_title) {
+			if($introduction_title && isset($content['begin']) == 0) {
 				if($introduction_direction) {
 					$content['begin'] = '<article dir="'.$introduction_direction.'" id="introduction" class="title">';
 				} else {
-					if($is_member) {
-						if($is_member->mbr_id == $this->member->mbr_id) {
-							$content['begin'] = '<article id="introduction" class="title item-selected">';
-						} else {
-							$content['begin'] = '<article id="introduction" class="title">';
-						}
-					} else {
-						$content['begin'] = '<article id="introduction" class="title">';
-					}
-				}
-				if($introduction_actions) {
-					$content['begin'] .= $introduction_actions;
+					$content['begin'] = '<article id="introduction" class="title">';
 				}
 				$content['begin'] .= '<h2>'.$introduction_title.'</h2>';
-				if($introduction_details) {
-					$content['begin'] .= $introduction_details;
-				}
 				$content['begin'] .= '</article>';
 			}
 		} else {
