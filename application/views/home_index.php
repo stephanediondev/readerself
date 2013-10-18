@@ -35,7 +35,7 @@
 		<?php } ?>
 
 		<?php if($this->config->item('members_list')) { ?>
-			<li><a id="load-following-items" class="menu" href="<?php echo base_url(); ?>items/get/following"><i class="icon icon-link"></i><?php echo $this->lang->line('following_items'); ?> (<span>0</span>)</a></li>
+			<li><a id="load-following-items" class="menu" href="<?php echo base_url(); ?>items/get/following" title="<?php echo $this->lang->line('title_g_f'); ?>"><i class="icon icon-link"></i><?php echo $this->lang->line('following_items'); ?> (<span>0</span>)</a></li>
 		<?php } ?>
 
 		<?php if($this->config->item('menu_geolocation_items')) { ?>

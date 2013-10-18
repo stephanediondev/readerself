@@ -396,6 +396,13 @@ $(document).ready(function() {
 				$.cookie('menu', 'load-starred-items', { expires: 30, path: '/' });
 				load_items( $('aside ul').find('li.active').find('a.menu').attr('href') );
 
+			//g then f
+			} else if(g_key && keycode == 70) {
+				$('aside ul li').removeClass('active');
+				$('#load-following-items').parent().addClass('active');
+				$.cookie('menu', 'load-following-items', { expires: 30, path: '/' });
+				load_items( $('aside ul').find('li.active').find('a.menu').attr('href') );
+
 			//shift + 1
 			} else if(event.shiftKey && keycode == 49) {
 				event.preventDefault();
