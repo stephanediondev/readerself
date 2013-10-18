@@ -5,11 +5,11 @@ class Items extends CI_Controller {
 		parent::__construct();
 	}
 	public function get($mode, $id = FALSE) {
-		if(!$this->session->userdata('mbr_id') && $mode != 'member') {
+		if(!$this->session->userdata('mbr_id') && $mode != 'public_profile') {
 			redirect(base_url());
 		}
 
-		$modes = array('all', 'priority', 'geolocation', 'audio', 'video', 'starred', 'shared', 'nofolder', 'folder', 'feed', 'category', 'author', 'search', 'cloud', 'member', 'following');
+		$modes = array('all', 'priority', 'geolocation', 'audio', 'video', 'starred', 'shared', 'nofolder', 'folder', 'feed', 'category', 'author', 'search', 'cloud', 'public_profile', 'following');
 		$clouds = array('tags', 'authors');
 
 		$content = array();
@@ -17,7 +17,7 @@ class Items extends CI_Controller {
 		$introduction_title = false;
 
 		$is_member = FALSE;
-		if($mode == 'member') {
+		if($mode == 'public_profile') {
 			$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_nickname = ? GROUP BY mbr.mbr_id', array($id));
 			if($query->num_rows() > 0) {
 				$is_member = $query->row();
@@ -357,7 +357,7 @@ class Items extends CI_Controller {
 						}
 
 						$itm->shared_by = false;
-						if($this->session->userdata('mbr_id') && $mode != 'member') {
+						if($this->session->userdata('mbr_id') && $mode != 'public_profile') {
 							$sql = 'SELECT mbr.mbr_nickname FROM '.$this->db->dbprefix('share').' AS shr LEFT JOIN '.$this->db->dbprefix('followers').' AS fws ON fws.fws_following = shr.mbr_id LEFT JOIN '.$this->db->dbprefix('members').' AS mbr ON mbr.mbr_id = fws.fws_following WHERE mbr.mbr_nickname IS NOT NULL AND fws.mbr_id = ? AND shr.itm_id = ? GROUP BY mbr.mbr_id ORDER BY mbr_nickname ASC';
 							$shared_by = $this->db->query($sql, array($this->member->mbr_id, $itm->itm_id))->result();
 							if($shared_by) {
@@ -435,10 +435,10 @@ class Items extends CI_Controller {
 					}
 				} else {
 					$lastcrawl = $this->db->query('SELECT DATE_ADD(crr.crr_datecreated, INTERVAL ? HOUR) AS crr_datecreated FROM '.$this->db->dbprefix('crawler').' AS crr GROUP BY crr.crr_id ORDER BY crr.crr_id DESC LIMIT 0,1', array($this->session->userdata('timezone')))->row();
-					if($lastcrawl && $mode != 'member') {
+					if($lastcrawl && $mode != 'public_profile') {
 						$content['end'] = '<article id="last_crawl" class="title">';
 						$content['end'] .= '</article>';
-					} else if($mode == 'member') {
+					} else if($mode == 'public_profile') {
 						$content['end'] = '<article class="title">';
 						$content['end'] .= '<p><i class="icon icon-check"></i>'.$this->lang->line('no_more_items').'</p>';
 						$content['end'] .= '</article>';

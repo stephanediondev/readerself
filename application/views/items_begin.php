@@ -50,7 +50,7 @@
 	</article>
 <?php } ?>
 
-<?php if($mode == 'member') { ?>
+<?php if($mode == 'public_profile') { ?>
 		<article dir="<?php echo $is_feed->direction; ?>" id="introduction" class="title<?php if($is_member->mbr_id == $this->member->mbr_id) { ?> item-selected<?php } ?>"><i class="icon icon-user"></i><?php echo $is_member->mbr_nickname; ?>
 			<ul class="actions">
 			<?php if($this->session->userdata('mbr_id')) { ?>

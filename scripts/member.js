@@ -1,4 +1,4 @@
-var url = base_url + 'items/get/member/' + mbr_nickname
+var url = base_url + 'items/get/public_profile/' + mbr_nickname
 var items_mode = 'read_and_unread';
 if($.cookie('items_display') == 'collapse') {
 	var items_display = 'collapse';
