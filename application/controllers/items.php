@@ -434,7 +434,7 @@ class Items extends CI_Controller {
 							if($shared_by) {
 								$itm->shared_by = array();
 								foreach($shared_by as $shr) {
-									$itm->shared_by[] = $shr->mbr_nickname;
+									$itm->shared_by[] = '<a href="'.base_url().'member/'.$shr->mbr_nickname.'">'.$shr->mbr_nickname.'</a>';
 								}
 							}
 						}
