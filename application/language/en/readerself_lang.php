@@ -150,7 +150,7 @@ $lang['update'] = 'Update';
 $lang['url'] = '<abbr title="Uniform Resource Locator">URL</abbr>';
 $lang['yes'] = 'Yes';
 
-$lang['following_items'] = 'Members followed';
+$lang['following_items'] = 'Followed members';
 $lang['follow'] = 'Follow';
 $lang['unfollow'] = 'Unfollow';
 
