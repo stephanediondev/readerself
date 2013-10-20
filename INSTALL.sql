@@ -23,7 +23,8 @@ CREATE TABLE IF NOT EXISTS `crawler` (
   `crr_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `crr_time` double unsigned NOT NULL,
   `crr_memory` int(10) unsigned DEFAULT NULL,
-  `crr_count` int(10) unsigned NOT NULL,
+  `crr_feeds` int(10) unsigned NOT NULL,
+  `crr_errors` int(10) unsigned NOT NULL,
   `crr_datecreated` datetime NOT NULL,
   PRIMARY KEY (`crr_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;

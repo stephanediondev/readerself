@@ -6,12 +6,6 @@
 </header>
 <aside>
 	<ul>
-		<?php if($errors) { ?>
-		<li><h2><i class="icon icon-bell"></i><?php echo $this->lang->line('errors'); ?></h2></li>
-			<?php foreach($errors as $error) { ?>
-			<li<?php if($error->direction) { ?> dir="<?php echo $error->direction; ?>"<?php } ?>><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $error->fed_host; ?>&amp;alt=feed);" class="favicon" href="<?php echo base_url(); ?>subscriptions/read/<?php echo $error->sub_id; ?>"><?php echo $error->fed_title; ?></a></li>
-			<?php } ?>
-		<?php } ?>
 		<?php if($last_added) { ?>
 		<li><h2><i class="icon icon-bookmark-empty"></i><?php echo $this->lang->line('last_added'); ?></h2></li>
 			<?php foreach($last_added as $added) { ?>

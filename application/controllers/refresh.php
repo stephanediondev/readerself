@@ -111,16 +111,15 @@ class Refresh extends CI_Controller {
 			}
 
 			if($this->input->post('last_crawl')) {
-				$lastcrawl = $this->db->query('SELECT crr.crr_count, crr.crr_time, crr.crr_memory, DATE_ADD(crr.crr_datecreated, INTERVAL ? HOUR) AS crr_datecreated FROM '.$this->db->dbprefix('crawler').' AS crr GROUP BY crr.crr_id ORDER BY crr.crr_id DESC LIMIT 0,1', array($this->session->userdata('timezone')))->row();
+				$lastcrawl = $this->db->query('SELECT crr.*, DATE_ADD(crr.crr_datecreated, INTERVAL ? HOUR) AS crr_datecreated FROM '.$this->db->dbprefix('crawler').' AS crr GROUP BY crr.crr_id ORDER BY crr.crr_id DESC LIMIT 0,1', array($this->session->userdata('timezone')))->row();
 				if($lastcrawl) {
-					$errors = $this->db->query('SELECT COUNT(DISTINCT(fed.fed_id)) AS count FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_lasterror IS NOT NULL')->row()->count;
 					list($date, $time) = explode(' ', $lastcrawl->crr_datecreated);
 					$content['last_crawl'] = '<h2><i class="icon icon-truck"></i>'.$this->lang->line('last_crawl').'</h2>';
 					$content['last_crawl'] .= '<ul class="item-details">';
 					$content['last_crawl'] .= '<li><i class="icon icon-calendar"></i>'.$date.'</li>';
 					$content['last_crawl'] .= '<li><i class="icon icon-time"></i>'.$time.' (<span class="timeago" title="'.$lastcrawl->crr_datecreated.'"></span>)</li>';
-					$content['last_crawl'] .= '<li class="block"><i class="icon icon-rss"></i>'.intval($lastcrawl->crr_count).' '.mb_strtolower($this->lang->line('feeds')).'</li>';
-					$content['last_crawl'] .= '<li class="block"><i class="icon icon-bell"></i>'.$errors.' error(s)</li>';
+					$content['last_crawl'] .= '<li class="block"><i class="icon icon-rss"></i>'.intval($lastcrawl->crr_feeds).' '.mb_strtolower($this->lang->line('feeds')).'</li>';
+					$content['last_crawl'] .= '<li class="block"><i class="icon icon-bell"></i>'.intval($lastcrawl->crr_errors).' error(s)</li>';
 					$content['last_crawl'] .= '<li class="block"><i class="icon icon-rocket"></i>'.intval($lastcrawl->crr_time).' secondes</li>';
 					$content['last_crawl'] .= '<li class="block"><i class="icon icon-leaf"></i>'.number_format($lastcrawl->crr_memory, 0, '.', ' ').' bytes</li>';
 					$content['last_crawl'] .= '</ul>';
@@ -159,6 +158,7 @@ class Refresh extends CI_Controller {
 
 				$microtime_start = microtime(1);
 
+				$errors = 0;
 				foreach($query->result() as $fed) {
 					$sp_feed = new SimplePie();
 					$sp_feed->set_feed_url(convert_to_ascii($fed->fed_link));
@@ -169,6 +169,7 @@ class Refresh extends CI_Controller {
 					$sp_feed->handle_content_type();
 
 					if($sp_feed->error()) {
+						$errors++;
 						$this->db->set('fed_lasterror', $sp_feed->error());
 						$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
 						$this->db->where('fed_id', $fed->fed_id);
@@ -225,7 +226,8 @@ class Refresh extends CI_Controller {
 				if(function_exists('memory_get_peak_usage')) {
 					$this->db->set('crr_memory', memory_get_peak_usage());
 				}
-				$this->db->set('crr_count', $query->num_rows());
+				$this->db->set('crr_feeds', $query->num_rows());
+				$this->db->set('crr_errors', $errors);
 				$this->db->set('crr_datecreated', date('Y-m-d H:i:s'));
 				$this->db->insert('crawler');
 
