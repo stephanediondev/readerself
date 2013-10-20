@@ -8,10 +8,17 @@
 </header>
 <aside>
 	<ul>
-		<li><label for="feeds_fed_title"><i class="icon icon-search"></i><?php echo $this->lang->line('search'); ?></label></li>
-		<li><?php echo form_open(current_url()); ?>
-			<?php echo form_input($this->router->class.'_feeds_fed_title', set_value($this->router->class.'_feeds_fed_title', $this->session->userdata($this->router->class.'_feeds_fed_title')), 'id="feeds_fed_title" class="inputtext"'); ?>
-			<?php echo form_close(); ?></li>
+		<li>
+			<?php echo form_open(current_url()); ?>
+				<p>
+				<?php echo form_label($this->lang->line('title'), 'feeds_fed_title'); ?>
+				<?php echo form_input($this->router->class.'_feeds_fed_title', set_value($this->router->class.'_feeds_fed_title', $this->session->userdata($this->router->class.'_feeds_fed_title')), 'id="feeds_fed_title" class="inputtext"'); ?>
+				</p>
+				<p>
+				<button type="submit"><?php echo $this->lang->line('send'); ?></button>
+				</p>
+			<?php echo form_close(); ?>
+		</li>
 	</ul>
 </aside>
 <main>

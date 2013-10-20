@@ -10,10 +10,21 @@
 </header>
 <aside>
 	<ul>
-		<li><label for="subscriptions_fed_title"><i class="icon icon-search"></i><?php echo $this->lang->line('search'); ?></label></li>
-		<li><?php echo form_open(current_url()); ?>
-			<?php echo form_input($this->router->class.'_subscriptions_fed_title', set_value($this->router->class.'_subscriptions_fed_title', $this->session->userdata($this->router->class.'_subscriptions_fed_title')), 'id="subscriptions_fed_title" class="inputtext"'); ?>
-			<?php echo form_close(); ?></li>
+		<li>
+			<?php echo form_open(current_url()); ?>
+				<p>
+				<?php echo form_label($this->lang->line('title'), 'subscriptions_fed_title'); ?>
+				<?php echo form_input($this->router->class.'_subscriptions_fed_title', set_value($this->router->class.'_subscriptions_fed_title', $this->session->userdata($this->router->class.'_subscriptions_fed_title')), 'id="subscriptions_fed_title" class="inputtext"'); ?>
+				</p>
+				<p>
+				<?php echo form_label($this->lang->line('errors').' ('.$errors.')', 'subscriptions_fed_lasterror'); ?>
+				<?php echo form_dropdown($this->router->class.'_subscriptions_fed_lasterror', array('' => '--', 0 => $this->lang->line('no'), 1 => $this->lang->line('yes')), set_value($this->router->class.'_subscriptions_fed_lasterror', $this->session->userdata($this->router->class.'_subscriptions_fed_lasterror')), 'id="subscriptions_fed_lasterror" class="select numeric"'); ?>
+				</p>
+				<p>
+				<button type="submit"><?php echo $this->lang->line('send'); ?></button>
+				</p>
+			<?php echo form_close(); ?>
+		</li>
 		<?php if($last_added) { ?>
 		<li><h2><i class="icon icon-bookmark-empty"></i><?php echo $this->lang->line('last_added'); ?></h2></li>
 			<?php foreach($last_added as $added) { ?>

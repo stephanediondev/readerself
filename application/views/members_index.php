@@ -1,10 +1,17 @@
 </header>
 <aside>
 	<ul>
-		<li><label for="members_mbr_nickname"><i class="icon icon-search"></i><?php echo $this->lang->line('search'); ?></label></li>
-		<li><?php echo form_open(current_url()); ?>
-			<?php echo form_input($this->router->class.'_members_mbr_nickname', set_value($this->router->class.'_members_mbr_nickname', $this->session->userdata($this->router->class.'_members_mbr_nickname')), 'id="members_mbr_nickname" class="inputtext"'); ?>
-			<?php echo form_close(); ?></li>
+		<li>
+			<?php echo form_open(current_url()); ?>
+				<p>
+				<?php echo form_label($this->lang->line('mbr_nickname'), 'members_mbr_nickname'); ?>
+				<?php echo form_input($this->router->class.'_members_mbr_nickname', set_value($this->router->class.'_members_mbr_nickname', $this->session->userdata($this->router->class.'_members_mbr_nickname')), 'id="members_mbr_nickname" class="inputtext"'); ?>
+				</p>
+				<p>
+				<button type="submit"><?php echo $this->lang->line('send'); ?></button>
+				</p>
+			<?php echo form_close(); ?>
+		</li>
 	</ul>
 </aside>
 <main>

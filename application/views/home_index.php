@@ -61,16 +61,20 @@
 			<?php } ?>
 			<li<?php if(!$folders) { ?> class="separator"<?php } ?>><a class="folder" href="<?php echo base_url(); ?>subscriptions/get/nofolder" title="<?php echo $this->lang->line('open_close'); ?>"><i class="icon icon-folder-close"></i></a><a id="load-nofolder-items" class="menu" href="<?php echo base_url(); ?>items/get/nofolder"><em><?php echo $this->lang->line('no_folder'); ?></em> (<span>0</span>)</a><ul></ul></li>
 		<?php } ?>
-		<li><label for="search_items"><i class="icon icon-file-text-alt"></i><?php echo $this->lang->line('items'); ?></label></li>
 		<li>
 			<?php echo form_open(base_url().'items/get/search', array('id'=>'search_items_form')); ?>
-			<?php echo form_input('search_items', '', 'id="search_items" title="/"'); ?>
+				<p>
+				<?php echo form_label('<i class="icon icon-file-text-alt"></i>'.$this->lang->line('items'), 'search_items'); ?>
+				<?php echo form_input('search_items', '', 'id="search_items" title="/"'); ?>
+				</p>
 			<?php echo form_close(); ?>
 		</li>
-		<li><label for="fed_title"><i class="icon icon-bookmark"></i><?php echo $this->lang->line('subscriptions'); ?></label></li>
 		<li>
 			<?php echo form_open(base_url().'subscriptions/search', array('id'=>'search_subscriptions_form')); ?>
-			<?php echo form_input('fed_title', '', 'id="fed_title"'); ?>
+				<p>
+				<?php echo form_label('<i class="icon icon-bookmark"></i>'.$this->lang->line('subscriptions'), 'fed_title'); ?>
+				<?php echo form_input('fed_title', '', 'id="fed_title"'); ?>
+				</p>
 			<?php echo form_close(); ?>
 		</li>
 	</ul>

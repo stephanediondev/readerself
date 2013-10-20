@@ -6,10 +6,17 @@
 </header>
 <aside>
 	<ul>
-		<li><label for="folders_flr_title"><i class="icon icon-search"></i><?php echo $this->lang->line('search'); ?></label></li>
-		<li><?php echo form_open(current_url()); ?>
-			<?php echo form_input($this->router->class.'_folders_flr_title', set_value($this->router->class.'_folders_flr_title', $this->session->userdata($this->router->class.'_folders_flr_title')), 'id="folders_flr_title" class="inputtext"'); ?>
-			<?php echo form_close(); ?></li>
+		<li>
+			<?php echo form_open(current_url()); ?>
+				<p>
+				<?php echo form_label($this->lang->line('title'), 'folders_flr_title'); ?>
+				<?php echo form_input($this->router->class.'_folders_flr_title', set_value($this->router->class.'_folders_flr_title', $this->session->userdata($this->router->class.'_folders_flr_title')), 'id="folders_flr_title" class="inputtext"'); ?>
+				</p>
+				<p>
+				<button type="submit"><?php echo $this->lang->line('send'); ?></button>
+				</p>
+			<?php echo form_close(); ?>
+		</li>
 	</ul>
 </aside>
 <main>

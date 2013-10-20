@@ -11,6 +11,7 @@ class Subscriptions extends CI_Controller {
 
 		$filters = array();
 		$filters[$this->router->class.'_subscriptions_fed_title'] = array('fed.fed_title', 'like');
+		$filters[$this->router->class.'_subscriptions_fed_lasterror'] = array('fed.fed_lasterror', 'notnull');
 		$flt = $this->readerself_library->build_filters($filters);
 		$flt[] = 'sub.mbr_id = \''.$this->member->mbr_id.'\'';
 		$flt[] = 'fed.fed_id IS NOT NULL';
@@ -20,6 +21,8 @@ class Subscriptions extends CI_Controller {
 		$data['pagination'] = $build_pagination['output'];
 		$data['position'] = $build_pagination['position'];
 		$data['subscriptions'] = $this->readerself_model->get_subscriptions_rows($flt, $build_pagination['limit'], $build_pagination['start'], 'fed.fed_title ASC');
+
+		$data['errors'] = $this->db->query('SELECT COUNT(DISTINCT(fed.fed_id)) AS count FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_lasterror IS NOT NULL AND fed.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = fed.fed_id AND sub.mbr_id = ? )', array($this->member->mbr_id))->row()->count;
 
 		$data['last_added'] = $this->db->query('SELECT fed.*, sub.sub_id, sub.sub_title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE fed.fed_id IS NOT NULL AND sub.mbr_id = ? GROUP BY sub.sub_id ORDER BY sub.sub_id DESC LIMIT 0,5', array($this->member->mbr_id))->result();
 
