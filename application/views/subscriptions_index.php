@@ -16,10 +16,22 @@
 				<?php echo form_label($this->lang->line('title'), 'subscriptions_fed_title'); ?>
 				<?php echo form_input($this->router->class.'_subscriptions_fed_title', set_value($this->router->class.'_subscriptions_fed_title', $this->session->userdata($this->router->class.'_subscriptions_fed_title')), 'id="subscriptions_fed_title" class="inputtext"'); ?>
 				</p>
+				<?php if($this->config->item('folders')) { ?>
+					<p>
+					<?php echo form_label($this->lang->line('folder'), 'subscriptions_flr_id'); ?>
+					<?php echo form_dropdown($this->router->class.'_subscriptions_flr_id', $folders, set_value($this->router->class.'_subscriptions_flr_id', $this->session->userdata($this->router->class.'_subscriptions_flr_id')), 'id="subscriptions_flr_id" class="select numeric"'); ?>
+					</p>
+				<?php } ?>
 				<p>
-				<?php echo form_label($this->lang->line('errors').' ('.$errors.')', 'subscriptions_fed_lasterror'); ?>
-				<?php echo form_dropdown($this->router->class.'_subscriptions_fed_lasterror', array('' => '--', 0 => $this->lang->line('no'), 1 => $this->lang->line('yes')), set_value($this->router->class.'_subscriptions_fed_lasterror', $this->session->userdata($this->router->class.'_subscriptions_fed_lasterror')), 'id="subscriptions_fed_lasterror" class="select numeric"'); ?>
+				<?php echo form_label($this->lang->line('priority'), 'subscriptions_sub_priority'); ?>
+				<?php echo form_dropdown($this->router->class.'_subscriptions_sub_priority', array('' => '--', 0 => $this->lang->line('no'), 1 => $this->lang->line('yes')), set_value($this->router->class.'_subscriptions_sub_priority', $this->session->userdata($this->router->class.'_subscriptions_sub_priority')), 'id="subscriptions_sub_priority" class="select numeric"'); ?>
 				</p>
+				<?php if($errors > 0) { ?>
+					<p>
+					<?php echo form_label($this->lang->line('errors').' ('.$errors.')', 'subscriptions_fed_lasterror'); ?>
+					<?php echo form_dropdown($this->router->class.'_subscriptions_fed_lasterror', array('' => '--', 0 => $this->lang->line('no'), 1 => $this->lang->line('yes')), set_value($this->router->class.'_subscriptions_fed_lasterror', $this->session->userdata($this->router->class.'_subscriptions_fed_lasterror')), 'id="subscriptions_fed_lasterror" class="select numeric"'); ?>
+					</p>
+				<?php } ?>
 				<p>
 				<button type="submit"><?php echo $this->lang->line('send'); ?></button>
 				</p>

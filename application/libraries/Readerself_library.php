@@ -156,7 +156,11 @@ class Readerself_library {
 					$flt[] = $v[0].' >= '.$this->CI->db->escape($value.' 00:00:00');
 				}
 				if($v[1] == 'equal') {
-					$flt[] = $v[0].' = '.$this->CI->db->escape($value);
+					if($value == -1) {
+						$flt[] = $v[0].' IS NULL';
+					} else {
+						$flt[] = $v[0].' = '.$this->CI->db->escape($value);
+					}
 				}
 				if($v[1] == 'like') {
 					$flt[] = $v[0].' LIKE '.$this->CI->db->escape('%'.$value.'%');

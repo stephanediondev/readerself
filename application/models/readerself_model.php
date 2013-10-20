@@ -115,12 +115,12 @@ class Readerself_model extends CI_Model {
 	}
 
 	function get_members_total($flt) {
-		$query = $this->db->query('SELECT COUNT(mbr.mbr_id) AS count FROM '.$this->db->dbprefix('members').' mbr WHERE '.implode(' AND ', $flt));
+		$query = $this->db->query('SELECT COUNT(mbr.mbr_id) AS count FROM '.$this->db->dbprefix('members').' AS mbr LEFT JOIN '.$this->db->dbprefix('followers').' AS fws ON fws.fws_following = mbr.mbr_id AND fws.mbr_id = ? WHERE '.implode(' AND ', $flt), array($this->member->mbr_id));
 		return $query->row();
 	}
 	function get_members_rows($flt, $num, $offset, $order) {
 		$members = false;
-		$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE '.implode(' AND ', $flt).' GROUP BY mbr.mbr_id ORDER BY '.$order.' LIMIT '.$offset.', '.$num);
+		$query = $this->db->query('SELECT mbr.*, IF(fws.fws_id IS NULL, 0, 1) AS following FROM '.$this->db->dbprefix('members').' AS mbr LEFT JOIN '.$this->db->dbprefix('followers').' AS fws ON fws.fws_following = mbr.mbr_id AND fws.mbr_id = ? WHERE '.implode(' AND ', $flt).' GROUP BY mbr.mbr_id ORDER BY '.$order.' LIMIT '.$offset.', '.$num, array($this->member->mbr_id));
 		if($query->num_rows() > 0) {
 			$members = array();
 			foreach($query->result() as $mbr) {
@@ -132,13 +132,6 @@ class Readerself_model extends CI_Model {
 				$mbr->subscriptions_common = $subscriptions_common;
 
 				$mbr->shared_items = $this->db->query('SELECT COUNT(DISTINCT(shr.shr_id)) AS count FROM '.$this->db->dbprefix('share').' AS shr LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = shr.itm_id WHERE shr.mbr_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )', array($mbr->mbr_id, $mbr->mbr_id))->row()->count;
-
-				$query = $this->db->query('SELECT fws.* FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? AND fws.fws_following = ?', array($this->member->mbr_id, $mbr->mbr_id));
-				if($query->num_rows() > 0) {
-					$mbr->following = 1;
-				} else {
-					$mbr->following = 0;
-				}
 
 				$members[] = $mbr;
 			}

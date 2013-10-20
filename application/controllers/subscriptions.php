@@ -9,22 +9,39 @@ class Subscriptions extends CI_Controller {
 			redirect(base_url());
 		}
 
+		$data = array();
+
+		$data['errors'] = $this->db->query('SELECT COUNT(DISTINCT(fed.fed_id)) AS count FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_lasterror IS NOT NULL AND fed.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = fed.fed_id AND sub.mbr_id = ? )', array($this->member->mbr_id))->row()->count;
+
+		$data['last_added'] = $this->db->query('SELECT fed.*, sub.sub_id, sub.sub_title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE fed.fed_id IS NOT NULL AND sub.mbr_id = ? GROUP BY sub.sub_id ORDER BY sub.sub_id DESC LIMIT 0,5', array($this->member->mbr_id))->result();
+
+		if($this->config->item('folders')) {
+			$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? GROUP BY flr.flr_id ORDER BY flr.flr_title ASC', array($this->member->mbr_id));
+			$data['folders'] = array();
+			$data['folders'][''] = '--';
+			$data['folders'][-1] = $this->lang->line('no_folder');
+			if($query->num_rows() > 0) {
+				foreach($query->result() as $flr) {
+					$data['folders'][$flr->flr_id] = $flr->flr_title;
+				}
+			}
+		}
+
 		$filters = array();
 		$filters[$this->router->class.'_subscriptions_fed_title'] = array('fed.fed_title', 'like');
-		$filters[$this->router->class.'_subscriptions_fed_lasterror'] = array('fed.fed_lasterror', 'notnull');
+		$filters[$this->router->class.'_subscriptions_flr_id'] = array('sub.flr_id', 'equal');
+		$filters[$this->router->class.'_subscriptions_sub_priority'] = array('sub.sub_priority', 'equal');
+		if($data['errors'] > 0) {
+			$filters[$this->router->class.'_subscriptions_fed_lasterror'] = array('fed.fed_lasterror', 'notnull');
+		}
 		$flt = $this->readerself_library->build_filters($filters);
 		$flt[] = 'sub.mbr_id = \''.$this->member->mbr_id.'\'';
 		$flt[] = 'fed.fed_id IS NOT NULL';
 		$results = $this->readerself_model->get_subscriptions_total($flt);
 		$build_pagination = $this->readerself_library->build_pagination($results->count, 20, $this->router->class.'_subscriptions');
-		$data = array();
 		$data['pagination'] = $build_pagination['output'];
 		$data['position'] = $build_pagination['position'];
 		$data['subscriptions'] = $this->readerself_model->get_subscriptions_rows($flt, $build_pagination['limit'], $build_pagination['start'], 'fed.fed_title ASC');
-
-		$data['errors'] = $this->db->query('SELECT COUNT(DISTINCT(fed.fed_id)) AS count FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_lasterror IS NOT NULL AND fed.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = fed.fed_id AND sub.mbr_id = ? )', array($this->member->mbr_id))->row()->count;
-
-		$data['last_added'] = $this->db->query('SELECT fed.*, sub.sub_id, sub.sub_title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE fed.fed_id IS NOT NULL AND sub.mbr_id = ? GROUP BY sub.sub_id ORDER BY sub.sub_id DESC LIMIT 0,5', array($this->member->mbr_id))->result();
 
 		$content = $this->load->view('subscriptions_index', $data, TRUE);
 		$this->readerself_library->set_content($content);

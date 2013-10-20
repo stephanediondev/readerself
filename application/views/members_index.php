@@ -8,6 +8,10 @@
 				<?php echo form_input($this->router->class.'_members_mbr_nickname', set_value($this->router->class.'_members_mbr_nickname', $this->session->userdata($this->router->class.'_members_mbr_nickname')), 'id="members_mbr_nickname" class="inputtext"'); ?>
 				</p>
 				<p>
+				<?php echo form_label($this->lang->line('following_items'), 'members_following'); ?>
+				<?php echo form_dropdown($this->router->class.'_members_following', array('' => '--', 0 => $this->lang->line('no'), 1 => $this->lang->line('yes')), set_value($this->router->class.'_members_following', $this->session->userdata($this->router->class.'_members_following')), 'id="members_following" class="select numeric"'); ?>
+				</p>
+				<p>
 				<button type="submit"><?php echo $this->lang->line('send'); ?></button>
 				</p>
 			<?php echo form_close(); ?>

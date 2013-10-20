@@ -11,6 +11,7 @@ class Members extends CI_Controller {
 
 		$filters = array();
 		$filters[$this->router->class.'_members_mbr_nickname'] = array('mbr.mbr_nickname', 'like');
+		$filters[$this->router->class.'_members_following'] = array('fws.fws_id', 'notnull');
 		$flt = $this->readerself_library->build_filters($filters);
 		if($this->member->mbr_administrator == 0) {
 			$flt[] = 'mbr.mbr_nickname IS NOT NULL';
