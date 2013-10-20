@@ -292,12 +292,25 @@ class Readerself_model extends CI_Model {
 		}
 
 		if($type == 'all') {
+			$where = array();
+			$bindings = array();
+
+			$bindings[] = $this->member->mbr_id;
+
+			$where[] = 'itm.itm_id NOT IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
+			$bindings[] = $this->member->mbr_id;
+
+			$where[] = 'hst.hst_id IS NULL';
+
+			$where[] = 'sub.mbr_id = ?';
+			$bindings[] = $this->member->mbr_id;
+
 			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
 			FROM '.$this->db->dbprefix('subscriptions').' AS sub
 			LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id
 			LEFT JOIN '.$this->db->dbprefix('history').' AS hst ON hst.itm_id = itm.itm_id AND hst.mbr_id = ?
-			WHERE hst.hst_id IS NULL AND sub.mbr_id = ?';
-			return $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id))->row()->count + $count_following;
+			WHERE '.implode(' AND ', $where);
+			return $this->db->query($sql, $bindings)->row()->count + $count_following;
 		}
 		if($type == 'priority') {
 			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
