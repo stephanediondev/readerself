@@ -153,4 +153,4 @@ CREATE TABLE IF NOT EXISTS `followers` (
 
 #2013-10-20
 ALTER TABLE `crawler` CHANGE `crr_count` `crr_feeds` INT( 10 ) UNSIGNED NOT NULL;
-ALTER TABLE `crawler` ADD `crr_errors` INT UNSIGNED NOT NULL AFTER `crr_feeds`;
+ALTER TABLE `crawler` ADD `crr_errors` INT UNSIGNED NULL AFTER `crr_feeds`;

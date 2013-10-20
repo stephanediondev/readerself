@@ -227,7 +227,9 @@ class Refresh extends CI_Controller {
 					$this->db->set('crr_memory', memory_get_peak_usage());
 				}
 				$this->db->set('crr_feeds', $query->num_rows());
-				$this->db->set('crr_errors', $errors);
+				if($errors > 0) {
+					$this->db->set('crr_errors', $errors);
+				}
 				$this->db->set('crr_datecreated', date('Y-m-d H:i:s'));
 				$this->db->insert('crawler');
 
