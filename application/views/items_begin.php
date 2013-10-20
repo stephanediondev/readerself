@@ -24,6 +24,7 @@
 	<article dir="<?php echo $is_feed->direction; ?>" id="introduction" class="title">
 		<ul class="actions">
 		<?php if($is_feed->subscribe == 1) { ?>
+			<li><a href="<?php echo base_url(); ?>subscriptions/delete/<?php echo $is_feed->sub_id; ?>"><i class="icon icon-bookmark"></i><?php echo $this->lang->line('unsubscribe'); ?></a></li>
 			<li><a class="priority" href="<?php echo base_url(); ?>subscriptions/priority/<?php echo $is_feed->sub_id; ?>"><span class="priority"<?php if($is_feed->sub_priority == 0) { ?> style="display:none;"<?php } ?>><i class="icon icon-flag"></i><?php echo $this->lang->line('not_priority'); ?></span><span class="not_priority"<?php if($is_feed->sub_priority == 1) { ?> style="display:none;"<?php } ?>><i class="icon icon-flag-alt"></i><?php echo $this->lang->line('priority'); ?></span></a></li>
 		<?php } else { ?>
 			<li><a href="<?php echo base_url(); ?>feeds/subscribe/<?php echo $is_feed->fed_id; ?>"><i class="icon icon-bookmark-empty"></i><?php echo $this->lang->line('subscribe'); ?></a></li>
