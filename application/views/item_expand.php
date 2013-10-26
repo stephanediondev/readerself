@@ -1,5 +1,9 @@
 <div class="item-content-result">
-	<?php echo $itm->itm_content; ?>
+	<?php if($itm->itm_deleted == 1) { ?>
+		<p><i class="icon icon-trash"></i><em><?php echo $this->lang->line('deleted'); ?></em></p>
+	<?php } else { ?>
+		<?php echo $itm->itm_content; ?>
+	<?php } ?>
 </div>
 <?php if($itm->itm_latitude && $itm->itm_longitude) { ?>
 	<div class="item-geolocation">

@@ -155,6 +155,7 @@ $lang['yes'] = 'Yes';
 $lang['following_items'] = 'Followed members';
 $lang['follow'] = 'Follow';
 $lang['unfollow'] = 'Unfollow';
+$lang['deleted'] = 'Deleted';
 
 $lang['stg_folders'] = 'Folders';
 $lang['stg_gravatar'] = 'Gravatar';
