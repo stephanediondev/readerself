@@ -62,9 +62,9 @@
 			<?php if($this->config->item('share_external')) { ?>
 				<li><a target="_blank" href="https://www.facebook.com/sharer.php?u=<?php echo urlencode(base_url().'member/'.$is_member->mbr_nickname); ?>"><i class="icon icon-share"></i>Facebook</a></li>
 				<li><a target="_blank" href="https://plus.google.com/share?url=<?php echo urlencode(base_url().'member/'.$is_member->mbr_nickname); ?>"><i class="icon icon-share"></i>Google</a></li>
-				<li><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text=<?php echo urlencode($is_member->mbr_nickname.' - '.$this->config->item('title').' <?php echo base_url(); ?>member/'.$is_member->mbr_nickname); ?>"><i class="icon icon-share"></i>Twitter</a></li>
+				<li><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text=<?php echo urlencode($is_member->mbr_nickname.' - '.$this->config->item('title').' '.base_url().'member/'.$is_member->mbr_nickname); ?>"><i class="icon icon-share"></i>Twitter</a></li>
 			<?php } ?>
-			<li class="hide-phone"><a href="<?php echo base_url(); ?>share/'.$is_member->token_share.'"><i class="icon icon-rss"></i><abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li class="hide-phone"><a href="<?php echo base_url(); ?>share/<?php echo $is_member->token_share; ?>"><i class="icon icon-rss"></i><abbr title="Really Simple Syndication">RSS</abbr></a></li>
 			</ul>
 			<?php if($this->config->item('gravatar') && $is_member->mbr_gravatar) { ?>
 				<p><img alt="" src="http://www.gravatar.com/avatar/<?php echo md5(strtolower($is_member->mbr_gravatar)); ?>?rating=<?php echo $this->config->item('gravatar_rating'); ?>&amp;size=<?php echo $this->config->item('gravatar_size'); ?>&amp;default=<?php echo $this->config->item('gravatar_default'); ?>">
@@ -79,7 +79,7 @@
 <?php if($mode == 'geolocation') { ?>
 	<article id="introduction" class="title">
 		<ul class="actions">
-			<li class="geolocation"><a href="'.base_url().'home/geolocation"><i class="icon icon-user"></i><?php echo $this->lang->line('get_geolocation'); ?></a></li>
+			<li class="geolocation"><a href="<?php echo base_url(); ?>home/geolocation"><i class="icon icon-user"></i><?php echo $this->lang->line('get_geolocation'); ?></a></li>
 		</ul>
 		<h2><i class="icon icon-map-marker"></i><?php echo $this->lang->line('geolocation_items'); ?> (<span id="intro-load-geolocation-items"></span>)</h2>
 		<?php if($this->session->userdata('latitude') && $this->session->userdata('longitude')) { ?>
