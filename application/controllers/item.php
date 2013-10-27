@@ -111,7 +111,7 @@ class Item extends CI_Controller {
 
 		$content = array();
 
-		if($this->input->is_ajax_request() && $this->config->item('share_by_email')) {
+		if($this->input->is_ajax_request() && $this->config->item('share_external_email')) {
 			$query = $this->db->query('SELECT itm.*, DATE_ADD(itm.itm_date, INTERVAL ? HOUR) AS itm_date FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id', array($this->session->userdata('timezone'), $itm_id));
 			if($query->num_rows() > 0) {
 				$data['itm'] = $query->row();
