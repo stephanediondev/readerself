@@ -17,8 +17,6 @@ class Statistics extends CI_Controller {
 
 		$data['read_items_30'] = $this->db->query('SELECT COUNT(DISTINCT(hst.itm_id)) AS ref_value FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ?', array(1, $date_ref, $this->member->mbr_id))->row()->ref_value;
 
-		$data['starred_items_30'] = $this->db->query('SELECT COUNT(DISTINCT(fav.itm_id)) AS ref_value FROM '.$this->db->dbprefix('favorites').' AS fav WHERE fav.fav_datecreated >= ? AND fav.mbr_id = ?', array($date_ref, $this->member->mbr_id))->row()->ref_value;
-
 		$data['date_first_read'] = $this->db->query('SELECT MIN(hst.hst_datecreated) AS ref_value FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.mbr_id = ?', array(1, $this->member->mbr_id))->row()->ref_value;
 
 		if($data['date_first_read']) {
@@ -26,8 +24,6 @@ class Statistics extends CI_Controller {
 		}
 
 		$data['read_items_total'] = $this->db->query('SELECT COUNT(DISTINCT(hst.itm_id)) AS ref_value FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.mbr_id = ?', array(1, $this->member->mbr_id))->row()->ref_value;
-
-		$data['starred_items_total'] = $this->db->query('SELECT COUNT(DISTINCT(fav.itm_id)) AS ref_value FROM '.$this->db->dbprefix('favorites').' AS fav WHERE fav.mbr_id = ?', array($this->member->mbr_id))->row()->ref_value;
 
 		$data['tables'] = '';
 
@@ -140,19 +136,6 @@ class Statistics extends CI_Controller {
 			}
 		}
 		$data['tables'] .= build_table_progression($this->lang->line('items_read_by_month'), $values, $legend);
-
-		if($this->config->item('starred_items')) {
-			$legend = array();
-			$values = array();
-			$query = $this->db->query('SELECT SUBSTRING(DATE_ADD(fav.fav_datecreated, INTERVAL ? HOUR), 1, 7) AS ref, COUNT(DISTINCT(fav.itm_id)) AS nb FROM '.$this->db->dbprefix('favorites').' AS fav WHERE fav.mbr_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,12', array($this->session->userdata('timezone'), $this->member->mbr_id));
-			if($query->num_rows() > 0) {
-				foreach($query->result() as $row) {
-					$legend[] = '<i class="icon icon-calendar"></i>'.date('F, Y', strtotime($row->ref));
-					$values[] = $row->nb;
-				}
-			}
-			$data['tables'] .= build_table_progression($this->lang->line('items_starred_by_month'), $values, $legend);
-		}
 
 		$content = $this->load->view('statistics_index', $data, TRUE);
 		$this->readerself_library->set_content($content);
