@@ -92,11 +92,11 @@ class Feeds extends CI_Controller {
 					$content = $this->load->view('feeds_delete', $data, TRUE);
 					$this->readerself_library->set_content($content);
 				} else {
-					$query = $this->db->query('DELETE FROM '.$this->db->dbprefix('categories').' WHERE itm_id IN ( SELECT itm.itm_id FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id )', array($fed_id));
-					$query = $this->db->query('DELETE FROM '.$this->db->dbprefix('enclosures').' WHERE itm_id IN ( SELECT itm.itm_id FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id )', array($fed_id));
-					$query = $this->db->query('DELETE FROM '.$this->db->dbprefix('favorites').' WHERE itm_id IN ( SELECT itm.itm_id FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id )', array($fed_id));
-					$query = $this->db->query('DELETE FROM '.$this->db->dbprefix('history').' WHERE itm_id IN ( SELECT itm.itm_id FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id )', array($fed_id));
-					$query = $this->db->query('DELETE FROM '.$this->db->dbprefix('share').' WHERE itm_id IN ( SELECT itm.itm_id FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id )', array($fed_id));
+					//$query = $this->db->query('DELETE FROM '.$this->db->dbprefix('categories').' WHERE itm_id IN ( SELECT itm.itm_id FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id )', array($fed_id));
+					//$query = $this->db->query('DELETE FROM '.$this->db->dbprefix('enclosures').' WHERE itm_id IN ( SELECT itm.itm_id FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id )', array($fed_id));
+					//$query = $this->db->query('DELETE FROM '.$this->db->dbprefix('favorites').' WHERE itm_id IN ( SELECT itm.itm_id FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id )', array($fed_id));
+					//$query = $this->db->query('DELETE FROM '.$this->db->dbprefix('history').' WHERE itm_id IN ( SELECT itm.itm_id FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id )', array($fed_id));
+					//$query = $this->db->query('DELETE FROM '.$this->db->dbprefix('share').' WHERE itm_id IN ( SELECT itm.itm_id FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id )', array($fed_id));
 
 					$this->db->where('fed_id', $fed_id);
 					$this->db->delete('items');
@@ -104,7 +104,7 @@ class Feeds extends CI_Controller {
 					$this->db->where('fed_id', $fed_id);
 					$this->db->delete('feeds');
 
-					$this->db->query('OPTIMIZE TABLE categories, enclosures, favorites, history, share, items, feeds');
+					//$this->db->query('OPTIMIZE TABLE categories, enclosures, favorites, history, share, items, feeds');
 
 					redirect(base_url().'feeds');
 				}
