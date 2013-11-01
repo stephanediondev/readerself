@@ -195,7 +195,7 @@ a:link, a:visited{color:#000000;}
 header, aside{display:none;}
 main > section{height:auto!important;margin:0px;}
 main section section{padding:0px!important;}
-article{background-color:#FFFFFF;max-width:none;}
+article{background-color:#FFFFFF;margin:0px;max-width:none;}
 article.title{display:none;}
 .timeago_outter{display:none;}
 article.item{page-break-after:always;}
