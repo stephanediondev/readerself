@@ -17,7 +17,9 @@
 			</ul>
 			<h2><i class="icon icon-folder-close"></i><?php echo $flr->flr_title; ?></h2>
 			<ul class="item-details">
-				<li><i class="icon icon-bookmark"></i><?php echo $flr->subscriptions; ?> <?php if($flr->subscriptions > 1) { ?><?php echo mb_strtolower($this->lang->line('subscriptions')); ?><?php } else { ?><?php echo mb_strtolower($this->lang->line('subscription')); ?><?php } ?></li>
+				<li><i class="icon icon-bookmark"></i><?php echo $flr->subscriptions; ?> subscription(s)</li>
+				<li><i class="icon icon-star"></i><?php echo $flr->starred_items; ?> starred item(s)</li>
+				<li><i class="icon icon-heart"></i><?php echo $flr->shared_items; ?> shared item(s)</li>
 			</ul>
 		</article>
 

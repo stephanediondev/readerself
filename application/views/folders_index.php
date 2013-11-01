@@ -34,7 +34,9 @@
 			</ul>
 			<h2><a href="<?php echo base_url(); ?>folders/read/<?php echo $folder->flr_id; ?>"><i class="icon icon-folder-close"></i><?php echo $folder->flr_title; ?></a></h2>
 			<ul class="item-details">
-				<li><i class="icon icon-bookmark"></i><?php echo $folder->subscriptions; ?> <?php if($folder->subscriptions > 1) { ?><?php echo mb_strtolower($this->lang->line('subscriptions')); ?><?php } else { ?><?php echo mb_strtolower($this->lang->line('subscription')); ?><?php } ?></li>
+				<li><i class="icon icon-bookmark"></i><?php echo $folder->subscriptions; ?> subscription(s)</li>
+				<li><i class="icon icon-star"></i><?php echo $folder->starred_items; ?> starred item(s)</li>
+				<li><i class="icon icon-heart"></i><?php echo $folder->shared_items; ?> shared item(s)</li>
 			</ul>
 		</article>
 		<?php } ?>
