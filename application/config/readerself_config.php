@@ -10,3 +10,9 @@ $config['ldap_basedn'] = 'dc=my-domain,dc=com';
 $config['ldap_filter'] = 'mail=[email]';
 
 $config['salt_password'] = '';
+
+$config['email_protocol'] = 'mail';//mail or smtp
+$config['smtp_host'] = '';
+$config['smtp_user'] = '';
+$config['smtp_pass'] = '';
+$config['smtp_port'] = 25;

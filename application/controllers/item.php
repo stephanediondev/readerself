@@ -156,7 +156,11 @@ class Item extends CI_Controller {
 					$this->load->library('email');
 					$this->email->clear();
 
-					$this->email->initialize(array('mailtype' => 'html'));
+					if($this->config->item('email_protocol') == 'smtp') {
+						$this->email->initialize(array('mailtype' => 'html', 'protocol' => 'smtp', 'smtp_host' => $this->config->item('smtp_host'), 'smtp_user' => $this->config->item('smtp_user'), 'smtp_pass' => $this->config->item('smtp_pass'), 'smtp_port' => $this->config->item('smtp_port')));
+					} else {
+						$this->email->initialize(array('mailtype' => 'html', 'protocol' => 'mail'));
+					}
 					$this->email->from($this->config->item('sender_email'), $this->config->item('sender_name'));
 					$this->email->to($to);
 					$this->email->reply_to($reply_to);
