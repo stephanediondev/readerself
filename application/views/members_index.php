@@ -11,6 +11,12 @@
 				<?php echo form_label($this->lang->line('following_items'), 'members_following'); ?>
 				<?php echo form_dropdown($this->router->class.'_members_following', array('' => '--', 0 => $this->lang->line('no'), 1 => $this->lang->line('yes')), set_value($this->router->class.'_members_following', $this->session->userdata($this->router->class.'_members_following')), 'id="members_following" class="select numeric"'); ?>
 				</p>
+				<?php if($this->member->mbr_administrator == 1) { ?>
+					<p>
+					<?php echo form_label($this->lang->line('mbr_administrator'), 'members_mbr_administrator'); ?>
+					<?php echo form_dropdown($this->router->class.'_members_mbr_administrator', array('' => '--', 0 => $this->lang->line('no'), 1 => $this->lang->line('yes')), set_value($this->router->class.'_members_mbr_administrator', $this->session->userdata($this->router->class.'_members_mbr_administrator')), 'id="members_mbr_administrator" class="select numeric"'); ?>
+					</p>
+				<?php } ?>
 				<p>
 				<button type="submit"><?php echo $this->lang->line('send'); ?></button>
 				</p>
@@ -29,6 +35,7 @@
 		<article<?php if($mbr->mbr_id == $this->member->mbr_id) { ?> class="item-selected"<?php } ?>>
 			<ul class="actions">
 				<?php if($this->member->mbr_administrator == 1) { ?>
+					<li><a href="<?php echo base_url(); ?>members/update/<?php echo $mbr->mbr_id; ?>"><i class="icon icon-wrench"></i><?php echo $this->lang->line('update'); ?></a></li>
 					<li><a href="<?php echo base_url(); ?>members/delete/<?php echo $mbr->mbr_id; ?>"><i class="icon icon-trash"></i><?php echo $this->lang->line('delete'); ?></a></li>
 				<?php } ?>
 				<?php if($mbr->mbr_nickname) { ?>
@@ -41,13 +48,13 @@
 			<?php if($this->member->mbr_administrator == 1) { ?>
 				<h2>
 				<?php if($mbr->mbr_nickname) { ?>
-					<a href="<?php echo base_url(); ?>member/<?php echo $mbr->mbr_nickname; ?>"><i class="icon icon-user"></i><?php echo $mbr->mbr_email; ?> / <?php echo $mbr->mbr_nickname; ?></a>
+					<a href="<?php echo base_url(); ?>member/<?php echo $mbr->mbr_nickname; ?>"><i class="icon icon-<?php if($mbr->mbr_administrator == 1) { ?>shield<?php } else { ?>user<?php } ?>"></i><?php echo $mbr->mbr_email; ?> / <?php echo $mbr->mbr_nickname; ?></a>
 				<?php } else { ?>
-					<i class="icon icon-user"></i><?php echo $mbr->mbr_email; ?>
+					<i class="icon icon-<?php if($mbr->mbr_administrator == 1) { ?>shield<?php } else { ?>user<?php } ?>"></i><?php echo $mbr->mbr_email; ?>
 				<?php } ?>
 				</h2>
 			<?php } else { ?>
-				<h2><a href="<?php echo base_url(); ?>member/<?php echo $mbr->mbr_nickname; ?>"><i class="icon icon-user"></i><?php echo $mbr->mbr_nickname; ?></a></h2>
+				<h2><a href="<?php echo base_url(); ?>member/<?php echo $mbr->mbr_nickname; ?>"><i class="icon icon-<?php if($mbr->mbr_administrator == 1) { ?>shield<?php } else { ?>user<?php } ?>"></i><?php echo $mbr->mbr_nickname; ?></a></h2>
 			<?php } ?>
 			<ul class="item-details">
 				<?php if($mbr->subscriptions_common) { ?>
