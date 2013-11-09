@@ -54,7 +54,7 @@
 				<?php } ?>
 				</h2>
 			<?php } else { ?>
-				<h2><a href="<?php echo base_url(); ?>member/<?php echo $mbr->mbr_nickname; ?>"><i class="icon icon-<?php if($mbr->mbr_administrator == 1) { ?>shield<?php } else { ?>user<?php } ?>"></i><?php echo $mbr->mbr_nickname; ?></a></h2>
+				<h2><a href="<?php echo base_url(); ?>member/<?php echo $mbr->mbr_nickname; ?>"><i class="icon icon-user"></i><?php echo $mbr->mbr_nickname; ?></a></h2>
 			<?php } ?>
 			<ul class="item-details">
 				<?php if($mbr->subscriptions_common) { ?>
