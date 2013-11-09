@@ -235,24 +235,28 @@ class Items extends CI_Controller {
 					if($mode == 'search') {
 						$search = trim(urldecode($id));
 						$words = explode(' ', $search);
-						$word_or = array();
+						$where_or = array();
+						$bindings_or = array();
 						foreach($words as $word) {
 							if(substr($word, 0, 1) == '@') {
 								$where[] = 'DATE_ADD(itm.itm_date, INTERVAL ? HOUR) LIKE ?';
 								$bindings[] = $this->session->userdata('timezone');
 								$bindings[] = substr($word, 1).'%';
 							} else {
-								$word_or[] = 'itm.itm_title LIKE ?';
-								$bindings[] = '%'.$word.'%';
+								$where_or[] = 'itm.itm_title LIKE ?';
+								$bindings_or[] = '%'.$word.'%';
 
-								//$word_or[] = 'itm.itm_author LIKE ?';
-								//$bindings[] = '%'.$word.'%';
+								//$where_or[] = 'itm.itm_author LIKE ?';
+								//$bindings_or[] = '%'.$word.'%';
 
-								//$word_or[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_title LIKE ? )';
-								//$bindings[] = '%'.$word.'%';
+								//$where_or[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_title LIKE ? )';
+								//$bindings_or[] = '%'.$word.'%';
 							}
 						}
-						$where[] = '('.implode(' AND ', $word_or).')';
+						if(count($where_or) > 0) {
+							$where[] = '('.implode(' AND ', $where_or).')';
+							$bindings = array_merge($bindings, $bindings_or);
+						}
 						$content['nav']['items_refresh'] = false;
 						$content['nav']['items_mode'] = false;
 						$content['nav']['items_read'] = false;

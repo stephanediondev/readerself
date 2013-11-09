@@ -17,7 +17,7 @@ var g_key = false;
 
 function load_items(url) {
 	if($('#search_items').val() != '') {
-		url = $('aside ul #search_items_form').attr('action') + '/' + encodeURI( $('#search_items').val() ) ;
+		url = $('aside ul #search_items_form').attr('action') + '/' + encodeURIComponent( $('#search_items').val() ) ;
 	}
 	url = url + '/?items_mode=' + items_mode + '&items_display=' + items_display;
 	$('main > section').scrollTop(0);
@@ -83,7 +83,7 @@ function load_items(url) {
 }
 function add_items(url) {
 	if($('#search_items').val() != '') {
-		url = $('aside ul #search_items_form').attr('action') + '/' + encodeURI( $('#search_items').val() ) ;
+		url = $('aside ul #search_items_form').attr('action') + '/' + encodeURIComponent( $('#search_items').val() ) ;
 	}
 	url = url + '/?items_mode=' + items_mode + '&items_display=' + items_display;
 	if(!lock_add_items && !lock_no_more_items) {
