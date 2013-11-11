@@ -398,8 +398,6 @@ class Subscriptions extends CI_Controller {
 		$this->readerself_library->set_template('_opml');
 		$this->readerself_library->set_content_type('application/xml');
 
-		header('Content-Disposition: inline; filename="subscriptions-'.date('Y-m-d').'.opml";');
-
 		$subscriptions = array();
 		$query = $this->db->query('SELECT fed.*, sub.sub_id, sub.flr_id, flr.flr_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.mbr_id = ? AND fed.fed_id IS NOT NULL GROUP BY sub.sub_id ORDER BY flr.flr_title ASC, fed.fed_title ASC', array($this->member->mbr_id));
 		if($query->num_rows() > 0) {
@@ -413,6 +411,13 @@ class Subscriptions extends CI_Controller {
 
 		$content = $this->load->view('subscriptions_export', $data, TRUE);
 		$this->readerself_library->set_content($content);
+
+		header('Pragma: Public');
+		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+		header('Content-Type: application/xml');
+		header('Content-Disposition: attachment; filename="subscriptions-'.date('Y-m-d').'.opml";');
+		header('Content-Transfer-Encoding: binary'); 
+		session_write_close();
 	}
 
 	public function import() {

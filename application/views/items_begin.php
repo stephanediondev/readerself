@@ -1,6 +1,7 @@
 <?php if($mode == 'starred') { ?>
 	<article id="introduction" class="title">
 		<ul class="actions">
+			<li><a href="<?php echo base_url(); ?>starred/export"><i class="icon icon-upload-alt"></i><?php echo $this->lang->line('export'); ?></a></li>
 			<li><a href="<?php echo base_url(); ?>starred/import"><i class="icon icon-download-alt"></i><?php echo $this->lang->line('import'); ?></a></li>
 		</ul>
 		<h2><i class="icon icon-star"></i><?php echo $this->lang->line('starred_items'); ?> {<span id="intro-load-starred-items"></span>}</h2>
