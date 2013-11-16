@@ -1,5 +1,6 @@
 	<nav>
 		<ul class="actions">
+			<li class="hide-phone hide-tablet allow_notifications"><a href="#"><i class="icon icon-bullhorn"></i><?php echo $this->lang->line('allow_notifications'); ?></a></li>
 			<li class="hide-phone"><a href="#" title="<?php echo $this->lang->line('title_shift_f'); ?>" class="fullscreen"><i class="icon icon-resize-full"></i><?php echo $this->lang->line('fullscreen'); ?></a></li>
 			<li><a href="#" title="r" class="items_refresh"><i class="icon icon-refresh"></i><?php echo $this->lang->line('refresh'); ?></a></li>
 			<?php if($this->input->cookie('items_mode') == 'read_and_unread') { ?>

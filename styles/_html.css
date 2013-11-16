@@ -169,6 +169,8 @@ main section article[dir=rtl] .item-footer .actions li:last-child{margin-left:0p
 .fullscreen_body main > section{margin:10px 0px 0px 10px;}
 .fullscreen_body article{max-width:none;}
 
+.actions li.allow_notifications{display:none;}
+
 @media(max-width:1000px){
 #fullscreen_back{margin:5px 10px 10px 10px;}
 header nav{margin:5px 0px 0px 10px;}

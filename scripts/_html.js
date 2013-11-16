@@ -1,3 +1,4 @@
+var notification_count = 0;
 var result_subscriptions = [];
 var lock_refresh = false;
 
@@ -94,6 +95,19 @@ function refresh() {
 						$('#intro-load-' + i + '-items').html(data_return.count[i]);
 					}
 					window.document.title = '(' + data_return.count.all + ')';
+
+					if(data_return.count.all > notification_count) {
+						if(notify.permissionLevel() == notify.PERMISSION_GRANTED) {
+							notification = notify.createNotification(data_return.count.all + ' unread items', {
+								body: '',
+								icon: base_url + 'medias/readerself_200x200.png',
+								tag: 'notification_count'
+							});
+							notification_count = data_return.count.all;
+							notification.close();
+						}
+					}
+
 					try {
 						if(window.external.msIsSiteMode()) {
 							try {
@@ -153,11 +167,21 @@ function fullscreen() {
 	}
 }
 function scroll_to(anchor) {
-	//location.hash = anchor;
 	$('main > section').scrollTo(anchor);
 }
 
 $(document).ready(function() {
+	if(notify.isSupported) {
+		if(notify.permissionLevel() != notify.PERMISSION_GRANTED && notify.permissionLevel() != notify.PERMISSION_DENIED) {
+			$('.allow_notifications').css({'display': 'inline-block'});
+			$('.allow_notifications a').bind('click', function(event) {
+				notify.requestPermission(function() {
+					$('.allow_notifications').hide();
+				});
+			});
+		}
+	}
+
 	if($('aside').length == 0) {
 		$('#toggle-sidebar').parent().remove();
 	}

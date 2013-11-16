@@ -152,6 +152,8 @@ $lang['update'] = 'Modifier';
 $lang['url'] = '<abbr title="Uniform Resource Locator">URL</abbr>';
 $lang['yes'] = 'Oui';
 
+$lang['allow_notifications'] = 'Autoriser les notifications';
+
 $lang['mbr_administrator'] = 'Administrateur';
 $lang['following_items'] = 'Membres suivis';
 $lang['follow'] = 'Suivre';

@@ -117,6 +117,7 @@ var uri_string = '<?php echo $this->uri->uri_string(); ?>';
 <script src="<?php echo base_url(); ?>thirdparty/jquery/jquery.scrollto.min.js"></script>
 <script src="<?php echo base_url(); ?>thirdparty/jquery/jquery.timeago.js"></script>
 <script src="<?php echo base_url(); ?>thirdparty/jquery/jquery.timeago.<?php echo $this->config->item('language'); ?>.js"></script>
+<script src="<?php echo base_url(); ?>thirdparty/html5-desktop-notifications/desktop-notify-min.js"></script>
 
 <script src="<?php echo base_url(); ?>scripts/_html.js?modified=<?php echo filemtime('scripts/_html.js'); ?>"></script>
 <?php if(file_exists('scripts/'.$this->router->class.'.js')) { ?>
