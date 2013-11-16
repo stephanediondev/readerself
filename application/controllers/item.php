@@ -169,6 +169,7 @@ class Item extends CI_Controller {
 					$this->email->send();
 
 					$content['modal'] = $this->load->view('item_email_confirm', $data, TRUE);
+					$content['notification'] = $this->lang->line('email_confirm');
 				}
 			} else {
 				$this->output->set_status_header(403);

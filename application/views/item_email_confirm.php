@@ -6,6 +6,6 @@
 	<h1><i class="icon icon-envelope"></i><?php echo $this->lang->line('share_email'); ?></h1>
 
 	<p>
-	<?php echo form_label($this->lang->line('email_confirm')); ?>
+	<?php echo $this->lang->line('email_confirm'); ?>
 	</p>
 </div>

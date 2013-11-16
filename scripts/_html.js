@@ -72,6 +72,14 @@ function set_positions_modal() {
 	}
 	$('#modal').css({'margin-left': margin_left, 'top': _top});
 }
+function create_notification(title) {
+	notification = notify.createNotification(title, {
+		body: '',
+		icon: base_url + 'medias/readerself_200x200.png',
+		tag: 'notification_count'
+	});
+	notification.close();
+}
 function refresh() {
 	if(!lock_refresh && ci_controller != 'member') {
 		params = [];
@@ -99,12 +107,7 @@ function refresh() {
 
 					if(first_refresh && data_return.count.all > notification_count) {
 						if(notify.permissionLevel() == notify.PERMISSION_GRANTED) {
-							notification = notify.createNotification(data_return.count.all + ' unread items', {
-								body: '',
-								icon: base_url + 'medias/readerself_200x200.png',
-								tag: 'notification_count'
-							});
-							notification.close();
+							create_notification(data_return.count.all + ' unread items');
 						}
 					}
 					notification_count = data_return.count.all;
@@ -264,7 +267,10 @@ $(document).ready(function() {
 			dataType: 'json',
 			statusCode: {
 				200: function(data_return, textStatus, jqXHR) {
-					if(data_return.modal) {
+					if(data_return.notification && notify.permissionLevel() == notify.PERMISSION_GRANTED) {
+						create_notification(data_return.notification);
+						modal_hide();
+					} else if(data_return.modal) {
 						$('#modal').html(data_return.modal);
 					}
 				}
