@@ -1,6 +1,7 @@
 var notification_count = 0;
 var result_subscriptions = [];
 var lock_refresh = false;
+var first_refresh = false;
 
 function debug(data) {
 	if(window.console && console.debug) {
@@ -96,17 +97,18 @@ function refresh() {
 					}
 					window.document.title = '(' + data_return.count.all + ')';
 
-					if(data_return.count.all > notification_count) {
+					if(first_refresh && data_return.count.all > notification_count) {
 						if(notify.permissionLevel() == notify.PERMISSION_GRANTED) {
 							notification = notify.createNotification(data_return.count.all + ' unread items', {
 								body: '',
 								icon: base_url + 'medias/readerself_200x200.png',
 								tag: 'notification_count'
 							});
-							notification_count = data_return.count.all;
 							notification.close();
 						}
 					}
+					notification_count = data_return.count.all;
+					first_refresh = true;
 
 					try {
 						if(window.external.msIsSiteMode()) {
@@ -186,7 +188,9 @@ $(document).ready(function() {
 		$('#toggle-sidebar').parent().remove();
 	}
 	if(is_logged) {
-		refresh();
+		if(ci_controller != 'home') {
+			refresh();
+		}
 		set_positions();
 		setInterval(refresh, 10000*6*10);
 	}
