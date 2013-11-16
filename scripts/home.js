@@ -161,7 +161,7 @@ function item_up() {
 	var itm_id = $('main > section .item-selected').attr('id');
 	var prev = $('#' + itm_id).prev().attr('id');
 	if(prev) {
-		$('main > section').scrollTo('#' + prev);
+		scroll_to('#' + prev);
 	}
 }
 function item_down() {
@@ -521,21 +521,25 @@ $(document).ready(function() {
 	});
 
 	$('main > section').bind('scroll', function(event) {
-		$('main > section').find('.item').each(function(index) {
+		$('main > section').find('article').each(function(index) {
 			var itm_id = $(this).attr('id');
 			var ref = $('#' + itm_id);
 
 			$('main > section .item-selected').removeClass('item-selected');
 			ref.addClass('item-selected');
 
-			var last = $('main > section section').find('.item:last').attr('id');
-			if(last == itm_id) {
-				add_items( $('aside ul').find('li.active').find('a.menu').attr('href') );
+			if($(this).hasClass('item')) {
+				var last = $('main > section section').find('.item:last').attr('id');
+				if(last == itm_id) {
+					add_items( $('aside ul').find('li.active').find('a.menu').attr('href') );
+				}
 			}
 
 			var offset = $(this).offset()
 			if(offset.top + ref.height() - 60 < 0) {
-				item_read_auto(ref);
+				if($(this).hasClass('item')) {
+					item_read_auto(ref);
+				}
 				return true;
 			} else {
 				return false;
