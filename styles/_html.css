@@ -145,12 +145,14 @@ main section .item .item-footer .actions{float:none;margin-bottom:10px;text-alig
 .item.collapse .item-details{margin-bottom:5px;}
 
 [dir=rtl] .icon{margin-left:3px;margin-right:0px;vertical-align:top;}
-main > section article[dir=rtl] .actions, main > section article[dir=rtl] .actions{float:left;margin-left:0px;}
-main > section article[dir=rtl] .actions li{margin:5px 4px 5px 0px;}
-main > section article[dir=rtl] .item-details li{margin-left:5px;margin-right:0px;}
+main section article[dir=rtl] .actions, main section article[dir=rtl] .actions{float:left;margin-left:0px;}
+main section article[dir=rtl] .actions li{margin:5px 4px 5px 0px;}
+main section article[dir=rtl] .item-details li{margin-left:5px;margin-right:0px;}
 main section article[dir=rtl] .item-footer .actions{float:right;}
 main section article[dir=rtl] .item-footer .actions li{margin:5px 0px 0px 4px;}
 main section article[dir=rtl] .item-footer .actions li:last-child{margin-left:0px;}
+main section article[dir=rtl] .favicon, main section article[dir=rtl] a.favicon:link, main section article[dir=rtl] a.favicon:visited{background-position:center right;padding-left:0px;padding-right:16px;}
+main section article[dir=rtl] h2 .favicon, main section article[dir=rtl] h2.favicon, main section article[dir=rtl] h2 a.favicon:link, main section article[dir=rtl] h2 a.favicon:visited{padding-left:0px;padding-right:19px;}
 
 .item-like{clear:both;display:none;margin-top:5px;}
 
