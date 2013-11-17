@@ -141,16 +141,22 @@ function item_swipe(selector) {
 	if($('aside').css('position') == 'absolute') {
 		$(selector).swipe('destroy');
 		$(selector).swipe({
-			swipeRight:function(event, direction, distance, duration, fingerCount) {
-				if($(selector).hasClass('collapse')) {
-					item_expand($(selector).find('.expand'));
-				} else {
-					$(selector).find('.item-content').hide();
-					$(selector).find('.item-content').html('');
-					$(selector).find('.collapse').parent().hide();
-					$(selector).find('.expand').parent().show();
-					$(selector).addClass('collapse');
-					scroll_to('#' + $(selector).attr('id'));
+			swipe:function(event, direction, distance, duration, fingerCount) {
+				if(direction == 'left') {
+					item_star($(selector).find('.star'));
+				}
+				if(direction == 'right') {
+					if($(selector).hasClass('collapse')) {
+						item_expand($(selector).find('.expand'));
+					} else {
+						$(selector).find('.item-content').hide();
+						$(selector).find('.item-content').html('');
+						$(selector).find('.collapse').parent().hide();
+						$(selector).find('.expand').parent().show();
+						$(selector).addClass('collapse');
+						scroll_to('#' + $(selector).attr('id'));
+					}
+					
 				}
 			},
 			threshold: 120
