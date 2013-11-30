@@ -55,7 +55,7 @@ class Statistics extends CI_Controller {
 				$values[] = $row->nb;
 			}
 		}
-		$data['tables'] .= build_table_repartition($this->lang->line('items_read_by_subscription_desc').'*', $values, $legend);
+		$data['tables'] .= build_table_repartition($this->lang->line('items_read_by_subscription_less').'*', $values, $legend);
 
 		if($this->config->item('tags')) {
 			$legend = array();
