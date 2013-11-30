@@ -46,6 +46,7 @@ $lang['items_read_by_day'] = 'Items read by day';
 $lang['items_read_by_folder'] = 'Items read by folder';
 $lang['items_read_by_month'] = 'Items read by month';
 $lang['items_read_by_subscription'] = 'Items read by subscription';
+$lang['items_read_by_subscription_desc'] = 'Items read by subscription (desc.)';
 $lang['items_read_by_tag'] = 'Items read by tag';
 $lang['items_read_by_time_day'] = 'Items read by time of day';
 $lang['items_starred_by_month'] = 'Items starred by month';

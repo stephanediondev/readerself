@@ -46,6 +46,7 @@ $lang['items_read_by_day'] = 'Eléments lus par jour';
 $lang['items_read_by_folder'] = 'Eléments lus par dossier';
 $lang['items_read_by_month'] = 'Eléments lus par mois';
 $lang['items_read_by_subscription'] = 'Eléments lus par abonnement';
+$lang['items_read_by_subscription_desc'] = 'Eléments lus par abonnement (décr.)';
 $lang['items_read_by_tag'] = 'Eléments lus par tag';
 $lang['items_read_by_time_day'] = 'Eléments lus par heure de la journée';
 $lang['items_starred_by_month'] = 'Eléments favoris par mois';
