@@ -242,21 +242,21 @@ $(document).ready(function() {
 			modal_hide();
 		}
 	});
-	$('#overlay').live('click', function(event) {
+	$(document).on('click', '#overlay', function(event) {
 		event.preventDefault();
 		modal_hide();
 	});
-	$('.modal_hide').live('click', function(event) {
+	$(document).on('click', '.modal_hide', function(event) {
 		event.preventDefault();
 		modal_hide();
 	});
-	$('.modal_show').live('click', function(event) {
+	$(document).on('click', '.modal_show', function(event) {
 		event.preventDefault();
 		href = $(this).attr('href');
 		modal_show(href);
 	});
 
-	$('#modal form').live('submit', function(event) {
+	$(document).on('submit', '#modal form', function(event) {
 		event.preventDefault();
 		var ref = $(this);
 		var params = ref.serializeArray();
@@ -280,7 +280,7 @@ $(document).ready(function() {
 		});
 	});
 
-	$('a.priority').live('click', function(event) {
+	$(document).on('click', 'a.priority', function(event) {
 		event.preventDefault();
 		ref = $(this);
 		params = [];
@@ -312,7 +312,7 @@ $(document).ready(function() {
 		});
 	});
 
-	$('a.follow').live('click', function(event) {
+	$(document).on('click', 'a.follow', function(event) {
 		event.preventDefault();
 		ref = $(this);
 		params = [];

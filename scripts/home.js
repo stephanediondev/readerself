@@ -139,7 +139,7 @@ function add_items(url) {
 }
 function item_swipe(selector) {
 	if($('aside').css('position') == 'absolute') {
-		$(selector).swipe('destroy');
+		/*$(selector).swipe('destroy');
 		$(selector).swipe({
 			swipe:function(event, direction, distance, duration, fingerCount) {
 				if(direction == 'left') {
@@ -160,7 +160,7 @@ function item_swipe(selector) {
 				}
 			},
 			threshold: 120
-		});
+		});*/
 	}
 }
 function item_up() {
@@ -553,22 +553,23 @@ $(document).ready(function() {
 		});
     });
 
-	$('#item_up').live('click', function(event) {
+	$('header').on('click', '#item_up', function(event) {
+		console.log('oo');
 		event.preventDefault();
 		item_up();
 	});
 
-	$('#item_down').live('click', function(event) {
+	$('header').on('click', '#item_down', function(event) {
 		event.preventDefault();
 		item_down();
 	});
 
-	$('.item h2 a, .item-content a').live('click', function(event) {
+	$('section section').on('click', '.item h2 a, .item-content a', function(event) {
 		var ref = $(this).parents('.item');
 		item_read_auto(ref);
     });
 
-	$('aside ul a').live('click', function(event) {
+	$(document).on('click', 'aside ul a', function(event) {
 		event.preventDefault();
 		var ref = $(this);
 		if(ref.hasClass('folder')) {
@@ -629,7 +630,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$('.title a.folder, .item a.folder').live('click', function(event) {
+	$(document).on('click', '.title a.folder, .item a.folder', function(event) {
 		event.preventDefault();
 		$('#search_items').val('');
 		var ref = $(this);
@@ -640,7 +641,7 @@ $(document).ready(function() {
 		load_items( $('aside ul').find('li.active').find('a.menu').attr('href') );
 	});
 
-	$('.item a.author, #cloud a.author').live('click', function(event) {
+	$(document).on('click', '.item a.author, #cloud a.author', function(event) {
 		event.preventDefault();
 		$('#search_items').val('');
 		var ref = $(this);
@@ -654,7 +655,7 @@ $(document).ready(function() {
 		load_items(ref.attr('href'));
 	});
 
-	$('.item a.from').live('click', function(event) {
+	$(document).on('click', '.item a.from', function(event) {
 		event.preventDefault();
 		$('#search_items').val('');
 		var ref = $(this);
@@ -679,7 +680,7 @@ $(document).ready(function() {
 		load_items(ref.attr('href'));
 	});
 
-	$('.title a.category, .item a.category, #cloud a.category').live('click', function(event) {
+	$(document).on('click', '.title a.category, .item a.category, #cloud a.category', function(event) {
 		event.preventDefault();
 		$('#search_items').val('');
 		var ref = $(this);
@@ -778,42 +779,42 @@ $(document).ready(function() {
 		});
 	});
 
-	$('.star').live('click', function(event) {
+	$(document).on('click', '.star', function(event) {
 		event.preventDefault();
 		item_star($(this));
 	});
 
-	$('.share').live('click', function(event) {
+	$(document).on('click', '.share', function(event) {
 		event.preventDefault();
 		item_share($(this));
 	});
 
-	$('.history').live('click', function(event) {
+	$(document).on('click', '.history', function(event) {
 		event.preventDefault();
 		var ref = $(this);
 		item_read($(this));
 	});
 
-	$('.item .expand').live('click', function(event) {
+	$(document).on('click', '.item .expand', function(event) {
 		event.preventDefault();
 		var ref = $(this);
 		item_expand($(this));
 	});
 
-	$('.item .collapse').live('click', function(event) {
+	$(document).on('click', '.item .collapse', function(event) {
 		event.preventDefault();
 		var href = $(this).attr('href');
 		item_collapse($(href));
 	});
 
-	$('.link-item-share').live('click', function(event) {
+	$(document).on('click', '.link-item-share', function(event) {
 		event.preventDefault();
 		var ref = $(this).attr('href');
 		$(this).parent().remove();
 		$(ref).find('.item-share').removeClass('hide');
 	});
 
-	$('.link-item-readability').live('click', function(event) {
+	$(document).on('click', '.link-item-readability', function(event) {
 		event.preventDefault();
 		var ref = $(this);
 		var params = [];
@@ -838,7 +839,7 @@ $(document).ready(function() {
 		});
 	});
 
-	$('.link-item-like').live('click', function(event) {
+	$(document).on('click', '.link-item-like', function(event) {
 		event.preventDefault();
 		var ref = $(this).attr('href');
 		$(this).parent().remove();
@@ -866,7 +867,7 @@ $(document).ready(function() {
 		});
 	});
 
-	$('.geolocation a').live('click', function(event) {
+	$(document).on('click', '.geolocation a', function(event) {
 		event.preventDefault();
 		if(navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(
