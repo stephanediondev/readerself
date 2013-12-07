@@ -554,7 +554,6 @@ $(document).ready(function() {
     });
 
 	$('header').on('click', '#item_up', function(event) {
-		console.log('oo');
 		event.preventDefault();
 		item_up();
 	});
