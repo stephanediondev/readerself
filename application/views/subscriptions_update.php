@@ -40,6 +40,13 @@
 
 	<?php echo form_open(current_url()); ?>
 
+	<?php if($this->member->mbr_administrator == 1) { ?>
+		<p>
+		<?php echo form_label($this->lang->line('url'), 'fed_link'); ?>
+		<?php echo form_input('fed_link', set_value('fed_link', $sub->fed_link), 'id="fed_link" class="inputtext required"'); ?>
+		</p>
+	<?php } ?>
+
 	<p>
 	<?php echo form_label($this->lang->line('title_alternative'), 'sub_title'); ?>
 	<?php echo form_input('sub_title', set_value('sub_title', $sub->sub_title), 'id="sub_title" class="inputtext required"'); ?>

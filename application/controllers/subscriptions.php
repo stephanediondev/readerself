@@ -306,6 +306,10 @@ class Subscriptions extends CI_Controller {
 				}
 			}
 
+			if($this->member->mbr_administrator == 1) {
+				$this->form_validation->set_rules('fed_link', 'lang:url', 'required|max_length[255]');
+			}
+
 			$this->form_validation->set_rules('sub_title', 'lang:sub_title', 'max_length[255]');
 			$this->form_validation->set_rules('folder', 'lang:folder', 'required');
 			$this->form_validation->set_rules('priority', 'lang:priority', 'numeric');
@@ -314,6 +318,12 @@ class Subscriptions extends CI_Controller {
 				$content = $this->load->view('subscriptions_update', $data, TRUE);
 				$this->readerself_library->set_content($content);
 			} else {
+				if($this->member->mbr_administrator == 1) {
+					$this->db->set('fed_link', $this->input->post('fed_link'));
+					$this->db->where('fed_id', $data['sub']->fed_id);
+					$this->db->update('feeds');
+				}
+
 				$this->db->set('sub_title', $this->input->post('sub_title'));
 				if($this->input->post('folder') == 0) {
 					$this->db->set('flr_id', '');

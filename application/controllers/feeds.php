@@ -77,6 +77,32 @@ class Feeds extends CI_Controller {
 			$this->index();
 		}
 	}
+	public function update($fed_id) {
+		if(!$this->session->userdata('mbr_id') || $this->member->mbr_administrator == 0) {
+			redirect(base_url());
+		}
+
+		$this->load->library('form_validation');
+		$data = array();
+		$data['fed'] = $this->readerself_model->get_feed_row($fed_id);
+		if($data['fed']) {
+			$this->form_validation->set_rules('fed_link', 'lang:url', 'required|max_length[255]');
+			$this->form_validation->set_rules('direction', 'lang:direction', '');
+			if($this->form_validation->run() == FALSE) {
+				$content = $this->load->view('feeds_update', $data, TRUE);
+				$this->readerself_library->set_content($content);
+			} else {
+				$this->db->set('fed_link', $this->input->post('fed_link'));
+				$this->db->set('fed_direction', $this->input->post('direction'));
+				$this->db->where('fed_id', $fed_id);
+				$this->db->update('feeds');
+
+				redirect(base_url().'feeds');
+			}
+		} else {
+			$this->index();
+		}
+	}
 	public function delete($fed_id) {
 		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());

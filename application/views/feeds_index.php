@@ -32,6 +32,9 @@
 		<?php foreach($feeds as $fed) { ?>
 		<article<?php if($fed->fed_direction) { ?> dir="<?php echo $fed->fed_direction; ?>"<?php } ?>>
 			<ul class="actions">
+				<?php if($this->member->mbr_administrator == 1) { ?>
+					<li><a href="<?php echo base_url(); ?>feeds/update/<?php echo $fed->fed_id; ?>"><i class="icon icon-wrench"></i><?php echo $this->lang->line('update'); ?></a></li>
+				<?php } ?>
 				<?php if($fed->subscribers == 0) { ?>
 					<li><a href="<?php echo base_url(); ?>feeds/delete/<?php echo $fed->fed_id; ?>"><i class="icon icon-trash"></i><?php echo $this->lang->line('delete'); ?></a></li>
 				<?php } ?>
