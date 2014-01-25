@@ -115,7 +115,7 @@ aside ul{border-bottom:1px solid #6fd0ef;}
 aside ul ul {border:none;}
 aside button{background-color:#e1e4e9!important;border-bottom:1px solid #d3d7dc;color:#8f9399;}
 aside button:hover{background-color:#8f9399!important;border-bottom:1px solid #989898;color:#ffffff;}
-aside ul li.active,aside ul li:hover{background-color:#3bafda;border-top:1px solid #3bafda;cursor:pointer;}
+aside ul li.active,aside ul li:hover{background-color:#3bafda;border-top:1px solid #3bafda;}
 aside ul li.active li{font-weight:normal;}
 aside ul ul{margin:0px 0px 0px 5px;}
 aside ul li.result, aside ul li li{font-size:12px;margin:0px 0px 5px 0px;}
