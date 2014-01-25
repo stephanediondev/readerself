@@ -43,7 +43,7 @@
 							</ul>
 							<h2<?php if(isset($parse_url['host']) == 1) { ?> style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $parse_url['host']; ?>&amp;alt=feed);" class="favicon"<?php } ?>><?php echo $fed->title; ?></h2>
 							<ul class="item-details">
-								<li><i class="icon icon-group"></i><?php echo $fed->subscribers; ?></li>
+								<li><i class="icon icon-group"></i><?php echo $fed->subscribers; ?> <?php if($fed->subscribers != '1') { ?><?php echo mb_strtolower($this->lang->line('subscribers')); ?><?php } else { ?><?php echo mb_strtolower($this->lang->line('subscriber')); ?><?php } ?></li>
 								<li class="hide-phone"><a href="<?php echo $fed->id; ?>" target="_blank"><i class="icon icon-rss"></i><?php echo $fed->id; ?></a></li>
 								<?php if($fed->website) { ?><li class="block"><a href="<?php echo $fed->website; ?>" target="_blank"><i class="icon icon-external-link"></i><?php echo $fed->website; ?></a></li><?php } ?>
 							</ul>
