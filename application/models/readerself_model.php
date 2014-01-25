@@ -201,7 +201,15 @@ class Readerself_model extends CI_Model {
 		}
 		return $sub;
 	}
-
+	function get_subscription_row_by_feed($fed_id) {
+		if($this->session->userdata('timezone')) {
+			$timezone = $this->session->userdata('timezone');
+		} else {
+			$timezone = 0;
+		}
+		$query = $this->db->query('SELECT fed.*, DATE_ADD(fed.fed_lastcrawl, INTERVAL ? HOUR) AS fed_lastcrawl, sub.sub_id, sub.sub_title, sub.sub_priority, sub.sub_direction, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction, sub.flr_id, flr.flr_title, (SELECT COUNT(DISTINCT(count_sub.mbr_id)) FROM '.$this->db->dbprefix('subscriptions').' AS count_sub WHERE count_sub.fed_id = sub.fed_id) AS subscribers FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.mbr_id = ? AND fed.fed_id = ? AND fed.fed_id IS NOT NULL GROUP BY sub.sub_id', array($timezone, $this->member->mbr_id, $fed_id));
+		return $query->row();
+	}
 	function get_folders_total($flt) {
 		$query = $this->db->query('SELECT COUNT(flr.flr_id) AS count FROM '.$this->db->dbprefix('folders').' AS flr WHERE '.implode(' AND ', $flt));
 		return $query->row();

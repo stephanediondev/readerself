@@ -11,13 +11,19 @@ class Feeds extends CI_Controller {
 
 		$data = array();
 
+		$data['errors'] = $this->db->query('SELECT COUNT(DISTINCT(fed.fed_id)) AS count FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_lasterror IS NOT NULL AND fed.fed_id NOT IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = fed.fed_id AND sub.mbr_id = ? )', array($this->member->mbr_id))->row()->count;
+
+		$data['last_added'] = $this->db->query('SELECT fed.*, fed.fed_direction AS direction FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_id NOT IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = fed.fed_id AND sub.mbr_id = ? ) GROUP BY fed.fed_id ORDER BY fed.fed_id DESC LIMIT 0,5', array($this->member->mbr_id))->result();
+
 		$filters = array();
 		$filters[$this->router->class.'_feeds_fed_title'] = array('fed.fed_title', 'like');
+		if($data['errors'] > 0) {
+			$filters[$this->router->class.'_feeds_fed_lasterror'] = array('fed.fed_lasterror', 'notnull');
+		}
 		$flt = $this->readerself_library->build_filters($filters);
 		$flt[] = 'fed.fed_id IS NOT NULL';
 		$results = $this->readerself_model->get_feeds_total($flt);
 		$build_pagination = $this->readerself_library->build_pagination($results->count, 20, $this->router->class.'_feeds');
-		$data = array();
 		$data['pagination'] = $build_pagination['output'];
 		$data['position'] = $build_pagination['position'];
 		$data['feeds'] = $this->readerself_model->get_feeds_rows($flt, $build_pagination['limit'], $build_pagination['start'], 'subscribers DESC');
@@ -30,8 +36,15 @@ class Feeds extends CI_Controller {
 			redirect(base_url().'?u='.$this->input->get('u'));
 		}
 
+		if($sub = $this->readerself_model->get_subscription_row_by_feed($fed_id)) {
+			redirect(base_url().'subscriptions/read/'.$sub->sub_id);
+		}
+
 		$this->load->library(array('form_validation'));
 		$data = array();
+
+		$data['last_added'] = $this->db->query('SELECT fed.*, fed.fed_direction AS direction FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_id NOT IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = fed.fed_id AND sub.mbr_id = ? ) GROUP BY fed.fed_id ORDER BY fed.fed_id DESC LIMIT 0,5', array($this->member->mbr_id))->result();
+
 		$data['fed'] = $this->readerself_model->get_feed_row($fed_id);
 		if($data['fed']) {
 			if($this->config->item('folders')) {

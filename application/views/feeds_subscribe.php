@@ -4,6 +4,16 @@
 		</ul>
 	</nav>
 </header>
+<aside>
+	<ul>
+		<?php if($last_added) { ?>
+		<li><h2><i class="icon icon-bookmark-empty"></i><?php echo $this->lang->line('last_added'); ?></h2></li>
+			<?php foreach($last_added as $added) { ?>
+			<li<?php if($added->direction) { ?> dir="<?php echo $added->direction; ?>"<?php } ?>><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $added->fed_host; ?>&amp;alt=feed);" class="favicon" href="<?php echo base_url(); ?>feeds/subscribe/<?php echo $added->fed_id; ?>"><?php echo $added->fed_title; ?></a></li>
+			<?php } ?>
+		<?php } ?>
+	</ul>
+</aside>
 <main>
 	<section>
 		<section>

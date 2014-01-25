@@ -14,11 +14,23 @@
 				<?php echo form_label($this->lang->line('title'), 'feeds_fed_title'); ?>
 				<?php echo form_input($this->router->class.'_feeds_fed_title', set_value($this->router->class.'_feeds_fed_title', $this->session->userdata($this->router->class.'_feeds_fed_title')), 'id="feeds_fed_title" class="inputtext"'); ?>
 				</p>
+				<?php if($errors > 0) { ?>
+					<p>
+					<?php echo form_label($this->lang->line('errors').' ('.$errors.')', 'feeds_fed_lasterror'); ?>
+					<?php echo form_dropdown($this->router->class.'_feeds_fed_lasterror', array('' => '--', 0 => $this->lang->line('no'), 1 => $this->lang->line('yes')), set_value($this->router->class.'_feeds_fed_lasterror', $this->session->userdata($this->router->class.'_feeds_fed_lasterror')), 'id="feeds_fed_lasterror" class="select numeric"'); ?>
+					</p>
+				<?php } ?>
 				<p>
 				<button type="submit"><?php echo $this->lang->line('send'); ?></button>
 				</p>
 			<?php echo form_close(); ?>
 		</li>
+		<?php if($last_added) { ?>
+		<li><h2><i class="icon icon-bookmark-empty"></i><?php echo $this->lang->line('last_added'); ?></h2></li>
+			<?php foreach($last_added as $added) { ?>
+			<li<?php if($added->direction) { ?> dir="<?php echo $added->direction; ?>"<?php } ?>><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $added->fed_host; ?>&amp;alt=feed);" class="favicon" href="<?php echo base_url(); ?>feeds/subscribe/<?php echo $added->fed_id; ?>"><?php echo $added->fed_title; ?></a></li>
+			<?php } ?>
+		<?php } ?>
 	</ul>
 </aside>
 <main>
