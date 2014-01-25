@@ -28,7 +28,7 @@
 		<?php if($last_added) { ?>
 		<li><h2><i class="icon icon-bookmark-empty"></i><?php echo $this->lang->line('last_added'); ?></h2></li>
 			<?php foreach($last_added as $added) { ?>
-			<li<?php if($added->direction) { ?> dir="<?php echo $added->direction; ?>"<?php } ?>><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $added->fed_host; ?>&amp;alt=feed);" class="favicon" href="<?php echo base_url(); ?>feeds/subscribe/<?php echo $added->fed_id; ?>"><?php echo $added->fed_title; ?></a></li>
+			<li<?php if($added->direction) { ?> dir="<?php echo $added->direction; ?>"<?php } ?>><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $added->fed_host; ?>&amp;alt=feed);" class="favicon" href="<?php echo base_url(); ?>feeds/read/<?php echo $added->fed_id; ?>"><?php echo $added->fed_title; ?></a></li>
 			<?php } ?>
 		<?php } ?>
 	</ul>
@@ -52,7 +52,7 @@
 				<?php } ?>
 				<li><a href="<?php echo base_url(); ?>feeds/subscribe/<?php echo $fed->fed_id; ?>"><i class="icon icon-bookmark-empty"></i><?php echo $this->lang->line('subscribe'); ?></a></li>
 			</ul>
-			<h2 style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $fed->fed_host; ?>&amp;alt=feed);" class="favicon"><?php echo $fed->fed_title; ?></h2>
+			<h2><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $fed->fed_host; ?>&amp;alt=feed);" class="favicon" href="<?php echo base_url(); ?>feeds/read/<?php echo $fed->fed_id; ?>"><?php echo $fed->fed_title; ?></a></h2>
 			<ul class="item-details">
 				<?php if($fed->fed_lastcrawl) { ?><li><i class="icon icon-truck"></i><?php echo $fed->fed_lastcrawl; ?></li><?php } ?>
 				<li><i class="icon icon-group"></i><?php echo $fed->subscribers; ?> <?php if($fed->subscribers > 1) { ?><?php echo mb_strtolower($this->lang->line('subscribers')); ?><?php } else { ?><?php echo mb_strtolower($this->lang->line('subscriber')); ?><?php } ?></li>

@@ -43,8 +43,6 @@ class Feeds extends CI_Controller {
 		$this->load->library(array('form_validation'));
 		$data = array();
 
-		$data['last_added'] = $this->db->query('SELECT fed.*, fed.fed_direction AS direction FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_id NOT IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = fed.fed_id AND sub.mbr_id = ? ) GROUP BY fed.fed_id ORDER BY fed.fed_id DESC LIMIT 0,5', array($this->member->mbr_id))->result();
-
 		$data['fed'] = $this->readerself_model->get_feed_row($fed_id);
 		if($data['fed']) {
 			if($this->config->item('folders')) {
@@ -86,6 +84,92 @@ class Feeds extends CI_Controller {
 
 				redirect(base_url().'feeds');
 			}
+		} else {
+			$this->index();
+		}
+	}
+	public function read($fed_id) {
+		if(!$this->session->userdata('mbr_id')) {
+			redirect(base_url());
+		}
+
+		$data = array();
+		$data['fed'] = $this->readerself_model->get_feed_row($fed_id);
+		if($data['fed']) {
+
+			$data['last_added'] = $this->db->query('SELECT fed.*, fed.fed_direction AS direction FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_id NOT IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = fed.fed_id AND sub.mbr_id = ? ) GROUP BY fed.fed_id ORDER BY fed.fed_id DESC LIMIT 0,5', array($this->member->mbr_id))->result();
+
+			$data['tables'] = '';
+
+			$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
+
+			if($this->config->item('tags')) {
+				$legend = array();
+				$values = array();
+				$query = $this->db->query('SELECT cat.cat_title AS ref, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND itm.itm_date >= ? AND fed.fed_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,30', array($date_ref, $fed_id));
+				if($query->num_rows() > 0) {
+					foreach($query->result() as $row) {
+						$legend[] = '<i class="icon icon-tag"></i>'.$row->ref;
+						$values[] = $row->nb;
+					}
+				}
+				$data['tables'] .= build_table_repartition($this->lang->line('items_posted_by_tag').'*', $values, $legend);
+			}
+
+			$legend = array();
+			$values = array();
+			$query = $this->db->query('SELECT itm.itm_author AS ref, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE itm.itm_author IS NOT NULL AND itm.itm_date >= ? AND fed.fed_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,30', array($date_ref, $fed_id));
+			if($query->num_rows() > 0) {
+				foreach($query->result() as $row) {
+					$legend[] = '<i class="icon icon-pencil"></i>'.$row->ref;
+					$values[] = $row->nb;
+				}
+			}
+			$data['tables'] .= build_table_repartition($this->lang->line('items_posted_by_author').'*', $values, $legend);
+
+			$legend = array();
+			$values = array();
+			$query = $this->db->query('SELECT SUBSTRING(DATE_ADD(itm.itm_date, INTERVAL ? HOUR), 1, 10) AS ref, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id WHERE fed.fed_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,30', array($this->session->userdata('timezone'), $fed_id));
+			if($query->num_rows() > 0) {
+				foreach($query->result() as $row) {
+					$legend[] = '<i class="icon icon-calendar"></i>'.date('F j, Y', strtotime($row->ref));
+					$values[] = $row->nb;
+				}
+			}
+			$data['tables'] .= build_table_progression($this->lang->line('items_posted_by_day'), $values, $legend);
+
+			$legend = array();
+			$values = array();
+			$query = $this->db->query('SELECT SUBSTRING(DATE_ADD(itm.itm_date, INTERVAL ? HOUR), 1, 7) AS ref, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id WHERE fed.fed_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,12', array($this->session->userdata('timezone'), $fed_id));
+			if($query->num_rows() > 0) {
+				foreach($query->result() as $row) {
+					$legend[] = '<i class="icon icon-calendar"></i>'.date('F, Y', strtotime($row->ref));
+					$values[] = $row->nb;
+				}
+			}
+			$data['tables'] .= build_table_progression($this->lang->line('items_posted_by_month'), $values, $legend);
+
+			$days = array(7=>'Sunday', 1=>'Monday', 2=>'Tuesday', 3=>'Wednesday', 4=>'Thursday', 5=>'Friday', 6=>'Saturday');
+			$legend = array();
+			$values = array();
+			$query = $this->db->query('SELECT IF(DATE_FORMAT(DATE_ADD(itm.itm_date, INTERVAL ? HOUR), \'%w\') = 0, 7, DATE_FORMAT(DATE_ADD(itm.itm_date, INTERVAL ? HOUR), \'%w\')) AS ref, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id WHERE itm.itm_date >= ? AND fed.fed_id = ? GROUP BY ref ORDER BY ref ASC', array($this->session->userdata('timezone'), $this->session->userdata('timezone'), $date_ref, $fed_id));
+			if($query->num_rows() > 0) {
+				foreach($query->result() as $row) {
+					$temp[$row->ref] = $row->nb;
+				}
+			}
+			foreach($days as $i => $v) {
+					$legend[] = '<i class="icon icon-calendar"></i>'.$v;
+				if(isset($temp[$i]) == 1) {
+					$values[] = $temp[$i];
+				} else {
+					$values[] = 0;
+				}
+			}
+			$data['tables'] .= build_table_repartition($this->lang->line('items_posted_by_day_week').'*', $values, $legend);
+
+			$content = $this->load->view('feeds_read', $data, TRUE);
+			$this->readerself_library->set_content($content);
 		} else {
 			$this->index();
 		}

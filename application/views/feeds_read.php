@@ -4,6 +4,16 @@
 		</ul>
 	</nav>
 </header>
+<aside>
+	<ul>
+		<?php if($last_added) { ?>
+		<li><h2><i class="icon icon-bookmark-empty"></i><?php echo $this->lang->line('last_added'); ?></h2></li>
+			<?php foreach($last_added as $added) { ?>
+			<li<?php if($added->direction) { ?> dir="<?php echo $added->direction; ?>"<?php } ?>><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $added->fed_host; ?>&amp;alt=feed);" class="favicon" href="<?php echo base_url(); ?>feeds/read/<?php echo $added->fed_id; ?>"><?php echo $added->fed_title; ?></a></li>
+			<?php } ?>
+		<?php } ?>
+	</ul>
+</aside>
 <main>
 	<section>
 		<section>
@@ -19,8 +29,9 @@
 			<?php if($fed->subscribers == 0) { ?>
 				<li><a href="<?php echo base_url(); ?>feeds/delete/<?php echo $fed->fed_id; ?>"><i class="icon icon-trash"></i><?php echo $this->lang->line('delete'); ?></a></li>
 			<?php } ?>
+			<li><a href="<?php echo base_url(); ?>feeds/subscribe/<?php echo $fed->fed_id; ?>"><i class="icon icon-bookmark-empty"></i><?php echo $this->lang->line('subscribe'); ?></a></li>
 		</ul>
-		<h2><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $fed->fed_host; ?>&amp;alt=feed);" class="favicon" href="<?php echo base_url(); ?>feeds/read/<?php echo $fed->fed_id; ?>"><?php echo $fed->fed_title; ?></a></h2>
+		<h2 style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $fed->fed_host; ?>&amp;alt=feed);" class="favicon"><?php echo $fed->fed_title; ?></h2>
 		<ul class="item-details">
 			<?php if($fed->fed_lastcrawl) { ?><li><i class="icon icon-truck"></i><?php echo $fed->fed_lastcrawl; ?></li><?php } ?>
 			<li><i class="icon icon-group"></i><?php echo $fed->subscribers; ?> <?php if($fed->subscribers > 1) { ?><?php echo mb_strtolower($this->lang->line('subscribers')); ?><?php } else { ?><?php echo mb_strtolower($this->lang->line('subscriber')); ?><?php } ?></li>
@@ -36,33 +47,15 @@
 		</div>
 	</article>
 
-	<h2><i class="icon icon-bookmark-empty"></i><?php echo $this->lang->line('subscribe'); ?></h2>
-
-	<?php echo validation_errors(); ?>
-
-	<?php echo form_open(current_url()); ?>
-
-	<?php if($this->config->item('folders')) { ?>
-		<p>
-		<?php echo form_label($this->lang->line('folder'), 'folder'); ?>
-		<?php echo form_dropdown('folder', $folders, set_value('folder', ''), 'id="folder" class="select required numeric"'); ?>
-		</p>
-	<?php } ?>
-
-	<p>
-	<?php echo form_label($this->lang->line('priority'), 'priority'); ?>
-	<?php echo form_dropdown('priority', array(0 => $this->lang->line('no'), 1 => $this->lang->line('yes')), set_value('priority', 0), 'id="priority" class="select numeric"'); ?>
-	</p>
-
-	<p>
-	<?php echo form_label($this->lang->line('direction'), 'direction'); ?>
-	<?php echo form_dropdown('direction', array('' => '-', 'ltr' => $this->lang->line('direction_ltr'), 'rtl' => $this->lang->line('direction_rtl')), set_value('direction', $fed->fed_direction), 'id="direction" class="select numeric"'); ?>
-	</p>
-
-	<p>
-	<button type="submit"><?php echo $this->lang->line('send'); ?></button>
-	</p>
-	<?php echo form_close(); ?>
+	<article>
+	<h2><i class="icon icon-bar-chart"></i><?php echo $this->lang->line('statistics'); ?></h2>
+	<ul class="item-details">
+		<li>*<?php echo $this->lang->line('last_30_days'); ?></li>
+	</ul>
+	<div class="item-content">
+		<?php echo $tables; ?>
+	</div>
+	</article>
 		</section>
 	</section>
 </main>
