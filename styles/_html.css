@@ -46,7 +46,7 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-body{background-color:#FFFFFF;color:#333333;font-family:Helvetica,Arial,sans-serif;font-size:14px;margin:0px;}
+body{background-color:#FFFFFF;color:#434a54;font-family:Helvetica,Arial,sans-serif;font-size:14px;margin:0px;}
 body.error{background-color:#FF9090;}
 a:link, a:visited{color:#777777;text-decoration:underline;}
 a:hover{color:#111111;}
@@ -64,29 +64,26 @@ del{text-decoration:line-through;}
 ins{font-style:italic;font-weight:bold;}
 pre{border:1px dashed #000000;padding:5px;}
 label, .label{cursor:text;display:block;padding-bottom:2px;padding-top:5px;position:relative;}
-input, textarea{border: 1px solid #777777;padding:5px;}
+input, textarea{border: 1px solid #d7d8dd;padding:5px;}
 textarea, input[type=text], input[type=password]{width:200px;}
 aside input[type=text], aside input[type=password]{width:170px;}
 .actions{font-size:12px;margin-bottom:5px;}
 .actions li{display:inline-block;margin:5px 5px 5px 0px;white-space:nowrap;}
 .actions li.hide{display:none !important;}
 .actions a span{display:inline-block;}
-button, .actions a:link, .actions a:visited{background-color:#A4374F;border:none;color:#EEEEEE;margin:0px;padding:3px 3px 3px 3px;position:relative;text-decoration:none;vertical-align:top;}
+button, .actions a:link, .actions a:visited{background-color:#3bafda!important;border:none;border-bottom:1px solid #3bafda;border-radius:3px;color:#EEEEEE;margin:0px;padding:3px 3px 3px 3px;position:relative;text-decoration:none;vertical-align:top;}
+button:hover, .actions a:hover{background-color:#48b7e0!important;border-bottom:1px solid #39a6ce;}
 
-header nav{height:25px;margin:10px 0px 0px 10px;max-width:1450px;position:relative;}
+header{background-color:#4fc1e9;border-bottom:3px solid #3bafda;border-radius:0px 0px 3px 0px;max-width:1450px;}
+header nav{height:25px;margin:0px 0px 0px 10px;max-width:1450px;padding-top:10px;position:relative;}
 /*header nav:last-child{background-color:#FF0000;}*/
 /*header nav:first-child{background-color:#00FFFF;}*/
 header nav ul:last-child{position:absolute;margin-top:0px;right:10px;top:0px;}
 header nav:first-child ul:first-child a:link, nav:first-child ul:first-child a:visited{background-color:#582C1D;}
 header nav ul li:last-child{margin-right:0px;}
 
-button{background-color:#9EA64B;cursor:pointer;margin-top:10px;}
-aside ul li{margin:5px 0px 5px 0px;}
-aside ul li.active{font-weight:bold;}
-aside ul li.active li{font-weight:normal;}
-aside ul ul{margin:0px 0px 0px 5px;}
-aside ul li.result, aside ul li li{font-size:12px;margin:0px 0px 5px 0px;}
-aside ul li a:link, aside ul li a:visited{display:inline-block;padding:5px 0px;text-decoration:none;}
+button{cursor:pointer;margin-top:10px;}
+
 .favicon, a.favicon:link, a.favicon:visited{background-position:center left;background-repeat:no-repeat;background-size:13px 13px;padding-left:16px;}
 h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited{background-size:16px 16px;padding-left:19px;}
 aside ul li label{display:block;padding:0px 0px 2px 0px;text-decoration:none;}
@@ -111,14 +108,24 @@ aside ul li label{display:block;padding:0px 0px 2px 0px;text-decoration:none;}
 
 #shortcuts li{margin:10px 0px;}
 main > section{height:auto;margin:10px 0px 0px 230px;overflow-x:hidden;overflow-y:auto;position:relative;}
-aside{float:left;height:auto;margin:10px 0px 0px 0px;overflow-x:hidden;overflow-y:auto;width:220px;}
-aside ul{margin:0px 10px;}
+aside{background-color:#4fc1e9;border-radius:0px 3px 0px 0px;color:#FFFFFF;float:left;height:auto;margin:10px 0px 0px 0px;overflow-x:hidden;overflow-y:auto;width:220px;}
+aside ul{margin:0px 0px;}
+aside ul li{border-bottom:1px solid #33a9df;border-top:1px solid #6fd0ef;margin:0px;padding: 5px 5px;}
+aside button{background-color:#e1e4e9!important;border-bottom:1px solid #d3d7dc;color:#8f9399;}
+aside button:hover{background-color:#8f9399!important;border-bottom:1px solid #989898;color:#ffffff;}
+aside ul li.active,aside ul li:hover{background-color:#3bafda;border-top:1px solid #3bafda;cursor:pointer;}
+aside ul li.active li{font-weight:normal;}
+aside ul ul{margin:0px 0px 0px 5px;}
+aside ul li.result, aside ul li li{font-size:12px;margin:0px 0px 5px 0px;}
+aside ul li a:link, aside ul li a:visited{display:inline-block;padding:5px 0px;text-decoration:none;}
+aside ul li a:link, aside ul li a:visited{color:#FFFFFF;}
+aside ul li ul li{border:none;padding:3px;}
+aside ul li ul li.active, aside ul li ul li:hover{border:none;}
 aside ul li.result{margin:0px 0px 0px 0px;}
-aside ul li form, aside ul li.separator{border-top:1px solid #e3e3e3;font-size:14px;padding-top:3px;}
 
-article{background-color:#f5f5f5;border:1px solid #e3e3e3;border-radius:3px 3px 3px 3px;clear:both;padding:5px 10px 5px 10px;margin:0px 10px 15px 0px;max-width:1200px;overflow:hidden;text-align:justify;}
-article.title{background-color:transparent;}
-.item-selected{border:1px solid #000000;}
+article{background-color:#f6f8fa;border:1px solid #f6f8fa;border-radius:3px 3px 3px 3px;clear:both;padding:5px 10px 5px 10px;margin:0px 10px 15px 0px;max-width:1200px;overflow:hidden;text-align:justify;}
+article.title{background-color:transparent;border:1px solid #989898;}
+.item-selected{border:1px solid #989898;}
 article h2{font-size:14px;font-weight:bold;margin:5px 0px;}
 article h2 a:link, article h2 a:visited{text-decoration:none;}
 article .actions{float:right;margin-right:0px;}
@@ -173,13 +180,16 @@ main section article[dir=rtl] h2 .favicon, main section article[dir=rtl] h2.favi
 
 .actions li.allow_notifications{display:none;}
 
+@media(max-width:1450px){
+header{border-radius:0px;}
+}
 @media(max-width:1000px){
 #fullscreen_back{margin:5px 10px 10px 10px;}
-header nav{margin:5px 0px 0px 10px;}
+header nav{margin:0px 0px 0px 10px;padding-top:5px;}
 .hide-tablet{display:none !important;}
 .show-tablet{display:inline-block !important;}
 main > section{margin:10px 0px 0px 10px;}
-aside{display:none;background-color:#FFFFFF;left:0px;position:absolute;top:20px;width:100%;z-index:1000;}
+aside{display:none;background-color:#4fc1e9;left:0px;position:absolute;top:20px;width:100%;z-index:1000;}
 }
 @media(max-width:600px){
 main > section{margin-top:40px !important;}

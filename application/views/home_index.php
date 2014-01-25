@@ -26,7 +26,7 @@
 </div>
 <aside>
 	<ul>
-		<li class="separator"><a id="load-all-items" class="menu" href="<?php echo base_url(); ?>items/get/all" title="<?php echo $this->lang->line('title_g_a'); ?>"><i class="icon icon-asterisk"></i><?php echo $this->lang->line('all_items'); ?> (<span>0</span>)</a></li>
+		<li><a id="load-all-items" class="menu" href="<?php echo base_url(); ?>items/get/all" title="<?php echo $this->lang->line('title_g_a'); ?>"><i class="icon icon-asterisk"></i><?php echo $this->lang->line('all_items'); ?> (<span>0</span>)</a></li>
 		<li><a id="load-priority-items" class="menu" href="<?php echo base_url(); ?>items/get/priority" title="<?php echo $this->lang->line('title_g_p'); ?>"><i class="icon icon-flag"></i><?php echo $this->lang->line('priority_items'); ?> (<span>0</span>)</a></li>
 		<?php if($this->config->item('starred_items')) { ?>
 			<li><a id="load-starred-items" class="menu" href="<?php echo base_url(); ?>items/get/starred" title="<?php echo $this->lang->line('title_g_s'); ?>"><i class="icon icon-star"></i><?php echo $this->lang->line('starred_items'); ?> {<span>0</span>}</a></li>
@@ -48,19 +48,17 @@
 		<?php if($this->config->item('menu_video_items')) { ?>
 			<li><a id="load-video-items" class="menu" href="<?php echo base_url(); ?>items/get/video"><i class="icon icon-youtube-play"></i><?php echo $this->lang->line('video_items'); ?> (<span>0</span>)</a></li>
 		<?php } ?>
-		<li class="separator"><a id="load-cloud-authors-items" class="menu" href="<?php echo base_url(); ?>items/get/cloud/authors"><i class="icon icon-pencil"></i><?php echo $this->lang->line('authors'); ?></a></li>
+		<li><a id="load-cloud-authors-items" class="menu" href="<?php echo base_url(); ?>items/get/cloud/authors"><i class="icon icon-pencil"></i><?php echo $this->lang->line('authors'); ?></a></li>
 		<?php if($this->config->item('tags')) { ?>
 			<li><a id="load-cloud-tags-items" class="menu" href="<?php echo base_url(); ?>items/get/cloud/tags"><i class="icon icon-tags"></i><?php echo $this->lang->line('tags'); ?></a></li>
 		<?php } ?>
 		<?php if($this->config->item('folders')) { ?>
 			<?php if($folders) { ?>
-				<?php $u = 1; ?>
 				<?php foreach($folders as $folder) { ?>
-					<li<?php if($u == 1) { ?> class="separator"<?php } ?>><a class="folder" href="<?php echo base_url(); ?>subscriptions/get/folder/<?php echo $folder->flr_id; ?>" title="<?php echo $this->lang->line('open_close'); ?>"><i class="icon icon-folder-close"></i></a><a<?php if($folder->flr_direction) { ?> dir="<?php echo $folder->flr_direction; ?>"<?php } ?> id="load-folder-<?php echo $folder->flr_id; ?>-items" class="menu" href="<?php echo base_url(); ?>items/get/folder/<?php echo $folder->flr_id; ?>"><?php echo $folder->flr_title; ?> (<span>0</span>)</a><ul></ul></li>
-					<?php $u++; ?>
+					<li><a class="folder" href="<?php echo base_url(); ?>subscriptions/get/folder/<?php echo $folder->flr_id; ?>" title="<?php echo $this->lang->line('open_close'); ?>"><i class="icon icon-folder-close"></i></a><a<?php if($folder->flr_direction) { ?> dir="<?php echo $folder->flr_direction; ?>"<?php } ?> id="load-folder-<?php echo $folder->flr_id; ?>-items" class="menu" href="<?php echo base_url(); ?>items/get/folder/<?php echo $folder->flr_id; ?>"><?php echo $folder->flr_title; ?> (<span>0</span>)</a><ul></ul></li>
 				<?php } ?>
 			<?php } ?>
-			<li<?php if(!$folders) { ?> class="separator"<?php } ?>><a class="folder" href="<?php echo base_url(); ?>subscriptions/get/nofolder" title="<?php echo $this->lang->line('open_close'); ?>"><i class="icon icon-folder-close"></i></a><a id="load-nofolder-items" class="menu" href="<?php echo base_url(); ?>items/get/nofolder"><em><?php echo $this->lang->line('no_folder'); ?></em> (<span>0</span>)</a><ul></ul></li>
+			<li><a class="folder" href="<?php echo base_url(); ?>subscriptions/get/nofolder" title="<?php echo $this->lang->line('open_close'); ?>"><i class="icon icon-folder-close"></i></a><a id="load-nofolder-items" class="menu" href="<?php echo base_url(); ?>items/get/nofolder"><em><?php echo $this->lang->line('no_folder'); ?></em> (<span>0</span>)</a><ul></ul></li>
 		<?php } ?>
 		<li>
 			<?php echo form_open(base_url().'items/get/search', array('id'=>'search_items_form')); ?>
