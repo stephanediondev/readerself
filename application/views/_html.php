@@ -80,17 +80,6 @@
 				<li class="hide-phone"><a target="_blank" href="http://readerself.com"><i class="icon icon-rss"></i>Reader Self</a></li>
 			<?php } ?>
 		</ul>
-		<ul class="actions">
-			<?php if($this->session->userdata('mbr_id')) { ?>
-				<?php if($this->router->class == 'home') { ?>
-					<?php if($this->input->cookie('items_mode') == 'read_and_unread') { ?>
-						<li class="show-phone"><a href="#" class="items_mode"><span class="unread_only" title="<?php echo $this->lang->line('title_shift_2'); ?>" style="display:inline-block;"><i class="icon icon-eye-close"></i><?php echo $this->lang->line('unread_only'); ?></span><span class="read_and_unread" title="<?php echo $this->lang->line('title_shift_1'); ?>" style="display:none;"><i class="icon icon-eye-open"></i><?php echo $this->lang->line('read_and_unread'); ?></span></a></li>
-					<?php } else { ?>
-						<li class="show-phone"><a href="#" class="items_mode"><span class="unread_only" title="<?php echo $this->lang->line('title_shift_2'); ?>"><i class="icon icon-eye-close"></i><?php echo $this->lang->line('unread_only'); ?></span><span class="read_and_unread" title="<?php echo $this->lang->line('title_shift_1'); ?>"><i class="icon icon-eye-open"></i><?php echo $this->lang->line('read_and_unread'); ?></span></a></li>
-					<?php } ?>
-				<?php } ?>
-			<?php } ?>
-		</ul>
 	</nav>
 
 <?php if(isset($content) == 1) { echo $content; } ?>

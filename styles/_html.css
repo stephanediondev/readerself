@@ -74,12 +74,12 @@ aside input[type=text], aside input[type=password]{width:170px;}
 button, .actions a:link, .actions a:visited{background-color:#3bafda!important;border:none;border-bottom:1px solid #3bafda;border-radius:3px;color:#EEEEEE;margin:0px;padding:3px 3px 3px 3px;position:relative;text-decoration:none;vertical-align:top;}
 button:hover, .actions a:hover{background-color:#48b7e0!important;border-bottom:1px solid #39a6ce;}
 
-header{background-color:#4fc1e9;border-bottom:3px solid #3bafda;border-radius:0px 0px 3px 0px;max-width:1450px;}
-header nav{height:25px;margin:0px 0px 0px 10px;max-width:1450px;padding-top:10px;position:relative;}
-/*header nav:last-child{background-color:#FF0000;}*/
-/*header nav:first-child{background-color:#00FFFF;}*/
-header nav ul:last-child{position:absolute;margin-top:0px;right:10px;top:0px;}
-header nav:first-child ul:first-child a:link, nav:first-child ul:first-child a:visited{background-color:#582C1D;}
+header{max-width:1450px;}
+header nav{height:25px;margin:0px 0px 0px 0px;max-width:1450px;padding:5px 0px 0px 5px;position:relative;}
+header nav:first-child{background-color:#4fc1e9;border-bottom:3px solid #3bafda;border-radius:0px 0px 3px 0px;margin-bottom:5px;max-width:1450px;padding:0px 0px 0px 5px;}
+header nav:first-child .actions li{margin:0px;padding:7px 5px 5px 5px;}
+header nav:first-child .actions a:link, header nav:first-child .actions a:visited{background-color:#4fc1e9!important;border:none;}
+header nav:last-child ul:last-child{position:absolute;margin-top:0px;right:10px;top:0px;}
 header nav ul li:last-child{margin-right:0px;}
 
 button{cursor:pointer;margin-top:10px;}
@@ -107,10 +107,12 @@ aside ul li label{display:block;padding:0px 0px 2px 0px;text-decoration:none;}
 #cloud a:link,#cloud a:visited{margin:0px 10px;text-decoration:none;white-space:nowrap;}
 
 #shortcuts li{margin:10px 0px;}
-main > section{height:auto;margin:10px 0px 0px 230px;overflow-x:hidden;overflow-y:auto;position:relative;}
-aside{background-color:#4fc1e9;border-radius:0px 3px 0px 0px;color:#FFFFFF;float:left;height:auto;margin:10px 0px 0px 0px;overflow-x:hidden;overflow-y:auto;width:220px;}
+main > section{height:auto;margin:0px 0px 0px 230px;overflow-x:hidden;overflow-y:auto;position:relative;}
+aside{background-color:#4fc1e9;border-radius:0px 3px 0px 0px;color:#FFFFFF;float:left;height:auto;margin:0px 0px 0px 0px;overflow-x:hidden;overflow-y:auto;width:220px;}
 aside ul{margin:0px 0px;}
 aside ul li{border-bottom:1px solid #33a9df;border-top:1px solid #6fd0ef;margin:0px;padding: 5px 5px;}
+aside ul{border-bottom:1px solid #6fd0ef;}
+aside ul ul {border:none;}
 aside button{background-color:#e1e4e9!important;border-bottom:1px solid #d3d7dc;color:#8f9399;}
 aside button:hover{background-color:#8f9399!important;border-bottom:1px solid #989898;color:#ffffff;}
 aside ul li.active,aside ul li:hover{background-color:#3bafda;border-top:1px solid #3bafda;cursor:pointer;}
@@ -181,22 +183,21 @@ main section article[dir=rtl] h2 .favicon, main section article[dir=rtl] h2.favi
 .actions li.allow_notifications{display:none;}
 
 @media(max-width:1450px){
-header{border-radius:0px;}
+header nav:first-child{border-radius:0px;}
 }
 @media(max-width:1000px){
 #fullscreen_back{margin:5px 10px 10px 10px;}
-header nav{margin:0px 0px 0px 10px;padding-top:5px;}
+/*header nav{margin:0px 0px 0px 10px;padding-top:5px;}*/
 .hide-tablet{display:none !important;}
 .show-tablet{display:inline-block !important;}
-main > section{margin:10px 0px 0px 10px;}
-aside{display:none;background-color:#4fc1e9;left:0px;position:absolute;top:20px;width:100%;z-index:1000;}
+main > section{margin:0px 0px 0px 10px;}
+aside{display:none;background-color:#4fc1e9;border-radius:0px;left:0px;position:absolute;top:30px;width:100%;z-index:1000;}
 }
 @media(max-width:600px){
-main > section{margin-top:40px !important;}
 .show-phone{display:inline-block !important;}
 .hide-tablet{display:none !important;}
 .hide-phone{display:none !important;}
-main > section{margin-top:10px !important;}
+main > section{margin-top:0px !important;}
 .item.collapse h2{clear:none;}
 .item h2{clear:both;margin-top:5px;}
 }

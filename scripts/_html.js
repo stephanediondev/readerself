@@ -154,10 +154,8 @@ function set_positions() {
 function toggle_sidebar() {
 	if($('aside').is(':visible')) {
 		$('aside').hide();
-		$('header nav:first-child ul:last-child').show();
 	} else {
 		$('aside').show();
-		$('header nav:first-child ul:last-child').hide();
 	}
 }
 function fullscreen() {
