@@ -41,6 +41,9 @@
 <?php if(file_exists('styles/'.$this->router->class.'.css')) { ?>
 <link href="<?php echo base_url(); ?>styles/<?php echo $this->router->class; ?>.css?modified=<?php echo filemtime('styles/'.$this->router->class.'.css'); ?>" rel="stylesheet" type="text/css">
 <?php } ?>
+<?php if(file_exists('styles/'.$this->router->class.'_'.$this->router->method.'.css')) { ?>
+<link href="<?php echo base_url(); ?>styles/<?php echo $this->router->class; ?>_<?php echo $this->router->method; ?>.css?modified=<?php echo filemtime('styles/'.$this->router->class.'_'.$this->router->method.'.css'); ?>" rel="stylesheet" type="text/css">
+<?php } ?>
 </head>
 <body<?php if(count($this->readerself_library->errors) > 0) { ?> class="error"<?php } ?>>
 
@@ -122,6 +125,9 @@ var uri_string = '<?php echo $this->uri->uri_string(); ?>';
 <script src="<?php echo base_url(); ?>scripts/_html.js?modified=<?php echo filemtime('scripts/_html.js'); ?>"></script>
 <?php if(file_exists('scripts/'.$this->router->class.'.js')) { ?>
 <script src="<?php echo base_url(); ?>scripts/<?php echo $this->router->class; ?>.js?modified=<?php echo filemtime('scripts/'.$this->router->class.'.js'); ?>"></script>
+<?php } ?>
+<?php if(file_exists('scripts/'.$this->router->class.'_'.$this->router->method.'.js')) { ?>
+<script src="<?php echo base_url(); ?>scripts/<?php echo $this->router->class; ?>_<?php echo $this->router->method; ?>.js?modified=<?php echo filemtime('scripts/'.$this->router->class.'_'.$this->router->method.'.js'); ?>"></script>
 <?php } ?>
 
 <?php echo $this->readerself_library->get_debug(); ?>

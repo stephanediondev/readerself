@@ -31,6 +31,37 @@ class Feeds extends CI_Controller {
 		$content = $this->load->view('feeds_index', $data, TRUE);
 		$this->readerself_library->set_content($content);
 	}
+	public function feedly() {
+		if(!$this->session->userdata('mbr_id')) {
+			redirect(base_url());
+		}
+
+		$data = array();
+		$data['sources'] = array(
+			'http://s3.feedly.com/essentials/essentials_en-US.json' => 'English',
+			'http://s3.feedly.com/essentials/essentials_fr.json' => 'Français',
+			'http://s3.feedly.com/essentials/essentials_it.json' => 'Italiano',
+			'http://s3.feedly.com/essentials/essentials_de.json' => 'Deutsch',
+			'http://s3.feedly.com/essentials/essentials_es.json' => 'Español',
+		);
+
+		if($this->config->item('language') == 'fr') {
+			$data['source_default'] = 'http://s3.feedly.com/essentials/essentials_fr.json';
+		} else {
+			$data['source_default'] = 'http://s3.feedly.com/essentials/essentials_en-US.json';
+		}
+		if($this->input->post($this->router->class.'_feeds_feedly_language') && array_key_exists($this->input->post($this->router->class.'_feeds_feedly_language'), $data['sources'])) {
+			$this->session->set_userdata($this->router->class.'_feeds_feedly_language', $this->input->post($this->router->class.'_feeds_feedly_language'));
+		}
+		if(!$this->session->userdata($this->router->class.'_feeds_feedly_language')) {
+			$this->session->set_userdata($this->router->class.'_feeds_feedly_language', $data['source_default']);
+		}
+
+		$data['feeds'] = json_decode(file_get_contents($this->session->userdata($this->router->class.'_feeds_feedly_language')));
+
+		$content = $this->load->view('feeds_feedly', $data, TRUE);
+		$this->readerself_library->set_content($content);
+	}
 	public function subscribe($fed_id) {
 		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url().'?u='.$this->input->get('u'));
