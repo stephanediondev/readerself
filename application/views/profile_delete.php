@@ -34,7 +34,7 @@
 		<p><i class="icon icon-signin"></i><?php echo $connections_total; ?> connection(s)</p>
 		<p><i class="icon icon-bookmark"></i><?php echo $subscriptions_total; ?> subscription(s)</p>
 		<p><i class="icon icon-folder-close"></i><?php echo $folders_total; ?> folder(s)</p>
-		<p><i class="icon icon-eye-open"></i><?php echo $read_items_total; ?> read item(s)</p>
+		<p><i class="icon icon-circle"></i><?php echo $read_items_total; ?> read item(s)</p>
 		<p><i class="icon icon-star"></i><?php echo $starred_items_total; ?> starred item(s)</p>
 		<p><i class="icon icon-heart"></i><?php echo $shared_items_total; ?> shared item(s)</p>
 

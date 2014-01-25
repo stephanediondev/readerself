@@ -193,7 +193,7 @@ header nav:first-child{border-radius:0px;}
 main > section{margin:0px 0px 0px 10px;}
 aside{display:none;background-color:#4fc1e9;border-radius:0px;left:0px;position:absolute;top:30px;width:100%;z-index:1000;}
 }
-@media(max-width:600px){
+@media(max-width:800px){
 .show-phone{display:inline-block !important;}
 .hide-tablet{display:none !important;}
 .hide-phone{display:none !important;}

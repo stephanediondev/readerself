@@ -1,7 +1,7 @@
 <article<?php if($itm->sub->direction) { ?> dir="<?php echo $itm->sub->direction; ?>"<?php } ?> class="item<?php if($itm->history == 'read') { ?> read<?php } ?><?php if($this->input->get('items_display') == 'collapse' || $this->input->cookie('items_display') == 'collapse') { ?> collapse<?php } ?>" id="item_<?php echo $itm->itm_id; ?>">
 	<ul class="actions">
 		<?php if($itm->case_member != 'public_profile') { ?>
-			<li><a class="history" href="<?php echo base_url(); ?>item/read/<?php echo $itm->itm_id; ?>" title="m"><span class="unread"<?php if($itm->history == 'unread') { ?> style="display:none;"<?php } ?>><i class="icon icon-eye-close"></i><?php echo $this->lang->line('keep_unread'); ?></span><span class="read"<?php if($itm->history == 'read') { ?> style="display:none;"<?php } ?>><i class="icon icon-eye-open"></i><?php echo $this->lang->line('mark_as_read'); ?></span></a></li>
+			<li><a class="history" href="<?php echo base_url(); ?>item/read/<?php echo $itm->itm_id; ?>" title="m"><span class="unread"<?php if($itm->history == 'unread') { ?> style="display:none;"<?php } ?>><i class="icon icon-circle"></i><?php echo $this->lang->line('keep_unread'); ?></span><span class="read"<?php if($itm->history == 'read') { ?> style="display:none;"<?php } ?>><i class="icon icon-circle-blank"></i><?php echo $this->lang->line('mark_as_read'); ?></span></a></li>
 		<?php } ?>
 		<?php if($itm->case_member != 'following') { ?>
 		<?php if($this->config->item('starred_items') && $itm->case_member != 'public_profile') { ?>
