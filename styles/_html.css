@@ -125,7 +125,7 @@ aside ul li ul li{border:none;padding:3px;}
 aside ul li ul li.active, aside ul li ul li:hover{border:none;}
 aside ul li.result{margin:0px 0px 0px 0px;}
 
-article{background-color:#f6f8fa;border:1px solid #f6f8fa;border-radius:3px 3px 3px 3px;clear:both;padding:5px 10px 5px 10px;margin:0px 10px 15px 0px;max-width:1200px;overflow:hidden;text-align:justify;}
+article{background-color:#f6f8fa;border:1px solid #f6f8fa;border-radius:3px 3px 3px 3px;clear:both;padding:5px 10px 5px 10px;margin:0px 10px 10px 0px;max-width:1200px;overflow:hidden;text-align:justify;}
 article.title{background-color:transparent;border:1px solid #989898;}
 .item-selected{border:1px solid #989898;}
 article h2{font-size:14px;font-weight:bold;margin:5px 0px;}
