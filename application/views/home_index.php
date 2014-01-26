@@ -60,7 +60,7 @@
 			<?php } ?>
 			<li><a class="folder" href="<?php echo base_url(); ?>subscriptions/get/nofolder" title="<?php echo $this->lang->line('open_close'); ?>"><i class="icon icon-folder-close"></i></a><a id="load-nofolder-items" class="menu" href="<?php echo base_url(); ?>items/get/nofolder"><em><?php echo $this->lang->line('no_folder'); ?></em> (<span>0</span>)</a><ul></ul></li>
 		<?php } ?>
-		<li>
+		<li class="static">
 			<?php echo form_open(base_url().'items/get/search', array('id'=>'search_items_form')); ?>
 				<p>
 				<?php echo form_label('<i class="icon icon-file-text-alt"></i>'.$this->lang->line('items'), 'search_items'); ?>
@@ -68,7 +68,7 @@
 				</p>
 			<?php echo form_close(); ?>
 		</li>
-		<li>
+		<li class="static">
 			<?php echo form_open(base_url().'subscriptions/search', array('id'=>'search_subscriptions_form')); ?>
 				<p>
 				<?php echo form_label('<i class="icon icon-bookmark"></i>'.$this->lang->line('subscriptions'), 'fed_title'); ?>

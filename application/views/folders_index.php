@@ -6,7 +6,7 @@
 </header>
 <aside>
 	<ul>
-		<li>
+		<li class="static">
 			<?php echo form_open(current_url()); ?>
 				<p>
 				<?php echo form_label($this->lang->line('title'), 'folders_flr_title'); ?>
