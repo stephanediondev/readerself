@@ -126,7 +126,10 @@ aside ul li ul li.active, aside ul li ul li:hover{border:none;}
 aside ul li.result{margin:0px 0px 0px 0px;}
 
 article{background-color:#f6f8fa;border:1px solid #f6f8fa;border-radius:3px 3px 3px 3px;clear:both;padding:5px 10px 5px 10px;margin:0px 10px 10px 0px;max-width:1200px;overflow:hidden;text-align:justify;}
-article.title{background-color:transparent;border:1px solid #989898;}
+article.title{background-color:#4fc1e9;border:none;border-bottom:3px solid #3bafda;color:#FFFFFF;}
+article.title a:link, article.title a:visited{color:#FFFFFF;}
+article.title .actions a:link, article.title .actions a:visited{background-color:#4fc1e9!important;border:none;}
+
 .item-selected{border:1px solid #989898;}
 article h2{font-size:14px;font-weight:bold;margin:5px 0px;}
 article h2 a:link, article h2 a:visited{text-decoration:none;}
