@@ -144,7 +144,7 @@ article.title .actions a:link, article.title .actions a:visited{background-color
 .item .item-geolocation p, .item .item-enclosures p{margin:10px 0px 5px 0px;}
 .item .item-geolocation a:link, .item .item-geolocation a:visited, .item .item-enclosures a:link, .item .item-enclosures a:visited{text-decoration:none;}
 main section .item .item-footer .actions{float:none;margin-bottom:10px;text-align:left;}
-.item .item-footer .actions li{margin:5px 4px 0px 0px;}
+.item .item-footer .actions li{margin:5px 4px -10px 0px;line-height:25px;}
 .item .item-footer .actions li:last-child{margin-right:0px;}
 .item .item-footer .actions a:link, .item .item-footer .actions a:visited{background-color:#7109aa;}
 .item-details{margin-bottom:10px;}

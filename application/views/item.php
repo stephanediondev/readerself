@@ -75,7 +75,7 @@
 	<div class="item-footer hide-collapse">
 		<ul class="actions">
 		<?php if($this->config->item('readability_parser_key') && $itm->case_member != 'public_profile') { ?>
-			<li class="hide-phone"><a class="link-item-readability" href="<?php echo base_url(); ?>item/readability/<?php echo $itm->itm_id; ?>"><i class="icon icon-file-text"></i><?php echo $this->lang->line('readability'); ?></a></li>
+			<li><a class="link-item-readability" href="<?php echo base_url(); ?>item/readability/<?php echo $itm->itm_id; ?>"><i class="icon icon-file-text"></i><?php echo $this->lang->line('readability'); ?></a></li>
 		<?php } ?>
 		<?php if($this->config->item('social_buttons')) { ?>
 			<li><a class="link-item-like" href="#item-like-<?php echo $itm->itm_id; ?>" data-url="<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-thumbs-up-alt"></i><?php echo $this->lang->line('like'); ?></a></li>
