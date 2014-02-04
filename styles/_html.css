@@ -71,8 +71,8 @@ aside input[type=text], aside input[type=password]{width:170px;}
 .actions li{display:inline-block;margin:5px 5px 5px 0px;white-space:nowrap;}
 .actions li.hide{display:none !important;}
 .actions a span{display:inline-block;}
-button, .actions a:link, .actions a:visited{background-color:#444755!important;border:none;border-bottom:1px solid #252732;border-radius:3px;color:#EEEEEE;margin:0px;padding:3px 3px 3px 3px;position:relative;text-decoration:none;vertical-align:top;}
-button:hover, .actions a:hover{background-color:#252732!important;border-bottom:1px solid #444755;}
+button, .actions a:link, .actions a:visited{background-color:#444755!important;border:none;border-radius:3px;color:#EEEEEE;margin:0px;padding:3px 3px 3px 3px;position:relative;text-decoration:none;vertical-align:top;}
+button:hover, .actions a:hover{background-color:#252732!important;}
 
 header{}
 header nav{height:25px;margin:0px 0px 0px 0px;padding:5px 0px 0px 5px;position:relative;}
@@ -113,8 +113,8 @@ aside ul{margin:0px 0px;}
 aside ul li{border-bottom:1px solid #222529;border-top:1px solid #43484e;margin:0px;padding: 5px 5px;}
 aside ul{border-bottom:1px solid #43484e;}
 aside ul ul {border:none;}
-aside button{background-color:#e1e4e9!important;border-bottom:1px solid #d3d7dc;color:#8f9399;}
-aside button:hover{background-color:#8f9399!important;border-bottom:1px solid #989898;color:#ffffff;}
+aside button{background-color:#e1e4e9!important;color:#8f9399;}
+aside button:hover{background-color:#8f9399!important;color:#ffffff;}
 aside ul li.active,aside ul li:hover{background-color:#252732;border-top:1px solid #252732;}
 aside ul li.static:hover{background-color:#30353b;border-top:1px solid #43484e;}
 aside ul li.active li{font-weight:normal;}
@@ -127,9 +127,9 @@ aside ul li ul li.active, aside ul li ul li:hover{border:none;}
 aside ul li.result{margin:0px 0px 0px 0px;}
 
 article{background-color:#f6f8fa;border:1px solid #f6f8fa;border-radius:3px 3px 3px 3px;clear:both;padding:5px 10px 5px 10px;margin:0px 10px 10px 0px;overflow:hidden;text-align:justify;}
-article.title{background-color:#383b43;border:none;border-bottom:3px solid #252732;color:#FFFFFF;}
+article.title{background-color:#444755;border:none;color:#FFFFFF;}
 article.title a:link, article.title a:visited{color:#FFFFFF;}
-article.title .actions a:link, article.title .actions a:visited{background-color:#30353b!important;border:none;}
+article.title .actions a:link, article.title .actions a:visited{background-color:#444755!important;border:none;}
 
 .item-selected{border:1px solid #989898;}
 article h2{font-size:14px;font-weight:bold;margin:5px 0px;}
