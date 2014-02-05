@@ -110,7 +110,7 @@ li .icon, article.title .icon{color:#EEEEEE;}
 
 #shortcuts li{margin:10px 0px;}
 main > section{height:auto;margin:0px 0px 0px 230px;overflow-x:hidden;overflow-y:auto;position:relative;}
-aside{background-color:#30353b;border-radius:0px 3px 0px 0px;color:#F0F0F0;float:left;height:auto;margin:0px 0px 0px 0px;overflow-x:hidden;overflow-y:auto;width:220px;}
+aside{background-color:#30353b;border-radius:0px 3px 0px 0px;color:#AEB2B7;float:left;height:auto;margin:0px 0px 0px 0px;overflow-x:hidden;overflow-y:auto;width:220px;}
 aside ul{margin:0px 0px;}
 aside ul li{border-bottom:1px solid #222529;border-top:1px solid #43484e;margin:0px;padding: 5px 5px;}
 aside ul{border-bottom:1px solid #43484e;}
@@ -122,8 +122,7 @@ aside ul li.static:hover{background-color:#30353b;border-top:1px solid #43484e;}
 aside ul li.active li{font-weight:normal;}
 aside ul ul{margin:0px 0px 0px 5px;}
 aside ul li.result, aside ul li li{font-size:12px;margin:0px 0px 5px 0px;}
-aside ul li a:link, aside ul li a:visited{display:inline-block;padding:5px 0px;text-decoration:none;}
-aside ul li a:link, aside ul li a:visited{color:#AEB2B7;}
+aside ul li a:link, aside ul li a:visited{color:#AEB2B7;display:inline-block;padding:5px 0px;text-decoration:none;}
 aside ul li ul li{border:none;padding:3px;}
 aside ul li ul li.active, aside ul li ul li:hover{border:none;}
 aside ul li.result{margin:0px 0px 0px 0px;}
