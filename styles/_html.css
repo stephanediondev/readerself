@@ -71,7 +71,7 @@ aside input[type=text], aside input[type=password]{width:170px;}
 .actions li{display:inline-block;margin:5px 5px 5px 0px;white-space:nowrap;}
 .actions li.hide{display:none !important;}
 .actions a span{display:inline-block;}
-button, .actions a:link, .actions a:visited{background-color:#444755!important;border:none;border-radius:3px;color:#EEEEEE;margin:0px;padding:3px 3px 3px 3px;position:relative;text-decoration:none;vertical-align:top;}
+button, .actions a:link, .actions a:visited{background-color:#444755!important;border:none;border-radius:3px;color:#AEB2B7;margin:0px;padding:3px 3px 3px 3px;position:relative;text-decoration:none;vertical-align:top;}
 button:hover, .actions a:hover{background-color:#252732!important;}
 
 header{}
@@ -94,7 +94,9 @@ aside ul li label{display:block;padding:0px 0px 2px 0px;text-decoration:none;}
 #modal h1{margin:0px 0px 15px 0px;}
 #modal textarea{height:100px;resize:none;}
 #overlay{background-color:#000000;opacity:0.7;z-index:10000;}
-.icon{line-height:inherit !important;margin-right:3px;vertical-align:top;}
+.icon{color:#434A54;line-height:inherit !important;margin-right:4px;vertical-align:top;}
+li .icon, article.title .icon{color:#EEEEEE;}
+.item-details .icon{color:#434A54;}
 .show-phone{display:none !important;}
 .show-tablet{display:none !important;}
 
@@ -121,14 +123,14 @@ aside ul li.active li{font-weight:normal;}
 aside ul ul{margin:0px 0px 0px 5px;}
 aside ul li.result, aside ul li li{font-size:12px;margin:0px 0px 5px 0px;}
 aside ul li a:link, aside ul li a:visited{display:inline-block;padding:5px 0px;text-decoration:none;}
-aside ul li a:link, aside ul li a:visited{color:#FFFFFF;}
+aside ul li a:link, aside ul li a:visited{color:#AEB2B7;}
 aside ul li ul li{border:none;padding:3px;}
 aside ul li ul li.active, aside ul li ul li:hover{border:none;}
 aside ul li.result{margin:0px 0px 0px 0px;}
 
 article{background-color:#f6f8fa;border:1px solid #f6f8fa;border-radius:3px 3px 3px 3px;clear:both;padding:5px 10px 5px 10px;margin:0px 10px 10px 0px;overflow:hidden;text-align:justify;}
-article.title{background-color:#444755;border:none;color:#FFFFFF;}
-article.title a:link, article.title a:visited{color:#FFFFFF;}
+article.title{background-color:#444755;border:none;color:#AEB2B7;}
+article.title a:link, article.title a:visited{color:#AEB2B7;}
 article.title .actions a:link, article.title .actions a:visited{background-color:#444755!important;border:none;}
 
 .item-selected{border:1px solid #989898;}
