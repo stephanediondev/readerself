@@ -1,6 +1,6 @@
 ![Screenshot](medias/screenshot.png)
 
-### Demo
+####Demo
 
 http://readerself.com/demo/
 ```text
@@ -8,12 +8,12 @@ example@example.com
 example
 ```
 
-### Requirements
+####Requirements
 * PHP 5.2.4 or greater
 * MySQL 5.0 or greater
 * Apache 2.2 or greater with mod_rewrite module enabled
 
-### Installation
+####Installation
 
 Edit [/application/config/readerself_config.php](/application/config/readerself_config.php) to define "salt_password" (some letters and numbers to secure your password)
 
@@ -28,7 +28,7 @@ Add to cron (hourly)
 cd /path-to-installation && php index.php refresh items
 ```
 
-### Third party
+####Third party
 
 * [CodeIgniter](http://ellislab.com/codeigniter/)
 * [SimplePie](http://simplepie.org)
