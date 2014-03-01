@@ -8,13 +8,18 @@ example@example.com
 example
 ```
 
-### Install
+### Requirements
+* PHP 5.2.4 or greater
+* MySQL 5.0 or greater
+* Apache 2.2 or greater with mod_rewrite module enabled
+
+### Installation
 
 Edit [/application/config/readerself_config.php](/application/config/readerself_config.php) to define "salt_password" (some letters and numbers to secure your password)
 
 Edit [/application/config/database.php](/application/config/database.php) to define "username", "password" and "database" ("hostname" if necessary)
 
-Load SQL commands from [/INSTALL.sql](/INSTALL.sql) in your database
+Load SQL commands from [/INSTALLATION.sql](/INSTALLATION.sql) in your database
 
 Launch in a browser to register an account
 
