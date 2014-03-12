@@ -44,6 +44,9 @@
 <?php if(file_exists('styles/'.$this->router->class.'_'.$this->router->method.'.css')) { ?>
 <link href="<?php echo base_url(); ?>styles/<?php echo $this->router->class; ?>_<?php echo $this->router->method; ?>.css?modified=<?php echo filemtime('styles/'.$this->router->class.'_'.$this->router->method.'.css'); ?>" rel="stylesheet" type="text/css">
 <?php } ?>
+<?php if(file_exists('styles/custom.css')) { ?>
+<link href="<?php echo base_url(); ?>styles/custom.css?modified=<?php echo filemtime('styles/custom.css'); ?>" rel="stylesheet" type="text/css">
+<?php } ?>
 </head>
 <body<?php if(count($this->readerself_library->errors) > 0) { ?> class="error"<?php } ?>>
 
