@@ -599,7 +599,12 @@ $(document).ready(function() {
 									} else {
 										var icon = 'rss';
 									}
-									content += '<a style="background-image:url(' + build_favicon(sub.fed_host) + ');" id="load-feed-' + sub.fed_id + '-items" class="favicon menu" href="' + base_url + 'items/get/feed/' + sub.fed_id + '">' + sub.title + ' (<span>0</span>)</a></li>';
+									if(sub.sub_title) {
+										var title = sub.sub_title;
+									} else {
+										var title = sub.fed_title;
+									}
+									content += '<a style="background-image:url(' + build_favicon(sub.fed_host) + ');" id="load-feed-' + sub.fed_id + '-items" class="favicon menu" href="' + base_url + 'items/get/feed/' + sub.fed_id + '">' + title + ' (<span>0</span>)</a></li>';
 									result_subscriptions.push(sub.fed_id);
 									ref.parent().find('ul').append(content);
 								}
@@ -765,7 +770,12 @@ $(document).ready(function() {
 							} else {
 								var icon = 'rss';
 							}
-							content += '<a style="background-image:url(' + build_favicon(sub.fed_host) + ');" id="load-feed-' + sub.fed_id + '-items" class="favicon menu" href="' + base_url + 'items/get/feed/' + sub.fed_id + '">' + sub.title + ' (<span>0</span>)</a></li>';
+							if(sub.sub_title) {
+								var title = sub.sub_title;
+							} else {
+								var title = sub.fed_title;
+							}
+							content += '<a style="background-image:url(' + build_favicon(sub.fed_host) + ');" id="load-feed-' + sub.fed_id + '-items" class="favicon menu" href="' + base_url + 'items/get/feed/' + sub.fed_id + '">' + title + ' (<span>0</span>)</a></li>';
 							result_subscriptions.push(sub.fed_id);
 							$('aside > ul').append(content);
 						}
