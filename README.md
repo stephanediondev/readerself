@@ -19,7 +19,7 @@ Edit [/application/config/readerself_config.php](/application/config/readerself_
 
 Edit [/application/config/database.php](/application/config/database.php)
 * with MySQL, define "username", "password" and "database" ("hostname" if necessary)
-* with SQLite, uncomment lines //$db['default']['hostname'] and //$db['default']['dbdriver'] = 'pdo';
+* with SQLite, set "hostname" with "sqlite:application/database/readerself.sqlite" and "dbdriver" with "pdo"
 
 With MySQL, load SQL commands from [/INSTALLATION.sql](/INSTALLATION.sql) in your database
 

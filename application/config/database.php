@@ -48,13 +48,11 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'localhost';//mysqli
-//$db['default']['hostname'] = 'sqlite:application/database/readerself.sqlite';//sqlite with pdo
+$db['default']['hostname'] = 'localhost';//localhost (MySQL) or sqlite:application/database/readerself.sqlite (SQLite)
 $db['default']['username'] = '';
 $db['default']['password'] = '';
 $db['default']['database'] = '';
-$db['default']['dbdriver'] = 'mysqli';
-//$db['default']['dbdriver'] = 'pdo';
+$db['default']['dbdriver'] = 'mysqli';//mysqli (MySQL) or pdo (SQLite)
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
 $db['default']['db_debug'] = TRUE;
