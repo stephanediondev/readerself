@@ -9,7 +9,7 @@
 		<?php if($last_added) { ?>
 		<li class="static"><h2><i class="icon icon-bookmark-empty"></i><?php echo $this->lang->line('last_added'); ?></h2></li>
 			<?php foreach($last_added as $added) { ?>
-			<li<?php if($added->direction) { ?> dir="<?php echo $added->direction; ?>"<?php } ?>><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $added->fed_host; ?>&amp;alt=feed);" class="favicon" href="<?php echo base_url(); ?>subscriptions/read/<?php echo $added->sub_id; ?>"><?php echo $added->fed_title; ?></a></li>
+			<li<?php if($added->sub_direction) { ?> dir="<?php echo $added->sub_direction; ?>"<?php } else if($added->fed_direction) { ?> dir="<?php echo $added->fed_direction; ?>"<?php } ?>><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $added->fed_host; ?>&amp;alt=feed);" class="favicon" href="<?php echo base_url(); ?>subscriptions/read/<?php echo $added->sub_id; ?>"><?php echo $added->fed_title; ?></a></li>
 			<?php } ?>
 		<?php } ?>
 	</ul>
@@ -22,7 +22,7 @@
 		<h2><i class="icon icon-bookmark"></i><?php echo $this->lang->line('subscriptions'); ?></h2>
 	</article>
 
-	<article<?php if($sub->direction) { ?> dir="<?php echo $sub->direction; ?>"<?php } ?>>
+	<article<?php if($sub->sub_direction) { ?> dir="<?php echo $sub->sub_direction; ?>"<?php } else if($sub->fed_direction) { ?> dir="<?php echo $sub->fed_direction; ?>"<?php } ?>>
 		<ul class="actions">
 			<li><a class="priority" href="<?php echo base_url(); ?>subscriptions/priority/<?php echo $sub->sub_id; ?>"><span class="priority"<?php if($sub->sub_priority == 0) { ?> style="display:none;"<?php } ?>><i class="icon icon-flag"></i><?php echo $this->lang->line('not_priority'); ?></span><span class="not_priority"<?php if($sub->sub_priority == 1) { ?> style="display:none;"<?php } ?>><i class="icon icon-flag-alt"></i><?php echo $this->lang->line('priority'); ?></span></a></li>
 			<li><a href="<?php echo base_url(); ?>subscriptions/update/<?php echo $sub->sub_id; ?>"><i class="icon icon-wrench"></i><?php echo $this->lang->line('update'); ?></a></li>

@@ -28,7 +28,7 @@ $parser->SetCacheDir('application/cache/');
 				<ul class="item-details">
 					<li><i class="icon icon-bolt"></i><?php echo $cnt->cnt_ip; ?></li>
 					<li><i class="icon icon-calendar"></i><?php echo $date; ?></li>
-					<li><i class="icon icon-time"></i><?php echo $time; ?> (<span class="timeago" title="<?php echo $cnt->cnt_datecreated; ?>"></span>)</li>
+					<li><i class="icon icon-time"></i><?php echo $time; ?> (<span class="timeago" title="<?php echo $this->readerself_library->timezone_datetime($cnt->cnt_datecreated); ?>"></span>)</li>
 					<li class="block"><?php echo $cnt->cnt_agent; ?></li>
 				</ul>
 			</article>

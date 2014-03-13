@@ -13,7 +13,7 @@ class Subscriptions extends CI_Controller {
 
 		$data['errors'] = $this->db->query('SELECT COUNT(DISTINCT(fed.fed_id)) AS count FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_lasterror IS NOT NULL AND fed.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = fed.fed_id AND sub.mbr_id = ? )', array($this->member->mbr_id))->row()->count;
 
-		$data['last_added'] = $this->db->query('SELECT fed.*, sub.sub_id, sub.sub_title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE fed.fed_id IS NOT NULL AND sub.mbr_id = ? GROUP BY sub.sub_id ORDER BY sub.sub_id DESC LIMIT 0,5', array($this->member->mbr_id))->result();
+		$data['last_added'] = $this->db->query('SELECT fed.*, sub.sub_id, sub.sub_title, sub.sub_direction, fed.fed_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE fed.fed_id IS NOT NULL AND sub.mbr_id = ? GROUP BY sub.sub_id ORDER BY sub.sub_id DESC LIMIT 0,5', array($this->member->mbr_id))->result();
 
 		if($this->config->item('folders')) {
 			$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? GROUP BY flr.flr_id ORDER BY flr.flr_title ASC', array($this->member->mbr_id));
@@ -120,7 +120,7 @@ class Subscriptions extends CI_Controller {
 				}
 			}
 
-			$query = $this->db->query('SELECT fed.*, sub.sub_id, IF(sub.sub_id IS NULL, 0, 1) AS subscription FROM '.$this->db->dbprefix('feeds').' AS fed LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = fed.fed_id AND sub.mbr_id = ? WHERE fed.fed_link = ? GROUP BY fed.fed_id', array($this->member->mbr_id, $this->input->post('url')));
+			$query = $this->db->query('SELECT fed.*, sub.sub_id FROM '.$this->db->dbprefix('feeds').' AS fed LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = fed.fed_id AND sub.mbr_id = ? WHERE fed.fed_link = ? GROUP BY fed.fed_id', array($this->member->mbr_id, $this->input->post('url')));
 			if($query->num_rows() == 0) {
 				include_once('thirdparty/simplepie/autoloader.php');
 				include_once('thirdparty/simplepie/idn/idna_convert.class.php');
@@ -173,7 +173,7 @@ class Subscriptions extends CI_Controller {
 				unset($sp_feed);
 			} else {
 				$fed = $query->row();
-				if($fed->subscription == 0) {
+				if(!$fed->sub_id) {
 					$this->db->set('mbr_id', $this->member->mbr_id);
 					$this->db->set('fed_id', $fed->fed_id);
 					if($this->config->item('folders')) {
@@ -210,7 +210,13 @@ class Subscriptions extends CI_Controller {
 		$data['sub'] = $this->readerself_model->get_subscription_row($sub_id);
 		if($data['sub']) {
 
-			$data['last_added'] = $this->db->query('SELECT fed.*, sub.sub_id, sub.sub_title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE fed.fed_id IS NOT NULL AND sub.mbr_id = ? GROUP BY sub.sub_id ORDER BY sub.sub_id DESC LIMIT 0,5', array($this->member->mbr_id))->result();
+			if($this->db->dbdriver == 'mysqli') {
+				$substring = 'SUBSTRING';
+			} else {
+				$substring = 'SUBSTR';
+			}
+
+			$data['last_added'] = $this->db->query('SELECT fed.*, sub.sub_id, sub.sub_title, sub.sub_direction, fed.fed_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE fed.fed_id IS NOT NULL AND sub.mbr_id = ? GROUP BY sub.sub_id ORDER BY sub.sub_id DESC LIMIT 0,5', array($this->member->mbr_id))->result();
 
 			$data['tables'] = '';
 
@@ -242,10 +248,10 @@ class Subscriptions extends CI_Controller {
 
 			$legend = array();
 			$values = array();
-			$query = $this->db->query('SELECT SUBSTRING(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), 1, 10) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id WHERE hst.hst_real = ? AND hst.mbr_id = ? AND sub.sub_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,30', array($this->session->userdata('timezone'), 1, $this->member->mbr_id, $sub_id));
+			$query = $this->db->query('SELECT '.$substring.'(hst.hst_datecreated, 1, 10) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id WHERE hst.hst_real = ? AND hst.mbr_id = ? AND sub.sub_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,30', array( 1, $this->member->mbr_id, $sub_id));
 			if($query->num_rows() > 0) {
 				foreach($query->result() as $row) {
-					$legend[] = '<i class="icon icon-calendar"></i>'.date('F j, Y', strtotime($row->ref));
+					$legend[] = '<i class="icon icon-calendar"></i>'.$this->readerself_library->timezone_datetime($row->ref, 'F j, Y');
 					$values[] = $row->nb;
 				}
 			}
@@ -253,33 +259,35 @@ class Subscriptions extends CI_Controller {
 
 			$legend = array();
 			$values = array();
-			$query = $this->db->query('SELECT SUBSTRING(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), 1, 7) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id WHERE hst.hst_real = ? AND hst.mbr_id = ? AND sub.sub_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,12', array($this->session->userdata('timezone'), 1, $this->member->mbr_id, $sub_id));
+			$query = $this->db->query('SELECT '.$substring.'(hst.hst_datecreated, 1, 7) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id WHERE hst.hst_real = ? AND hst.mbr_id = ? AND sub.sub_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,12', array(1, $this->member->mbr_id, $sub_id));
 			if($query->num_rows() > 0) {
 				foreach($query->result() as $row) {
-					$legend[] = '<i class="icon icon-calendar"></i>'.date('F, Y', strtotime($row->ref));
+					$legend[] = '<i class="icon icon-calendar"></i>'.$this->readerself_library->timezone_datetime($row->ref, 'F, Y');
 					$values[] = $row->nb;
 				}
 			}
 			$data['tables'] .= build_table_progression($this->lang->line('items_read_by_month'), $values, $legend);
 
-			$days = array(7=>'Sunday', 1=>'Monday', 2=>'Tuesday', 3=>'Wednesday', 4=>'Thursday', 5=>'Friday', 6=>'Saturday');
-			$legend = array();
-			$values = array();
-			$query = $this->db->query('SELECT IF(DATE_FORMAT(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), \'%w\') = 0, 7, DATE_FORMAT(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), \'%w\')) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id WHERE hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? AND sub.sub_id = ? GROUP BY ref ORDER BY ref ASC', array($this->session->userdata('timezone'), $this->session->userdata('timezone'), 1, $date_ref, $this->member->mbr_id, $sub_id));
-			if($query->num_rows() > 0) {
-				foreach($query->result() as $row) {
-					$temp[$row->ref] = $row->nb;
+			if($this->db->dbdriver == 'mysqli') {
+				$days = array(7=>'Sunday', 1=>'Monday', 2=>'Tuesday', 3=>'Wednesday', 4=>'Thursday', 5=>'Friday', 6=>'Saturday');
+				$legend = array();
+				$values = array();
+				$query = $this->db->query('SELECT IF(DATE_FORMAT(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), \'%w\') = 0, 7, DATE_FORMAT(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), \'%w\')) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id WHERE hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? AND sub.sub_id = ? GROUP BY ref ORDER BY ref ASC', array($this->session->userdata('timezone'), $this->session->userdata('timezone'), 1, $date_ref, $this->member->mbr_id, $sub_id));
+				if($query->num_rows() > 0) {
+					foreach($query->result() as $row) {
+						$temp[$row->ref] = $row->nb;
+					}
 				}
-			}
-			foreach($days as $i => $v) {
-					$legend[] = '<i class="icon icon-calendar"></i>'.$v;
-				if(isset($temp[$i]) == 1) {
-					$values[] = $temp[$i];
-				} else {
-					$values[] = 0;
+				foreach($days as $i => $v) {
+						$legend[] = '<i class="icon icon-calendar"></i>'.$v;
+					if(isset($temp[$i]) == 1) {
+						$values[] = $temp[$i];
+					} else {
+						$values[] = 0;
+					}
 				}
+				$data['tables'] .= build_table_repartition($this->lang->line('items_read_by_day_week').'*', $values, $legend);
 			}
-			$data['tables'] .= build_table_repartition($this->lang->line('items_read_by_day_week').'*', $values, $legend);
 
 			$content = $this->load->view('subscriptions_read', $data, TRUE);
 			$this->readerself_library->set_content($content);
@@ -630,11 +638,11 @@ class Subscriptions extends CI_Controller {
 		if($this->input->is_ajax_request() && in_array($mode, $modes)) {
 
 			if($mode == 'folder' && $is_folder) {
-				$query = $this->db->query('SELECT fed.fed_host, sub.fed_id, sub.sub_id, sub.sub_priority, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.flr_id = ? GROUP BY fed.fed_id ORDER BY fed.fed_title ASC', array($this->member->mbr_id, $id));
+				$query = $this->db->query('SELECT fed.fed_host, sub.fed_id, sub.sub_id, sub.sub_priority, sub.sub_title, fed.fed_title, sub.sub_direction, fed.fed_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.flr_id = ? GROUP BY fed.fed_id ORDER BY fed.fed_title ASC', array($this->member->mbr_id, $id));
 				$content['subscriptions'] = $query->result();
 
 			} else if($mode == 'nofolder') {
-				$query = $this->db->query('SELECT fed.fed_host, sub.fed_id, sub.sub_id, sub.sub_priority, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.flr_id IS NULL GROUP BY fed.fed_id ORDER BY fed.fed_title ASC', array($this->member->mbr_id));
+				$query = $this->db->query('SELECT fed.fed_host, sub.fed_id, sub.sub_id, sub.sub_priority, sub.sub_title, fed.fed_title, sub.sub_direction, fed.fed_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.flr_id IS NULL GROUP BY fed.fed_id ORDER BY fed.fed_title ASC', array($this->member->mbr_id));
 				$content['subscriptions'] = $query->result();
 
 			} else {
@@ -656,7 +664,7 @@ class Subscriptions extends CI_Controller {
 			$content = array();
 
 			if($this->input->post('fed_title')) {
-				$query = $this->db->query('SELECT fed.fed_host, sub.sub_id, sub.fed_id, sub.sub_priority, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND (fed.fed_title LIKE ? OR sub.sub_title LIKE ?) GROUP BY fed.fed_id ORDER BY fed.fed_title ASC', array($this->member->mbr_id, '%'.$this->input->post('fed_title').'%', '%'.$this->input->post('fed_title').'%'));
+				$query = $this->db->query('SELECT fed.fed_host, sub.sub_id, sub.fed_id, sub.sub_priority, sub.sub_title, fed.fed_title, sub.sub_direction, fed.fed_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND (fed.fed_title LIKE ? OR sub.sub_title LIKE ?) GROUP BY fed.fed_id ORDER BY fed.fed_title ASC', array($this->member->mbr_id, '%'.$this->input->post('fed_title').'%', '%'.$this->input->post('fed_title').'%'));
 				$content['subscriptions'] = $query->result();
 			} else {
 				$content['subscriptions'] = array();

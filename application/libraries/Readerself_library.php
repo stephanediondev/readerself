@@ -370,4 +370,7 @@ class Readerself_library {
 		}
 		return $content;
 	}
+	function timezone_datetime($datetime, $format = 'Y-m-d H:i:s') {
+		return date($format, strtotime($datetime) + $this->CI->session->userdata('timezone') * 3600);
+	}
 }

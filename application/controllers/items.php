@@ -34,12 +34,12 @@ class Items extends CI_Controller {
 
 		$is_feed = FALSE;
 		if($mode == 'feed') {
-			$query = $this->db->query('SELECT sub.*, fed.fed_host, flr.flr_title, fed.fed_url, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS fed_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.mbr_id = ? AND sub.fed_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $id));
+			$query = $this->db->query('SELECT sub.*, fed.fed_host, flr.flr_title, fed.fed_url, fed.fed_direction, fed.fed_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.mbr_id = ? AND sub.fed_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $id));
 			if($query->num_rows() > 0) {
 				$is_feed = $query->row();
 				$is_feed->subscribe = 1;
 			} else {
-				$query = $this->db->query('SELECT fed.*, fed.fed_direction AS direction FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_id = ? GROUP BY fed.fed_id', array($id));
+				$query = $this->db->query('SELECT fed.*, fed.fed_direction, fed.fed_direction AS sub_direction FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_id = ? GROUP BY fed.fed_id', array($id));
 				if($query->num_rows() > 0) {
 					$is_feed = $query->row();
 					$is_feed->subscribe = 0;
@@ -239,8 +239,7 @@ class Items extends CI_Controller {
 						$bindings_or = array();
 						foreach($words as $word) {
 							if(substr($word, 0, 1) == '@') {
-								$where[] = 'DATE_ADD(itm.itm_date, INTERVAL ? HOUR) LIKE ?';
-								$bindings[] = $this->session->userdata('timezone');
+								$where[] = 'itm.itm_date LIKE ?';
 								$bindings[] = substr($word, 1).'%';
 							} else {
 								$where_or[] = 'itm.itm_title LIKE ?';
@@ -317,10 +316,7 @@ class Items extends CI_Controller {
 					$introduction_title = '<i class="icon icon-file-text-alt"></i>'.$search.' {<span id="intro-load-search-items">'.$content['total_global'].'</span>}';
 				}
 
-				array_unshift($bindings, $this->session->userdata('timezone'));
-
-				$sql = 'SELECT itm.*, DATE_ADD(itm.itm_date, INTERVAL ? HOUR) AS itm_date
-				FROM '.$this->db->dbprefix('items').' AS itm ';
+				$sql = 'SELECT itm.* FROM '.$this->db->dbprefix('items').' AS itm ';
 				if($mode == 'audio' || $mode == 'video') {
 					$sql .= 'LEFT JOIN '.$this->db->dbprefix('enclosures').' AS enr ON enr.itm_id = itm.itm_id ';
 				}
@@ -346,7 +342,7 @@ class Items extends CI_Controller {
 				if($query->num_rows() > 0) {
 					$u = 0;
 					foreach($query->result() as $itm) {
-						$sql = 'SELECT fed.fed_host, sub.sub_id, sub.sub_priority AS priority, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction, flr.flr_id, flr.flr_title, flr.flr_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
+						$sql = 'SELECT fed.fed_host, sub.sub_id, sub.sub_priority AS priority, sub.sub_title, fed.fed_title, sub.sub_direction, fed.fed_direction, flr.flr_id, flr.flr_title, flr.flr_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
 						$itm->case_member = 'you';
 						if($is_member) {
 							$itm->sub = $this->db->query($sql, array($itm->fed_id, $is_member->mbr_id))->row();
@@ -354,7 +350,7 @@ class Items extends CI_Controller {
 						} else {
 							if($itm->sub = $this->db->query($sql, array($itm->fed_id, $this->member->mbr_id))->row()) {
 							} else {
-								$sql = 'SELECT fed.fed_host, fed.fed_title AS title, fed.fed_direction AS direction FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_id = ? GROUP BY fed.fed_id';
+								$sql = 'SELECT fed.fed_host, fed.fed_title AS title, fed.fed_direction, fed.fed_direction AS sub_direction FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_id = ? GROUP BY fed.fed_id';
 								$itm->sub = $this->db->query($sql, array($itm->fed_id))->row();
 								$itm->case_member = 'following';
 							}
@@ -430,6 +426,7 @@ class Items extends CI_Controller {
 							$itm->share = 0;
 						}
 
+						$itm->itm_date = $this->readerself_library->timezone_datetime($itm->itm_date);
 						list($itm->explode_date, $itm->explode_time) = explode(' ', $itm->itm_date);
 
 						$itm->itm_content = $this->readerself_library->prepare_content($itm->itm_content);
@@ -438,7 +435,7 @@ class Items extends CI_Controller {
 						$u++;
 					}
 				} else {
-					$lastcrawl = $this->db->query('SELECT DATE_ADD(crr.crr_datecreated, INTERVAL ? HOUR) AS crr_datecreated FROM '.$this->db->dbprefix('crawler').' AS crr GROUP BY crr.crr_id ORDER BY crr.crr_id DESC LIMIT 0,1', array($this->session->userdata('timezone')))->row();
+					$lastcrawl = $this->db->query('SELECT crr.crr_datecreated FROM '.$this->db->dbprefix('crawler').' AS crr GROUP BY crr.crr_id ORDER BY crr.crr_id DESC LIMIT 0,1')->row();
 					if($lastcrawl && $mode != 'public_profile') {
 						$content['end'] = '<article id="last_crawl">';
 						$content['end'] .= '</article>';
@@ -532,7 +529,7 @@ class Items extends CI_Controller {
 
 				$is_feed = FALSE;
 				if($this->session->userdata('items-mode') == 'feed') {
-					$query = $this->db->query('SELECT sub.*, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS fed_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.fed_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $this->session->userdata('items-id')));
+					$query = $this->db->query('SELECT sub.*, fed.fed_title, fed.fed_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.fed_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $this->session->userdata('items-id')));
 					if($query->num_rows() > 0) {
 						$is_feed = $query->row();
 						$data['title'] = $is_feed->fed_title;
@@ -654,16 +651,16 @@ class Items extends CI_Controller {
 					}
 
 					if($this->input->post('age') == 'one-day') {
-						$where[] = 'DATE_ADD(itm.itm_date, INTERVAL 1 DAY) < ?';
-						$bindings[] = date('Y-m-d H:i:s');
+						$where[] = 'itm.itm_date < ?';
+						$bindings[] = date('Y-m-d H:i:s', time() - 3600 * 24 * 1);
 					}
 					if($this->input->post('age') == 'one-week') {
-						$where[] = 'DATE_ADD(itm.itm_date, INTERVAL 1 WEEK) < ?';
-						$bindings[] = date('Y-m-d H:i:s');
+						$where[] = 'itm.itm_date < ?';
+						$bindings[] = date('Y-m-d H:i:s', time() - 3600 * 24 * 7);
 					}
 					if($this->input->post('age') == 'two-weeks') {
-						$where[] = 'DATE_ADD(itm.itm_date, INTERVAL 2 WEEK) < ?';
-						$bindings[] = date('Y-m-d H:i:s');
+						$where[] = 'itm.itm_date < ?';
+						$bindings[] = date('Y-m-d H:i:s', time() - 3600 * 24 * 14);
 					}
 
 					$sql = 'INSERT INTO '.$this->db->dbprefix('history').' (itm_id, mbr_id, hst_real, hst_datecreated)

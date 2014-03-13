@@ -111,8 +111,9 @@ class Refresh extends CI_Controller {
 			}
 
 			if($this->input->post('last_crawl')) {
-				$lastcrawl = $this->db->query('SELECT crr.*, DATE_ADD(crr.crr_datecreated, INTERVAL ? HOUR) AS crr_datecreated FROM '.$this->db->dbprefix('crawler').' AS crr GROUP BY crr.crr_id ORDER BY crr.crr_id DESC LIMIT 0,1', array($this->session->userdata('timezone')))->row();
+				$lastcrawl = $this->db->query('SELECT crr.* FROM '.$this->db->dbprefix('crawler').' AS crr GROUP BY crr.crr_id ORDER BY crr.crr_id DESC LIMIT 0,1')->row();
 				if($lastcrawl) {
+					$lastcrawl->crr_datecreated = $this->readerself_library->timezone_datetime($lastcrawl->crr_datecreated);
 					list($date, $time) = explode(' ', $lastcrawl->crr_datecreated);
 					$content['last_crawl'] = '<h2><i class="icon icon-truck"></i>'.$this->lang->line('last_crawl').'</h2>';
 					$content['last_crawl'] .= '<ul class="item-details">';
@@ -233,7 +234,9 @@ class Refresh extends CI_Controller {
 				$this->db->set('crr_datecreated', date('Y-m-d H:i:s'));
 				$this->db->insert('crawler');
 
-				$this->db->query('OPTIMIZE TABLE categories, connections, enclosures, favorites, feeds, folders, history, items, members, share, subscriptions');
+				if($this->db->dbdriver == 'mysqli') {
+					$this->db->query('OPTIMIZE TABLE categories, connections, enclosures, favorites, feeds, folders, history, items, members, share, subscriptions');
+				}
 			}
 		}
 		$this->readerself_library->set_content($content);

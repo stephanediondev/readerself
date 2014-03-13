@@ -28,7 +28,7 @@ class Starred extends CI_Controller {
 						if(isset($item->origin->streamId) == 1) {
 							$fed_link = substr($item->origin->streamId, strpos($item->origin->streamId, 'http'));
 
-							$query = $this->db->query('SELECT fed.*, sub.sub_id, IF(sub.sub_id IS NULL, 0, 1) AS subscription FROM '.$this->db->dbprefix('feeds').' AS fed LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = fed.fed_id AND sub.mbr_id = ? WHERE fed.fed_link = ? GROUP BY fed.fed_id', array($this->member->mbr_id, $fed_link));
+							$query = $this->db->query('SELECT fed.*, sub.sub_id FROM '.$this->db->dbprefix('feeds').' AS fed LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = fed.fed_id AND sub.mbr_id = ? WHERE fed.fed_link = ? GROUP BY fed.fed_id', array($this->member->mbr_id, $fed_link));
 							if($query->num_rows() == 0) {
 								$this->db->set('fed_title', $item->origin->title);
 								$this->db->set('fed_url', $item->origin->htmlUrl);
@@ -46,7 +46,7 @@ class Starred extends CI_Controller {
 							} else {
 								$fed = $query->row();
 								$fed_id = $fed->fed_id;
-								if($fed->subscription == 0) {
+								if(!$fed->sub_id) {
 									$this->db->set('mbr_id', $this->member->mbr_id);
 									$this->db->set('fed_id', $fed_id);
 									$this->db->set('sub_datecreated', date('Y-m-d H:i:s'));

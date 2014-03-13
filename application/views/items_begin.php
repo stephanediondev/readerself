@@ -22,7 +22,7 @@
 <?php } ?>
 
 <?php if($mode == 'feed') { ?>
-	<article dir="<?php echo $is_feed->direction; ?>" id="introduction" class="title">
+	<article<?php if($is_feed->sub_direction) { ?> dir="<?php echo $is_feed->sub_direction; ?>"<?php } else if($is_feed->fed_direction) { ?> dir="<?php echo $is_feed->fed_direction; ?>"<?php } ?> id="introduction" class="title">
 		<ul class="actions">
 		<?php if($is_feed->subscribe == 1) { ?>
 			<li><a href="<?php echo base_url(); ?>subscriptions/delete/<?php echo $is_feed->sub_id; ?>"><i class="icon icon-bookmark"></i><?php echo $this->lang->line('unsubscribe'); ?></a></li>

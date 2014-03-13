@@ -112,11 +112,11 @@ class Item extends CI_Controller {
 		$content = array();
 
 		if($this->input->is_ajax_request() && $this->config->item('share_external_email')) {
-			$query = $this->db->query('SELECT itm.*, DATE_ADD(itm.itm_date, INTERVAL ? HOUR) AS itm_date FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id', array($this->session->userdata('timezone'), $itm_id));
+			$query = $this->db->query('SELECT itm.* FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id', array($itm_id));
 			if($query->num_rows() > 0) {
 				$data['itm'] = $query->row();
 
-				$sql = 'SELECT sub.sub_id, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS title, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction, flr.flr_id, flr.flr_title, flr.flr_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
+				$sql = 'SELECT sub.sub_id, sub.sub_title, fed.fed_title, sub.sub_direction, fed.fed_direction, flr.flr_id, flr.flr_title, flr.flr_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
 				$data['itm']->sub = $this->db->query($sql, array($data['itm']->fed_id, $this->member->mbr_id))->row();
 
 				$data['itm']->categories = false;
@@ -134,6 +134,7 @@ class Item extends CI_Controller {
 					}
 				}
 
+				$data['itm']->itm_date = $this->readerself_library->timezone_datetime($data['itm']->itm_date);
 				list($data['itm']->explode_date, $data['itm']->explode_time) = explode(' ', $data['itm']->itm_date);
 
 				$this->readerself_library->set_template('_json');

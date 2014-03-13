@@ -126,7 +126,9 @@ class Members extends CI_Controller {
 				$this->db->where('mbr_id', $mbr_id);
 				$this->db->delete('members');
 
-				$this->db->query('OPTIMIZE TABLE connections, favorites, folders, history, share, subscriptions, members');
+				if($this->db->dbdriver == 'mysqli') {
+					$this->db->query('OPTIMIZE TABLE connections, favorites, folders, history, share, subscriptions, members');
+				}
 
 				if($mbr_id == $this->member->mbr_id) {
 					$this->readerself_model->logout();

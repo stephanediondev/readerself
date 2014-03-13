@@ -92,7 +92,9 @@ class Profile extends CI_Controller {
 			$this->db->where('mbr_id', $this->member->mbr_id);
 			$this->db->delete('members');
 
-			$this->db->query('OPTIMIZE TABLE connections, favorites, folders, history, share, subscriptions, members');
+			if($this->db->dbdriver == 'mysqli') {
+				$this->db->query('OPTIMIZE TABLE connections, favorites, folders, history, share, subscriptions, members');
+			}
 
 			$this->readerself_model->logout();
 
@@ -106,7 +108,7 @@ class Profile extends CI_Controller {
 
 		$data = array();
 
-		$data['connections'] = $this->db->query('SELECT cnt.*, DATE_ADD(cnt.cnt_datecreated, INTERVAL ? HOUR) AS cnt_datecreated FROM '.$this->db->dbprefix('connections').' AS cnt WHERE cnt.token_connection IS NOT NULL AND cnt.mbr_id = ? GROUP BY cnt.cnt_id ORDER BY cnt.cnt_id DESC LIMIT 0,30', array($this->session->userdata('timezone'), $this->member->mbr_id))->result();
+		$data['connections'] = $this->db->query('SELECT cnt.* FROM '.$this->db->dbprefix('connections').' AS cnt WHERE cnt.token_connection IS NOT NULL AND cnt.mbr_id = ? GROUP BY cnt.cnt_id ORDER BY cnt.cnt_id DESC LIMIT 0,30', array($this->member->mbr_id))->result();
 
 		$content = $this->load->view('profile_connections', $data, TRUE);
 		$this->readerself_library->set_content($content);
