@@ -103,7 +103,7 @@ function refresh() {
 						$('#load-' + i + '-items').find('span').html(data_return.count[i]);
 						$('#intro-load-' + i + '-items').html(data_return.count[i]);
 					}
-					window.document.title = '(' + data_return.count.all + ')';
+					window.document.title = '(' + data_return.count.all + ') ' + title;
 
 					if(first_refresh && data_return.count.all > notification_count) {
 						if(notify.permissionLevel() == notify.PERMISSION_GRANTED) {

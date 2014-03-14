@@ -105,6 +105,7 @@ var timezone = true;
 <?php } else { ?>
 var timezone = false;
 <?php } ?>
+var title = '<?php echo addslashes($this->config->item('title')); ?>';
 var uri_string = '<?php echo $this->uri->uri_string(); ?>';
 </script>
 
