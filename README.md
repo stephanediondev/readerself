@@ -19,7 +19,7 @@ Edit [/application/config/database.php](/application/config/database.php)
 * with MySQL, define "username", "password" and "database" ("hostname" if necessary)
 * with SQLite, set "hostname" with "sqlite:application/database/readerself.sqlite" and "dbdriver" with "pdo"
 
-Launch in a browser to access setup (don't load /INSTALLATION.sql in database)
+Launch in a browser to access setup
 
 Add to cron (hourly)
 ```text

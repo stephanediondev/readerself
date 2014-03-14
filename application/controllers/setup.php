@@ -2,7 +2,7 @@
 
 class Setup extends CI_Controller {
 	public function index() {
-		if($this->config->item('salt_password')) {
+		if($this->config->item('salt_password') || $this->session->userdata('mbr_id')) {
 			redirect(base_url().'home');
 		}
 
@@ -24,12 +24,15 @@ class Setup extends CI_Controller {
 			$this->readerself_library->set_content($content);
 
 		} else {
+			if($this->db->dbdriver == 'pdo' && $this->db->hostname == 'sqlite:application/database/readerself.sqlite') {
+				$queries = explode(';', trim(file_get_contents('application/database/installation-sqlite.sql')));
+			}
 			if($this->db->dbdriver == 'mysqli') {
-				$queries = explode(';', trim(file_get_contents('INSTALLATION.sql')));
-				foreach($queries as $query) {
-					if($query != '') {
-						$this->db->query(str_replace('NOW()', '\''.date('Y-m-d H:i:s').'\'', $query));
-					}
+				$queries = explode(';', trim(file_get_contents('application/database/installation-mysql.sql')));
+			}
+			foreach($queries as $query) {
+				if($query != '') {
+					$this->db->query(str_replace('NOW()', '\''.date('Y-m-d H:i:s').'\'', $query));
 				}
 			}
 

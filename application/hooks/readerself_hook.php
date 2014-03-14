@@ -1,12 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Readerself_hook {
-	public function pre_controller() {
-		$CFG =& load_class('Config', 'core');
-		$CFG->load('readerself_config', false, true);
-	}
 	public function post_controller_constructor() {
 		$this->CI =& get_instance();
+
+		$this->CI->config->load('readerself_config', false, true);
 
 		$language = false;
 		if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) == 1) {

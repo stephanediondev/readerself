@@ -46,12 +46,22 @@
 			<p><i class="fa fa-check"></i>File exists</p>
 		<?php } ?>
 	</article>
+
+	<article>
+		<h2><span>/application/database/installation-sqlite.sql</span></h2>
+		<?php if(!file_exists('application/database/installation-sqlite.sql')) { ?>
+			<?php $form = FALSE; ?>
+			<p><i class="fa fa-times"></i>File missing</p>
+		<?php } else { ?>
+			<p><i class="fa fa-check"></i>File exists</p>
+		<?php } ?>
+	</article>
 <?php } ?>
 
 <?php if($this->db->dbdriver == 'mysqli') { ?>
 	<article>
-		<h2><span>/INSTALLATION.sql</span></h2>
-		<?php if(!file_exists('INSTALLATION.sql')) { ?>
+		<h2><span>/application/database/installation-mysql.sql</span></h2>
+		<?php if(!file_exists('application/database/installation-mysql.sql')) { ?>
 			<?php $form = FALSE; ?>
 			<p><i class="fa fa-times"></i>File missing</p>
 		<?php } else { ?>
