@@ -10,6 +10,14 @@
 |
 */
 
+$hook['pre_controller'][] = array(
+'class'    => 'readerself_hook',
+'function' => 'pre_controller',
+'filename' => 'readerself_hook.php',
+'filepath' => 'hooks',
+'params'   => array()
+);
+
 $hook['post_controller_constructor'][] = array(
 'class'    => 'readerself_hook',
 'function' => 'post_controller_constructor',

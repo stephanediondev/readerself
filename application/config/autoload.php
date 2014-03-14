@@ -80,7 +80,7 @@ $autoload['helper'] = array('url', 'form', 'readerself_helper');
 |
 */
 
-$autoload['config'] = array('readerself_config');
+$autoload['config'] = array();
 
 
 /*

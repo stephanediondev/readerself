@@ -15,15 +15,11 @@ example
 
 ####Installation
 
-Edit [/application/config/readerself_config.php](/application/config/readerself_config.php) to define "salt_password" (some letters and numbers to secure your password)
-
 Edit [/application/config/database.php](/application/config/database.php)
 * with MySQL, define "username", "password" and "database" ("hostname" if necessary)
 * with SQLite, set "hostname" with "sqlite:application/database/readerself.sqlite" and "dbdriver" with "pdo"
 
-With MySQL, load SQL commands from [/INSTALLATION.sql](/INSTALLATION.sql) in your database
-
-Launch in a browser to register an account
+Launch in a browser to access setup (don't load /INSTALLATION.sql in database)
 
 Add to cron (hourly)
 ```text

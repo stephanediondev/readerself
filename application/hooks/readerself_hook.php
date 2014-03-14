@@ -1,6 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Readerself_hook {
+	public function pre_controller() {
+		$CFG =& load_class('Config', 'core');
+		$CFG->load('readerself_config', false, true);
+	}
 	public function post_controller_constructor() {
 		$this->CI =& get_instance();
 
@@ -19,13 +23,15 @@ class Readerself_hook {
 		$this->CI->readerself_library->set_charset('UTF-8');
 		$this->CI->readerself_library->set_template('_html');
 
-		if(!$this->CI->config->item('salt_password') && $this->CI->router->class != 'configuration') {
-			redirect(base_url().'configuration/error');
+		if(!$this->CI->config->item('salt_password') && $this->CI->router->class != 'setup') {
+			redirect(base_url().'setup');
 		}
 
-		$settings = $this->CI->readerself_model->get_settings_global();
-		foreach($settings as $stg) {
-			$this->CI->config->set_item($stg->stg_code, $stg->stg_value);
+		if($this->CI->config->item('salt_password')) {
+			$settings = $this->CI->readerself_model->get_settings_global();
+			foreach($settings as $stg) {
+				$this->CI->config->set_item($stg->stg_code, $stg->stg_value);
+			}
 		}
 
 		if($this->CI->session->userdata('mbr_id')) {

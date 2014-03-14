@@ -1,4 +1,5 @@
 application/cache/cache.ini
 application/cache/uasdata.ini
 application/config/development
+/application/config/readerself_config.php
 styles/custom.css

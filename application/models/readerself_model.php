@@ -26,7 +26,7 @@ class Readerself_model extends CI_Model {
 											$this->db->set('mbr_password', $this->readerself_library->set_salt_password($password));
 											$this->db->where('mbr_id', $member->mbr_id);
 											$this->db->update('members');
-	
+
 										} else {
 											$this->db->set('mbr_email', $email);
 											$this->db->set('mbr_password', $this->readerself_library->set_salt_password($password));
@@ -34,7 +34,7 @@ class Readerself_model extends CI_Model {
 											$this->db->insert('members');
 											$member = $this->get($this->db->insert_id());
 										}
-	
+
 										$this->connect($member->mbr_id);
 										return TRUE;
 									}
