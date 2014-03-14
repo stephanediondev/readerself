@@ -21,41 +21,41 @@
 	</ul>
 	<h2><a target="_blank" href="<?php echo $itm->itm_link; ?>"><i class="icon icon-file-text-alt"></i><?php echo $itm->itm_title; ?></a></h2>
 	<ul class="item-details">
-		<li><i class="icon icon-calendar"></i><?php echo $itm->explode_date; ?></li>
-		<li><i class="icon icon-time"></i><?php echo $itm->explode_time; ?><span class="timeago_outter"> (<span class="timeago" title="<?php echo $itm->itm_date; ?>"></span>)</span></li>
+		<li class="item-details-date"><i class="icon icon-calendar"></i><?php echo $itm->explode_date; ?></li>
+		<li class="item-details-time"><i class="icon icon-time"></i><?php echo $itm->explode_time; ?><span class="timeago_outter"> (<span class="timeago" title="<?php echo $itm->itm_date; ?>"></span>)</span></li>
 
 		<?php if($itm->case_member == 'public_profile') { ?>
-			<li><span style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $itm->sub->fed_host; ?>&amp;alt=feed);" class="favicon"><?php echo $itm->sub->title; ?></span></li>
+			<li class="item-details-feed"><span style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $itm->sub->fed_host; ?>&amp;alt=feed);" class="favicon"><?php echo $itm->sub->title; ?></span></li>
 			<?php if($itm->itm_author) { ?>
-				<li class="hide-phone"><i class="icon icon-pencil"></i><?php echo $itm->itm_author; ?></li>
+				<li class="hide-phone item-details-author"><i class="icon icon-pencil"></i><?php echo $itm->itm_author; ?></li>
 			<?php } ?>
 			<?php if($this->config->item('tags') && $itm->categories) { ?>
-				<li class="block hide-phone show-print"><i class="icon icon-tags"></i><?php echo implode(', ', $itm->categories); ?></li>
+				<li class="block hide-phone show-print item-details-tags"><i class="icon icon-tags"></i><?php echo implode(', ', $itm->categories); ?></li>
 			<?php } ?>
 
 		<?php } else if($itm->case_member == 'following') { ?>
 			<li><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $itm->sub->fed_host; ?>&amp;alt=feed);" class="favicon from" data-fed_id="<?php echo $itm->fed_id; ?>" data-fed_host="<?php echo $itm->sub->fed_host; ?>" data-direction="<?php echo $itm->sub->sub_direction; ?>" href="<?php echo base_url(); ?>items/get/feed/<?php echo $itm->fed_id; ?>"><?php echo $itm->sub->title; ?></a></li>
 			<?php if($itm->itm_author) { ?>
-				<li class="hide-phone"><i class="icon icon-pencil"></i><?php echo $itm->itm_author; ?></li>
+				<li class="hide-phone item-details-author"><i class="icon icon-pencil"></i><?php echo $itm->itm_author; ?></li>
 			<?php } ?>
 			<?php if($this->config->item('tags') && $itm->categories) { ?>
-				<li class="block hide-phone show-print"><i class="icon icon-tags"></i><?php echo implode(', ', $itm->categories); ?></li>
+				<li class="block hide-phone show-print item-details-tags"><i class="icon icon-tags"></i><?php echo implode(', ', $itm->categories); ?></li>
 			<?php } ?>
 
 		<?php } else { ?>
-			<li><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $itm->sub->fed_host; ?>&amp;alt=feed);" class="favicon from" data-fed_id="<?php echo $itm->fed_id; ?>" data-fed_host="<?php echo $itm->sub->fed_host; ?>" data-direction="<?php echo $itm->sub->sub_direction; ?>" data-priority="<?php echo $itm->sub->priority; ?>" href="<?php echo base_url(); ?>items/get/feed/<?php echo $itm->fed_id; ?>"><?php if($itm->sub->sub_title) { ?><?php echo $itm->sub->sub_title; ?><?php } else { ?><?php echo $itm->sub->fed_title; ?><?php } ?></a></li>
+			<li class="item-details-feed"><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $itm->sub->fed_host; ?>&amp;alt=feed);" class="favicon from" data-fed_id="<?php echo $itm->fed_id; ?>" data-fed_host="<?php echo $itm->sub->fed_host; ?>" data-direction="<?php echo $itm->sub->sub_direction; ?>" data-priority="<?php echo $itm->sub->priority; ?>" href="<?php echo base_url(); ?>items/get/feed/<?php echo $itm->fed_id; ?>"><?php if($itm->sub->sub_title) { ?><?php echo $itm->sub->sub_title; ?><?php } else { ?><?php echo $itm->sub->fed_title; ?><?php } ?></a></li>
 			<?php if($itm->itm_author) { ?>
-				<li class="hide-phone"><a class="author" data-itm_id="<?php echo $itm->itm_id; ?>" href="<?php echo base_url(); ?>items/get/author/<?php echo $itm->itm_id; ?>"><i class="icon icon-pencil"></i><?php echo $itm->itm_author; ?></a></li>
+				<li class="hide-phone item-details-author"><a class="author" data-itm_id="<?php echo $itm->itm_id; ?>" href="<?php echo base_url(); ?>items/get/author/<?php echo $itm->itm_id; ?>"><i class="icon icon-pencil"></i><?php echo $itm->itm_author; ?></a></li>
 			<?php } ?>
 			<?php if($this->config->item('folders')) { ?>
 				<?php if($itm->sub->flr_id) { ?>
-					<li class="hide-phone"><a class="folder" href="#load-folder-<?php echo $itm->sub->flr_id; ?>-items"><i class="icon icon-folder-close"></i><?php echo $itm->sub->flr_title; ?></a></li>
+					<li class="hide-phone item-details-folder"><a class="folder" href="#load-folder-<?php echo $itm->sub->flr_id; ?>-items"><i class="icon icon-folder-close"></i><?php echo $itm->sub->flr_title; ?></a></li>
 				<?php } else { ?>
-					<li class="hide-phone"><a class="folder" href="#load-nofolder-items"><i class="icon icon-folder-close"></i><em><?php echo $this->lang->line('no_folder'); ?></em></a></li>
+					<li class="hide-phone item-details-folder"><a class="folder" href="#load-nofolder-items"><i class="icon icon-folder-close"></i><em><?php echo $this->lang->line('no_folder'); ?></em></a></li>
 				<?php } ?>
 			<?php } ?>
 			<?php if($this->config->item('tags') && $itm->categories) { ?>
-				<li class="block hide-phone show-print"><i class="icon icon-tags"></i><?php echo implode(', ', $itm->categories); ?></li>
+				<li class="block hide-phone show-print item-details-tags"><i class="icon icon-tags"></i><?php echo implode(', ', $itm->categories); ?></li>
 			<?php } ?>
 		<?php } ?>
 
