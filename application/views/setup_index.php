@@ -36,7 +36,7 @@
 	<?php } ?>
 </article>
 
-<?php if($this->db->dbdriver == 'pdo' && $this->db->hostname == 'sqlite:application/database/readerself.sqlite') { ?>
+<?php if($this->db->dbdriver == 'pdo' && stristr($this->db->hostname, 'sqlite:application/database/readerself.sqlite')) { ?>
 	<article>
 		<h2><span>/application/database/readerself.sqlite</span></h2>
 		<?php if(!file_exists('application/database/readerself.sqlite')) { ?>
@@ -72,6 +72,12 @@
 
 <article>
 	<h2><span>/application/config/database.php</span></h2>
+	<?php if($this->db->dbdriver == 'pdo' && stristr($this->db->hostname, 'sqlite:application/database/readerself.sqlite')) { ?>
+		<?php if($this->db->database != '') { ?>
+			<?php $form = FALSE; ?>
+			<p><i class="fa fa-times"></i>Don't set database value with sqlite</p>
+		<?php } ?>
+	<?php } ?>
 	<?php if($this->db->dbdriver == 'mysqli') { ?>
 		<?php if($this->db->database == '' || $this->db->username == '' || $this->db->password == '') { ?>
 			<?php $form = FALSE; ?>
