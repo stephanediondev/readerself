@@ -172,6 +172,7 @@ $lang['stg_gravatar'] = 'Gravatar';
 $lang['stg_gravatar_default'] = 'Gravatar par défaut';
 $lang['stg_gravatar_rating'] = 'Gravatar classement';
 $lang['stg_gravatar_size'] = 'Gravatar taille';
+$lang['stg_menu_authors'] = 'Menu auteurs';
 $lang['stg_menu_audio_items'] = 'Menu éléments audio';
 $lang['stg_menu_geolocation_items'] = 'Menu géolocation';
 $lang['stg_menu_video_items'] = 'Menu éléments video';
