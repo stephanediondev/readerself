@@ -129,6 +129,7 @@ INSERT INTO "settings" VALUES(18,'title','string','Reader Self',NULL,1,0,0,NOW()
 INSERT INTO "settings" VALUES(19,'members_list','boolean','0',NULL,1,0,0,NOW());
 INSERT INTO "settings" VALUES(20,'register_multi','boolean','0',NULL,1,0,0,NOW());
 INSERT INTO "settings" VALUES(21,'refresh_by_cron','boolean','1',NULL,1,0,0,NOW());
+INSERT INTO "settings" VALUES(22,'menu_authors','boolean','1',NULL,1,1,0,NOW());
 
 CREATE TABLE IF NOT EXISTS `share` (
   `shr_id` integer PRIMARY KEY AUTOINCREMENT,
