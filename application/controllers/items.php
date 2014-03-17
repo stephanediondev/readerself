@@ -316,6 +316,12 @@ class Items extends CI_Controller {
 					$introduction_title = '<i class="icon icon-file-text-alt"></i>'.$search.' {<span id="intro-load-search-items">'.$content['total_global'].'</span>}';
 				}
 
+				if($this->input->get('items_display') == 'collapse') {
+					$pagination_items = 30;
+				} else {
+					$pagination_items = 10;
+				}
+
 				$sql = 'SELECT itm.* FROM '.$this->db->dbprefix('items').' AS itm ';
 				if($mode == 'audio' || $mode == 'video') {
 					$sql .= 'LEFT JOIN '.$this->db->dbprefix('enclosures').' AS enr ON enr.itm_id = itm.itm_id ';
@@ -324,16 +330,16 @@ class Items extends CI_Controller {
 				GROUP BY itm.itm_id
 				ORDER BY itm.itm_date DESC';
 				if($mode == 'starred') {
-					$sql .= ' LIMIT '.intval($this->input->post('pagination')).',10';
+					$sql .= ' LIMIT '.intval($this->input->post('pagination')).','.$pagination_items;
 				} else if($mode == 'shared') {
-					$sql .= ' LIMIT '.intval($this->input->post('pagination')).',10';
+					$sql .= ' LIMIT '.intval($this->input->post('pagination')).','.$pagination_items;
 				} else {
 					if($mode == 'search') {
-						$sql .= ' LIMIT '.intval($this->input->post('pagination')).',10';
-					} else if($this->input->get('items_mode') == 'unread_only') {
-						$sql .= ' LIMIT 0,10';
+						$sql .= ' LIMIT '.intval($this->input->post('pagination')).','.$pagination_items;
+					} else if($this->input->get('items_mode') == 'unread_only' && $this->input->get('items_display') == 'expand') {
+						$sql .= ' LIMIT 0,'.$pagination_items;
 					} else {
-						$sql .= ' LIMIT '.intval($this->input->post('pagination')).',10';
+						$sql .= ' LIMIT '.intval($this->input->post('pagination')).','.$pagination_items;
 					}
 				}
 				$query = $this->db->query($sql, $bindings);
