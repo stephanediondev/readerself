@@ -18,7 +18,7 @@ class Login extends CI_Controller {
 
 		$this->load->library('form_validation');
 
-		$this->form_validation->set_rules('mbr_email', 'lang:mbr_email', 'required|valid_email|callback_email');
+		$this->form_validation->set_rules('email_or_nickname', 'lang:email_or_nickname', 'required|callback_email_or_nickname');
 		$this->form_validation->set_rules('mbr_password', 'lang:mbr_password', 'required');
 
 		if($this->form_validation->run() == FALSE) {
@@ -33,12 +33,12 @@ class Login extends CI_Controller {
 			}
 		}
 	}
-	public function email() {
-		if($this->input->post('mbr_email') && $this->input->post('mbr_password')) {
-			if($this->readerself_model->login($this->input->post('mbr_email'), $this->input->post('mbr_password'))) {
+	public function email_or_nickname() {
+		if($this->input->post('email_or_nickname') && $this->input->post('mbr_password')) {
+			if($this->readerself_model->login($this->input->post('email_or_nickname'), $this->input->post('mbr_password'))) {
 				return TRUE;
 			} else {
-				$this->form_validation->set_message('email', $this->lang->line('callback_email'));
+				$this->form_validation->set_message('email_or_nickname', $this->lang->line('callback_email_or_nickname'));
 				return FALSE;
 			}
 		}

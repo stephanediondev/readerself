@@ -13,8 +13,8 @@
 	<?php echo form_open(current_url().'?u='.$this->input->get('u')); ?>
 
 	<p>
-	<?php echo form_label($this->lang->line('mbr_email'), 'mbr_email'); ?>
-	<?php echo form_input('mbr_email', set_value('mbr_email'), 'id="mbr_email" class="valid_email required"'); ?>
+	<?php echo form_label($this->lang->line('email_or_nickname'), 'mbr_email'); ?>
+	<?php echo form_input('email_or_nickname', set_value('email_or_nickname'), 'id="email_or_nickname" class="required"'); ?>
 	</p>
 
 	<p>

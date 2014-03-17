@@ -4,56 +4,54 @@ class Readerself_model extends CI_Model {
 	function __construct() {
 		parent::__construct();
 	}
-	function login($email, $password) {
-		if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			$this->session->unset_userdata('mbr_id');
+	function login($email_or_nickname, $password) {
+		$this->session->unset_userdata('mbr_id');
 
-			if($this->config->item('ldap')) {
-				$ldap_connect = ldap_connect($this->config->item('ldap_server'), $this->config->item('ldap_port'));
-				if($ldap_connect) {
-					ldap_set_option($ldap_connect, LDAP_OPT_PROTOCOL_VERSION, $this->config->item('ldap_protocol'));
-					ldap_set_option($ldap_connect, LDAP_OPT_REFERRALS, 0); 
-					if(ldap_bind($ldap_connect, $this->config->item('ldap_rootdn'), $this->config->item('ldap_rootpw'))) {
-						$ldap_search = ldap_search($ldap_connect, $this->config->item('ldap_basedn'), str_replace('[email]', $email, $this->config->item('ldap_filter')));
-						if($ldap_search) {
-							$ldap_get_entries = ldap_get_entries($ldap_connect, $ldap_search);
-							if($ldap_get_entries['count'] > 0) {
-								try {
-									if(ldap_bind($ldap_connect, $ldap_get_entries[0]['dn'], $password)) {
-										$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_email = ? GROUP BY mbr.mbr_id', array($email));
-										if($query->num_rows() > 0) {
-											$member = $query->row();
-											$this->db->set('mbr_password', $this->readerself_library->set_salt_password($password));
-											$this->db->where('mbr_id', $member->mbr_id);
-											$this->db->update('members');
+		if($this->config->item('ldap') && filter_var($email_or_nickname, FILTER_VALIDATE_EMAIL)) {
+			$ldap_connect = ldap_connect($this->config->item('ldap_server'), $this->config->item('ldap_port'));
+			if($ldap_connect) {
+				ldap_set_option($ldap_connect, LDAP_OPT_PROTOCOL_VERSION, $this->config->item('ldap_protocol'));
+				ldap_set_option($ldap_connect, LDAP_OPT_REFERRALS, 0); 
+				if(ldap_bind($ldap_connect, $this->config->item('ldap_rootdn'), $this->config->item('ldap_rootpw'))) {
+					$ldap_search = ldap_search($ldap_connect, $this->config->item('ldap_basedn'), str_replace('[email]', $email_or_nickname, $this->config->item('ldap_filter')));
+					if($ldap_search) {
+						$ldap_get_entries = ldap_get_entries($ldap_connect, $ldap_search);
+						if($ldap_get_entries['count'] > 0) {
+							try {
+								if(ldap_bind($ldap_connect, $ldap_get_entries[0]['dn'], $password)) {
+									$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_email = ? GROUP BY mbr.mbr_id', array($email_or_nickname));
+									if($query->num_rows() > 0) {
+										$member = $query->row();
+										$this->db->set('mbr_password', $this->readerself_library->set_salt_password($password));
+										$this->db->where('mbr_id', $member->mbr_id);
+										$this->db->update('members');
 
-										} else {
-											$this->db->set('mbr_email', $email);
-											$this->db->set('mbr_password', $this->readerself_library->set_salt_password($password));
-											$this->db->set('mbr_datecreated', date('Y-m-d H:i:s'));
-											$this->db->insert('members');
-											$member = $this->get($this->db->insert_id());
-										}
-
-										$this->connect($member->mbr_id);
-										return TRUE;
+									} else {
+										$this->db->set('mbr_email', $email_or_nickname);
+										$this->db->set('mbr_password', $this->readerself_library->set_salt_password($password));
+										$this->db->set('mbr_datecreated', date('Y-m-d H:i:s'));
+										$this->db->insert('members');
+										$member = $this->get($this->db->insert_id());
 									}
-								} catch(Exception $e) {
+
+									$this->connect($member->mbr_id);
+									return TRUE;
 								}
+							} catch(Exception $e) {
 							}
 						}
 					}
-					ldap_unbind($ldap_connect);
 				}
+				ldap_unbind($ldap_connect);
+			}
 
-			} else {
-				$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_email = ? GROUP BY mbr.mbr_id', array($email));
-				if($query->num_rows() > 0) {
-					$member = $query->row();
-					if($this->readerself_library->set_salt_password($password) == $member->mbr_password) {
-						$this->connect($member->mbr_id);
-						return TRUE;
-					}
+		} else {
+			$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_email = ? OR (mbr.mbr_nickname = ? AND mbr.mbr_nickname IS NOT NULL) GROUP BY mbr.mbr_id', array($email_or_nickname, $email_or_nickname));
+			if($query->num_rows() > 0) {
+				$member = $query->row();
+				if($this->readerself_library->set_salt_password($password) == $member->mbr_password) {
+					$this->connect($member->mbr_id);
+					return TRUE;
 				}
 			}
 		}
