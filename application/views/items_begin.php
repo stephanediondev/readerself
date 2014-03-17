@@ -31,7 +31,7 @@
 			<li><a href="<?php echo base_url(); ?>feeds/subscribe/<?php echo $is_feed->fed_id; ?>"><i class="icon icon-bookmark-empty"></i><?php echo $this->lang->line('subscribe'); ?></a></li>
 		<?php } ?>
 		</ul>
-		<h2><span style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $is_feed->fed_host; ?>&amp;alt=feed);" class="favicon"><?php echo $is_feed->fed_title; ?></span> (<span id="intro-load-feed-<?php echo $is_feed->fed_id; ?>-items">0</span>)</h2>
+		<h2 style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $is_feed->fed_host; ?>&amp;alt=feed);" class="favicon"><?php echo $is_feed->fed_title; ?> (<span id="intro-load-feed-<?php echo $is_feed->fed_id; ?>-items">0</span>)</h2>
 		<ul class="item-details">
 		<?php if($is_feed->subscribe == 1 && $this->config->item('folders')) { ?>
 			<?php if($is_feed->flr_id) { ?>

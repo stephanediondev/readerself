@@ -19,13 +19,13 @@
 			<li><a class="collapse" href="#item_<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_o'); ?>"><i class="icon icon-collapse-top"></i><?php echo $this->lang->line('collapse'); ?></a></li>
 		<?php } ?>
 	</ul>
-	<h2><a target="_blank" href="<?php echo $itm->itm_link; ?>"><i class="icon icon-file-text-alt"></i><?php echo $itm->itm_title; ?></a></h2>
+	<h2><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $itm->sub->fed_host; ?>&amp;alt=feed);" class="favicon" target="_blank" href="<?php echo $itm->itm_link; ?>"><?php echo $itm->itm_title; ?></a></h2>
 	<ul class="item-details">
 		<li class="item-details-date"><i class="icon icon-calendar"></i><?php echo $itm->explode_date; ?></li>
 		<li class="item-details-time"><i class="icon icon-time"></i><?php echo $itm->explode_time; ?><span class="timeago_outter"> (<span class="timeago" title="<?php echo $itm->itm_date; ?>"></span>)</span></li>
 
 		<?php if($itm->case_member == 'public_profile') { ?>
-			<li class="item-details-feed"><span style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $itm->sub->fed_host; ?>&amp;alt=feed);" class="favicon"><?php echo $itm->sub->title; ?></span></li>
+			<li class="item-details-feed"><i class="icon icon-bookmark"></i><?php if($itm->sub->sub_title) { ?><?php echo $itm->sub->sub_title; ?><?php } else { ?><?php echo $itm->sub->fed_title; ?><?php } ?></li>
 			<?php if($itm->itm_author) { ?>
 				<li class="hide-phone item-details-author"><i class="icon icon-pencil"></i><?php echo $itm->itm_author; ?></li>
 			<?php } ?>
@@ -34,7 +34,7 @@
 			<?php } ?>
 
 		<?php } else if($itm->case_member == 'following') { ?>
-			<li><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $itm->sub->fed_host; ?>&amp;alt=feed);" class="favicon from" data-fed_id="<?php echo $itm->fed_id; ?>" data-fed_host="<?php echo $itm->sub->fed_host; ?>" data-direction="<?php echo $itm->sub->sub_direction; ?>" href="<?php echo base_url(); ?>items/get/feed/<?php echo $itm->fed_id; ?>"><?php echo $itm->sub->title; ?></a></li>
+			<li class="item-details-feed"><a class="from" data-fed_id="<?php echo $itm->fed_id; ?>" data-fed_host="<?php echo $itm->sub->fed_host; ?>" data-direction="<?php echo $itm->sub->sub_direction; ?>" href="<?php echo base_url(); ?>items/get/feed/<?php echo $itm->fed_id; ?>"><i class="icon icon-bookmark"></i><?php echo $itm->sub->title; ?></a></li>
 			<?php if($itm->itm_author) { ?>
 				<li class="hide-phone item-details-author"><i class="icon icon-pencil"></i><?php echo $itm->itm_author; ?></li>
 			<?php } ?>
@@ -43,7 +43,7 @@
 			<?php } ?>
 
 		<?php } else { ?>
-			<li class="item-details-feed"><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $itm->sub->fed_host; ?>&amp;alt=feed);" class="favicon from" data-fed_id="<?php echo $itm->fed_id; ?>" data-fed_host="<?php echo $itm->sub->fed_host; ?>" data-direction="<?php echo $itm->sub->sub_direction; ?>" data-priority="<?php echo $itm->sub->priority; ?>" href="<?php echo base_url(); ?>items/get/feed/<?php echo $itm->fed_id; ?>"><?php if($itm->sub->sub_title) { ?><?php echo $itm->sub->sub_title; ?><?php } else { ?><?php echo $itm->sub->fed_title; ?><?php } ?></a></li>
+			<li class="item-details-feed"><a class="from" data-fed_id="<?php echo $itm->fed_id; ?>" data-fed_host="<?php echo $itm->sub->fed_host; ?>" data-direction="<?php echo $itm->sub->sub_direction; ?>" data-priority="<?php echo $itm->sub->priority; ?>" href="<?php echo base_url(); ?>items/get/feed/<?php echo $itm->fed_id; ?>"><i class="icon icon-bookmark"></i><?php if($itm->sub->sub_title) { ?><?php echo $itm->sub->sub_title; ?><?php } else { ?><?php echo $itm->sub->fed_title; ?><?php } ?></a></li>
 			<?php if($itm->itm_author) { ?>
 				<li class="hide-phone item-details-author"><a class="author" data-itm_id="<?php echo $itm->itm_id; ?>" href="<?php echo base_url(); ?>items/get/author/<?php echo $itm->itm_id; ?>"><i class="icon icon-pencil"></i><?php echo $itm->itm_author; ?></a></li>
 			<?php } ?>
