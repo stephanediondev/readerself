@@ -60,11 +60,11 @@
 						<li class="show-phone"><a href="<?php echo base_url(); ?>home"><i class="icon icon-home"></i><?php echo $this->lang->line('home'); ?></a></li>
 					<?php } ?>
 					<li class="hide-phone"><a href="<?php echo base_url(); ?>home"><i class="icon icon-home"></i><?php echo $this->lang->line('home'); ?></a></li>
-					<li class="hide-phone"><a href="<?php echo base_url(); ?>feeds"><i class="icon icon-rss"></i><?php echo $this->lang->line('feeds'); ?></a></li>
-					<li class="hide-phone"><a href="<?php echo base_url(); ?>subscriptions"><i class="icon icon-bookmark"></i><?php echo $this->lang->line('subscriptions'); ?></a></li>
 					<?php if($this->config->item('folders')) { ?>
 						<li class="hide-phone"><a href="<?php echo base_url(); ?>folders"><i class="icon icon-folder-close"></i><?php echo $this->lang->line('folders'); ?></a></li>
 					<?php } ?>
+					<li class="hide-phone"><a href="<?php echo base_url(); ?>subscriptions"><i class="icon icon-bookmark"></i><?php echo $this->lang->line('subscriptions'); ?></a></li>
+					<li class="hide-phone"><a href="<?php echo base_url(); ?>feeds"><i class="icon icon-rss"></i><?php echo $this->lang->line('feeds'); ?></a></li>
 					<?php if($this->config->item('members_list')) { ?>
 						<li class="hide-phone"><a href="<?php echo base_url(); ?>members"><i class="icon icon-group"></i><?php echo $this->lang->line('members'); ?></a></li>
 					<?php } ?>
