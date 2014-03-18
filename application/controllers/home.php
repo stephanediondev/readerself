@@ -15,6 +15,7 @@ class Home extends CI_Controller {
 
 		$data = array();
 		$data['folders'] = $query->result();
+		$data['count_nofolder'] = $this->db->query('SELECT COUNT(DISTINCT(sub.sub_id)) AS count FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.flr_id IS NULL AND sub.mbr_id = ?', array($this->member->mbr_id))->row()->count;
 		$content = $this->load->view('home_index', $data, TRUE);
 		$this->readerself_library->set_content($content);
 	}
