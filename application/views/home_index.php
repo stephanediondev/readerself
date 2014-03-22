@@ -1,21 +1,21 @@
 	<nav>
 		<ul class="actions">
-			<li class="hide-phone hide-tablet allow_notifications"><a href="#"><i class="icon icon-bullhorn"></i><?php echo $this->lang->line('allow_notifications'); ?></a></li>
-			<li class="hide-phone"><a href="#" title="<?php echo $this->lang->line('title_shift_f'); ?>" class="fullscreen"><i class="icon icon-resize-full"></i><i class="icon icon-resize-small"></i><?php echo $this->lang->line('fullscreen'); ?></a></li>
-			<li><a href="#" title="r" class="items_refresh"><i class="icon icon-refresh"></i><?php echo $this->lang->line('refresh'); ?></a></li>
+			<li class="hide-phone hide-tablet allow_notifications"><a href="#"><i class="icon icon-bullhorn"></i><span class="button-caption"><?php echo $this->lang->line('allow_notifications'); ?></span></a></li>
+			<li class="hide-phone"><a href="#" title="<?php echo $this->lang->line('title_shift_f'); ?>" class="fullscreen"><i class="icon icon-resize-full"></i><i class="icon icon-resize-small"></i><span class="button-caption"><?php echo $this->lang->line('fullscreen'); ?></span></a></li>
+			<li><a href="#" title="r" class="items_refresh"><i class="icon icon-refresh"></i><span class="button-caption"><?php echo $this->lang->line('refresh'); ?></span></a></li>
 			<?php if($this->input->cookie('items_mode') == 'read_and_unread') { ?>
-				<li class="hide-phone"><a href="#" class="items_mode"><span class="unread_only" title="<?php echo $this->lang->line('title_shift_2'); ?>" style="display:inline-block;"><i class="icon icon-circle-blank"></i><?php echo $this->lang->line('unread_only'); ?></span><span class="read_and_unread" title="<?php echo $this->lang->line('title_shift_1'); ?>" style="display:none;"><i class="icon icon-circle"></i><i class="icon icon-circle-blank"></i><?php echo $this->lang->line('read_and_unread'); ?></span></a></li>
+				<li class="hide-phone"><a href="#" class="items_mode"><span class="unread_only" title="<?php echo $this->lang->line('title_shift_2'); ?>" style="display:inline-block;"><i class="icon icon-circle-blank"></i><span class="button-caption"><?php echo $this->lang->line('unread_only'); ?></span></span><span class="read_and_unread" title="<?php echo $this->lang->line('title_shift_1'); ?>" style="display:none;"><i class="icon icon-circle"></i><i class="icon icon-circle-blank"></i><span class="button-caption"><?php echo $this->lang->line('read_and_unread'); ?></span></span></a></li>
 			<?php } else { ?>
-				<li class="hide-phone"><a href="#" class="items_mode"><span class="unread_only" title="<?php echo $this->lang->line('title_shift_2'); ?>"><i class="icon icon-circle-blank"></i><?php echo $this->lang->line('unread_only'); ?></span><span class="read_and_unread" title="<?php echo $this->lang->line('title_shift_1'); ?>"><i class="icon icon-circle"></i><i class="icon icon-circle-blank"></i><?php echo $this->lang->line('read_and_unread'); ?></span></a></li>
+				<li class="hide-phone"><a href="#" class="items_mode"><span class="unread_only" title="<?php echo $this->lang->line('title_shift_2'); ?>"><i class="icon icon-circle-blank"></i><span class="button-caption"><?php echo $this->lang->line('unread_only'); ?></span></span><span class="read_and_unread" title="<?php echo $this->lang->line('title_shift_1'); ?>"><i class="icon icon-circle"></i><i class="icon icon-circle-blank"></i><span class="button-caption"><?php echo $this->lang->line('read_and_unread'); ?></span></span></a></li>
 			<?php } ?>
 			<?php if($this->input->cookie('items_display') == 'collapse') { ?>
-				<li><a href="#" class="items_display"><span class="expand" title="2" style="display:inline-block;"><i class="icon icon-collapse"></i><?php echo $this->lang->line('expand'); ?></span><span class="collapse" title="1" style="display:none;"><i class="icon icon-collapse-top"></i><?php echo $this->lang->line('collapse'); ?></span></a></li>
+				<li><a href="#" class="items_display"><span class="expand" title="2" style="display:inline-block;"><i class="icon icon-collapse"></i><?php echo $this->lang->line('expand'); ?></span><span class="collapse" title="1" style="display:none;"><i class="icon icon-collapse-top"></i><span class="button-caption"><?php echo $this->lang->line('collapse'); ?></span></span></a></li>
 			<?php } else { ?>
-			<li><a href="#" class="items_display"><span class="expand" title="2"><i class="icon icon-collapse"></i><?php echo $this->lang->line('expand'); ?></span><span class="collapse" title="1"><i class="icon icon-collapse-top"></i><?php echo $this->lang->line('collapse'); ?></span></a></li>
+			<li><a href="#" class="items_display"><span class="expand" title="2"><i class="icon icon-collapse"></i><?php echo $this->lang->line('expand'); ?></span><span class="collapse" title="1"><i class="icon icon-collapse-top"></i><span class="button-caption"><?php echo $this->lang->line('collapse'); ?></span></span></a></li>
 			<?php } ?>
 			<li class="hide-phone"><a href="<?php echo base_url(); ?>items/read" title="<?php echo $this->lang->line('title_shift_a'); ?>" id="items_read" class="items_read modal_show"><i class="icon icon-ok"></i><?php echo $this->lang->line('mark_all_as_read'); ?>...</a></li>
-			<li><a href="#" class="item_up" id="item_up" title="<?php echo $this->lang->line('title_k'); ?>"><i class="icon icon-chevron-up"></i><?php echo $this->lang->line('up'); ?></a></li>
-			<li><a href="#" class="item_down" id="item_down" title="<?php echo $this->lang->line('title_j'); ?>"><i class="icon icon-chevron-down"></i><?php echo $this->lang->line('down'); ?></a></li>
+			<li><a href="#" class="item_up" id="item_up" title="<?php echo $this->lang->line('title_k'); ?>"><i class="icon icon-chevron-up"></i><span class="button-caption"><?php echo $this->lang->line('up'); ?></span></a></li>
+			<li><a href="#" class="item_down" id="item_down" title="<?php echo $this->lang->line('title_j'); ?>"><i class="icon icon-chevron-down"></i><span class="button-caption"><?php echo $this->lang->line('down'); ?></span></a></li>
 		</ul>
 	</nav>
 </header>
