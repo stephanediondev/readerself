@@ -228,7 +228,7 @@ class Readerself_library {
 					$this->CI->db->set('itm_author', $author->get_name());
 				}
 
-				$this->CI->db->set('itm_link', $sp_item->get_link());
+				$this->CI->db->set('itm_link', str_replace('&amp;', '&', $sp_item->get_link()));
 
 				if($sp_item->get_content()) {
 					$this->CI->db->set('itm_content', $sp_item->get_content());
