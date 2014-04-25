@@ -214,7 +214,7 @@ class Readerself_library {
 	}
 	function crawl_items($fed_id, $items) {
 		foreach($items as $sp_item) {
-			$count = $this->CI->db->query('SELECT COUNT(DISTINCT(itm.itm_id)) AS count FROM '.$this->CI->db->dbprefix('items').' AS itm WHERE itm.itm_link = ?', array(str_replace('&amp;', '&', $sp_item->get_link())))->row()->count;
+			$count = $this->CI->db->query('SELECT COUNT(DISTINCT(itm.itm_id)) AS count FROM '.$this->CI->db->dbprefix('items').' AS itm WHERE itm.itm_link = ? OR itm.itm_link = ?', array($sp_item->get_link(), str_replace('&amp;', '&', $sp_item->get_link())))->row()->count;
 			if($count == 0) {
 				$this->CI->db->set('fed_id', $fed_id);
 
