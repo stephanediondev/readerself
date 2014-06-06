@@ -46,7 +46,7 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-body{background-color:#FFFFFF;color:#434a54;font-family:Helvetica,Arial,sans-serif;font-size:14px;margin:0px;}
+body{background-color:#FFFFFF;color:#434a54;font-family:Helvetica,Arial,sans-serif;font-size:14px;margin:0px;-webkit-text-size-adjust:none;}
 body.error{background-color:#FF9090;}
 a:link, a:visited{color:#777777;text-decoration:underline;}
 a:hover{color:#111111;}
@@ -133,7 +133,7 @@ article.title a:link, article.title a:visited{color:#AEB2B7;}
 article.title .actions a:link, article.title .actions a:visited{background-color:#444755!important;border:none;}
 
 .item-selected{border:1px solid #989898;}
-article h2{font-size:14px;font-weight:bold;margin:5px 0px;}
+article h2{font-size:14px;font-weight:bold;margin:5px 0px;text-align:left;}
 article h2 a:link, article h2 a:visited{text-decoration:none;}
 article .actions{float:right;margin-right:0px;text-align:right;}
 article .actions li{margin:5px 0px 5px 4px;}
@@ -148,7 +148,7 @@ main section .item .item-footer .actions{float:none;margin-bottom:10px;text-alig
 .item .item-footer .actions li{margin:5px 4px -10px 0px;line-height:25px;}
 .item .item-footer .actions li:last-child{margin-right:0px;}
 .item .item-footer .actions a:link, .item .item-footer .actions a:visited{background-color:#7109aa;}
-.item-details{margin-bottom:10px;}
+.item-details{margin-bottom:10px;text-align:left;}
 .item-details li{display:inline-block;font-size:13px;margin-right:5px;}
 .item-details li.block{display:block;margin-top:4px;}
 .item-details li a:link, .item-details li a:visited{text-decoration:none;}
@@ -159,8 +159,10 @@ main section .item .item-footer .actions{float:none;margin-bottom:10px;text-alig
 .item.collapse .item-details{margin-bottom:5px;}
 
 [dir=rtl] .icon{margin-left:3px;margin-right:0px;vertical-align:top;}
+main section article[dir=rtl] h2{text-align:right;}
 main section article[dir=rtl] .actions, main section article[dir=rtl] .actions{float:left;margin-left:0px;}
 main section article[dir=rtl] .actions li{margin:5px 4px 5px 0px;}
+main section article[dir=rtl] .item-details{text-align:right;}
 main section article[dir=rtl] .item-details li{margin-left:5px;margin-right:0px;}
 main section article[dir=rtl] .item-footer .actions{float:right;}
 main section article[dir=rtl] .item-footer .actions li{margin:5px 0px 0px 4px;}
@@ -195,11 +197,14 @@ main > section{margin:0px 0px 0px 10px;}
 aside{display:none;background-color:#30353b;border-radius:0px;left:0px;position:absolute;top:30px;width:100%;z-index:1000;}
 }
 @media(max-width:800px){
+h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited{background-size:12px 12px;padding-left:15px;}
+main section article[dir=rtl] h2 .favicon, main section article[dir=rtl] h2.favicon, main section article[dir=rtl] h2 a.favicon:link, main section article[dir=rtl] h2 a.favicon:visited{padding-left:0px;padding-right:15px;}
 .show-phone{display:inline-block !important;}
 .hide-tablet{display:none !important;}
 .hide-phone{display:none !important;}
 main > section{margin-top:0px !important;}
 .item.collapse h2{clear:none;}
+article h2{font-size:13px;margin:0px 0px;}
 .item h2{clear:both;margin-top:5px;}
 }
 @media(max-width:500px){
