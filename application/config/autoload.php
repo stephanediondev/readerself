@@ -96,7 +96,7 @@ $autoload['config'] = array();
 |
 */
 
-$autoload['language'] = array('readerself');
+$autoload['language'] = array();
 
 
 /*

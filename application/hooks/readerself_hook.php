@@ -9,8 +9,11 @@ class Readerself_hook {
 		$language = false;
 		if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) == 1) {
 			$language = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+			if($language == 'zh') {
+				$language = 'zh-CN';
+			}
 		}
-		$languages = array('en', 'fr');
+		$languages = array('en', 'fr', 'zh-CN');
 		if(!in_array($language, $languages)) {
 			$language = 'en';
 		}
