@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `items` (
   `itm_title` varchar(255) NOT NULL,
   `itm_link` varchar(255) NOT NULL,
   `itm_author` varchar(255) DEFAULT NULL,
-  `itm_content` text,
+  `itm_content` longtext,
   `itm_latitude` double DEFAULT NULL,
   `itm_longitude` double DEFAULT NULL,
   `itm_date` datetime NOT NULL,
