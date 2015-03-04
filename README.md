@@ -32,5 +32,4 @@ cd /path-to-installation && php index.php refresh items
 * [SimplePie](http://simplepie.org)
 * [jQuery](http://jquery.com/)
 * [Font Awesome](http://fortawesome.github.io/Font-Awesome/)
-* [UASparser](https://github.com/Synchro/UASparser)
 * [FeedWriter](https://github.com/ajaxray/FeedWriter)
