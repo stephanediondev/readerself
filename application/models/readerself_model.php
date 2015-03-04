@@ -306,7 +306,7 @@ class Readerself_model extends CI_Model {
 		return $query->result();
 	}
 	function count_unread($type, $id = false) {
-		if($type == 'all' || $type == 'following') {
+		if($type == 'following') {
 			$where = array();
 			$bindings = array();
 
@@ -335,9 +335,6 @@ class Readerself_model extends CI_Model {
 
 			$bindings[] = $this->member->mbr_id;
 
-			$where[] = 'itm.itm_id NOT IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
-			$bindings[] = $this->member->mbr_id;
-
 			$where[] = 'hst.hst_id IS NULL';
 
 			$where[] = 'sub.mbr_id = ?';
@@ -348,7 +345,7 @@ class Readerself_model extends CI_Model {
 			LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id
 			LEFT JOIN '.$this->db->dbprefix('history').' AS hst ON hst.itm_id = itm.itm_id AND hst.mbr_id = ?
 			WHERE '.implode(' AND ', $where);
-			return $this->db->query($sql, $bindings)->row()->count + $count_following;
+			return $this->db->query($sql, $bindings)->row()->count;
 		}
 		if($type == 'priority') {
 			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
