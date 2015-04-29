@@ -43,17 +43,17 @@ class Share extends CI_Controller {
 			$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
 			$bindings[] = $member->mbr_id;
 
-			$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
+			$where[] = 'shr.mbr_id = ?';
 			$bindings[] = $member->mbr_id;
 
-			$sql = 'SELECT itm.* FROM '.$this->db->dbprefix('items').' AS itm WHERE '.implode(' AND ', $where).' GROUP BY itm.itm_id ORDER BY itm.itm_date DESC LIMIT 0,50';
+			$sql = 'SELECT itm.*, shr.* FROM '.$this->db->dbprefix('share').' AS shr LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON shr.itm_id = itm.itm_id WHERE '.implode(' AND ', $where).' GROUP BY itm.itm_id ORDER BY shr.shr_datecreated DESC LIMIT 0,50';
 			$query = $this->db->query($sql, $bindings);
 			if($query->num_rows() > 0) {
 				foreach($query->result() as $itm) {
 					$feed_item = $feed->createNewItem();
 					$feed_item->setTitle($itm->itm_title);
 					$feed_item->setLink($itm->itm_link);
-					$feed_item->setDate($itm->itm_date);
+					$feed_item->setDate($itm->shr_datecreated);
 					if($itm->itm_author) {
 						$feed_item->setAuthor($itm->itm_author);
 					}
