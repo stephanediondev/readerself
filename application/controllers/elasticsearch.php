@@ -79,10 +79,14 @@ class Elasticsearch extends CI_Controller {
 				),
 			);
 
-			/*if($this->input->get('typ_code')) {
+			/*if($this->input->get('date_from') && $this->input->get('date_to')) {
 				$body['filter'] = array(
-					'term' => array(
-						'typ_code' => $this->input->get('typ_code'),
+					'range' => array(
+						'date' => array(
+							'gte' => $this->input->get('date_from'),
+							'lte' => $this->input->get('date_to'),
+							'format' => 'YYYY-MM-DD',
+						),
 					),
 				);
 			}*/
