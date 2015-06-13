@@ -68,6 +68,9 @@
 					<?php if($this->config->item('members_list')) { ?>
 						<li class="hide-phone"><a href="<?php echo base_url(); ?>members"><i class="icon icon-group"></i><?php echo $this->lang->line('members'); ?></a></li>
 					<?php } ?>
+					<?php if($this->config->item('elasticsearch/enabled')) { ?>
+						<li><a href="<?php echo base_url(); ?>elasticsearch/form"><i class="icon icon-search"></i>Elasticsearch</a></li>
+					<?php } ?>
 					<li class="hide-phone hide-tablet"><a href="<?php echo base_url(); ?>statistics"><i class="icon icon-bar-chart"></i><?php echo $this->lang->line('statistics'); ?></a></li>
 					<?php if($this->router->class == 'home') { ?>
 						<li class="hide-phone hide-tablet"><a id="link_shortcuts" class="modal_show" href="<?php echo base_url(); ?>home/shortcuts" title="<?php echo $this->lang->line('title_help'); ?>"><i class="icon icon-keyboard"></i><?php echo $this->lang->line('shortcuts'); ?></a></li>

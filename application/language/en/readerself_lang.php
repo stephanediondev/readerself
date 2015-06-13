@@ -191,3 +191,7 @@ $lang['stg_title'] = 'Title';
 $lang['stg_register_multi'] = 'Multi accounts';
 $lang['stg_members_list'] = 'Members list';
 $lang['stg_refresh_by_cron'] = 'Refresh by cron';
+
+$lang['stg_elasticsearch/enabled'] = 'Elasticsearch';
+$lang['stg_elasticsearch/index'] = 'Elasticsearch / Index';
+$lang['stg_elasticsearch/url'] = 'Elasticsearch / Url';

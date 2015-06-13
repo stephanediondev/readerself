@@ -201,3 +201,16 @@ CREATE TABLE IF NOT EXISTS `subscriptions` (
   KEY `fed_id` (`fed_id`),
   KEY `flr_id` (`flr_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `elasticsearch_items` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `itm_id` bigint(20) unsigned NOT NULL,
+  `datecreated` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `itm_id` (`itm_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+INSERT INTO `settings` (`stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is_global`, `stg_is_member`, `stg_is_subscription`, `stg_datecreated`) VALUES
+('elasticsearch/enabled', 'boolean', '0', NULL, 1, 0, 0, '2015-06-13 06:23:41'),
+('elasticsearch/index', 'string', 'readerself', NULL, 1, 0, 0, '2015-06-13 06:23:43'),
+('elasticsearch/url', 'string', 'http://127.0.0.1:9200', NULL, 1, 0, 0, '2015-06-13 06:24:18');

@@ -191,3 +191,7 @@ $lang['stg_title'] = '标题';
 $lang['stg_register_multi'] = '多账户';
 $lang['stg_members_list'] = '成员列表';
 $lang['stg_refresh_by_cron'] = '通过cron刷新';
+
+$lang['stg_elasticsearch/enabled'] = 'Elasticsearch';
+$lang['stg_elasticsearch/index'] = 'Elasticsearch / Index';
+$lang['stg_elasticsearch/url'] = 'Elasticsearch / Url';
