@@ -154,6 +154,16 @@ class Refresh extends CI_Controller {
 			include_once('thirdparty/simplepie/autoloader.php');
 			include_once('thirdparty/simplepie/idn/idna_convert.class.php');
 
+			if($this->config->item('facebook/enabled')) {
+				include_once('thirdparty/facebook/autoload.php');
+				$fb = new Facebook\Facebook(array(
+					'app_id' => $this->config->item('facebook/id'),
+					'app_secret' => $this->config->item('facebook/secret'),
+				));
+				$fbApp = $fb->getApp();
+				$accessToken = $fbApp->getAccessToken();
+			}
+
 			$query = $this->db->query('SELECT fed.* FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_nextcrawl IS NULL OR fed.fed_nextcrawl <= ? GROUP BY fed.fed_id HAVING (SELECT COUNT(DISTINCT(sub.mbr_id)) FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = fed.fed_id) > 0', array(date('Y-m-d H:i:s')));
 			if($query->num_rows() > 0) {
 
@@ -161,66 +171,126 @@ class Refresh extends CI_Controller {
 
 				$errors = 0;
 				foreach($query->result() as $fed) {
-					$sp_feed = new SimplePie();
-					$sp_feed->set_feed_url(convert_to_ascii($fed->fed_link));
-					$sp_feed->enable_cache(false);
-					$sp_feed->set_timeout(5);
-					$sp_feed->force_feed(true);
-					$sp_feed->init();
-					$sp_feed->handle_content_type();
+					$parse_url = parse_url($fed->fed_link);
 
-					if($sp_feed->error()) {
-						$errors++;
-						$this->db->set('fed_lasterror', $sp_feed->error());
-						$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
-						$this->db->where('fed_id', $fed->fed_id);
-						$this->db->update('feeds');
-					} else {
-						$this->readerself_library->crawl_items($fed->fed_id, $sp_feed->get_items());
+					if(isset($parse_url['host']) == 1 && $parse_url['host'] == 'www.facebook.com' && $this->config->item('facebook/enabled')) {
+						try {
+							$request = new Facebook\FacebookRequest($fbApp, $accessToken, 'GET', $parse_url['path'].'?fields=link,name,about');
+							$response = $fb->getClient()->sendRequest($request);
+							$result = $response->getDecodedBody();
 
-						$lastitem = $this->db->query('SELECT itm.itm_datecreated FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id ORDER BY itm.itm_id DESC LIMIT 0,1', array($fed->fed_id))->row();
+							$request = new Facebook\FacebookRequest($fbApp, $accessToken, 'GET', $parse_url['path'].'?fields=feed{created_time,id,message,story,full_picture,place,type,status_type,link}');
+							$response = $fb->getClient()->sendRequest($request);
+							$posts = $response->getDecodedBody();
+							$this->readerself_library->crawl_items_facebook($fed->fed_id, $posts['feed']['data']);
 
-						$parse_url = parse_url($sp_feed->get_link());
+							$lastitem = $this->db->query('SELECT itm.itm_datecreated FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id ORDER BY itm.itm_id DESC LIMIT 0,1', array($fed->fed_id))->row();
 
-						$this->db->set('fed_title', $sp_feed->get_title());
-						$this->db->set('fed_url', $sp_feed->get_link());
-						$this->db->set('fed_link', $sp_feed->subscribe_url());
-						if(isset($parse_url['host']) == 1) {
-							$this->db->set('fed_host', $parse_url['host']);
-						}
-						if($sp_feed->get_type() & SIMPLEPIE_TYPE_RSS_ALL) {
-							$this->db->set('fed_type', 'rss');
-						} else if($sp_feed->get_type() & SIMPLEPIE_TYPE_ATOM_ALL) {
-							$this->db->set('fed_type', 'atom');
-						}
-						if($sp_feed->get_image_url()) {
-							$this->db->set('fed_image', $sp_feed->get_image_url());
-						}
-						$this->db->set('fed_description', $sp_feed->get_description());
-						$this->db->set('fed_lasterror', '');
-						$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
-						if($lastitem) {
-							$nextcrawl = '';
-							//older than 96 hours, next crawl in 12 hours
-							if($lastitem->itm_datecreated < date('Y-m-d H:i:s', time() - 3600 * 24 * 96)) {
-								$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 12);
-
-							//older than 48 hours, next crawl in 6 hours
-							} else if($lastitem->itm_datecreated < date('Y-m-d H:i:s', time() - 3600 * 48)) {
-								$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 6);
-
-							//older than 24 hours, next crawl in 3 hours
-							} else if($lastitem->itm_datecreated < date('Y-m-d H:i:s', time() - 3600 * 24)) {
-								$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 3);
+							$this->db->set('fed_title', $result['name']);
+							$this->db->set('fed_url', $result['link']);
+							$this->db->set('fed_link', $result['link']);
+							if(isset($parse_url['host']) == 1) {
+								$this->db->set('fed_host', $parse_url['host']);
 							}
-							$this->db->set('fed_nextcrawl', $nextcrawl);
-						}
-						$this->db->where('fed_id', $fed->fed_id);
-						$this->db->update('feeds');
-					}
+							$this->db->set('fed_description', $result['about']);
+							$this->db->set('fed_lasterror', '');
+							$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
+							if($lastitem) {
+								$nextcrawl = '';
+								//older than 96 hours, next crawl in 12 hours
+								if($lastitem->itm_datecreated < date('Y-m-d H:i:s', time() - 3600 * 24 * 96)) {
+									$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 12);
 
-					$sp_feed->__destruct();
-					unset($sp_feed);
+								//older than 48 hours, next crawl in 6 hours
+								} else if($lastitem->itm_datecreated < date('Y-m-d H:i:s', time() - 3600 * 48)) {
+									$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 6);
+
+								//older than 24 hours, next crawl in 3 hours
+								} else if($lastitem->itm_datecreated < date('Y-m-d H:i:s', time() - 3600 * 24)) {
+									$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 3);
+								}
+								$this->db->set('fed_nextcrawl', $nextcrawl);
+							}
+							$this->db->where('fed_id', $fed->fed_id);
+							$this->db->update('feeds');
+
+						} catch(Facebook\Exceptions\FacebookResponseException $e) {
+							$errors++;
+							$this->db->set('fed_lasterror', 'Graph returned an error: '.$e->getMessage());
+							$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
+							$this->db->where('fed_id', $fed->fed_id);
+							$this->db->update('feeds');
+
+						} catch(Facebook\Exceptions\FacebookSDKException $e) {
+							$errors++;
+							$this->db->set('fed_lasterror', 'Facebook SDK returned an error: '. $e->getMessage());
+							$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
+							$this->db->where('fed_id', $fed->fed_id);
+							$this->db->update('feeds');
+						}
+
+					} else {
+						$sp_feed = new SimplePie();
+						$sp_feed->set_feed_url(convert_to_ascii($fed->fed_link));
+						$sp_feed->enable_cache(false);
+						$sp_feed->set_timeout(5);
+						$sp_feed->force_feed(true);
+						$sp_feed->init();
+						$sp_feed->handle_content_type();
+
+						if($sp_feed->error()) {
+							$errors++;
+							$this->db->set('fed_lasterror', $sp_feed->error());
+							$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
+							$this->db->where('fed_id', $fed->fed_id);
+							$this->db->update('feeds');
+						} else {
+							$this->readerself_library->crawl_items($fed->fed_id, $sp_feed->get_items());
+
+							$lastitem = $this->db->query('SELECT itm.itm_datecreated FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id ORDER BY itm.itm_id DESC LIMIT 0,1', array($fed->fed_id))->row();
+
+							$parse_url = parse_url($sp_feed->get_link());
+
+							$this->db->set('fed_title', $sp_feed->get_title());
+							$this->db->set('fed_url', $sp_feed->get_link());
+							$this->db->set('fed_link', $sp_feed->subscribe_url());
+							if(isset($parse_url['host']) == 1) {
+								$this->db->set('fed_host', $parse_url['host']);
+							}
+							if($sp_feed->get_type() & SIMPLEPIE_TYPE_RSS_ALL) {
+								$this->db->set('fed_type', 'rss');
+							} else if($sp_feed->get_type() & SIMPLEPIE_TYPE_ATOM_ALL) {
+								$this->db->set('fed_type', 'atom');
+							}
+							if($sp_feed->get_image_url()) {
+								$this->db->set('fed_image', $sp_feed->get_image_url());
+							}
+							$this->db->set('fed_description', $sp_feed->get_description());
+							$this->db->set('fed_lasterror', '');
+							$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
+							if($lastitem) {
+								$nextcrawl = '';
+								//older than 96 hours, next crawl in 12 hours
+								if($lastitem->itm_datecreated < date('Y-m-d H:i:s', time() - 3600 * 24 * 96)) {
+									$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 12);
+
+								//older than 48 hours, next crawl in 6 hours
+								} else if($lastitem->itm_datecreated < date('Y-m-d H:i:s', time() - 3600 * 48)) {
+									$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 6);
+
+								//older than 24 hours, next crawl in 3 hours
+								} else if($lastitem->itm_datecreated < date('Y-m-d H:i:s', time() - 3600 * 24)) {
+									$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 3);
+								}
+								$this->db->set('fed_nextcrawl', $nextcrawl);
+							}
+							$this->db->where('fed_id', $fed->fed_id);
+							$this->db->update('feeds');
+						}
+
+						$sp_feed->__destruct();
+						unset($sp_feed);
+					}
 				}
 
 				$this->db->set('crr_time', microtime(1) - $microtime_start);

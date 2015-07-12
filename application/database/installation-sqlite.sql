@@ -146,3 +146,8 @@ CREATE TABLE IF NOT EXISTS `subscriptions` (
   `sub_priority` INTEGER NOT NULL DEFAULT '0',
   `sub_direction` char(3) DEFAULT NULL,
   `sub_datecreated` datetime NOT NULL);
+
+INSERT INTO `settings` (`stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is_global`, `stg_is_member`, `stg_is_subscription`, `stg_datecreated`) VALUES
+('facebook/enabled', 'boolean', '0', NULL, 1, 0, 0, '2015-07-12 06:23:41'),
+('facebook/id', 'string', NULL, NULL, 1, 0, 0, '2015-07-12 06:23:43'),
+('facebook/secret', 'string', NULL, NULL, 1, 0, 0, '2015-07-12 06:24:18');

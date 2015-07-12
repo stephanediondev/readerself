@@ -195,3 +195,7 @@ $lang['stg_refresh_by_cron'] = 'Refresh by cron';
 $lang['stg_elasticsearch/enabled'] = 'Elasticsearch';
 $lang['stg_elasticsearch/index'] = 'Elasticsearch / Index';
 $lang['stg_elasticsearch/url'] = 'Elasticsearch / Url';
+
+$lang['stg_facebook/enabled'] = 'Facebook (application to retrieve pages as feeds)';
+$lang['stg_facebook/id'] = 'Facebook / Id';
+$lang['stg_facebook/secret'] = 'Facebook / Secret';

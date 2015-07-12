@@ -122,55 +122,113 @@ class Subscriptions extends CI_Controller {
 
 			$query = $this->db->query('SELECT fed.*, sub.sub_id FROM '.$this->db->dbprefix('feeds').' AS fed LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = fed.fed_id AND sub.mbr_id = ? WHERE fed.fed_link = ? GROUP BY fed.fed_id', array($this->member->mbr_id, $this->input->post('url')));
 			if($query->num_rows() == 0) {
-				include_once('thirdparty/simplepie/autoloader.php');
-				include_once('thirdparty/simplepie/idn/idna_convert.class.php');
+				$parse_url = parse_url($this->input->post('url'));
 
-				$sp_feed = new SimplePie();
-				$sp_feed->set_feed_url(convert_to_ascii($this->input->post('url')));
-				$sp_feed->enable_cache(false);
-				$sp_feed->set_timeout(60);
-				$sp_feed->force_feed(true);
-				$sp_feed->init();
-				$sp_feed->handle_content_type();
+				if(isset($parse_url['host']) == 1 && $parse_url['host'] == 'www.facebook.com' && $this->config->item('facebook/enabled')) {
+					include_once('thirdparty/facebook/autoload.php');
 
-				if($sp_feed->error()) {
-					$data['error'] = $sp_feed->error();
+					$fb = new Facebook\Facebook(array(
+						'app_id' => $this->config->item('facebook/id'),
+						'app_secret' => $this->config->item('facebook/secret'),
+					));
+					$fbApp = $fb->getApp();
+					$accessToken = $fbApp->getAccessToken();
+
+					try {
+						$request = new Facebook\FacebookRequest($fbApp, $accessToken, 'GET', $parse_url['path'].'?fields=link,name,about');
+						$response = $fb->getClient()->sendRequest($request);
+						$result = $response->getDecodedBody();
+
+						$this->db->set('fed_title', $result['name']);
+						$this->db->set('fed_url', $result['link']);
+						$this->db->set('fed_description', $result['about']);
+						$this->db->set('fed_link', $result['link']);
+						if(isset($parse_url['host']) == 1) {
+							$this->db->set('fed_host', $parse_url['host']);
+						}
+						$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
+						$this->db->set('fed_datecreated', date('Y-m-d H:i:s'));
+						$this->db->insert('feeds');
+						$fed_id = $this->db->insert_id();
+
+						$this->db->set('mbr_id', $this->member->mbr_id);
+						$this->db->set('fed_id', $fed_id);
+						if($this->config->item('folders')) {
+							if($folder) {
+								$this->db->set('flr_id', $folder);
+							}
+						}
+						$this->db->set('sub_priority', $this->input->post('priority'));
+						$this->db->set('sub_direction', $this->input->post('direction'));
+						$this->db->set('sub_datecreated', date('Y-m-d H:i:s'));
+						$this->db->insert('subscriptions');
+						$sub_id = $this->db->insert_id();
+
+						$request = new Facebook\FacebookRequest($fbApp, $accessToken, 'GET', $parse_url['path'].'?fields=feed{created_time,id,message,story,full_picture,place,type,status_type,link}');
+						$response = $fb->getClient()->sendRequest($request);
+						$posts = $response->getDecodedBody();
+						$this->readerself_library->crawl_items_facebook($fed_id, $posts['feed']['data']);
+
+						redirect(base_url().'subscriptions');
+
+					} catch(Facebook\Exceptions\FacebookResponseException $e) {
+						$data['error'] = 'Graph returned an error: ' . $e->getMessage();
+
+					} catch(Facebook\Exceptions\FacebookSDKException $e) {
+						$data['error'] = 'Facebook SDK returned an error: ' . $e->getMessage();
+					}
 
 				} else {
-					$parse_url = parse_url($sp_feed->get_link());
+					include_once('thirdparty/simplepie/autoloader.php');
+					include_once('thirdparty/simplepie/idn/idna_convert.class.php');
 
-					$this->db->set('fed_title', $sp_feed->get_title());
-					$this->db->set('fed_url', $sp_feed->get_link());
-					$this->db->set('fed_description', $sp_feed->get_description());
-					$this->db->set('fed_link', $sp_feed->subscribe_url());
-					if(isset($parse_url['host']) == 1) {
-						$this->db->set('fed_host', $parse_url['host']);
-					}
-					$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
-					$this->db->set('fed_datecreated', date('Y-m-d H:i:s'));
-					$this->db->insert('feeds');
-					$fed_id = $this->db->insert_id();
+					$sp_feed = new SimplePie();
+					$sp_feed->set_feed_url(convert_to_ascii($this->input->post('url')));
+					$sp_feed->enable_cache(false);
+					$sp_feed->set_timeout(60);
+					$sp_feed->force_feed(true);
+					$sp_feed->init();
+					$sp_feed->handle_content_type();
 
-					$this->db->set('mbr_id', $this->member->mbr_id);
-					$this->db->set('fed_id', $fed_id);
-					if($this->config->item('folders')) {
-						if($folder) {
-							$this->db->set('flr_id', $folder);
+					if($sp_feed->error()) {
+						$data['error'] = $sp_feed->error();
+
+					} else {
+						$parse_url = parse_url($sp_feed->get_link());
+
+						$this->db->set('fed_title', $sp_feed->get_title());
+						$this->db->set('fed_url', $sp_feed->get_link());
+						$this->db->set('fed_description', $sp_feed->get_description());
+						$this->db->set('fed_link', $sp_feed->subscribe_url());
+						if(isset($parse_url['host']) == 1) {
+							$this->db->set('fed_host', $parse_url['host']);
 						}
+						$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
+						$this->db->set('fed_datecreated', date('Y-m-d H:i:s'));
+						$this->db->insert('feeds');
+						$fed_id = $this->db->insert_id();
+
+						$this->db->set('mbr_id', $this->member->mbr_id);
+						$this->db->set('fed_id', $fed_id);
+						if($this->config->item('folders')) {
+							if($folder) {
+								$this->db->set('flr_id', $folder);
+							}
+						}
+						$this->db->set('sub_priority', $this->input->post('priority'));
+						$this->db->set('sub_direction', $this->input->post('direction'));
+						$this->db->set('sub_datecreated', date('Y-m-d H:i:s'));
+						$this->db->insert('subscriptions');
+						$sub_id = $this->db->insert_id();
+
+						$data['sub_id'] = $sub_id;
+						$data['fed_title'] = $sp_feed->get_title();
+
+						$this->readerself_library->crawl_items($fed_id, $sp_feed->get_items());
 					}
-					$this->db->set('sub_priority', $this->input->post('priority'));
-					$this->db->set('sub_direction', $this->input->post('direction'));
-					$this->db->set('sub_datecreated', date('Y-m-d H:i:s'));
-					$this->db->insert('subscriptions');
-					$sub_id = $this->db->insert_id();
-
-					$data['sub_id'] = $sub_id;
-					$data['fed_title'] = $sp_feed->get_title();
-
-					$this->readerself_library->crawl_items($fed_id, $sp_feed->get_items());
+					$sp_feed->__destruct();
+					unset($sp_feed);
 				}
-				$sp_feed->__destruct();
-				unset($sp_feed);
 			} else {
 				$fed = $query->row();
 				if(!$fed->sub_id) {

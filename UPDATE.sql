@@ -172,3 +172,9 @@ INSERT INTO `settings` (`stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is
 ('elasticsearch/enabled', 'boolean', '0', NULL, 1, 0, 0, '2015-06-13 06:23:41'),
 ('elasticsearch/index', 'string', 'readerself', NULL, 1, 0, 0, '2015-06-13 06:23:43'),
 ('elasticsearch/url', 'string', 'http://127.0.0.1:9200', NULL, 1, 0, 0, '2015-06-13 06:24:18');
+
+#2015-07-12
+INSERT INTO `settings` (`stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is_global`, `stg_is_member`, `stg_is_subscription`, `stg_datecreated`) VALUES
+('facebook/enabled', 'boolean', '0', NULL, 1, 0, 0, '2015-07-12 06:23:41'),
+('facebook/id', 'string', NULL, NULL, 1, 0, 0, '2015-07-12 06:23:43'),
+('facebook/secret', 'string', NULL, NULL, 1, 0, 0, '2015-07-12 06:24:18');

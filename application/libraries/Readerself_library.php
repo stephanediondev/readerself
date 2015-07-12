@@ -340,6 +340,62 @@ class Readerself_library {
 			unset($sp_item);
 		}
 	}
+	function crawl_items_facebook($fed_id, $items) {
+		foreach($items as $sp_item) {
+			if(!$sp_item['link']) {
+				continue;
+			}
+			$count = $this->CI->db->query('SELECT COUNT(DISTINCT(itm.itm_id)) AS count FROM '.$this->CI->db->dbprefix('items').' AS itm WHERE itm.itm_link = ? OR itm.itm_link = ?', array($sp_item['link'], str_replace('&amp;', '&', $sp_item['link'])))->row()->count;
+			if($count == 0) {
+				$this->CI->db->set('fed_id', $fed_id);
+
+				if(isset($sp_item['story'])) {
+					$this->CI->db->set('itm_title', $sp_item['story']);
+				} else {
+					$this->CI->db->set('itm_title', '-');
+				}
+
+				$this->CI->db->set('itm_link', str_replace('&amp;', '&', $sp_item['link']));
+
+				if(isset($sp_item['message']) == 1) {
+					$this->CI->db->set('itm_content', $sp_item['message']);
+				} else {
+					$this->CI->db->set('itm_content', '-');
+				}
+
+				if(isset($sp_item['place'])) {
+					if($sp_item['place']['location']['latitude'] && $sp_item['place']['location']['longitude']) {
+						$this->CI->db->set('itm_latitude', $sp_item['place']['location']['latitude']);
+						$this->CI->db->set('itm_longitude', $sp_item['place']['location']['longitude']);
+					}
+				}
+
+				$sp_itm_date = $sp_item['created_time'];
+				if($sp_itm_date) {
+					$this->CI->db->set('itm_date', $sp_itm_date);
+				} else {
+					$this->CI->db->set('itm_date', date('Y-m-d H:i:s'));
+				}
+
+				$this->CI->db->set('itm_datecreated', date('Y-m-d H:i:s'));
+
+				$this->CI->db->insert('items');
+
+				$itm_id = $this->CI->db->insert_id();
+
+				if(isset($sp_item['full_picture']) == 1) {
+					$this->CI->db->set('itm_id', $itm_id);
+					$this->CI->db->set('enr_link', $sp_item['full_picture']);
+					$this->CI->db->set('enr_type', 'image/jpeg');
+					$this->CI->db->set('enr_datecreated', date('Y-m-d H:i:s'));
+					$this->CI->db->insert('enclosures');
+				}
+			} else {
+				break;
+			}
+			unset($sp_item);
+		}
+	}
 	function prepare_content($content) {
 		//$content = strip_tags($content, '<dt><dd><dl><table><caption><tr><th><td><tbody><thead><h2><h3><h4><h5><h6><strong><em><code><pre><blockquote><p><ul><li><ol><br><del><a><img><figure><figcaption><cite><time><abbr>');
 
