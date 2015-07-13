@@ -358,7 +358,7 @@ class Readerself_library {
 				$this->CI->db->set('itm_link', str_replace('&amp;', '&', $sp_item['link']));
 
 				if(isset($sp_item['message']) == 1) {
-					$this->CI->db->set('itm_content', $sp_item['message']);
+					$this->CI->db->set('itm_content', nl2br($sp_item['message']));
 				} else {
 					$this->CI->db->set('itm_content', '-');
 				}
