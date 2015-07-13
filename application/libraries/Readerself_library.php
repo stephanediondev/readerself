@@ -383,6 +383,27 @@ class Readerself_library {
 
 				$itm_id = $this->CI->db->insert_id();
 
+				/*if(stristr($sp_item['link'], 'vimeo.com')) {
+					$this->CI->db->set('itm_id', $itm_id);
+					$this->CI->db->set('enr_link', $sp_item['link']);
+					$this->CI->db->set('enr_type', 'video/vimeo');
+					$this->CI->db->set('enr_datecreated', date('Y-m-d H:i:s'));
+					$this->CI->db->insert('enclosures');
+				}
+				if(stristr($sp_item['link'], 'youtube.com')) {
+					$this->CI->db->set('itm_id', $itm_id);
+					$this->CI->db->set('enr_link', $sp_item['link']);
+					$this->CI->db->set('enr_type', 'video/youtube');
+					$this->CI->db->set('enr_datecreated', date('Y-m-d H:i:s'));
+					$this->CI->db->insert('enclosures');
+				}
+				if(stristr($sp_item['link'], 'dailymotion.com')) {
+					$this->CI->db->set('itm_id', $itm_id);
+					$this->CI->db->set('enr_link', $sp_item['link']);
+					$this->CI->db->set('enr_type', 'video/dailymotion');
+					$this->CI->db->set('enr_datecreated', date('Y-m-d H:i:s'));
+					$this->CI->db->insert('enclosures');
+				}*/
 				if(isset($sp_item['full_picture']) == 1) {
 					$this->CI->db->set('itm_id', $itm_id);
 					$this->CI->db->set('enr_link', $sp_item['full_picture']);
