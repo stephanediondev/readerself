@@ -135,7 +135,10 @@ class Subscriptions extends CI_Controller {
 					$accessToken = $fbApp->getAccessToken();
 
 					try {
-						$request = new Facebook\FacebookRequest($fbApp, $accessToken, 'GET', $parse_url['path'].'?fields=link,name,about');
+						$parts = explode('/', $parse_url['path']);
+						$total_parts = count($parts);
+						$last_part = $parts[$total_parts - 1 ];
+						$request = new Facebook\FacebookRequest($fbApp, $accessToken, 'GET', $last_part.'?fields=link,name,about');
 						$response = $fb->getClient()->sendRequest($request);
 						$result = $response->getDecodedBody();
 
@@ -164,7 +167,7 @@ class Subscriptions extends CI_Controller {
 						$this->db->insert('subscriptions');
 						$sub_id = $this->db->insert_id();
 
-						$request = new Facebook\FacebookRequest($fbApp, $accessToken, 'GET', $parse_url['path'].'?fields=feed{created_time,id,message,story,full_picture,place,type,status_type,link}');
+						$request = new Facebook\FacebookRequest($fbApp, $accessToken, 'GET', $last_part.'?fields=feed{created_time,id,message,story,full_picture,place,type,status_type,link}');
 						$response = $fb->getClient()->sendRequest($request);
 						$posts = $response->getDecodedBody();
 						$this->readerself_library->crawl_items_facebook($fed_id, $posts['feed']['data']);

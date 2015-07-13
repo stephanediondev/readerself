@@ -342,7 +342,7 @@ class Readerself_library {
 	}
 	function crawl_items_facebook($fed_id, $items) {
 		foreach($items as $sp_item) {
-			if(!$sp_item['link']) {
+			if(isset($sp_item['link']) == 0) {
 				continue;
 			}
 			$count = $this->CI->db->query('SELECT COUNT(DISTINCT(itm.itm_id)) AS count FROM '.$this->CI->db->dbprefix('items').' AS itm WHERE itm.itm_link = ? OR itm.itm_link = ?', array($sp_item['link'], str_replace('&amp;', '&', $sp_item['link'])))->row()->count;
