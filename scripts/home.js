@@ -573,7 +573,7 @@ $(document).ready(function() {
 		event.preventDefault();
 		var ref = $(this);
 		if(ref.hasClass('folder')) {
-			if(ref.find('i').hasClass('icon-folder-close')) {
+			if(ref.find('i').text() == 'folder') {
 				var params = [];
 				params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
 				$.ajax({
@@ -584,8 +584,7 @@ $(document).ready(function() {
 					statusCode: {
 						200: function(data_return, textStatus, jqXHR) {
 							if(data_return.subscriptions) {
-								ref.find('i').removeClass('icon-folder-close');
-								ref.find('i').addClass('icon-folder-open');
+								ref.html('<i class="material-icons md-18">folder_open</i>');
 
 								ref.parent().find('ul').html('');
 								for(i in data_return.subscriptions) {
@@ -605,7 +604,7 @@ $(document).ready(function() {
 									} else {
 										var title = sub.fed_title;
 									}
-									content += '<a style="background-image:url(' + build_favicon(sub.fed_host) + ');" id="load-feed-' + sub.fed_id + '-items" class="favicon menu" href="' + base_url + 'items/get/feed/' + sub.fed_id + '">' + title + ' (<span>0</span>)</a></li>';
+									content += '<a style="background-image:url(' + build_favicon(sub.fed_host) + ');" id="load-feed-' + sub.fed_id + '-items" class="favicon mdl-navigation__link" href="' + base_url + 'items/get/feed/' + sub.fed_id + '">' + title + ' (<span>0</span>)</a></li>';
 									result_subscriptions.push(sub.fed_id);
 									ref.parent().find('ul').append(content);
 								}
@@ -617,8 +616,7 @@ $(document).ready(function() {
 					url: ref.attr('href')
 				});
 			} else {
-				ref.find('i').removeClass('icon-folder-open');
-				ref.find('i').addClass('icon-folder-close');
+				ref.html('<i class="material-icons md-18">folder</i>');
 
 				ref.parent().find('ul').html('');
 			}

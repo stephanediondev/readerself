@@ -12,6 +12,16 @@
 		<?php if($this->config->item('menu_geolocation_items')) { ?>
 			<li><a id="load-geolocation-items" class="mdl-navigation__link" href="<?php echo base_url(); ?>items/get/geolocation"><i class="material-icons md-18">place</i><?php echo $this->lang->line('geolocation_items'); ?> (<span>0</span>)</a></li>
 		<?php } ?>
+		<?php if($this->config->item('folders')) { ?>
+			<?php if($folders) { ?>
+				<?php foreach($folders as $folder) { ?>
+					<li><a class="folder" href="<?php echo base_url(); ?>subscriptions/get/folder/<?php echo $folder->flr_id; ?>" title="<?php echo $this->lang->line('open_close'); ?>"><i class="material-icons md-18">folder</i></a><a<?php if($folder->flr_direction) { ?> dir="<?php echo $folder->flr_direction; ?>"<?php } ?> id="load-folder-<?php echo $folder->flr_id; ?>-items" class="mdl-navigation__link" href="<?php echo base_url(); ?>items/get/folder/<?php echo $folder->flr_id; ?>"><?php echo $folder->flr_title; ?> (<span>0</span>)</a><ul></ul></li>
+				<?php } ?>
+			<?php } ?>
+			<?php if($count_nofolder > 0) { ?>
+				<li><a class="folder" href="<?php echo base_url(); ?>subscriptions/get/nofolder" title="<?php echo $this->lang->line('open_close'); ?>"><i class="material-icons md-18">folder_border</i></a><a id="load-nofolder-items" class="mdl-navigation__link" href="<?php echo base_url(); ?>items/get/nofolder"><em><?php echo $this->lang->line('no_folder'); ?></em> (<span>0</span>)</a><ul></ul></li>
+			<?php } ?>
+		<?php } ?>
 		</ul>
 	</nav>
 </div>

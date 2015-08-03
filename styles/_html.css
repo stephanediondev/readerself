@@ -64,6 +64,11 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 .mdl-card .mdl-navigation__link {
 	padding-right: 4px;
 }
+.mdl-layout__drawer .mdl-navigation .folder {
+	display: inline-block;
+	float: left;
+	vertical-align: middle;
+}
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
 	padding: 8px 8px;
 }
