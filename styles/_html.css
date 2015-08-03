@@ -1,10 +1,26 @@
+.item-content-result h1{font-size:17px;line-height:1;margin:15px 0px;}
+.item-content-result h2{font-size:16px;line-height:1;margin:10px 0px;}
+.item-content-result h3{font-size:15px;line-height:1;margin:10px 0px;}
+.item-content-result h4{font-size:14px;line-height:1;margin:10px 0px;}
+.item-content-result h5{font-size:13px;line-height:1;margin:10px 0px;}
+.item-content-result h6{font-size:12px;line-height:1;margin:10px 0px;}
+.item-content-result p{clear:both;line-height:1;margin:5px 0px;}
+.item-content-result img, .item-content-result iframe, .item-content-result video{max-width:100%;}
+.item-content-result em{font-style:italic;}
+.item-content-result strong{font-weight:bold;}
+
 label {
 	display: block;
 }
 p {
 	margin: 0px 0px 4px 0px;
 }
-
+a:link, a:visited {
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
 .mdl-card table {
 	width: 100%;
 }
@@ -67,7 +83,7 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 	display: block;
 }
 .mdl-card__title .mdl-card__title-text {
-	font-size: 18px;
+	font-size: 16px;
 	margin: 4px 0px 4px 0px;
 }
 .mdl-card__title .mdl-card__title-infos {

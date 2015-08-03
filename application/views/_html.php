@@ -71,7 +71,21 @@
 
 						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon items_refresh" href="#" title="r"><i class="material-icons md-24">refresh</i></a>
 
-						<a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon items_mode"><span class="unread_only" title="maj. + 2"><i class="material-icons md-24">panorama_fish_eye</i></span><span class="read_and_unread" title="maj. + 1"><i class="material-icons md-24">radio_button_checked</i></span></a>
+						<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn_mode">
+							<i class="material-icons md-24">visibility</i>
+						</button>
+						<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn_mode">
+							<li class="mdl-menu__item"><a class="items_mode" href="unread_only" title="<?php echo $this->lang->line('title_shift_2'); ?>"><?php echo $this->lang->line('unread_only'); ?></a></li>
+							<li class="mdl-menu__item"><a class="items_mode" href="read_and_unread" title="<?php echo $this->lang->line('title_shift_1'); ?>"><?php echo $this->lang->line('read_and_unread'); ?></a></li>
+						</ul>
+
+						<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn_display">
+							<i class="material-icons md-24">view_compact</i>
+						</button>
+						<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn_display">
+							<li class="mdl-menu__item"><a class="items_display" href="expand" title="2"><?php echo $this->lang->line('expand'); ?></a></li>
+							<li class="mdl-menu__item"><a class="items_display" href="collapse" title="1"><?php echo $this->lang->line('collapse'); ?></a></li>
+						</ul>
 
 						<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn_done">
 							<i class="material-icons md-24">done</i>

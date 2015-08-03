@@ -39,15 +39,15 @@
 			</button>
 			<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--top-left" for="more_share_<?php echo $itm->itm_id; ?>">
 				<?php if($this->config->item('share_external_email') && $itm->case_member != 'public_profile') { ?>
-					<li class="mdl-menu__item"><a class="modal_show" href="<?php echo base_url(); ?>item/email/<?php echo $itm->itm_id; ?>"><i class="icon icon-envelope"></i><span class="button-caption"><?php echo $this->lang->line('share_email'); ?></span></a></li>
+					<li class="mdl-menu__item"><a class="modal_show" href="<?php echo base_url(); ?>item/email/<?php echo $itm->itm_id; ?>"><?php echo $this->lang->line('share_email'); ?></a></li>
 				<?php } ?>
-				<li class="mdl-menu__item"><a target="_blank" href="https://www.facebook.com/sharer.php?u=<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-share"></i>Facebook</a></li>
-				<li class="mdl-menu__item"><a target="_blank" href="https://plus.google.com/share?url=<?php echo urlencode($itm->itm_link); ?>"><i class="icon icon-share"></i>Google</a></li>
-				<li class="mdl-menu__item"><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text=<?php echo urlencode($itm->itm_title.' '.$itm->itm_link); ?>"><i class="icon icon-share"></i>Twitter</a></li>
+				<li class="mdl-menu__item"><a target="_blank" href="https://www.facebook.com/sharer.php?u=<?php echo urlencode($itm->itm_link); ?>">Facebook</a></li>
+				<li class="mdl-menu__item"><a target="_blank" href="https://plus.google.com/share?url=<?php echo urlencode($itm->itm_link); ?>">Google</a></li>
+				<li class="mdl-menu__item"><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text=<?php echo urlencode($itm->itm_title.' '.$itm->itm_link); ?>">Twitter</a></li>
 			</ul>
 		<?php } ?>
 		<?php if($this->config->item('readability_parser_key') && $itm->case_member != 'public_profile') { ?>
-			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon link-item-readability" href="<?php echo base_url(); ?>item/readability/<?php echo $itm->itm_id; ?>"><i class="icon icon-file-text"></i><span class="button-caption"><?php echo $this->lang->line('readability'); ?></span></a>
+			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon link-item-readability" href="<?php echo base_url(); ?>item/readability/<?php echo $itm->itm_id; ?>"><i class="material-icons md-18">get_app</i></a>
 		<?php } ?>
 	</div>
 </div>

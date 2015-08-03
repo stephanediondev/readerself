@@ -706,16 +706,7 @@ $(document).ready(function() {
 
 	$('.items_mode').bind('click', function(event) {
 		event.preventDefault();
-		if(items_mode == 'read_and_unread') {
-			$('.items_mode').find('.unread_only').hide();
-			$('.items_mode').find('.read_and_unread').show();
-			items_mode = 'unread_only';
-
-		} else if(items_mode == 'unread_only') {
-			$('.items_mode').find('.read_and_unread').hide();
-			$('.items_mode').find('.unread_only').show();
-			items_mode = 'read_and_unread';
-		}
+		items_mode = $(this).attr('href');
 		$.cookie('items_mode', items_mode, { expires: 30, path: '/' });
 		load_items( $('.mdl-navigation').find('li.active').find('a.mdl-navigation__link').attr('href') );
 	});
@@ -723,11 +714,11 @@ $(document).ready(function() {
 	$('.items_display').bind('click', function(event) {
 		event.preventDefault();
 		var ref = $(this);
-		if(items_display == 'collapse') {
-			items_expand();
-
-		} else if(items_display == 'expand') {
+		var href = $(this).attr('href');
+		if(href == 'collapse') {
 			items_collapse();
+		} else if(href == 'expand') {
+			items_expand();
 		}
 	});
 
