@@ -138,9 +138,9 @@ function refresh() {
 function set_positions() {
 	_window_height = $(window).height();
 
-	_offset = $('main > section').offset();
+	_offset = $('.mdl-layout__content').offset();
 	_height = _window_height - _offset.top;
-	$('main > section').css({ 'height': _height});
+	$('.mdl-layout__content').css({ 'height': _height});
 	if(ci_controller == 'home' || ci_controller == 'member') {
 		$('main section section').css({ 'padding-bottom': _height});
 	}
@@ -170,7 +170,7 @@ function fullscreen() {
 	}
 }
 function scroll_to(anchor) {
-	$('main > section').scrollTo(anchor);
+	$('.mdl-layout__content').scrollTo(anchor);
 }
 
 $(document).ready(function() {
