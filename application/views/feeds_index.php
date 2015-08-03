@@ -27,7 +27,9 @@
 						</div>
 					</div>
 					<div class="mdl-card__supporting-text mdl-color-text--grey">
-						<?php if($fed->fed_lasterror) { ?><p><?php echo $fed->fed_lasterror; ?></p><?php } ?>
+						<?php if($fed->fed_lasterror) { ?>
+							<p><?php echo $fed->fed_lasterror; ?></p>
+						<?php } ?>
 						<?php if($this->config->item('tags') && $fed->categories) { ?>
 							<p><?php echo implode(', ', $fed->categories); ?></p>
 						<?php } ?>

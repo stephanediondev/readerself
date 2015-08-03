@@ -1,77 +1,83 @@
-	<nav>
-		<ul class="actions">
-			<li><a href="<?php echo base_url(); ?>profile/delete"><i class="icon icon-trash"></i><?php echo $this->lang->line('delete'); ?></a></li>
-			<li><a href="<?php echo base_url(); ?>profile/connections"><i class="icon icon-signin"></i><?php echo $this->lang->line('active_connections'); ?></a></li>
-		</ul>
-	</nav>
-</header>
-<main>
-	<section>
-		<section>
+<div class="mdl-tooltip" for="tip_delete"><?php echo $this->lang->line('delete'); ?></div>
+<div class="mdl-tooltip" for="tip_connections"><?php echo $this->lang->line('active_connections'); ?></div>
+<div class="mdl-tooltip" for="tip_public"><?php echo $this->lang->line('public_profile'); ?></div>
 
-	<article class="title item-selected">
-		<ul class="actions">
-			<?php if($this->member->mbr_nickname) { ?><li><a href="<?php echo base_url(); ?>member/<?php echo $this->member->mbr_nickname; ?>"><i class="icon icon-unlock"></i><?php echo $this->lang->line('public_profile'); ?></a></li><?php } ?>
-		</ul>
-		<h2><i class="icon icon-user"></i><?php if($this->member->mbr_nickname) { ?><?php echo $this->member->mbr_nickname; ?><?php } else { ?><?php echo $this->lang->line('profile'); ?><?php } ?></h2>
-		<?php if($this->config->item('gravatar') && $this->member->mbr_gravatar) { ?>
-			<p><img alt="" src="http://www.gravatar.com/avatar/<?php echo md5(strtolower($this->member->mbr_gravatar)); ?>?rating=<?php echo $this->config->item('gravatar_rating'); ?>&amp;size=<?php echo $this->config->item('gravatar_size'); ?>&amp;default=<?php echo $this->config->item('gravatar_default'); ?>">
-		<?php } ?>
-		<?php if($this->member->mbr_description) { ?>
-			<p><?php echo strip_tags($this->member->mbr_description); ?></p>
-		<?php } ?>
-	</article>
+<main class="mdl-layout__content mdl-color--grey-100">
+	<div class="mdl-grid">
+		<div class="mdl-card mdl-cell mdl-cell--4-col">
+			<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
+				<h1 class="mdl-card__title-text"><i class="material-icons md-18">person</i><?php if($this->member->mbr_nickname) { ?><?php echo $this->member->mbr_nickname; ?><?php } else { ?><?php echo $this->lang->line('profile'); ?><?php } ?></h1>
+			</div>
+			<div class="mdl-card__supporting-text mdl-color-text--grey">
+				<?php if($this->member->mbr_description) { ?>
+					<p><?php echo strip_tags($this->member->mbr_description); ?></p>
+				<?php } ?>
+			</div>
+			<div class="mdl-card__actions mdl-card--border">
+				<a id="tip_delete" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>profile/delete"><i class="material-icons md-18">delete</i></a>
+				<a id="tip_connections" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>profile/connections"><i class="material-icons md-18">wifi</i></a>
+				<?php if($this->member->mbr_nickname) { ?>
+					<a id="tip_public" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>member/<?php echo $this->member->mbr_nickname; ?>"><i class="material-icons md-18">link</i></a>
+				<?php } ?>
+			</div>
+		</div>
 
-	<h2><i class="icon icon-wrench"></i><?php echo $this->lang->line('update'); ?></h2>
+		<div class="mdl-card mdl-cell mdl-cell--12-col">
+			<div class="mdl-card__title">
+				<h1 class="mdl-card__title-text"><?php echo $this->lang->line('update'); ?></h1>
+			</div>
+			<div class="mdl-card__supporting-text mdl-color-text--grey">
+				<?php echo validation_errors(); ?>
 
-	<?php echo validation_errors(); ?>
+				<?php echo form_open(current_url()); ?>
 
-	<?php echo form_open(current_url()); ?>
+				<?php if(!$this->config->item('ldap')) { ?>
+					<p>
+					<?php echo form_label($this->lang->line('mbr_email'), 'mbr_email'); ?>
+					<?php echo form_input('mbr_email', set_value('mbr_email', $this->member->mbr_email), 'id="mbr_email" class="valid_email required"'); ?>
+					</p>
 
-	<?php if(!$this->config->item('ldap')) { ?>
-		<p>
-		<?php echo form_label($this->lang->line('mbr_email'), 'mbr_email'); ?>
-		<?php echo form_input('mbr_email', set_value('mbr_email', $this->member->mbr_email), 'id="mbr_email" class="valid_email required"'); ?>
-		</p>
+					<p>
+					<?php echo form_label($this->lang->line('mbr_email_confirm'), 'mbr_email_confirm'); ?>
+					<?php echo form_input('mbr_email_confirm', set_value('mbr_email_confirm', $this->member->mbr_email), 'id="mbr_email_confirm" class="valid_email required"'); ?>
+					</p>
 
-		<p>
-		<?php echo form_label($this->lang->line('mbr_email_confirm'), 'mbr_email_confirm'); ?>
-		<?php echo form_input('mbr_email_confirm', set_value('mbr_email_confirm', $this->member->mbr_email), 'id="mbr_email_confirm" class="valid_email required"'); ?>
-		</p>
+					<p>
+					<?php echo form_label($this->lang->line('mbr_password'), 'mbr_password'); ?>
+					<?php echo form_password('mbr_password', set_value('mbr_password'), 'id="mbr_password"'); ?>
+					</p>
 
-		<p>
-		<?php echo form_label($this->lang->line('mbr_password'), 'mbr_password'); ?>
-		<?php echo form_password('mbr_password', set_value('mbr_password'), 'id="mbr_password"'); ?>
-		</p>
+					<p>
+					<?php echo form_label($this->lang->line('mbr_password_confirm'), 'mbr_password_confirm'); ?>
+					<?php echo form_password('mbr_password_confirm', set_value('mbr_password_confirm'), 'id="mbr_password_confirm"'); ?>
+					</p>
+				<?php } ?>
 
-		<p>
-		<?php echo form_label($this->lang->line('mbr_password_confirm'), 'mbr_password_confirm'); ?>
-		<?php echo form_password('mbr_password_confirm', set_value('mbr_password_confirm'), 'id="mbr_password_confirm"'); ?>
-		</p>
-	<?php } ?>
+				<p>
+				<?php echo form_label($this->lang->line('mbr_nickname'), 'mbr_nickname'); ?>
+				<?php echo form_input('mbr_nickname', set_value('mbr_nickname', $this->member->mbr_nickname), 'id="mbr_nickname"'); ?>
+				</p>
 
-	<p>
-	<?php echo form_label($this->lang->line('mbr_nickname'), 'mbr_nickname'); ?>
-	<?php echo form_input('mbr_nickname', set_value('mbr_nickname', $this->member->mbr_nickname), 'id="mbr_nickname"'); ?>
-	</p>
+				<?php if($this->config->item('gravatar')) { ?>
+					<p>
+					<?php echo form_label($this->lang->line('gravatar'), 'mbr_gravatar'); ?>
+					<?php echo form_input('mbr_gravatar', set_value('mbr_gravatar', $this->member->mbr_gravatar), 'id="mbr_gravatar" class="valid_email"'); ?>
+					</p>
+				<?php } ?>
 
-	<?php if($this->config->item('gravatar')) { ?>
-		<p>
-		<?php echo form_label($this->lang->line('gravatar'), 'mbr_gravatar'); ?>
-		<?php echo form_input('mbr_gravatar', set_value('mbr_gravatar', $this->member->mbr_gravatar), 'id="mbr_gravatar" class="valid_email"'); ?>
-		</p>
-	<?php } ?>
+				<p>
+				<?php echo form_label($this->lang->line('description'), 'mbr_description'); ?>
+				<?php echo form_textarea('mbr_description', set_value('mbr_description', $this->member->mbr_description), 'id="mbr_description"'); ?>
+				</p>
 
-	<p>
-	<?php echo form_label($this->lang->line('description'), 'mbr_description'); ?>
-	<?php echo form_textarea('mbr_description', set_value('mbr_description', $this->member->mbr_description), 'id="mbr_description"'); ?>
-	</p>
+				<p>
+				<button type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--pink mdl-color-text--white">
+					<i class="material-icons md-24">done</i>
+				</button>
+				</p>
 
-	<p>
-	<button type="submit"><?php echo $this->lang->line('send'); ?></button>
-	</p>
-
-	<?php echo form_close(); ?>
-		</section>
-	</section>
+				<?php echo form_close(); ?>
+			</div>
+		</div>
+	</div>
 </main>

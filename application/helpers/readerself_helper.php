@@ -62,7 +62,7 @@ if( ! function_exists('build_table_progression')) {
 		$legend = array_reverse($legend);
 
 		$content = '<div class="data_table">';
-		$content .= '<h3>'.$title.'</h3>';
+		$content .= '<h6>'.$title.'</h6>';
 
 		if(count($data) > 0) {
 			$total = max(array_values($data));
@@ -125,7 +125,7 @@ if( ! function_exists('build_table_progression')) {
 if( ! function_exists('build_table_repartition')) {
 	function build_table_repartition($title, $data, $legend) {
 		$content = '<div class="data_table">';
-		$content .= '<h3>'.$title.'</h3>';
+		$content .= '<h6>'.$title.'</h6>';
 
 		$total = array_sum($data);
 

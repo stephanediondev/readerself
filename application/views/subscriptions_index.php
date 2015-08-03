@@ -27,12 +27,12 @@
 							<?php if($this->config->item('folders')) { ?>
 								<?php if($sub->flr_title) { ?><a class="mdl-navigation__link" href="<?php echo base_url(); ?>folders/read/<?php echo $sub->flr_id; ?>"><i class="material-icons md-16">folder</i><?php echo $sub->flr_title; ?></a><?php } ?>
 							<?php } ?>
-							<?php if($sub->fed_lasterror) { ?>
-								<i class="icon icon-bell"></i><?php echo $sub->fed_lasterror; ?>
-							<?php } ?>
 						</div>
 					</div>
 					<div class="mdl-card__supporting-text mdl-color-text--grey">
+						<?php if($sub->fed_lasterror) { ?>
+							<p><?php echo $sub->fed_lasterror; ?></p>
+						<?php } ?>
 						<?php if($this->config->item('tags') && $sub->categories) { ?>
 							<p><?php echo implode(', ', $sub->categories); ?></p>
 						<?php } ?>
