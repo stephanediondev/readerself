@@ -5,7 +5,7 @@
 .item-content-result h5{font-size:13px;line-height:1;margin:10px 0px;}
 .item-content-result h6{font-size:12px;line-height:1;margin:10px 0px;}
 .item-content-result p{clear:both;line-height:1;margin:5px 0px;}
-.item-content-result img, .item-content-result iframe, .item-content-result video{max-width:100%;}
+img, iframe, video{max-width:100%;}
 .item-content-result em{font-style:italic;}
 .item-content-result strong{font-weight:bold;}
 
