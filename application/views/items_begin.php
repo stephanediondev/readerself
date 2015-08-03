@@ -17,7 +17,7 @@
 		</div>
 		<div class="mdl-card__actions mdl-card--border">
 			<?php if($this->member->mbr_nickname) { ?>
-				<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>member/<?php echo $this->member->mbr_nickname; ?>"><i class="icon icon-unlock"></i><?php echo $this->lang->line('public_profile'); ?></a>
+				<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>member/<?php echo $this->member->mbr_nickname; ?>"><i class="material-icons md-18">link</i></a>
 			<?php } else { ?>
 				<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" target="_blank" href="<?php echo base_url(); ?>share/<?php echo $this->member->token_share; ?>"><i class="material-icons md-18">publish</i></a>
 			<?php } ?>
@@ -92,12 +92,11 @@
 				<p><a target="_blank" href="http://maps.google.com/maps?q=<?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?>&oe=UTF-8&ie=UTF-8"><img src="http://maps.googleapis.com/maps/api/staticmap?center=<?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?>&markers=color:red|<?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?>&zoom=12&size=540x200&sensor=false" alt=""></a></p>
 			</div>
 		<?php } ?>
-		<div class="mdl-card__actions mdl-card--border">
-			<?php if($this->session->userdata('latitude') && $this->session->userdata('longitude')) { ?>
-				<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon geolocation" href="<?php echo base_url(); ?>home/geolocation"><i class="material-icons md-18">location_on</i></a>
-			<?php } else { ?>
+		<?php if($this->session->userdata('latitude') && $this->session->userdata('longitude')) { ?>
+		<?php } else { ?>
+			<div class="mdl-card__actions mdl-card--border">
 				<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon geolocation" href="<?php echo base_url(); ?>home/geolocation"><i class="material-icons md-18">location_off</i></a>
-			<?php } ?>
-		</div>
+			</div>
+		<?php } ?>
 	</div>
 <?php } ?>
