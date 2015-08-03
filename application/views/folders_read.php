@@ -27,15 +27,14 @@
 		</div>
 
 		<div class="mdl-card mdl-cell mdl-cell--12-col">
-			<div class="mdl-card__title">
-				<h1 class="mdl-card__title-text"><?php echo $this->lang->line('statistics'); ?></h1>
-				<div class="mdl-card__title-infos">
-					<span class="mdl-navigation__link">*<?php echo $this->lang->line('last_30_days'); ?></span>
-				</div>
+			<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
+				<h1 class="mdl-card__title-text"><i class="material-icons md-18">insert_chart</i><?php echo $this->lang->line('statistics'); ?></h1>
 			</div>
 			<div class="mdl-card__supporting-text mdl-color-text--grey">
-				<?php echo $tables; ?>
+				<p><em>*<?php echo $this->lang->line('last_30_days'); ?></em></p>
 			</div>
 		</div>
+
+		<?php echo $tables; ?>
 	</div>
 </main>

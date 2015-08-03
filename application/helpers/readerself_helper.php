@@ -61,8 +61,9 @@ if( ! function_exists('build_table_progression')) {
 		$data = array_reverse($data);
 		$legend = array_reverse($legend);
 
-		$content = '<div class="data_table">';
-		$content .= '<h6>'.$title.'</h6>';
+		$content = '<div class="mdl-card mdl-cell mdl-cell--3-col">';
+		$content .= '<div class="mdl-card__title"><h1 class="mdl-card__title-text">'.$title.'</h1></div>';
+		$content .= '<div class="mdl-card__supporting-text mdl-color-text--grey">';
 
 		if(count($data) > 0) {
 			$total = max(array_values($data));
@@ -116,7 +117,7 @@ if( ! function_exists('build_table_progression')) {
 		$content .= '<td>&nbsp;</td>';
 		$content .= '</tr>';
 		$content .= '</table>';
-		$content .= '</div>';
+		$content .= '</div></div>';
 
 		return $content;
 	}
@@ -124,8 +125,9 @@ if( ! function_exists('build_table_progression')) {
 
 if( ! function_exists('build_table_repartition')) {
 	function build_table_repartition($title, $data, $legend) {
-		$content = '<div class="data_table">';
-		$content .= '<h6>'.$title.'</h6>';
+		$content = '<div class="mdl-card mdl-cell mdl-cell--3-col">';
+		$content .= '<div class="mdl-card__title"><h1 class="mdl-card__title-text">'.$title.'</h1></div>';
+		$content .= '<div class="mdl-card__supporting-text mdl-color-text--grey">';
 
 		$total = array_sum($data);
 
@@ -161,7 +163,7 @@ if( ! function_exists('build_table_repartition')) {
 		$content .= '<td>&nbsp;</td>';
 		$content .= '</tr>';
 		$content .= '</table>';
-		$content .= '</div>';
+		$content .= '</div></div>';
 
 		return $content;
 	}

@@ -38,7 +38,7 @@ class Subscriptions extends CI_Controller {
 		$flt[] = 'sub.mbr_id = \''.$this->member->mbr_id.'\'';
 		$flt[] = 'fed.fed_id IS NOT NULL';
 		$results = $this->readerself_model->get_subscriptions_total($flt);
-		$build_pagination = $this->readerself_library->build_pagination($results->count, 20, $this->router->class.'_subscriptions');
+		$build_pagination = $this->readerself_library->build_pagination($results->count, 50, $this->router->class.'_subscriptions');
 		$data['pagination'] = $build_pagination['output'];
 		$data['position'] = $build_pagination['position'];
 		$data['subscriptions'] = $this->readerself_model->get_subscriptions_rows($flt, $build_pagination['limit'], $build_pagination['start'], 'fed.fed_title ASC');

@@ -29,6 +29,11 @@
 				<?php } ?>
 				<p><?php echo $fed->fed_description; ?></p>
 			</div>
+			<div class="mdl-card__actions mdl-card--border">
+				<?php if($fed->subscribers == 0) { ?>
+					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>feeds/delete/<?php echo $fed->fed_id; ?>"><i class="material-icons md-18">delete</i></a>
+				<?php } ?>
+			</div>
 		</div>
 
 		<div class="mdl-card mdl-cell mdl-cell--12-col">

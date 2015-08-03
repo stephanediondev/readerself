@@ -20,6 +20,9 @@
 					<span class="mdl-navigation__link"><i class="material-icons md-16">favorite</i><?php echo $flr->shared_items; ?> shared item(s)</span>
 				</div>
 			</div>
+			<div class="mdl-card__actions mdl-card--border">
+				<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>folders/delete/<?php echo $flr->flr_id; ?>"><i class="material-icons md-18">delete</i></a>
+			</div>
 		</div>
 
 		<div class="mdl-card mdl-cell mdl-cell--12-col">

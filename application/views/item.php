@@ -2,7 +2,7 @@
 	<div class="mdl-card__title">
 		<h1 class="mdl-card__title-text"><a class="favicon mdl-color-text--grey-" style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $itm->sub->fed_host; ?>&amp;alt=feed);" href="<?php echo $itm->itm_link; ?>"><?php echo $itm->itm_title; ?></a></h1>
 		<div class="mdl-card__title-infos">
-			<a class="mdl-navigation__link" href=""><i class="material-icons md-16">access_time</i><span class="timeago" title="<?php echo $itm->itm_date; ?>"></span></a>
+			<span class="mdl-navigation__link"><i class="material-icons md-16">access_time</i><span class="timeago" title="<?php echo $itm->itm_date; ?>"></span></span>
 			<a class="mdl-navigation__link from" data-fed_id="<?php echo $itm->fed_id; ?>" data-fed_host="<?php echo $itm->sub->fed_host; ?>" data-direction="<?php echo $itm->sub->sub_direction; ?>" data-priority="<?php echo $itm->sub->priority; ?>" href="<?php echo base_url(); ?>items/get/feed/<?php echo $itm->fed_id; ?>"><i class="material-icons md-16">bookmark</i><?php if($itm->sub->sub_title) { ?><?php echo $itm->sub->sub_title; ?><?php } else { ?><?php echo $itm->sub->fed_title; ?><?php } ?></a>
 
 			<?php if($this->config->item('folders')) { ?>

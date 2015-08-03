@@ -10,6 +10,7 @@
 				<a id="tip_back" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>subscriptions"><i class="material-icons md-18">arrow_back</i></a>
 			</div>
 		</div>
+
 		<div<?php if($sub->sub_direction) { ?> dir="<?php echo $sub->sub_direction; ?>"<?php } else if($sub->fed_direction) { ?> dir="<?php echo $sub->fed_direction; ?>"<?php } ?> class="mdl-card mdl-cell mdl-cell--4-col">
 			<div class="mdl-card__title">
 				<h1 class="mdl-card__title-text"><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $sub->fed_host; ?>&amp;alt=feed);" class="favicon" href="<?php echo base_url(); ?>subscriptions/read/<?php echo $sub->sub_id; ?>"><?php echo $sub->fed_title; ?><?php if($sub->sub_title) { ?> / <em><?php echo $sub->sub_title; ?></em><?php } ?></a></h1>
@@ -39,15 +40,14 @@
 		</div>
 
 		<div class="mdl-card mdl-cell mdl-cell--12-col">
-			<div class="mdl-card__title">
-				<h1 class="mdl-card__title-text"><?php echo $this->lang->line('statistics'); ?></h1>
-				<div class="mdl-card__title-infos">
-					<span class="mdl-navigation__link">*<?php echo $this->lang->line('last_30_days'); ?></span>
-				</div>
+			<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
+				<h1 class="mdl-card__title-text"><i class="material-icons md-18">insert_chart</i><?php echo $this->lang->line('statistics'); ?></h1>
 			</div>
 			<div class="mdl-card__supporting-text mdl-color-text--grey">
-				<?php echo $tables; ?>
+				<p><em>*<?php echo $this->lang->line('last_30_days'); ?></em></p>
 			</div>
 		</div>
+
+		<?php echo $tables; ?>
 	</div>
 </main>
