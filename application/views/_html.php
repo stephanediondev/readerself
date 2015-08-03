@@ -52,7 +52,7 @@
 </head>
 <body<?php if(count($this->readerself_library->errors) > 0) { ?> class="error"<?php } ?>>
 
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header<?php if($this->router->class == 'home') { ?> mdl-layout--fixed-drawer<?php } ?>">
 	<header class="mdl-layout__header mdl-color--teal">
 		<div class="mdl-layout__header-row">
 			<div class="mdl-layout-spacer">
@@ -61,24 +61,25 @@
 				<?php if($this->session->userdata('mbr_id')) { ?>
 					<?php if($this->router->class != 'home') { ?>
 						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>"><i class="material-icons md-24">home</i></a>
+					<?php } else { ?>
+
+						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon items_refresh" href="#" title="r"><i class="material-icons md-24">refresh</i></a>
+
+						<a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon items_mode"><span class="unread_only" title="maj. + 2"><i class="material-icons md-24">panorama_fish_eye</i></span><span class="read_and_unread" title="maj. + 1"><i class="material-icons md-24">radio_button_checked</i></span></a>
+
+						<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn_done">
+							<i class="material-icons md-24">done</i>
+						</button>
+						<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn_done">
+							<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>items/read/all"><?php echo $this->lang->line('no_date_limit'); ?></a></li>
+							<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>items/read/one-day"><?php echo $this->lang->line('items_older_than_a_day'); ?></a></li>
+							<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>items/read/one-week"><?php echo $this->lang->line('items_older_than_a_week'); ?></a></li>
+							<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>items/read/two-weeks"><?php echo $this->lang->line('items_older_than_two_weeks'); ?></a></li>
+						</ul>
+
+						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon item_up" href="#" id="item_up" title="<?php echo $this->lang->line('title_k'); ?>"><i class="material-icons md-24">keyboard_arrow_up</i></a>
+						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon item_down" href="#" id="item_down" title="<?php echo $this->lang->line('title_j'); ?>"><i class="material-icons md-24">keyboard_arrow_down</i></a>
 					<?php } ?>
-
-					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon items_refresh" href="#" title="r"><i class="material-icons md-24">refresh</i></a>
-
-					<a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon items_mode"><span class="unread_only" title="maj. + 2"><i class="material-icons md-24">panorama_fish_eye</i></span><span class="read_and_unread" title="maj. + 1"><i class="material-icons md-24">radio_button_checked</i></span></a>
-
-					<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn_done">
-						<i class="material-icons md-24">done</i>
-					</button>
-					<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn_done">
-						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>items/read/all"><?php echo $this->lang->line('no_date_limit'); ?></a></li>
-						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>items/read/one-day"><?php echo $this->lang->line('items_older_than_a_day'); ?></a></li>
-						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>items/read/one-week"><?php echo $this->lang->line('items_older_than_a_week'); ?></a></li>
-						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>items/read/two-weeks"><?php echo $this->lang->line('items_older_than_two_weeks'); ?></a></li>
-					</ul>
-
-					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon item_up" href="#" id="item_up" title="<?php echo $this->lang->line('title_k'); ?>"><i class="material-icons md-24">keyboard_arrow_up</i></a>
-					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon item_down" href="#" id="item_down" title="<?php echo $this->lang->line('title_j'); ?>"><i class="material-icons md-24">keyboard_arrow_down</i></a>
 
 					<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
 						<i class="material-icons md-24">more_vert</i>
