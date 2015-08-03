@@ -680,7 +680,7 @@ $(document).ready(function() {
 		}
 		content += '<a style="background-image:url(' + build_favicon(ref.data('fed_host')) + ');" id="load-feed-' + ref.data('fed_id') + '-items" class="favicon mdl-navigation__link" href="' + base_url + 'items/get/feed/' + ref.data('fed_id') + '">' + ref.text() + ' (<span>0</span>)</a></li>';
 		result_subscriptions.push(ref.data('fed_id'));
-		$('aside > ul').append(content);
+		$('.mdl-navigation ul').append(content);
 
 		load_items(ref.attr('href'));
 	});

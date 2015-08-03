@@ -26,34 +26,25 @@
 <?php } ?>
 
 <?php if($mode == 'feed') { ?>
-	<article<?php if($is_feed->sub_direction) { ?> dir="<?php echo $is_feed->sub_direction; ?>"<?php } else if($is_feed->fed_direction) { ?> dir="<?php echo $is_feed->fed_direction; ?>"<?php } ?> id="introduction" class="title">
-		<ul class="actions">
-		<?php if($is_feed->subscribe == 1) { ?>
-			<li><a href="<?php echo base_url(); ?>subscriptions/delete/<?php echo $is_feed->sub_id; ?>"><i class="icon icon-bookmark"></i><?php echo $this->lang->line('unsubscribe'); ?></a></li>
-			<li><a class="priority" href="<?php echo base_url(); ?>subscriptions/priority/<?php echo $is_feed->sub_id; ?>"><span class="priority"<?php if($is_feed->sub_priority == 0) { ?> style="display:none;"<?php } ?>><i class="icon icon-flag"></i><?php echo $this->lang->line('not_priority'); ?></span><span class="not_priority"<?php if($is_feed->sub_priority == 1) { ?> style="display:none;"<?php } ?>><i class="icon icon-flag-alt"></i><?php echo $this->lang->line('priority'); ?></span></a></li>
-		<?php } else { ?>
-			<li><a href="<?php echo base_url(); ?>feeds/subscribe/<?php echo $is_feed->fed_id; ?>"><i class="icon icon-bookmark-empty"></i><?php echo $this->lang->line('subscribe'); ?></a></li>
-		<?php } ?>
-		</ul>
-		<h2 style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $is_feed->fed_host; ?>&amp;alt=feed);" class="favicon"><?php echo $is_feed->fed_title; ?> (<span id="intro-load-feed-<?php echo $is_feed->fed_id; ?>-items">0</span>)</h1>
-		<ul class="item-details">
-		<?php if($is_feed->subscribe == 1 && $this->config->item('folders')) { ?>
-			<?php if($is_feed->flr_id) { ?>
-				<li><a class="folder" href="#load-folder-<?php echo $is_feed->flr_id; ?>-items"><i class="icon icon-folder-close"></i><?php echo $is_feed->flr_title; ?></a></li>
-			<?php } else { ?>
-				<li><a class="folder" href="#load-nofolder-items"><i class="icon icon-folder-close"></i><em><?php echo $this->lang->line('no_folder'); ?></em></a></li>
+	<div<?php if($is_feed->sub_direction) { ?> dir="<?php echo $is_feed->sub_direction; ?>"<?php } else if($is_feed->fed_direction) { ?> dir="<?php echo $is_feed->fed_direction; ?>"<?php } ?> id="introduction" class="mdl-card mdl-cell mdl-cell--12-col">
+		<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
+			<h1 style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $is_feed->fed_host; ?>&amp;alt=feed);" class="mdl-card__title-text favicon"><?php echo $is_feed->fed_title; ?> (<span id="intro-load-feed-<?php echo $is_feed->fed_id; ?>-items">0</span>)</h1>
+		</div>
+		<div class="mdl-card__supporting-text mdl-color-text--grey">
+			<?php if($this->config->item('tags')) { ?>
+				<?php if(count($is_feed->categories) > 0) { ?>
+					<p><?php echo implode(', ', $is_feed->categories); ?></p>
+				<?php } ?>
+				<?php if($is_feed->fed_url) { ?>
+					<p><a target="_blank" href="<?php echo $is_feed->fed_url; ?>"><i class="icon icon-external-link"></i><?php echo $is_feed->fed_url; ?></a></p>
+				<?php } ?>
 			<?php } ?>
-		<?php } ?>
-		<?php if($is_feed->fed_url) { ?>
-			<li><a target="_blank" href="<?php echo $is_feed->fed_url; ?>"><i class="icon icon-external-link"></i><?php echo $is_feed->fed_url; ?></a></li>
-		<?php } ?>
-		<?php if($this->config->item('tags')) { ?>
-			<?php if(count($is_feed->categories) > 0) { ?>
-				<li class="block hide-phone"><i class="icon icon-tags"></i><?php echo implode(', ', $is_feed->categories); ?></li>
-			<?php } ?>
-		<?php } ?>
-		</ul>
-	</div></div>
+		</div>
+		<div class="mdl-card__actions mdl-card--border">
+			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon priority" href="<?php echo base_url(); ?>subscriptions/priority/<?php echo $is_feed->sub_id; ?>"><?php if($is_feed->sub_priority == 0) { ?><i class="material-icons md-18">chat_bubble_outline</i><?php } ?><?php if($is_feed->sub_priority == 1) { ?><i class="material-icons md-18">announcement</i><?php } ?></a>
+			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon subscribe" href="<?php echo base_url(); ?>feeds/subscribe/<?php echo $is_feed->fed_id; ?>"><?php if($is_feed->subscribe == 1) { ?><i class="material-icons md-18">bookmark</i><?php } else { ?><i class="material-icons md-18">bookmark_border</i><?php } ?></a>
+		</div>
+	</div>
 <?php } ?>
 
 <?php if($mode == 'public_profile') { ?>
