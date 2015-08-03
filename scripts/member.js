@@ -13,7 +13,7 @@ var lock_no_more_items = false;
 function load_items(url) {
 	url = url + '/?items_mode=' + items_mode + '&items_display=' + items_display;
 	$('main > section').scrollTop(0);
-	$('main section section').html('<div class="ajax-loader"><img src="' + base_url + 'medias/ajax-loader.gif"></div>');
+	$('main section section').html('<div class="mdl-spinner mdl-js-spinner is-active"></div>');
 	var params = [];
 	params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
 	pagination = 0;
@@ -66,7 +66,7 @@ function add_items(url) {
 	if(!lock_add_items && !lock_no_more_items) {
 		lock_add_items = true;
 		lock_refresh = true;
-		$('main section section').append('<div class="ajax-loader"><img src="' + base_url + 'medias/ajax-loader.gif"></div>');
+		$('main section section').append('<div class="mdl-spinner mdl-js-spinner is-active"></div>');
 		var params = [];
 		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
 		pagination = pagination + 10;

@@ -15,17 +15,6 @@
 			<?php } ?>
 		</div>
 	</div>
-	<ul class="item-details">
-		<li class="item-details-date"><i class="icon icon-calendar"></i><?php echo $itm->explode_date; ?></li>
-		<li class="item-details-time"><i class="icon icon-time"></i><?php echo $itm->explode_time; ?><span class="timeago_outter"> (<span class="timeago" title="<?php echo $itm->itm_date; ?>"></span>)</span></li>
-
-		<?php if($this->config->item('members_list') && $itm->shared_by) { ?>
-			<li class="block hide-phone"><i class="icon icon-link"></i><?php echo implode(', ', $itm->shared_by); ?></li>
-		<?php } ?>
-		<?php if($itm->foursquare) { ?>
-			<li class="block hide-phone"><a target="_blank" href="https://foursquare.com/venue/<?php echo $itm->foursquare; ?>"><i class="icon icon-foursquare"></i><span class="button-caption">Foursquare</span></a></li>
-		<?php } ?>
-	</ul>
 	<div class="mdl-card__supporting-text mdl-color-text--grey hide-collapse">
 		<?php if($this->input->get('items_display') == 'collapse' || $this->input->cookie('items_display') == 'collapse') { ?>
 		<?php } else if($this->input->get('items_display') == 'expand') { ?>

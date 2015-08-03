@@ -1,24 +1,28 @@
 <?php if($mode == 'starred') { ?>
-	<article id="introduction" class="title">
-		<ul class="actions">
-			<li><a href="<?php echo base_url(); ?>starred/export"><i class="icon icon-upload-alt"></i><?php echo $this->lang->line('export'); ?></a></li>
-			<li><a href="<?php echo base_url(); ?>starred/import"><i class="icon icon-download-alt"></i><?php echo $this->lang->line('import'); ?></a></li>
-		</ul>
-		<h2><i class="icon icon-star"></i><?php echo $this->lang->line('starred_items'); ?> {<span id="intro-load-starred-items"></span>}</h2>
-	</article>
+	<div class="mdl-card mdl-cell mdl-cell--12-col">
+		<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
+			<h1 class="mdl-card__title-text"><i class="material-icons md-18">star</i><?php echo $this->lang->line('starred_items'); ?> {<span id="intro-load-starred-items"></span>}</h1>
+		</div>
+		<div class="mdl-card__actions mdl-card--border">
+			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>starred/export"><i class="material-icons md-18">file_upload</i></a>
+			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>starred/import"><i class="material-icons md-18">file_download</i></a>
+		</div>
+	</div>
 <?php } ?>
 
 <?php if($mode == 'shared') { ?>
-	<article id="introduction" class="title">
-		<ul class="actions">
-		<?php if($this->member->mbr_nickname) { ?>
-			<li><a href="<?php echo base_url(); ?>member/<?php echo $this->member->mbr_nickname; ?>"><i class="icon icon-unlock"></i><?php echo $this->lang->line('public_profile'); ?></a></li>
-		<?php } else { ?>
-			<li class="hide-phone"><a target="_blank" href="<?php echo base_url(); ?>share/<?php echo $this->member->token_share; ?>"><i class="icon icon-rss"></i>RSS</a></li>
-		<?php } ?>
-		</ul>
-		<h2><i class="icon icon-heart"></i><?php echo $this->lang->line('shared_items'); ?> {<span id="intro-load-shared-items"></span>}</h2>
-	</article>
+	<div class="mdl-card mdl-cell mdl-cell--12-col">
+		<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
+			<h1 class="mdl-card__title-text"><i class="material-icons md-18">favorite</i><?php echo $this->lang->line('shared_items'); ?> {<span id="intro-load-shared-items"></span>}</h1>
+		</div>
+		<div class="mdl-card__actions mdl-card--border">
+			<?php if($this->member->mbr_nickname) { ?>
+				<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>member/<?php echo $this->member->mbr_nickname; ?>"><i class="icon icon-unlock"></i><?php echo $this->lang->line('public_profile'); ?></a>
+			<?php } else { ?>
+				<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" target="_blank" href="<?php echo base_url(); ?>share/<?php echo $this->member->token_share; ?>"><i class="material-icons md-18">publish</i></a>
+			<?php } ?>
+		</div>
+	</div>
 <?php } ?>
 
 <?php if($mode == 'feed') { ?>
@@ -31,7 +35,7 @@
 			<li><a href="<?php echo base_url(); ?>feeds/subscribe/<?php echo $is_feed->fed_id; ?>"><i class="icon icon-bookmark-empty"></i><?php echo $this->lang->line('subscribe'); ?></a></li>
 		<?php } ?>
 		</ul>
-		<h2 style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $is_feed->fed_host; ?>&amp;alt=feed);" class="favicon"><?php echo $is_feed->fed_title; ?> (<span id="intro-load-feed-<?php echo $is_feed->fed_id; ?>-items">0</span>)</h2>
+		<h2 style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $is_feed->fed_host; ?>&amp;alt=feed);" class="favicon"><?php echo $is_feed->fed_title; ?> (<span id="intro-load-feed-<?php echo $is_feed->fed_id; ?>-items">0</span>)</h1>
 		<ul class="item-details">
 		<?php if($is_feed->subscribe == 1 && $this->config->item('folders')) { ?>
 			<?php if($is_feed->flr_id) { ?>
@@ -49,7 +53,7 @@
 			<?php } ?>
 		<?php } ?>
 		</ul>
-	</article>
+	</div></div>
 <?php } ?>
 
 <?php if($mode == 'public_profile') { ?>
@@ -74,20 +78,26 @@
 			<?php if($is_member->mbr_description) { ?>
 				<p><?php echo strip_tags($is_member->mbr_description); ?></p>
 			<?php } ?>
-	</article>
+	</div></div>
 <?php } ?>
 
 <?php if($mode == 'geolocation') { ?>
-	<article id="introduction" class="title">
-		<ul class="actions">
-			<li class="geolocation"><a href="<?php echo base_url(); ?>home/geolocation"><i class="icon icon-user"></i><?php echo $this->lang->line('get_geolocation'); ?></a></li>
-		</ul>
-		<h2><i class="icon icon-map-marker"></i><?php echo $this->lang->line('geolocation_items'); ?> (<span id="intro-load-geolocation-items"></span>)</h2>
+	<div class="mdl-card mdl-cell mdl-cell--12-col">
+		<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
+			<h1 class="mdl-card__title-text"><i class="material-icons md-18">place</i><?php echo $this->lang->line('geolocation_items'); ?> (<span id="intro-load-geolocation-items"></span>)</h1>
+		</div>
 		<?php if($this->session->userdata('latitude') && $this->session->userdata('longitude')) { ?>
-			<ul class="item-details">
-				<li><a target="_blank" href="http://maps.google.com/maps?q=<?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?>&oe=UTF-8&ie=UTF-8"><i class="icon icon-user"></i><?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?></a></li>
-				<li class="block"><a target="_blank" href="http://maps.google.com/maps?q=<?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?>&oe=UTF-8&ie=UTF-8"><img src="http://maps.googleapis.com/maps/api/staticmap?center=<?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?>&markers=color:red|<?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?>&zoom=12&size=540x200&sensor=false" alt=""></a></li>
-		</ul>
+			<div class="mdl-card__supporting-text mdl-color-text--grey hide-collapse">
+				<p><a target="_blank" href="http://maps.google.com/maps?q=<?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?>&oe=UTF-8&ie=UTF-8"><i class="icon icon-user"></i><?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?></a></p>
+				<p><a target="_blank" href="http://maps.google.com/maps?q=<?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?>&oe=UTF-8&ie=UTF-8"><img src="http://maps.googleapis.com/maps/api/staticmap?center=<?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?>&markers=color:red|<?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?>&zoom=12&size=540x200&sensor=false" alt=""></a></p>
+			</div>
 		<?php } ?>
-	</article>
+		<div class="mdl-card__actions mdl-card--border">
+			<?php if($this->session->userdata('latitude') && $this->session->userdata('longitude')) { ?>
+				<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon geolocation" href="<?php echo base_url(); ?>home/geolocation"><i class="material-icons md-18">location_on</i></a>
+			<?php } else { ?>
+				<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon geolocation" href="<?php echo base_url(); ?>home/geolocation"><i class="material-icons md-18">location_off</i></a>
+			<?php } ?>
+		</div>
+	</div>
 <?php } ?>

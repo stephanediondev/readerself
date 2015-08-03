@@ -23,6 +23,14 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 	width: auto;
 }
 
+.mdl-navigation ul {
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+.mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
+	padding: 8px 8px;
+}
 .mdl-card {
 	min-height: auto;
 	overflow: visible;
@@ -46,9 +54,9 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 	margin-bottom: 4px;
 }
 .mdl-card__actions {
-	bottom: 0px;
-	padding: 0px;
-	position: absolute;
+	/*bottom: 0px;*/
+	/*padding: 0px;*/
+	/*position: absolute;*/
 }
 .mdl-menu__item {
 	height: 24px;

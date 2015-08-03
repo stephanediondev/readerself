@@ -21,7 +21,7 @@ function load_items(url) {
 	}*/
 	url = url + '/?items_mode=' + items_mode + '&items_display=' + items_display;
 	$('.mdl-layout__content').scrollTop(0);
-	$('.mdl-grid').html('<div class="ajax-loader"><img src="' + base_url + 'medias/ajax-loader.gif"></div>');
+	$('.mdl-grid').html('<div class="mdl-spinner mdl-js-spinner is-active"></div>');
 	var params = [];
 	params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
 	pagination = 0;
@@ -89,7 +89,7 @@ function add_items(url) {
 	if(!lock_add_items && !lock_no_more_items) {
 		lock_add_items = true;
 		lock_refresh = true;
-		$('.mdl-grid').append('<div class="ajax-loader"><img src="' + base_url + 'medias/ajax-loader.gif"></div>');
+		$('.mdl-grid').append('<div class="mdl-spinner mdl-js-spinner is-active"></div>');
 		var params = [];
 		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
 		if(items_display == 'collapse') {
@@ -625,7 +625,7 @@ $(document).ready(function() {
 				ref.parent().find('ul').html('');
 			}
 
-		} else if(ref.hasClass('menu')) {
+		} else if(ref.hasClass('mdl-navigation__link')) {
 			$('#search_items').val('');
 			$('.mdl-navigation li').removeClass('active');
 			ref.parent().addClass('active');
@@ -656,7 +656,7 @@ $(document).ready(function() {
 		$('.mdl-navigation li').removeClass('active');
 
 		$('aside > ul').find('.result').remove();
-		var content = '<li class="result active"><a id="load-author-items" class="menu" href="' + base_url + 'items/get/author/' + ref.data('itm_id') + '"><i class="icon icon-pencil"></i>' + ref.text() + ' (<span>0</span>)</a></li>';
+		var content = '<li class="result active"><a id="load-author-items" class="mdl-navigation__link" href="' + base_url + 'items/get/author/' + ref.data('itm_id') + '"><i class="icon icon-pencil"></i>' + ref.text() + ' (<span>0</span>)</a></li>';
 		$('aside > ul').append(content);
 
 		load_items(ref.attr('href'));
@@ -680,7 +680,7 @@ $(document).ready(function() {
 		} else {
 			var icon = 'rss';
 		}
-		content += '<a style="background-image:url(' + build_favicon(ref.data('fed_host')) + ');" id="load-feed-' + ref.data('fed_id') + '-items" class="favicon menu" href="' + base_url + 'items/get/feed/' + ref.data('fed_id') + '">' + ref.text() + ' (<span>0</span>)</a></li>';
+		content += '<a style="background-image:url(' + build_favicon(ref.data('fed_host')) + ');" id="load-feed-' + ref.data('fed_id') + '-items" class="favicon mdl-navigation__link" href="' + base_url + 'items/get/feed/' + ref.data('fed_id') + '">' + ref.text() + ' (<span>0</span>)</a></li>';
 		result_subscriptions.push(ref.data('fed_id'));
 		$('aside > ul').append(content);
 
@@ -695,7 +695,7 @@ $(document).ready(function() {
 		$('.mdl-navigation li').removeClass('active');
 
 		$('aside > ul').find('.result').remove();
-		var content = '<li class="result active"><a id="load-category-items" class="menu" href="' + base_url + 'items/get/category/' + ref.data('cat_id') + '"><i class="icon icon-tag"></i>' + ref.text() + ' (<span>0</span>)</a></li>';
+		var content = '<li class="result active"><a id="load-category-items" class="mdl-navigation__link" href="' + base_url + 'items/get/category/' + ref.data('cat_id') + '"><i class="icon icon-tag"></i>' + ref.text() + ' (<span>0</span>)</a></li>';
 		$('aside > ul').append(content);
 
 		load_items(ref.attr('href'));
@@ -778,7 +778,7 @@ $(document).ready(function() {
 							} else {
 								var title = sub.fed_title;
 							}
-							content += '<a style="background-image:url(' + build_favicon(sub.fed_host) + ');" id="load-feed-' + sub.fed_id + '-items" class="favicon menu" href="' + base_url + 'items/get/feed/' + sub.fed_id + '">' + title + ' (<span>0</span>)</a></li>';
+							content += '<a style="background-image:url(' + build_favicon(sub.fed_host) + ');" id="load-feed-' + sub.fed_id + '-items" class="favicon mdl-navigation__link" href="' + base_url + 'items/get/feed/' + sub.fed_id + '">' + title + ' (<span>0</span>)</a></li>';
 							result_subscriptions.push(sub.fed_id);
 							$('aside > ul').append(content);
 						}
@@ -879,7 +879,7 @@ $(document).ready(function() {
 		});
 	});
 
-	$(document).on('click', '.geolocation a', function(event) {
+	$(document).on('click', '.geolocation', function(event) {
 		event.preventDefault();
 		if(navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(

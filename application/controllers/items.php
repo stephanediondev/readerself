@@ -171,7 +171,7 @@ class Items extends CI_Controller {
 					$bindings[] = $is_member->mbr_id;
 
 				} else if($mode == 'priority') {
-					$introduction_title = '<i class="icon icon-flag"></i>'.$this->lang->line('priority_items').' (<span id="intro-load-priority-items"></span>)';
+					$introduction_title = '<i class="material-icons md-18">announcement</i>'.$this->lang->line('priority_items').' (<span id="intro-load-priority-items"></span>)';
 					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? AND sub.sub_priority = ? )';
 					$bindings[] = $this->member->mbr_id;
 					$bindings[] = 1;
@@ -185,7 +185,7 @@ class Items extends CI_Controller {
 					//$bindings[] = $this->member->mbr_id;
 
 				} else {
-					$introduction_title = '<i class="icon icon-asterisk"></i>'.$this->lang->line('all_items').' (<span id="intro-load-all-items"></span>)';
+					$introduction_title = '<i class="material-icons md-18">public</i>'.$this->lang->line('all_items').' (<span id="intro-load-all-items"></span>)';
 					if($is_feed) {
 					} else {
 						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
