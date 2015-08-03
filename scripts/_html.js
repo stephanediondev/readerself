@@ -142,7 +142,7 @@ function set_positions() {
 	_height = _window_height - _offset.top;
 	$('.mdl-layout__content').css({ 'height': _height});
 	if(ci_controller == 'home' || ci_controller == 'member') {
-		$('main section section').css({ 'padding-bottom': _height});
+		$('.mdl-grid').css({ 'padding-bottom': _height});
 	}
 
 	if($('aside').length > 0) {
