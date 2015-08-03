@@ -906,4 +906,23 @@ $(document).ready(function() {
 			);
 		}
 	});
+
+	$(document).on('click', '.items_read', function(event) {
+		event.preventDefault();
+		params = [];
+		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
+		$.ajax({
+			async: false,
+			cache: true,
+			data: params,
+			dataType: 'json',
+			statusCode: {
+				200: function(data_return, textStatus, jqXHR) {
+					load_items( $('.mdl-navigation').find('li.active').find('a.mdl-navigation__link').attr('href') );
+				}
+			},
+			type: 'POST',
+			url: $(this).attr('href')
+		});
+	});
 });

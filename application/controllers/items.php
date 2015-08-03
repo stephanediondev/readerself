@@ -468,14 +468,10 @@ class Items extends CI_Controller {
 		}
 		$this->readerself_library->set_content($content);
 	}
-	public function read() {
+	public function read($age) {
 		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
-
-		$type = 'dialog';
-
-		$data = array();
 
 		$content = array();
 
@@ -484,53 +480,11 @@ class Items extends CI_Controller {
 			$this->readerself_library->set_content_type('application/json');
 
 			if($this->session->userdata('items-mode')) {
-				$this->load->library(array('form_validation'));
-
-				if($this->session->userdata('items-mode') == 'priority') {
-					$data['title'] = $this->lang->line('priority_items');
-					$data['icon'] = 'flag';
-					$data['count'] = $this->readerself_model->count_unread('priority');
-				} else {
-					$data['title'] = $this->lang->line('all_items');
-					$data['icon'] = 'asterisk';
-					$data['count'] = $this->readerself_model->count_unread('all');
-				}
-
-				if($this->session->userdata('items-mode') == 'geolocation') {
-					$data['title'] = $this->lang->line('geolocation_items');
-					$data['icon'] = 'map-marker';
-					$data['count'] = $this->readerself_model->count_unread('geolocation');
-				}
-
-				if($this->session->userdata('items-mode') == 'audio') {
-					$data['title'] = $this->lang->line('audio_items');
-					$data['icon'] = 'volume-up';
-					$data['count'] = $this->readerself_model->count_unread('audio');
-				}
-
-				if($this->session->userdata('items-mode') == 'video') {
-					$data['title'] = $this->lang->line('video_items');
-					$data['icon'] = 'youtube-play';
-					$data['count'] = $this->readerself_model->count_unread('video');
-				}
-
 				$is_folder = FALSE;
 				if($this->session->userdata('items-mode') == 'folder') {
 					$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? AND flr.flr_id = ? GROUP BY flr.flr_id', array($this->member->mbr_id, $this->session->userdata('items-id')));
 					if($query->num_rows() > 0) {
 						$is_folder = $query->row();
-						$data['title'] = $is_folder->flr_title;
-						$data['icon'] = 'folder-close';
-
-						$sql = 'SELECT flr.flr_id, COUNT(DISTINCT(itm.itm_id)) AS count
-						FROM '.$this->db->dbprefix('folders').' AS flr
-						LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.flr_id = flr.flr_id AND sub.mbr_id = ?
-						LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id AND itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?)
-						WHERE flr.flr_id = ?
-						GROUP BY flr.flr_id';
-						$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id, $is_folder->flr_id));
-
-						$data['count'] = $query->row()->count;
 					}
 				}
 
@@ -539,16 +493,6 @@ class Items extends CI_Controller {
 					$query = $this->db->query('SELECT sub.*, fed.fed_title, fed.fed_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.fed_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $this->session->userdata('items-id')));
 					if($query->num_rows() > 0) {
 						$is_feed = $query->row();
-						$data['title'] = $is_feed->fed_title;
-						$data['icon'] = 'bookmark';
-
-						$sql = 'SELECT sub.sub_id, COUNT(DISTINCT(itm.itm_id)) AS count
-						FROM '.$this->db->dbprefix('subscriptions').' AS sub
-						LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.fed_id = sub.fed_id AND itm.itm_id NOT IN (SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.mbr_id = ?)
-						WHERE sub.mbr_id = ? AND sub.sub_id = ? GROUP BY sub.sub_id';
-						$query = $this->db->query($sql, array($this->member->mbr_id, $this->member->mbr_id, $is_feed->sub_id));
-
-						$data['count'] = $query->row()->count;
 					}
 				}
 
@@ -557,9 +501,6 @@ class Items extends CI_Controller {
 					$query = $this->db->query('SELECT itm.itm_author FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id', array($this->session->userdata('items-id')));
 					if($query->num_rows() > 0) {
 						$is_author = $query->row()->itm_author;
-						$data['title'] = $is_author;
-						$data['icon'] = 'user';
-						$data['count'] = $this->readerself_model->count_unread('author', $is_author);
 					}
 				}
 
@@ -568,122 +509,98 @@ class Items extends CI_Controller {
 					$query = $this->db->query('SELECT cat.cat_title FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_id = ? GROUP BY cat.cat_id', array($this->session->userdata('items-id')));
 					if($query->num_rows() > 0) {
 						$is_category = $query->row()->cat_title;
-						$data['title'] = $is_category;
-						$data['icon'] = 'tag';
-						$data['count'] = $this->readerself_model->count_unread('category', $is_category);
 					}
+				}
+
+				$where = array();
+				$bindings = array();
+
+				$bindings[] = $this->member->mbr_id;
+				$bindings[] = date('Y-m-d H:i:s');
+
+				if($this->session->userdata('items-mode') == 'priority') {
+					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? AND sub.sub_priority = ? )';
+					$bindings[] = $this->member->mbr_id;
+					$bindings[] = 1;
+				} else {
+					if($this->session->userdata('items-mode') == 'following') {
+						$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
+						$bindings[] = $this->member->mbr_id;
+
+						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
+						$bindings[] = $this->member->mbr_id;
+					} else {
+						$where[] = '( itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? ) OR ( itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) ) ) )';
+						$bindings[] = $this->member->mbr_id;
+						$bindings[] = $this->member->mbr_id;
+					}
+				}
+
+				if($this->session->userdata('items-mode') == 'geolocation') {
+					$where[] = 'itm.itm_latitude IS NOT NULL';
+					$where[] = 'itm.itm_longitude IS NOT NULL';
+				}
+
+				if($this->session->userdata('items-mode') == 'audio') {
+					$where[] = 'enr.enr_type LIKE ?';
+					$bindings[] = 'audio/%';
+				}
+
+				if($this->session->userdata('items-mode') == 'video') {
+					$where[] = 'enr.enr_type LIKE ?';
+					$bindings[] = 'video/%';
+				}
+
+				$where[] = 'itm.itm_id NOT IN ( SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.itm_id = itm.itm_id AND hst.mbr_id = ? )';
+				$bindings[] = $this->member->mbr_id;
+
+				if($is_folder) {
+					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id = ? )';
+					$bindings[] = $is_folder->flr_id;
+				}
+
+				if($is_feed) {
+					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
+					$bindings[] = $is_feed->sub_id;
+				}
+
+				if($is_author) {
+					$where[] = 'itm.itm_author = ?';
+					$bindings[] = $is_author;
+				}
+
+				if($is_category) {
+					$where[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_title = ? )';
+					$bindings[] = $is_category;
 				}
 
 				if($this->session->userdata('items-mode') == 'nofolder') {
-					$data['title'] = '<em>'.$this->lang->line('no_folder').'</em>';
-					$data['icon'] = 'folder-close';
-					$data['count'] = $this->readerself_model->count_unread('nofolder');
+					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id IS NULL )';
 				}
 
-				if($this->session->userdata('items-mode') == 'following') {
-					$data['title'] = $this->lang->line('following_items');
-					$data['icon'] = 'check';
-					$data['count'] = $this->readerself_model->count_unread('following');
+				if($age == 'one-day') {
+					$where[] = 'itm.itm_date < ?';
+					$bindings[] = date('Y-m-d H:i:s', time() - 3600 * 24 * 1);
+				}
+				if($age == 'one-week') {
+					$where[] = 'itm.itm_date < ?';
+					$bindings[] = date('Y-m-d H:i:s', time() - 3600 * 24 * 7);
+				}
+				if($age == 'two-weeks') {
+					$where[] = 'itm.itm_date < ?';
+					$bindings[] = date('Y-m-d H:i:s', time() - 3600 * 24 * 14);
 				}
 
-				$this->form_validation->set_rules('age', 'lang:age', 'required');
-
-				if($this->form_validation->run() == FALSE) {
-					$content['modal'] = $this->load->view('items_read', $data, TRUE);
-				} else {
-					$where = array();
-					$bindings = array();
-
-					$bindings[] = $this->member->mbr_id;
-					$bindings[] = date('Y-m-d H:i:s');
-
-					if($this->session->userdata('items-mode') == 'priority') {
-						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? AND sub.sub_priority = ? )';
-						$bindings[] = $this->member->mbr_id;
-						$bindings[] = 1;
-					} else {
-						if($this->session->userdata('items-mode') == 'following') {
-							$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
-							$bindings[] = $this->member->mbr_id;
-
-							$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
-							$bindings[] = $this->member->mbr_id;
-						} else {
-							$where[] = '( itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? ) OR ( itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) ) ) )';
-							$bindings[] = $this->member->mbr_id;
-							$bindings[] = $this->member->mbr_id;
-						}
-					}
-
-					if($this->session->userdata('items-mode') == 'geolocation') {
-						$where[] = 'itm.itm_latitude IS NOT NULL';
-						$where[] = 'itm.itm_longitude IS NOT NULL';
-					}
-
-					if($this->session->userdata('items-mode') == 'audio') {
-						$where[] = 'enr.enr_type LIKE ?';
-						$bindings[] = 'audio/%';
-					}
-
-					if($this->session->userdata('items-mode') == 'video') {
-						$where[] = 'enr.enr_type LIKE ?';
-						$bindings[] = 'video/%';
-					}
-
-					$where[] = 'itm.itm_id NOT IN ( SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.itm_id = itm.itm_id AND hst.mbr_id = ? )';
-					$bindings[] = $this->member->mbr_id;
-
-					if($is_folder) {
-						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id = ? )';
-						$bindings[] = $is_folder->flr_id;
-					}
-
-					if($is_feed) {
-						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.sub_id = ? )';
-						$bindings[] = $is_feed->sub_id;
-					}
-
-					if($is_author) {
-						$where[] = 'itm.itm_author = ?';
-						$bindings[] = $is_author;
-					}
-
-					if($is_category) {
-						$where[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_title = ? )';
-						$bindings[] = $is_category;
-					}
-
-					if($this->session->userdata('items-mode') == 'nofolder') {
-						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id IS NULL )';
-					}
-
-					if($this->input->post('age') == 'one-day') {
-						$where[] = 'itm.itm_date < ?';
-						$bindings[] = date('Y-m-d H:i:s', time() - 3600 * 24 * 1);
-					}
-					if($this->input->post('age') == 'one-week') {
-						$where[] = 'itm.itm_date < ?';
-						$bindings[] = date('Y-m-d H:i:s', time() - 3600 * 24 * 7);
-					}
-					if($this->input->post('age') == 'two-weeks') {
-						$where[] = 'itm.itm_date < ?';
-						$bindings[] = date('Y-m-d H:i:s', time() - 3600 * 24 * 14);
-					}
-
-					$sql = 'INSERT INTO '.$this->db->dbprefix('history').' (itm_id, mbr_id, hst_real, hst_datecreated)
-					SELECT itm.itm_id AS itm_id, ? AS mbr_id, \'0\' AS hst_real, ? AS hst_datecreated
-					FROM '.$this->db->dbprefix('items').' AS itm ';
-					if($this->session->userdata('items-mode') == 'audio' || $this->session->userdata('items-mode') == 'video') {
-						$sql .= 'LEFT JOIN '.$this->db->dbprefix('enclosures').' AS enr ON enr.itm_id = itm.itm_id ';
-					}
-					$sql .= 'WHERE '.implode(' AND ', $where).'
-					GROUP BY itm.itm_id';
-					$query = $this->db->query($sql, $bindings);
-
-					$content['modal'] = $this->load->view('items_read_confirm', $data, TRUE);
+				$sql = 'INSERT INTO '.$this->db->dbprefix('history').' (itm_id, mbr_id, hst_real, hst_datecreated)
+				SELECT itm.itm_id AS itm_id, ? AS mbr_id, \'0\' AS hst_real, ? AS hst_datecreated
+				FROM '.$this->db->dbprefix('items').' AS itm ';
+				if($this->session->userdata('items-mode') == 'audio' || $this->session->userdata('items-mode') == 'video') {
+					$sql .= 'LEFT JOIN '.$this->db->dbprefix('enclosures').' AS enr ON enr.itm_id = itm.itm_id ';
 				}
+				$sql .= 'WHERE '.implode(' AND ', $where).'
+				GROUP BY itm.itm_id';
+				$query = $this->db->query($sql, $bindings);
 			}
-			$content['mode'] = $type;
 		} else {
 			$this->output->set_status_header(403);
 		}

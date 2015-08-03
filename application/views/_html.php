@@ -91,10 +91,10 @@
 							<i class="material-icons md-24">done</i>
 						</button>
 						<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn_done">
-							<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>items/read/all"><?php echo $this->lang->line('no_date_limit'); ?></a></li>
-							<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>items/read/one-day"><?php echo $this->lang->line('items_older_than_a_day'); ?></a></li>
-							<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>items/read/one-week"><?php echo $this->lang->line('items_older_than_a_week'); ?></a></li>
-							<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>items/read/two-weeks"><?php echo $this->lang->line('items_older_than_two_weeks'); ?></a></li>
+							<li class="mdl-menu__item"><a class="items_read" href="<?php echo base_url(); ?>items/read/all"><?php echo $this->lang->line('no_date_limit'); ?></a></li>
+							<li class="mdl-menu__item"><a class="items_read" href="<?php echo base_url(); ?>items/read/one-day"><?php echo $this->lang->line('items_older_than_a_day'); ?></a></li>
+							<li class="mdl-menu__item"><a class="items_read" href="<?php echo base_url(); ?>items/read/one-week"><?php echo $this->lang->line('items_older_than_a_week'); ?></a></li>
+							<li class="mdl-menu__item"><a class="items_read" href="<?php echo base_url(); ?>items/read/two-weeks"><?php echo $this->lang->line('items_older_than_two_weeks'); ?></a></li>
 						</ul>
 
 						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon item_up" href="#" id="item_up" title="<?php echo $this->lang->line('title_k'); ?>"><i class="material-icons md-24">keyboard_arrow_up</i></a>
