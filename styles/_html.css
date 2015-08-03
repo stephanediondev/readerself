@@ -1,3 +1,7 @@
+.items_mode .unread_only{display:none;}
+.items_display .expand{display:none;}
+.item.collapse .hide-collapse{display:none;}
+
 .favicon, a.favicon:link, a.favicon:visited {
 	background-position: center left;
 	background-repeat: no-repeat;

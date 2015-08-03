@@ -65,6 +65,8 @@
 
 					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon items_refresh" href="#" title="r"><i class="material-icons md-24">refresh</i></a>
 
+					<a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon items_mode"><span class="unread_only" title="maj. + 2"><i class="material-icons md-24">panorama_fish_eye</i></span><span class="read_and_unread" title="maj. + 1"><i class="material-icons md-24">radio_button_checked</i></span></a>
+
 					<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn_done">
 						<i class="material-icons md-24">done</i>
 					</button>

@@ -291,16 +291,36 @@ $(document).ready(function() {
 			statusCode: {
 				200: function(data_return, textStatus, jqXHR) {
 					if(data_return.status == 'priority') {
-						ref.find('.not_priority').hide();
-						ref.find('.priority').show();
-						$('aside ul').find('#load-feed-' + data_return.fed_id + '-items').find('i').removeClass('icon-rss')
-						$('aside ul').find('#load-feed-' + data_return.fed_id + '-items').find('i').addClass('icon-flag')
+						ref.html('<i class="material-icons md-18">announcement</i>');
 					}
 					if(data_return.status == 'not_priority') {
-						ref.find('.priority').hide();
-						ref.find('.not_priority').show();
-						$('aside ul').find('#load-feed-' + data_return.fed_id + '-items').find('i').removeClass('icon-flag')
-						$('aside ul').find('#load-feed-' + data_return.fed_id + '-items').find('i').addClass('icon-rss')
+						ref.html('<i class="material-icons md-18">chat_bubble_outline</i>');
+					}
+					refresh();
+				}
+			},
+			type: 'POST',
+			url: ref.attr('href')
+		});
+	});
+
+	$(document).on('click', 'a.subscribe', function(event) {
+		event.preventDefault();
+		ref = $(this);
+		params = [];
+		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
+		$.ajax({
+			async: true,
+			cache: true,
+			data: params,
+			dataType: 'json',
+			statusCode: {
+				200: function(data_return, textStatus, jqXHR) {
+					if(data_return.status == 'subscribe') {
+						ref.html('<i class="material-icons md-18">bookmark</i>');
+					}
+					if(data_return.status == 'not_subscribe') {
+						ref.html('<i class="material-icons md-18">bookmark_border</i>');
 					}
 					refresh();
 				}
