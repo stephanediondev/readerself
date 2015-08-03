@@ -58,7 +58,13 @@
 			<div class="mdl-layout-spacer">
 			</div>
 			<?php if($this->config->item('salt_password')) { ?>
-				<?php if($this->session->userdata('mbr_id')) { ?>
+				<?php if($this->router->class == 'member') { ?>
+					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon items_refresh" href="#" title="r"><i class="material-icons md-24">refresh</i></a>
+
+					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon item_up" href="#" id="item_up" title="<?php echo $this->lang->line('title_k'); ?>"><i class="material-icons md-24">keyboard_arrow_up</i></a>
+					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon item_down" href="#" id="item_down" title="<?php echo $this->lang->line('title_j'); ?>"><i class="material-icons md-24">keyboard_arrow_down</i></a>
+
+				<?php } else if($this->session->userdata('mbr_id')) { ?>
 					<?php if($this->router->class != 'home') { ?>
 						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>"><i class="material-icons md-24">home</i></a>
 					<?php } else { ?>

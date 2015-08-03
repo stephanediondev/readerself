@@ -444,8 +444,8 @@ class Items extends CI_Controller {
 				} else {
 					$lastcrawl = $this->db->query('SELECT crr.crr_datecreated FROM '.$this->db->dbprefix('crawler').' AS crr GROUP BY crr.crr_id ORDER BY crr.crr_id DESC LIMIT 0,1')->row();
 					if($lastcrawl && $mode != 'public_profile') {
-						$content['end'] = '<article id="last_crawl">';
-						$content['end'] .= '</article>';
+						$content['end'] = '<div class="mdl-card mdl-cell mdl-cell--12-col" id="last_crawl">';
+						$content['end'] .= '</div>';
 					} else if($mode == 'public_profile') {
 						$content['end'] = '<article class="title">';
 						$content['end'] .= '<p><i class="icon icon-check"></i>'.$this->lang->line('no_more_items').'</p>';

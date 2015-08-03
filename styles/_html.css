@@ -5,11 +5,11 @@ p {
 	margin: 0px 0px 4px 0px;
 }
 
-.data_table{border-collapse:collapse;border-spacing:0px;float:left;margin:0px 10px 10px 0px;}
-.data_table table td{border-bottom:1px solid #E7E7E7;font-size:12px;padding:4px 5px 4px 4px;text-align:left;vertical-align:middle;}
-.data_table table td.result{text-align:center;}
-.data_table tr:hover td{background-color:#E7E7E7;}
-.data_table table a:link, .data_table table a:visited{text-decoration:none;}
+.mdl-card table {
+	width: 100%;
+}
+.color, a.color:link, a.color:visited{color:#000000;display:inline-block;margin-right:5px;width:20px;}
+.color_percent{background-color:#AEB2B7!important;}
 
 .items_mode .unread_only{display:none;}
 .items_display .expand{display:none;}
@@ -45,11 +45,14 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 	margin: 0px;
 	padding: 0px;
 }
+.mdl-card .mdl-navigation__link {
+	padding-right: 4px;
+}
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
 	padding: 8px 8px;
 }
 .mdl-card {
-	min-height: auto;
+	min-height: inherit;
 	overflow: visible;
 }
 .mdl-card__title, .mdl-card__supporting-text {
