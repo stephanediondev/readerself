@@ -2,7 +2,7 @@
 
 ####Demo
 
-http://readerself.com/demo/
+https://readerself.com/demo-material-design/
 ```text
 example@example.com
 example
