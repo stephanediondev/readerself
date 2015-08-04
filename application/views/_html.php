@@ -117,8 +117,8 @@
 						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>logout"><?php echo $this->lang->line('logout'); ?></a></li>
 					</ul>
 				<?php } else { ?>
-					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>login"><i class="material-icons md-24">login</i></a>
-					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>password"><i class="material-icons md-24">password</i></a>
+					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>login"><i class="material-icons md-24">power_settings_new</i></a>
+					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>password"><i class="material-icons md-24">vpn_key</i></a>
 					<?php if($this->config->item('register_multi') && !$this->config->item('ldap')) { ?>
 						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>register"><?php echo $this->lang->line('register'); ?></a>
 					<?php } ?>
