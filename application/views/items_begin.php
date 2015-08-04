@@ -25,24 +25,58 @@
 	</div>
 <?php } ?>
 
-<?php if($mode == 'feed') { ?>
-	<div<?php if($is_feed->sub_direction) { ?> dir="<?php echo $is_feed->sub_direction; ?>"<?php } else if($is_feed->fed_direction) { ?> dir="<?php echo $is_feed->fed_direction; ?>"<?php } ?> id="introduction" class="mdl-card mdl-cell mdl-cell--12-col">
-		<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
-			<h1 style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $is_feed->fed_host; ?>&amp;alt=feed);" class="mdl-card__title-text favicon"><?php echo $is_feed->fed_title; ?> (<span id="intro-load-feed-<?php echo $is_feed->fed_id; ?>-items">0</span>)</h1>
-		</div>
-		<div class="mdl-card__supporting-text mdl-color-text--grey">
-			<?php if($this->config->item('tags')) { ?>
-				<?php if(count($is_feed->categories) > 0) { ?>
-					<p><?php echo implode(', ', $is_feed->categories); ?></p>
-				<?php } ?>
-				<?php if($is_feed->fed_url) { ?>
-					<p><a target="_blank" href="<?php echo $is_feed->fed_url; ?>"><i class="icon icon-external-link"></i><?php echo $is_feed->fed_url; ?></a></p>
-				<?php } ?>
-			<?php } ?>
+<?php if($mode == 'folder') { ?>
+	<div<?php if($is_folder->flr_direction) { ?> dir="<?php echo $is_folder->flr_direction; ?>"<?php } ?> class="mdl-card mdl-cell mdl-cell--4-col">
+		<div class="mdl-card__title">
+			<h1 class="mdl-card__title-text"><a href="<?php echo base_url(); ?>folders/read/<?php echo $is_folder->flr_id; ?>"><i class="icon icon-folder-close"></i><?php echo $is_folder->flr_title; ?></a></h1>
+			<div class="mdl-card__title-infos">
+				<span class="mdl-navigation__link"><i class="material-icons md-16">bookmark</i><?php echo $is_folder->subscriptions; ?> subscription(s)</span>
+				<span class="mdl-navigation__link"><i class="material-icons md-16">star</i><?php echo $is_folder->starred_items; ?> starred item(s)</span>
+				<span class="mdl-navigation__link"><i class="material-icons md-16">favorite</i><?php echo $is_folder->shared_items; ?> shared item(s)</span>
+			</div>
 		</div>
 		<div class="mdl-card__actions mdl-card--border">
+			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>folders/update/<?php echo $is_folder->flr_id; ?>"><i class="material-icons md-18">mode_edit</i></a>
+			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>folders/delete/<?php echo $is_folder->flr_id; ?>"><i class="material-icons md-18">delete</i></a>
+		</div>
+	</div>
+
+	<div class="mdl-card mdl-cell mdl-cell--12-col">
+		<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
+			<h1 class="mdl-card__title-text"><i class="material-icons md-18">folder</i> (<span id="intro-load-folder-<?php echo $is_folder->flr_id; ?>-items">0</span>)</h1>
+		</div>
+	</div>
+<?php } ?>
+
+<?php if($mode == 'feed') { ?>
+	<div<?php if($is_feed->sub_direction) { ?> dir="<?php echo $is_feed->sub_direction; ?>"<?php } else if($is_feed->fed_direction) { ?> dir="<?php echo $is_feed->fed_direction; ?>"<?php } ?> class="mdl-card mdl-cell mdl-cell--4-col">
+		<div class="mdl-card__title">
+			<h1 class="mdl-card__title-text"><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $is_feed->fed_host; ?>&amp;alt=feed);" class="favicon" href="<?php echo base_url(); ?>subscriptions/read/<?php echo $is_feed->sub_id; ?>"><?php echo $is_feed->fed_title; ?><?php if($is_feed->sub_title) { ?> / <em><?php echo $is_feed->sub_title; ?></em><?php } ?></a></h1>
+			<div class="mdl-card__title-infos">
+				<?php if($is_feed->fed_url) { ?>
+					<a class="mdl-navigation__link" href="<?php echo $is_feed->fed_url; ?>" target="_blank"><i class="material-icons md-16">open_in_new</i><?php echo $is_feed->fed_url; ?></a>
+				<?php } ?>
+				<?php if($this->config->item('folders')) { ?>
+					<?php if($is_feed->flr_title) { ?><a class="mdl-navigation__link" href="<?php echo base_url(); ?>folders/read/<?php echo $is_feed->flr_id; ?>"><i class="material-icons md-16">folder</i><?php echo $is_feed->flr_title; ?></a><?php } ?>
+				<?php } ?>
+			</div>
+		</div>
+		<div class="mdl-card__supporting-text mdl-color-text--grey">
+			<?php if($this->config->item('tags') && $is_feed->categories) { ?>
+				<p><?php echo implode(', ', $is_feed->categories); ?></p>
+			<?php } ?>
+			<p><?php echo $is_feed->fed_description; ?></p>
+		</div>
+		<div class="mdl-card__actions mdl-card--border">
+			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon subscribe" href="<?php echo base_url(); ?>subscriptions/subscribe/<?php echo $is_feed->sub_id; ?>"><i class="material-icons md-18">bookmark</i></a>
 			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon priority" href="<?php echo base_url(); ?>subscriptions/priority/<?php echo $is_feed->sub_id; ?>"><?php if($is_feed->sub_priority == 0) { ?><i class="material-icons md-18">chat_bubble_outline</i><?php } ?><?php if($is_feed->sub_priority == 1) { ?><i class="material-icons md-18">announcement</i><?php } ?></a>
-			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon subscribe" href="<?php echo base_url(); ?>feeds/subscribe/<?php echo $is_feed->fed_id; ?>"><?php if($is_feed->subscribe == 1) { ?><i class="material-icons md-18">bookmark</i><?php } else { ?><i class="material-icons md-18">bookmark_border</i><?php } ?></a>
+			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>subscriptions/update/<?php echo $is_feed->sub_id; ?>"><i class="material-icons md-18">mode_edit</i></a>
+		</div>
+	</div>
+
+	<div class="mdl-card mdl-cell mdl-cell--12-col">
+		<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
+			<h1 class="mdl-card__title-text"><i class="material-icons md-18">bookmark</i> (<span id="intro-load-feed-<?php echo $is_feed->fed_id; ?>-items">0</span>)</h1>
 		</div>
 	</div>
 <?php } ?>

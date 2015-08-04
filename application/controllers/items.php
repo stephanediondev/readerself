@@ -29,12 +29,17 @@ class Items extends CI_Controller {
 			$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? AND flr.flr_id = ? GROUP BY flr.flr_id', array($this->member->mbr_id, $id));
 			if($query->num_rows() > 0) {
 				$is_folder = $query->row();
+				$is_folder->subscriptions = $this->db->query('SELECT COUNT(DISTINCT(sub.sub_id)) AS count FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.mbr_id = ? AND sub.flr_id = ?', array($this->member->mbr_id, $id))->row()->count;
+
+				$is_folder->shared_items = $this->db->query('SELECT COUNT(DISTINCT(shr.shr_id)) AS count FROM '.$this->db->dbprefix('share').' AS shr LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = shr.itm_id WHERE shr.mbr_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? AND sub.flr_id = ? )', array($this->member->mbr_id, $this->member->mbr_id, $id))->row()->count;
+
+				$is_folder->starred_items = $this->db->query('SELECT COUNT(DISTINCT(fav.fav_id)) AS count FROM '.$this->db->dbprefix('favorites').' AS fav LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = fav.itm_id WHERE fav.mbr_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? AND sub.flr_id = ? )', array($this->member->mbr_id, $this->member->mbr_id, $id))->row()->count;
 			}
 		}
 
 		$is_feed = FALSE;
 		if($mode == 'feed') {
-			$query = $this->db->query('SELECT sub.*, fed.fed_host, flr.flr_title, fed.fed_url, fed.fed_direction, fed.fed_title FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.mbr_id = ? AND sub.fed_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $id));
+			$query = $this->db->query('SELECT sub.*, fed.fed_host, flr.flr_title, fed.fed_url, fed.fed_direction, fed.fed_title, fed.fed_description FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.mbr_id = ? AND sub.fed_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $id));
 			if($query->num_rows() > 0) {
 				$is_feed = $query->row();
 				$is_feed->subscribe = 1;
@@ -268,8 +273,8 @@ class Items extends CI_Controller {
 				}
 
 				if($is_folder) {
-					$introduction_direction = $is_folder->flr_direction;
-					$introduction_title = '<i class="icon icon-folder-close"></i>'.$is_folder->flr_title.' (<span id="intro-load-folder-'.$is_folder->flr_id.'-items">0</span>)';
+					$content['begin'] = $this->load->view('items_begin', array('is_folder'=>$is_folder, 'mode'=>$mode), TRUE);
+
 					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id = ? )';
 					$bindings[] = $is_folder->flr_id;
 				}
