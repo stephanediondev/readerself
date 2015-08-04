@@ -120,7 +120,7 @@
 					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>login"><i class="material-icons md-24">power_settings_new</i></a>
 					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>password"><i class="material-icons md-24">vpn_key</i></a>
 					<?php if($this->config->item('register_multi') && !$this->config->item('ldap')) { ?>
-						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>register"><?php echo $this->lang->line('register'); ?></a>
+						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>register"><i class="material-icons md-24">person_add</i></a>
 					<?php } ?>
 				<?php } ?>
 			<?php } ?>

@@ -469,37 +469,6 @@ class Subscriptions extends CI_Controller {
 		$this->readerself_library->set_content($content);
 	}
 
-	/*public function subscribe($fed_id) {
-		if(!$this->session->userdata('mbr_id')) {
-			redirect(base_url());
-		}
-
-		$content = array();
-
-		if($this->input->is_ajax_request()) {
-			$this->readerself_library->set_template('_json');
-			$this->readerself_library->set_content_type('application/json');
-
-			$sub = $this->readerself_model->get_subscription_row($sub_id);
-			if($sub) {
-				if($sub->sub_priority == 1) {
-					$this->db->set('sub_priority', 0);
-					$content['status'] = 'not_priority';
-				} else {
-					$this->db->set('sub_priority', 1);
-					$content['status'] = 'priority';
-				}
-				$content['sub_id'] = $sub_id;
-				$this->db->where('sub_id', $sub_id);
-				$this->db->where('mbr_id', $this->member->mbr_id);
-				$this->db->update('subscriptions');
-			}
-		} else {
-			$this->output->set_status_header(403);
-		}
-		$this->readerself_library->set_content($content);
-	}*/
-
 	public function export() {
 		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());

@@ -29,11 +29,6 @@
 				<?php } ?>
 				<p><?php echo $fed->fed_description; ?></p>
 			</div>
-			<div class="mdl-card__actions mdl-card--border">
-				<?php if($this->member->mbr_administrator == 1) { ?>
-					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>feeds/update/<?php echo $fed->fed_id; ?>"><i class="material-icons md-18">mode_edit</i></a>
-				<?php } ?>
-			</div>
 		</div>
 
 		<div class="mdl-card mdl-cell mdl-cell--12-col">

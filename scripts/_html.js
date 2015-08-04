@@ -320,7 +320,7 @@ $(document).ready(function() {
 		});
 	});
 
-	$(document).on('click', 'a.subscribe', function(event) {
+	/*$(document).on('click', 'a.subscribe', function(event) {
 		event.preventDefault();
 		ref = $(this);
 		params = [];
@@ -344,7 +344,7 @@ $(document).ready(function() {
 			type: 'POST',
 			url: ref.attr('href')
 		});
-	});
+	});*/
 
 	$(document).on('click', 'a.follow', function(event) {
 		event.preventDefault();
