@@ -520,16 +520,23 @@ class Subscriptions extends CI_Controller {
 					$this->feeds = array();
 					$this->import_opml($obj->body);
 
-					$content .= '<nav>
-		<ul class="actions">
-			<li><a href="'.base_url().'subscriptions"><i class="icon icon-step-backward"></i>'.$this->lang->line('back').'</a></li>
-		</ul>
-	</nav>
-</header>
-<main><section><section>';
+					$content .= '<div class="mdl-tooltip" for="tip_back">'.$this->lang->line('back').'</div>
+<main class="mdl-layout__content mdl-color--grey-100">
+	<div class="mdl-grid">
+		<div class="mdl-card mdl-cell mdl-cell--12-col">
+			<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
+				<h1 class="mdl-card__title-text"><i class="material-icons md-18">file_download</i>'.$this->lang->line('import').'</h1>
+			</div>
+			<div class="mdl-card__actions mdl-card--border">
+				<a id="tip_back" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="'.base_url().'subscriptions"><i class="material-icons md-18">arrow_back</i></a>
+			</div>
+		</div>';
 
 					if(count($this->folders) > 0) {
-						$content_folders = '<article class="title"><h2><i class="icon icon-folder-close"></i>'.$this->lang->line('folders').' ('.count($this->folders).')</h2></article>';
+						$content_folders = '<div class="mdl-card mdl-cell mdl-cell--12-col">
+						<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
+						<h1 class="mdl-card__title-text"><i class="material-icons md-18">folder</i>'.$this->lang->line('folders').' ('.count($this->folders).')</h1></div></div>';
+
 						$folders = array();
 						foreach($this->folders as $value) {
 							$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.flr_title = ? AND flr.mbr_id = ? GROUP BY flr.flr_id', array($value, $this->member->mbr_id));
@@ -546,13 +553,15 @@ class Subscriptions extends CI_Controller {
 								$folders[$value] = $flr->flr_id;
 								$icon = 'repeat';
 							}
-							$content_folders .= '<article>
-								<ul class="actions">
-									<li><a href="'.base_url().'folders/update/'.$folders[$value].'"><i class="icon icon-wrench"></i>'.$this->lang->line('update').'</a></li>
-									<li><a href="'.base_url().'folders/delete/'.$folders[$value].'"><i class="icon icon-trash"></i>'.$this->lang->line('delete').'</a></li>
-								</ul>
-								<h2><a href="'.base_url().'folders/read/'.$folders[$value].'"><i class="icon icon-'.$icon.'"></i>'.$value.'</a></h2>
-							</article>';
+							$content_folders .= '<div class="mdl-card mdl-cell mdl-cell--4-col">
+								<div class="mdl-card__title">
+									<h1 class="mdl-card__title-text"><a href="'.base_url().'folders/read/'.$folders[$value].'">'.$value.'</a></h1>
+								</div>
+								<div class="mdl-card__actions mdl-card--border">
+									<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="'.base_url().'folders/update/'.$folders[$value].'"><i class="material-icons md-18">mode_edit</i></a>
+									<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="'.base_url().'folders/delete/'.$folders[$value].'"><i class="material-icons md-18">delete</i></a>
+								</div>
+							</div>';
 						}
 						if($this->config->item('folders')) {
 							$content .= $content_folders;
@@ -560,7 +569,9 @@ class Subscriptions extends CI_Controller {
 					}
 
 					if(count($this->feeds) > 0) {
-						$content .= '<article class="title"><h2><i class="icon icon-rss"></i>'.$this->lang->line('subscriptions').' ('.count($this->feeds).')</h2></article>';
+						$content .= '<div class="mdl-card mdl-cell mdl-cell--12-col">
+						<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
+						<h1 class="mdl-card__title-text"><i class="material-icons md-18">bookmark</i>'.$this->lang->line('subscriptions').' ('.count($this->feeds).')</h1></div></div>';
 						foreach($this->feeds as $obj) {
 							if(isset($obj->title) == 0 && isset($obj->text) == 1) {
 								$obj->title = $obj->text;
@@ -621,22 +632,22 @@ class Subscriptions extends CI_Controller {
 									$icon = 'plus';
 								}
 							}
-							$content .= '<article>
-								<ul class="actions">
-									<li><a href="'.base_url().'subscriptions/update/'.$sub_id.'"><i class="icon icon-wrench"></i>'.$this->lang->line('update').'</a></li>
-									<li><a href="'.base_url().'subscriptions/delete/'.$sub_id.'"><i class="icon icon-trash"></i>'.$this->lang->line('delete').'</a></li>
-								</ul>
-								<h2><a href="'.base_url().'subscriptions/read/'.$sub_id.'"><i class="icon icon-'.$icon.'"></i>'.$obj->title.'</a></h2>
-								<ul class="item-details">';
-								if($this->config->item('folders')) {
-									if($obj->flr && array_key_exists($obj->flr, $folders)) {
-										$content .= '<li><a href="'.base_url().'folders/read/'.$folders[$obj->flr].'"><i class="icon icon-folder-close"></i>'.$obj->flr.'</a></li>';
-									} else {
-										$content .= '<li><i class="icon icon-folder-close"></i><em>'.$this->lang->line('no_folder').'</em></li>';
-									}
-								}
-								$content .= '</ul>
-							</article>';
+							$content .= '<div class="mdl-card mdl-cell mdl-cell--4-col">
+								<div class="mdl-card__title">
+									<h1 class="mdl-card__title-text"><a href="'.base_url().'subscriptions/read/'.$sub_id.'">'.$obj->title.'</a></h1>
+									<div class="mdl-card__title-infos">';
+										if($this->config->item('folders')) {
+											if($obj->flr && array_key_exists($obj->flr, $folders)) {
+												$content .= '<a class="mdl-navigation__link" href="'.base_url().'folders/read/'.$folders[$obj->flr].'"><i class="material-icons md-16">folder</i>'.$obj->flr.'</a>';
+											}
+										}
+									$content .= '</div>
+								</div>';
+								$content .= '<div class="mdl-card__actions mdl-card--border">
+									<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="'.base_url().'subscriptions/update/'.$sub_id.'"><i class="material-icons md-18">mode_edit</i></a>
+									<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="'.base_url().'subscriptions/delete/'.$sub_id.'"><i class="material-icons md-18">delete</i></a>
+								</div>
+							</div>';
 						}
 					}
 					$content .= '</section></section></main>';
