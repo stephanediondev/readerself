@@ -51,6 +51,9 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 	height: 34px;
 	padding: 0px 10px 0px 0px;
 }
+.mdl-layout__header-row .mdl-button {
+	margin-left: 5px;
+}
 
 .mdl-layout__drawer-button {
 	height: auto;
@@ -124,8 +127,8 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 .material-icons.md-24 {
 	font-size: 24px;
 }
-.material-icons.md-36 {
-	font-size: 36px;
+.material-icons.md-30 {
+	font-size: 30px;
 }
 .material-icons.md-48 {
 	font-size: 48px;
