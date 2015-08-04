@@ -111,6 +111,9 @@
 						<?php } ?>
 						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>feeds"><?php echo $this->lang->line('feeds'); ?></a></li>
 						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>profile"><?php echo $this->lang->line('profile'); ?></a></li>
+						<?php if($this->config->item('members_list')) { ?>
+							<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>members"><?php echo $this->lang->line('members'); ?></a></li>
+						<?php } ?>
 						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>settings"><?php echo $this->lang->line('settings'); ?></a></li>
 						<li class="mdl-menu__item"><a id="link_shortcuts" class="modal_show" href="<?php echo base_url(); ?>home/shortcuts" title="<?php echo $this->lang->line('title_help'); ?>"><?php echo $this->lang->line('shortcuts'); ?></a></li>
 						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>statistics"><?php echo $this->lang->line('statistics'); ?></a></li>
