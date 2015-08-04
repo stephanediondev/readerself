@@ -5,7 +5,7 @@ class Settings extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
-		if(!$this->session->userdata('mbr_id') || $this->member->mbr_administrator == 0) {
+		if(!$this->session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -30,13 +30,15 @@ class Settings extends CI_Controller {
 			$this->readerself_library->set_content($content);
 
 		} else {
-			foreach($data['settings'] as $stg) {
-				$this->db->set('stg_value', $this->input->post($stg->stg_code));
-				$this->db->where('stg_id', $stg->stg_id);
-				$this->db->update('settings');
-			}
+			if($this->member->mbr_administrator == 1) {
+				foreach($data['settings'] as $stg) {
+					$this->db->set('stg_value', $this->input->post($stg->stg_code));
+					$this->db->where('stg_id', $stg->stg_id);
+					$this->db->update('settings');
+				}
 
-			redirect(base_url().'settings');
+				redirect(base_url().'settings');
+			}
 		}
 	}
 }

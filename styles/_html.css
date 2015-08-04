@@ -1,3 +1,6 @@
+.allow_notifications{display:none;}
+.registerContentHandler{display:none;}
+
 .item-content-result h1{font-size:17px;line-height:1;margin:15px 0px;}
 .item-content-result h2{font-size:16px;line-height:1;margin:10px 0px;}
 .item-content-result h3{font-size:15px;line-height:1;margin:10px 0px;}

@@ -173,7 +173,23 @@ function scroll_to(anchor) {
 	$('.mdl-layout__content').scrollTo(anchor);
 }
 
+function registerContentHandler() {
+	try {
+		window.navigator.registerContentHandler('application/rss+xml', base_url + '?u=%s', title);
+	} catch (e) {
+		debug(e.message || e);
+	}
+}
+
 $(document).ready(function() {
+	if (!!window.navigator.registerContentHandler) {
+		$('.registerContentHandler').css({'display': 'inline-block'});
+		$('.registerContentHandler a').bind('click', function(event) {
+			event.preventDefault();
+			registerContentHandler();
+		});
+	}
+
 	if(notify.isSupported) {
 		if(notify.permissionLevel() != notify.PERMISSION_GRANTED && notify.permissionLevel() != notify.PERMISSION_DENIED) {
 			$('.allow_notifications').css({'display': 'inline-block'});
