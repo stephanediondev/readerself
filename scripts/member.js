@@ -12,8 +12,8 @@ var lock_no_more_items = false;
 
 function load_items(url) {
 	url = url + '/?items_mode=' + items_mode + '&items_display=' + items_display;
-	$('main > section').scrollTop(0);
-	$('main section section').html('<div class="mdl-spinner mdl-js-spinner is-active"></div>');
+	$('.mdl-layout__content').scrollTop(0);
+	$('.mdl-grid').html('<div class="mdl-spinner mdl-js-spinner is-active"></div>');
 	var params = [];
 	params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
 	pagination = 0;
@@ -47,7 +47,7 @@ function load_items(url) {
 						}
 					}
 				}
-				$('main section section').html(content);
+				$('.mdl-grid').html(content);
 				if(data_return.result_type == 'items') {
 					for(i in data_return.items) {
 						itm = data_return.items[i];
@@ -66,7 +66,7 @@ function add_items(url) {
 	if(!lock_add_items && !lock_no_more_items) {
 		lock_add_items = true;
 		lock_refresh = true;
-		$('main section section').append('<div class="mdl-spinner mdl-js-spinner is-active"></div>');
+		$('.mdl-grid').append('<div class="mdl-spinner mdl-js-spinner is-active"></div>');
 		var params = [];
 		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
 		pagination = pagination + 10;
@@ -92,8 +92,8 @@ function add_items(url) {
 					if(data_return.end) {
 						content += data_return.end;
 					}
-					$('.ajax-loader').remove();
-					$('main section section').append(content);
+					$('.mdl-spinner').remove();
+					$('.mdl-grid').append(content);
 					for(i in data_return.items) {
 						itm = data_return.items[i];
 						item_swipe('#item_' + itm.itm_id);
@@ -128,25 +128,25 @@ function item_swipe(selector) {
 	});*/
 }
 function item_up() {
-	var itm_id = $('main > section .item-selected').attr('id');
+	var itm_id = $('.mdl-grid .item-selected').attr('id');
 	var prev = $('#' + itm_id).prev().attr('id');
 	if(prev) {
 		scroll_to('#' + prev);
 	}
 }
 function item_down() {
-	if($('main > section .item-selected').length == 0) {
-		var itm_id = $('main section section').find('.item:first').attr('id');
+	if($('.mdl-grid .item-selected').length == 0) {
+		var itm_id = $('.mdl-grid').find('.item:first').attr('id');
 		var next = $('#' + itm_id).attr('id');
 		$('#' + itm_id).addClass('item-selected');
 	} else {
-		var itm_id = $('main > section .item-selected').attr('id');
+		var itm_id = $('.mdl-grid .item-selected').attr('id');
 		var next = $('#' + itm_id).next().attr('id');
 	}
 	if(next) {
 		scroll_to('#' + next);
 		if($('#' + next).hasClass('item')) {
-			var last = $('main section section').find('.item:last').attr('id');
+			var last = $('.mdl-grid').find('.item:last').attr('id');
 			if(last == next) {
 				add_items(url);
 			}
@@ -232,14 +232,14 @@ $(document).ready(function() {
 
 			//v
 			} else if(keycode == 86) {
-				var href = $('main > section .item-selected').find('h2').find('a').attr('href');
-				var name = $('main > section .item-selected').attr('id');
+				var href = $('.mdl-grid .item-selected').find('h2').find('a').attr('href');
+				var name = $('.mdl-grid .item-selected').attr('id');
 				window.open(href, 'window_' + name);
 
 			//o or enter
 			} else if(keycode == 79 || keycode == 13) {
-				if($('main > section .item-selected').length > 0) {
-					ref = $('main > section .item-selected');
+				if($('.mdl-grid .item-selected').length > 0) {
+					ref = $('.mdl-grid .item-selected');
 					if(ref.hasClass('collapse')) {
 						item_expand(ref.find('.expand'));
 					} else {
@@ -262,15 +262,15 @@ $(document).ready(function() {
 		}
 	});
 
-	$('main > section').bind('scroll', function(event) {
-		$('main > section').find('.item').each(function(index) {
+	$('.mdl-layout__content').bind('scroll', function(event) {
+		$('.mdl-grid').find('.mdl-card').each(function(index) {
 			var itm_id = $(this).attr('id');
 			var ref = $('#' + itm_id);
 
-			$('main > section .item-selected').removeClass('item-selected');
+			$('.mdl-grid .item-selected').removeClass('item-selected');
 			ref.addClass('item-selected');
 
-			var last = $('main > section section').find('.item:last').attr('id');
+			var last = $('.mdl-grid').find('.item:last').attr('id');
 			if(last == itm_id) {
 				add_items(url);
 			}
@@ -302,11 +302,11 @@ $(document).ready(function() {
 	$('.items_display').bind('click', function(event) {
 		event.preventDefault();
 		var ref = $(this);
-		if(items_display == 'collapse') {
-			items_expand();
-
-		} else if(items_display == 'expand') {
+		var href = $(this).attr('href');
+		if(href == 'collapse') {
 			items_collapse();
+		} else if(href == 'expand') {
+			items_expand();
 		}
 	});
 

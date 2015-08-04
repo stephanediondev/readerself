@@ -82,28 +82,19 @@
 <?php } ?>
 
 <?php if($mode == 'public_profile') { ?>
-		<article dir="<?php echo $is_feed->direction; ?>" id="introduction" class="title<?php if($is_member->mbr_id == $this->member->mbr_id) { ?> item-selected<?php } ?>"><i class="icon icon-user"></i><?php echo $is_member->mbr_nickname; ?>
-			<ul class="actions">
-			<?php if($this->session->userdata('mbr_id')) { ?>
-				<?php if($is_member->mbr_id != $this->member->mbr_id) { ?>
-					<li><a class="follow" href="<?php echo base_url(); ?>members/follow/<?php echo $is_member->mbr_id; ?>"><span class="follow"<?php if($is_member->following == 0) { ?>style="display:none;"<?php } ?>><i class="icon icon-link"></i><?php echo $this->lang->line('unfollow'); ?></span><span class="unfollow"<?php if($is_member->following == 1) { ?>style="display:none;"<?php } ?>><i class="icon icon-unlink"></i><?php echo $this->lang->line('follow'); ?></span></a></li>
-				<?php } ?>
-			<?php } ?>
-			<?php if($this->config->item('share_external')) { ?>
-				<li><a target="_blank" href="https://www.facebook.com/sharer.php?u=<?php echo urlencode(base_url().'member/'.$is_member->mbr_nickname); ?>"><i class="icon icon-share"></i>Facebook</a></li>
-				<li><a target="_blank" href="https://plus.google.com/share?url=<?php echo urlencode(base_url().'member/'.$is_member->mbr_nickname); ?>"><i class="icon icon-share"></i>Google</a></li>
-				<li><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text=<?php echo urlencode($is_member->mbr_nickname.' - '.$this->config->item('title').' '.base_url().'member/'.$is_member->mbr_nickname); ?>"><i class="icon icon-share"></i>Twitter</a></li>
-			<?php } ?>
-			<li class="hide-phone"><a href="<?php echo base_url(); ?>share/<?php echo $is_member->token_share; ?>"><i class="icon icon-rss"></i><abbr title="Really Simple Syndication">RSS</abbr></a></li>
-			</ul>
-			<?php if($this->config->item('gravatar') && $is_member->mbr_gravatar) { ?>
-				<p><img alt="" src="http://www.gravatar.com/avatar/<?php echo md5(strtolower($is_member->mbr_gravatar)); ?>?rating=<?php echo $this->config->item('gravatar_rating'); ?>&amp;size=<?php echo $this->config->item('gravatar_size'); ?>&amp;default=<?php echo $this->config->item('gravatar_default'); ?>">
-			<?php } ?>
-
-			<?php if($is_member->mbr_description) { ?>
+	<div class="mdl-card mdl-cell mdl-cell--12-col">
+		<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
+			<h1 class="mdl-card__title-text"><i class="material-icons md-18">person</i><?php echo $is_member->mbr_nickname; ?></h1>
+		</div>
+		<?php if($is_member->mbr_description) { ?>
+			<div class="mdl-card__supporting-text mdl-color-text--grey">
 				<p><?php echo strip_tags($is_member->mbr_description); ?></p>
-			<?php } ?>
-	</div></div>
+			</div>
+		<?php } ?>
+		<div class="mdl-card__actions mdl-card--border">
+			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon geolocation" href="<?php echo base_url(); ?>share/<?php echo $is_member->token_share; ?>"><i class="material-icons md-18">code</i></a>
+		</div>
+	</div>
 <?php } ?>
 
 <?php if($mode == 'geolocation') { ?>

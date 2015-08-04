@@ -452,9 +452,9 @@ class Items extends CI_Controller {
 						$content['end'] = '<div class="mdl-card mdl-cell mdl-cell--12-col" id="last_crawl">';
 						$content['end'] .= '</div>';
 					} else if($mode == 'public_profile') {
-						$content['end'] = '<article class="title">';
-						$content['end'] .= '<p><i class="icon icon-check"></i>'.$this->lang->line('no_more_items').'</p>';
-						$content['end'] .= '</article>';
+						$content['end'] = '<div class="mdl-card mdl-cell mdl-cell--12-col"><div class="mdl-card__title">';
+						$content['end'] .= '<h1 class="mdl-card__title-text">'.$this->lang->line('no_more_items').'</h1>';
+						$content['end'] .= '</div></div>';
 					}
 				}
 			}
