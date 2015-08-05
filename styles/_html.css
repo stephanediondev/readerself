@@ -103,6 +103,9 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 .item-content-result, .item-enclosures {
 	margin-bottom: 10px;
 }
+.item-enclosures .enclosure {
+	margin: 15px 0px;
+}
 .mdl-card__title {
 	display: block;
 }
@@ -126,7 +129,7 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 }
 .material-icons {
 	margin-right: 2px;
-	vertical-align: top;
+	vertical-align: middle;
 }
 .material-icons.md-16 {
 	font-size: 16px;
