@@ -452,7 +452,7 @@ $(document).ready(function() {
 
 			//v
 			} else if(keycode == 86) {
-				var href = $('.mdl-grid .item-selected').find('h2').find('a').attr('href');
+				var href = $('.mdl-grid .item-selected').find('h1').find('a').attr('href');
 				var name = $('.mdl-grid .item-selected').attr('id');
 				window.open(href, 'window_' + name);
 
