@@ -46,8 +46,13 @@
 				<li class="mdl-menu__item"><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text=<?php echo urlencode($itm->itm_title.' '.$itm->itm_link); ?>">Twitter</a></li>
 			</ul>
 		<?php } ?>
-		<?php if($this->config->item('readability_parser_key') && $itm->case_member != 'public_profile') { ?>
-			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon link-item-readability" href="<?php echo base_url(); ?>item/readability/<?php echo $itm->itm_id; ?>"><i class="material-icons md-18">get_app</i></a>
-		<?php } ?>
+		<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="more_<?php echo $itm->itm_id; ?>">
+			<i class="material-icons md-18">more_vert</i>
+		</button>
+		<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--top-left" for="more_<?php echo $itm->itm_id; ?>">
+			<?php if($this->config->item('readability_parser_key') && $itm->case_member != 'public_profile') { ?>
+				<li class="mdl-menu__item"><a class="link-item-readability" href="<?php echo base_url(); ?>item/readability/<?php echo $itm->itm_id; ?>">Readability</a></li>
+			<?php } ?>
+		</ul>
 	</div>
 </div>
