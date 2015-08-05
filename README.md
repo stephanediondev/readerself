@@ -2,11 +2,7 @@
 
 ####Demo
 
-https://readerself.com/demo-material-design/
-```text
-example@example.com
-example
-```
+https://readerself.com/demo/?email=example@example.com&password=example
 
 ####Requirements
 * PHP 5.2.4 or greater
@@ -31,5 +27,5 @@ cd /path-to-installation && php index.php refresh items
 * [CodeIgniter](http://ellislab.com/codeigniter/)
 * [SimplePie](http://simplepie.org)
 * [jQuery](http://jquery.com/)
-* [Font Awesome](http://fortawesome.github.io/Font-Awesome/)
+* [Material Design Lite](http://www.getmdl.io/)
 * [FeedWriter](https://github.com/ajaxray/FeedWriter)
