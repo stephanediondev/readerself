@@ -11,12 +11,12 @@
 
 				<p>
 				<?php echo form_label($this->lang->line('email_or_nickname'), 'mbr_email'); ?>
-				<?php echo form_input('email_or_nickname', set_value('email_or_nickname'), 'id="email_or_nickname" class="required"'); ?>
+				<?php echo form_input('email_or_nickname', set_value('email_or_nickname', $this->input->get('email')), 'id="email_or_nickname" class="required"'); ?>
 				</p>
 
 				<p>
 				<?php echo form_label($this->lang->line('mbr_password'), 'mbr_password'); ?>
-				<?php echo form_password('mbr_password', set_value('mbr_password'), 'id="mbr_password" class="required"'); ?>
+				<?php echo form_password('mbr_password', set_value('mbr_password', $this->input->get('password')), 'id="mbr_password" class="required"'); ?>
 				</p>
 
 				<p>
