@@ -7,6 +7,25 @@
 			<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
 				<h1 class="mdl-card__title-text"><i class="material-icons md-18">bookmark_border</i><?php echo $this->lang->line('feeds'); ?> (<?php echo $position; ?>)</h1>
 			</div>
+			<div class="mdl-card__supporting-text mdl-color-text--black">
+				<?php echo form_open(current_url()); ?>
+				<p>
+				<?php echo form_label($this->lang->line('title'), 'feeds_fed_title'); ?>
+				<?php echo form_input($this->router->class.'_feeds_fed_title', set_value($this->router->class.'_feeds_fed_title', $this->session->userdata($this->router->class.'_feeds_fed_title')), 'id="feeds_fed_title" class="inputtext"'); ?>
+				</p>
+				<?php if($errors > 0) { ?>
+					<p>
+					<?php echo form_label($this->lang->line('errors').' ('.$errors.')', 'feeds_fed_lasterror'); ?>
+					<?php echo form_dropdown($this->router->class.'_feeds_fed_lasterror', array('' => '--', 0 => $this->lang->line('no'), 1 => $this->lang->line('yes')), set_value($this->router->class.'_feeds_fed_lasterror', $this->session->userdata($this->router->class.'_feeds_fed_lasterror')), 'id="feeds_fed_lasterror" class="select numeric"'); ?>
+					</p>
+				<?php } ?>
+				<p>
+				<button type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--pink mdl-color-text--white">
+					<i class="material-icons md-24">search</i>
+				</button>
+				</p>
+				<?php echo form_close(); ?>
+			</div>
 			<div class="mdl-card__actions mdl-card--border">
 				<a id="tip_add" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>feeds/feedly"><i class="material-icons md-18">add</i></a></li>
 				<?php if($feeds) { ?>

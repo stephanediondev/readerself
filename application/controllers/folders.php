@@ -16,7 +16,7 @@ class Folders extends CI_Controller {
 		$flt = $this->readerself_library->build_filters($filters);
 		$flt[] = 'flr.mbr_id = \''.$this->member->mbr_id.'\'';
 		$results = $this->readerself_model->get_folders_total($flt);
-		$build_pagination = $this->readerself_library->build_pagination($results->count, 20, $this->router->class.'_folders');
+		$build_pagination = $this->readerself_library->build_pagination($results->count, 50, $this->router->class.'_folders');
 		$data = array();
 		$data['pagination'] = $build_pagination['output'];
 		$data['position'] = $build_pagination['position'];

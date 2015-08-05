@@ -6,6 +6,19 @@
 			<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
 				<h1 class="mdl-card__title-text"><i class="material-icons md-18">folder</i><?php echo $this->lang->line('folders'); ?> (<?php echo $position; ?>)</h2>
 			</div>
+			<div class="mdl-card__supporting-text mdl-color-text--black">
+				<?php echo form_open(current_url()); ?>
+				<p>
+				<?php echo form_label($this->lang->line('title'), 'folders_flr_title'); ?>
+				<?php echo form_input($this->router->class.'_folders_flr_title', set_value($this->router->class.'_folders_flr_title', $this->session->userdata($this->router->class.'_folders_flr_title')), 'id="folders_flr_title" class="inputtext"'); ?>
+				</p>
+				<p>
+				<button type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--pink mdl-color-text--white">
+					<i class="material-icons md-24">search</i>
+				</button>
+				</p>
+				<?php echo form_close(); ?>
+			</div>
 			<div class="mdl-card__actions mdl-card--border">
 				<a id="tip_add" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>folders/create"><i class="material-icons md-18">add</i></a>
 			</div>

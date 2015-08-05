@@ -23,7 +23,7 @@
 				</p>
 				<p>
 				<button type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--pink mdl-color-text--white">
-					<i class="material-icons md-24">done</i>
+					<i class="material-icons md-24">search</i>
 				</button>
 				</p>
 				<?php echo form_close(); ?>
