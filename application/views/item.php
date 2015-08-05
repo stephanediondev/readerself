@@ -7,7 +7,7 @@
 
 			<?php if($this->config->item('folders')) { ?>
 				<?php if($itm->sub->flr_id) { ?>
-					<a class="mdl-navigation__link" href=""><i class="material-icons md-16">folder</i><?php echo $itm->sub->flr_title; ?></a>
+					<a class="mdl-navigation__link folder" href="#load-folder-<?php echo $itm->sub->flr_id; ?>-items"><i class="material-icons md-16">folder</i><?php echo $itm->sub->flr_title; ?></a>
 				<?php } ?>
 			<?php } ?>
 			<?php if($itm->itm_author) { ?>

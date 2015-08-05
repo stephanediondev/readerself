@@ -44,6 +44,11 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 	background-size: 16px 16px;
 	padding-left: 19px;
 }
+.mdl-layout__drawer .mdl-navigation .mdl-navigation__link.favicon {
+	background-position: 8px center;
+	padding: 8px 8px 8px 24px;
+}
+
 .mdl-layout__header {
 	min-height: 34px;
 }
@@ -70,13 +75,21 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 .mdl-card .mdl-navigation__link {
 	padding-right: 4px;
 }
-.mdl-layout__drawer .mdl-navigation .folder {
-	display: inline-block;
-	float: left;
-	vertical-align: middle;
+.mdl-layout__drawer .mdl-navigation li {
+	padding: 8px 8px;
+	position: relative;
+}
+.mdl-layout__drawer .mdl-navigation .mdl-navigation__link.folder {
+	padding: 8px 0px;
+}
+.mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
+	display: inline;
 }
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
 	padding: 8px 8px;
+}
+.mdl-layout__drawer .mdl-navigation form {
+	padding: 0px 8px;
 }
 .mdl-card {
 	min-height: inherit;
