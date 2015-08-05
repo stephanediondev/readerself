@@ -147,5 +147,4 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 	font-size: 48px;
 }
 
-
-
+.mdl-card[dir=rtl] .mdl-navigation__link .material-icons{display:none;}
