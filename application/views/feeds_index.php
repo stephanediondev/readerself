@@ -26,7 +26,7 @@
 							<?php } ?>
 						</div>
 					</div>
-					<div class="mdl-card__supporting-text mdl-color-text--grey">
+					<div class="mdl-card__supporting-text mdl-color-text--black">
 						<?php if($fed->fed_lasterror) { ?>
 							<p><?php echo $fed->fed_lasterror; ?></p>
 						<?php } ?>
@@ -47,7 +47,7 @@
 				</div>
 			<?php } ?>
 			<div class="mdl-card mdl-cell mdl-cell--12-col paging">
-				<div class="mdl-card__supporting-text mdl-color-text--grey">
+				<div class="mdl-card__supporting-text mdl-color-text--black">
 					<?php echo $pagination; ?>
 				</div>
 			</div>

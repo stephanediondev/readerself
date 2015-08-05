@@ -38,7 +38,7 @@
 				<div class="mdl-card__title">
 					<h1 class="mdl-card__title-text"><?php echo $this->lang->line('update'); ?></h1>
 				</div>
-				<div class="mdl-card__supporting-text mdl-color-text--grey">
+				<div class="mdl-card__supporting-text mdl-color-text--black">
 					<?php echo validation_errors(); ?>
 	
 					<?php echo form_open(current_url()); ?>

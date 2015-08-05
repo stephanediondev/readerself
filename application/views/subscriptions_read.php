@@ -23,7 +23,7 @@
 					<?php } ?>
 				</div>
 			</div>
-			<div class="mdl-card__supporting-text mdl-color-text--grey">
+			<div class="mdl-card__supporting-text mdl-color-text--black">
 				<?php if($sub->fed_lasterror) { ?>
 					<p><?php echo $sub->fed_lasterror; ?></p>
 				<?php } ?>
@@ -43,7 +43,7 @@
 			<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
 				<h1 class="mdl-card__title-text"><i class="material-icons md-18">insert_chart</i><?php echo $this->lang->line('statistics'); ?></h1>
 			</div>
-			<div class="mdl-card__supporting-text mdl-color-text--grey">
+			<div class="mdl-card__supporting-text mdl-color-text--black">
 				<p><em>*<?php echo $this->lang->line('last_30_days'); ?></em></p>
 			</div>
 		</div>

@@ -23,7 +23,7 @@
 							<span class="mdl-navigation__link"><i class="material-icons md-16">access_time</i><span class="timeago" title="<?php echo $this->readerself_library->timezone_datetime($cnt->cnt_datecreated); ?>"></span></span>
 						</div>
 					</div>
-					<div class="mdl-card__supporting-text mdl-color-text--grey">
+					<div class="mdl-card__supporting-text mdl-color-text--black">
 					</div>
 				</div>
 			<?php } ?>

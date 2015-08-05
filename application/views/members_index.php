@@ -22,7 +22,7 @@
 							<span class="mdl-navigation__link"><i class="material-icons md-16">favorite</i><?php echo $mbr->shared_items; ?> shared item(s)</span>
 						</div>
 					</div>
-					<div class="mdl-card__supporting-text mdl-color-text--grey">
+					<div class="mdl-card__supporting-text mdl-color-text--black">
 						<?php if($mbr->mbr_description) { ?>
 							<p><?php echo strip_tags($mbr->mbr_description); ?></p>
 						<?php } ?>
@@ -39,7 +39,7 @@
 				</div>
 			<?php } ?>
 			<div class="mdl-card mdl-cell mdl-cell--12-col paging">
-				<div class="mdl-card__supporting-text mdl-color-text--grey">
+				<div class="mdl-card__supporting-text mdl-color-text--black">
 					<?php echo $pagination; ?>
 				</div>
 			</div>

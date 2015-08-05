@@ -63,7 +63,7 @@ if( ! function_exists('build_table_progression')) {
 
 		$content = '<div class="mdl-card mdl-cell mdl-cell--3-col mdl-cell--12-col-phone mdl-cell--12-col-tablet">';
 		$content .= '<div class="mdl-card__title"><h1 class="mdl-card__title-text">'.$title.'</h1></div>';
-		$content .= '<div class="mdl-card__supporting-text mdl-color-text--grey">';
+		$content .= '<div class="mdl-card__supporting-text mdl-color-text--black">';
 
 		if(count($data) > 0) {
 			$total = max(array_values($data));
@@ -127,7 +127,7 @@ if( ! function_exists('build_table_repartition')) {
 	function build_table_repartition($title, $data, $legend) {
 		$content = '<div class="mdl-card mdl-cell mdl-cell--3-col mdl-cell--12-col-phone mdl-cell--12-col-tablet">';
 		$content .= '<div class="mdl-card__title"><h1 class="mdl-card__title-text">'.$title.'</h1></div>';
-		$content .= '<div class="mdl-card__supporting-text mdl-color-text--grey">';
+		$content .= '<div class="mdl-card__supporting-text mdl-color-text--black">';
 
 		$total = array_sum($data);
 

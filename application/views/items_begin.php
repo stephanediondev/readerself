@@ -61,7 +61,7 @@
 				<?php } ?>
 			</div>
 		</div>
-		<div class="mdl-card__supporting-text mdl-color-text--grey">
+		<div class="mdl-card__supporting-text mdl-color-text--black">
 			<?php if($this->config->item('tags') && $is_feed->categories) { ?>
 				<p><?php echo implode(', ', $is_feed->categories); ?></p>
 			<?php } ?>
@@ -87,7 +87,7 @@
 			<h1 class="mdl-card__title-text"><i class="material-icons md-18">person</i><?php echo $is_member->mbr_nickname; ?></h1>
 		</div>
 		<?php if($is_member->mbr_description) { ?>
-			<div class="mdl-card__supporting-text mdl-color-text--grey">
+			<div class="mdl-card__supporting-text mdl-color-text--black">
 				<p><?php echo strip_tags($is_member->mbr_description); ?></p>
 			</div>
 		<?php } ?>
@@ -103,7 +103,7 @@
 			<h1 class="mdl-card__title-text"><i class="material-icons md-18">place</i><?php echo $this->lang->line('geolocation_items'); ?> (<span id="intro-load-geolocation-items"></span>)</h1>
 		</div>
 		<?php if($this->session->userdata('latitude') && $this->session->userdata('longitude')) { ?>
-			<div class="mdl-card__supporting-text mdl-color-text--grey hide-collapse">
+			<div class="mdl-card__supporting-text mdl-color-text--black hide-collapse">
 				<p><a target="_blank" href="http://maps.google.com/maps?q=<?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?>&oe=UTF-8&ie=UTF-8"><i class="icon icon-user"></i><?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?></a></p>
 				<p><a target="_blank" href="http://maps.google.com/maps?q=<?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?>&oe=UTF-8&ie=UTF-8"><img src="http://maps.googleapis.com/maps/api/staticmap?center=<?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?>&markers=color:red|<?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?>&zoom=12&size=540x200&sensor=false" alt=""></a></p>
 			</div>
