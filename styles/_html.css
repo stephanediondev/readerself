@@ -45,8 +45,7 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 	padding-left: 19px;
 }
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link.favicon {
-	background-position: 8px center;
-	padding: 8px 8px 8px 24px;
+	padding: 8px 8px 8px 16px;
 }
 
 .mdl-layout__header {
@@ -76,14 +75,20 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 	padding-right: 4px;
 }
 .mdl-layout__drawer .mdl-navigation li {
-	padding: 8px 8px;
+	padding: 4px 8px;
 	position: relative;
+}
+.mdl-layout__drawer .mdl-navigation li li {
+	padding: 4px 8px;
 }
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link.folder {
 	padding: 8px 0px;
 }
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
 	display: inline;
+}
+.mdl-layout__drawer .mdl-navigation .mdl-navigation__link:hover {
+	background-color: transparent;
 }
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
 	padding: 8px 8px;
