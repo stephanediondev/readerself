@@ -22,6 +22,10 @@ Add to cron (hourly)
 cd /path-to-installation && php index.php refresh items
 ```
 
+####Update
+Keep /application/config/database.php and /application/config/readerself_config.php
+Replace all other files
+
 ####Third party
 
 * [CodeIgniter](http://ellislab.com/codeigniter/)
