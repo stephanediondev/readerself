@@ -1,3 +1,8 @@
+.paging{margin:20px 0px;padding:5px 5px 5px 0px;}
+.paging strong, .paging a:link, .paging a:visited{padding:2px 4px 2px 5px;text-decoration:none;}
+.paging strong{background-color:#777777;color:#FFFFFF;font-weight:normal;text-decoration:none;}
+.paging a:hover{background-color:#E7E7E7;}
+
 .allow_notifications{display:none;}
 .registerContentHandler{display:none;}
 
@@ -72,7 +77,9 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 	padding: 0px;
 }
 .mdl-card .mdl-navigation__link {
-	padding-right: 4px;
+	float: left;
+	margin: 0px 4px 4px 0px;
+	white-space: nowrap;
 }
 .mdl-layout__drawer .mdl-navigation li {
 	padding: 4px 8px;
@@ -120,6 +127,7 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 }
 .mdl-card__title .mdl-card__title-infos {
 	margin-bottom: 4px;
+	overflow: hidden;
 }
 .mdl-card__actions {
 	padding: 4px;
