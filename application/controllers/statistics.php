@@ -80,7 +80,7 @@ class Statistics extends CI_Controller {
 
 		$legend = array();
 		$values = array();
-		$query = $this->db->query('SELECT '.$substring.'(hst.hst_datecreated, 1, 10) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.mbr_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,30', array($this->session->userdata('timezone'), 1, $this->member->mbr_id));
+		$query = $this->db->query('SELECT '.$substring.'(hst.hst_datecreated, 1, 10) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.mbr_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,30', array(1, $this->member->mbr_id));
 		if($query->num_rows() > 0) {
 			foreach($query->result() as $row) {
 				$legend[] = '<i class="icon icon-calendar"></i>'.$this->readerself_library->timezone_datetime($row->ref, 'F j, Y');
@@ -153,7 +153,7 @@ class Statistics extends CI_Controller {
 
 		$legend = array();
 		$values = array();
-		$query = $this->db->query('SELECT '.$substring.'(hst.hst_datecreated, 1, 7) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.mbr_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,12', array($this->session->userdata('timezone'), 1, $this->member->mbr_id));
+		$query = $this->db->query('SELECT '.$substring.'(hst.hst_datecreated, 1, 7) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.mbr_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,12', array(1, $this->member->mbr_id));
 		if($query->num_rows() > 0) {
 			foreach($query->result() as $row) {
 				$legend[] = '<i class="icon icon-calendar"></i>'.date('F, Y', strtotime($row->ref));
