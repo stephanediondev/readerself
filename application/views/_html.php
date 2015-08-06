@@ -83,8 +83,8 @@
 							<i class="material-icons md-24">view_compact</i>
 						</button>
 						<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn_display">
-							<li class="mdl-menu__item"><a class="items_display" href="expand" title="2"><?php echo $this->lang->line('expand'); ?></a></li>
-							<li class="mdl-menu__item"><a class="items_display" href="collapse" title="1"><?php echo $this->lang->line('collapse'); ?></a></li>
+							<li class="mdl-menu__item"><a class="items_display" href="expand" title="2"><?php echo $this->lang->line('expand_all'); ?></a></li>
+							<li class="mdl-menu__item"><a class="items_display" href="collapse" title="1"><?php echo $this->lang->line('collapse_all'); ?></a></li>
 						</ul>
 
 						<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn_done">
