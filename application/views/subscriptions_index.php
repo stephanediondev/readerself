@@ -45,6 +45,13 @@
 		</div>
 
 		<?php if($subscriptions) { ?>
+			<?php if($pagination) { ?>
+				<div class="mdl-card mdl-cell mdl-cell--12-col paging">
+					<div class="mdl-card__supporting-text mdl-color-text--black">
+						<?php echo $pagination; ?>
+					</div>
+				</div>
+			<?php } ?>
 			<?php foreach($subscriptions as $sub) { ?>
 				<div<?php if($sub->sub_direction) { ?> dir="<?php echo $sub->sub_direction; ?>"<?php } else if($sub->fed_direction) { ?> dir="<?php echo $sub->fed_direction; ?>"<?php } ?> class="mdl-card mdl-cell mdl-cell--4-col">
 					<div class="mdl-card__title">
@@ -74,11 +81,13 @@
 					</div>
 				</div>
 			<?php } ?>
-			<div class="mdl-card mdl-cell mdl-cell--12-col paging">
-				<div class="mdl-card__supporting-text mdl-color-text--black">
-					<?php echo $pagination; ?>
+			<?php if($pagination) { ?>
+				<div class="mdl-card mdl-cell mdl-cell--12-col paging">
+					<div class="mdl-card__supporting-text mdl-color-text--black">
+						<?php echo $pagination; ?>
+					</div>
 				</div>
-			</div>
+			<?php } ?>
 		<?php } ?>
 	</div>
 </main>
