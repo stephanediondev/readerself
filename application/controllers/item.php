@@ -110,6 +110,7 @@ class Item extends CI_Controller {
 		$data = array();
 
 		$content = array();
+		$content['itm_id'] = $itm_id;
 
 		if($this->input->is_ajax_request() && $this->config->item('share_external_email')) {
 			$query = $this->db->query('SELECT itm.* FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id', array($itm_id));
@@ -148,6 +149,7 @@ class Item extends CI_Controller {
 
 				if($this->form_validation->run() == FALSE) {
 					$content['modal'] = $this->load->view('item_email', $data, TRUE);
+					$content['status'] = 'ko';
 
 				} else {
 					$to = $this->input->post('email_to');
@@ -169,8 +171,8 @@ class Item extends CI_Controller {
 					$this->email->message($message);
 					$this->email->send();
 
-					$content['modal'] = $this->load->view('item_email_confirm', $data, TRUE);
-					$content['notification'] = $this->lang->line('email_confirm');
+					//$content['modal'] = $this->load->view('item_email_confirm', $data, TRUE);
+					$content['status'] = 'ok';
 				}
 			} else {
 				$this->output->set_status_header(403);

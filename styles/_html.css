@@ -1,3 +1,4 @@
+input[type=text], input[type=password], textarea{border: 1px solid #d7d8dd;padding:5px;width:97%;}
 .paging{padding:5px 5px 5px 0px;}
 .paging strong, .paging a:link, .paging a:visited{font-size:14px;padding:2px 4px 2px 5px;text-decoration:none;}
 .paging strong{background-color:#777777;color:#FFFFFF;font-weight:normal;text-decoration:none;}

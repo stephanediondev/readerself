@@ -39,7 +39,7 @@
 			</button>
 			<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--top-left" for="more_share_<?php echo $itm->itm_id; ?>">
 				<?php if($this->config->item('share_external_email') && $itm->case_member != 'public_profile') { ?>
-					<li class="mdl-menu__item"><a class="modal_show" href="<?php echo base_url(); ?>item/email/<?php echo $itm->itm_id; ?>"><?php echo $this->lang->line('share_email'); ?></a></li>
+					<li class="mdl-menu__item"><a class="share_email" href="<?php echo base_url(); ?>item/email/<?php echo $itm->itm_id; ?>"><?php echo $this->lang->line('share_email'); ?></a></li>
 				<?php } ?>
 				<li class="mdl-menu__item"><a target="_blank" href="https://www.facebook.com/sharer.php?u=<?php echo urlencode($itm->itm_link); ?>">Facebook</a></li>
 				<li class="mdl-menu__item"><a target="_blank" href="https://plus.google.com/share?url=<?php echo urlencode($itm->itm_link); ?>">Google</a></li>

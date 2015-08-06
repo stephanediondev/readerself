@@ -10,68 +10,6 @@ function debug(data) {
 		console.log(data);
 	}
 }
-function modal_hide() {
-	$('#overlay').fadeOut('slow');
-	$('#modal').fadeOut('slow', function() {
-		$('#modal').html('');
-	});
-}
-function modal_show(href) {
-	params = [];
-	params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
-	$.ajax({
-		async: true,
-		cache: true,
-		data: params,
-		dataType: 'json',
-		statusCode: {
-			200: function(data_return, textStatus, jqXHR) {
-				if(data_return.modal) {
-					$('#modal').html(data_return.modal);
-
-					set_positions_modal();
-
-					if($('#overlay').is(':visible')) {
-					} else {
-						document_height = $(document).height();
-						document_top = $(document).scrollTop();
-						$('#overlay').css({'height': document_height, 'width': window_width});
-						$('#overlay').fadeIn(800);
-					}
-
-					if($('#modal').is(':visible')) {
-					} else {
-						$('#modal').fadeIn(1200);
-					}
-				}
-			}
-		},
-		type: 'POST',
-		url: href
-	});
-}
-function set_positions_modal() {
-	document_height = $(document).height();
-	document_top = $(document).scrollTop();
-	window_width = $(window).width();
-	window_height = $(window).height();
-
-	if($('#overlay').is(':visible')) {
-		$('#overlay').css({'height': document_height, 'width': window_width});
-	}
-
-	width = $('#modal').width();
-	height = $('#modal').height();
-	_top = document_top + (window_height / 2) - (height / 2);
-	if(_top < 0) {
-		_top = 10;
-	}
-	margin_left = (window_width - width) / 2;
-	if(margin_left < 0) {
-		margin_left = 10;
-	}
-	$('#modal').css({'margin-left': margin_left, 'top': _top});
-}
 function create_notification(title) {
 	notification = notify.createNotification(title, {
 		body: '',
@@ -151,13 +89,6 @@ function set_positions() {
 		$('aside').css({ 'height': _height});
 	}
 }
-function toggle_sidebar() {
-	if($('aside').is(':visible')) {
-		$('aside').hide();
-	} else {
-		$('aside').show();
-	}
-}
 function fullscreen() {
 	if($('body').hasClass('fullscreen_body')) {
 		$('body').removeClass('fullscreen_body');
@@ -201,9 +132,6 @@ $(document).ready(function() {
 		}
 	}
 
-	if($('aside').length == 0) {
-		$('#toggle-sidebar').parent().remove();
-	}
 	if(is_logged) {
 		if(ci_controller != 'home') {
 			refresh();
@@ -211,8 +139,6 @@ $(document).ready(function() {
 		set_positions();
 		setInterval(refresh, 10000*6*10);
 	}
-
-	set_positions_modal();
 
 	if(timezone == false) {
 		d = new Date();
@@ -233,65 +159,8 @@ $(document).ready(function() {
 		});
 	}
 
-	$(window).bind('resize scroll', function(event) {
-		set_positions_modal();
-	});
-
 	$(window).bind('resize', function(event) {
 		set_positions();
-	});
-
-	$('#toggle-sidebar').bind('click', function(event) {
-		event.preventDefault();
-		toggle_sidebar();
-	});
-
-	$('body').append('<div id="overlay"></div>');
-	$('body').append('<div id="modal"></div>');
-
-	$(document).bind('keydown', function(event) {
-		var keycode = event.which || event.keyCode;
-		//esc
-		if(keycode == 27) {
-			modal_hide();
-		}
-	});
-	$(document).on('click', '#overlay', function(event) {
-		event.preventDefault();
-		modal_hide();
-	});
-	$(document).on('click', '.modal_hide', function(event) {
-		event.preventDefault();
-		modal_hide();
-	});
-	$(document).on('click', '.modal_show', function(event) {
-		event.preventDefault();
-		href = $(this).attr('href');
-		modal_show(href);
-	});
-
-	$(document).on('submit', '#modal form', function(event) {
-		event.preventDefault();
-		var ref = $(this);
-		var params = ref.serializeArray();
-		$.ajax({
-			async: true,
-			cache: true,
-			data: params,
-			dataType: 'json',
-			statusCode: {
-				200: function(data_return, textStatus, jqXHR) {
-					if(data_return.notification && notify.permissionLevel() == notify.PERMISSION_GRANTED) {
-						create_notification(data_return.notification);
-						modal_hide();
-					} else if(data_return.modal) {
-						$('#modal').html(data_return.modal);
-					}
-				}
-			},
-			type: 'POST',
-			url: ref.attr('action')
-		});
 	});
 
 	$(document).on('click', 'a.priority', function(event) {

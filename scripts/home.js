@@ -928,4 +928,49 @@ $(document).ready(function() {
 			url: $(this).attr('href')
 		});
 	});
+
+	$(document).on('click', '.share_email', function(event) {
+		event.preventDefault();
+		params = [];
+		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
+		$.ajax({
+			async: false,
+			cache: true,
+			data: params,
+			dataType: 'json',
+			statusCode: {
+				200: function(data_return, textStatus, jqXHR) {
+					$('#item_' + data_return.itm_id).after(data_return.modal);
+				}
+			},
+			type: 'POST',
+			url: $(this).attr('href')
+		});
+	});
+
+	$(document).on('submit', '.share_email_result form', function(event) {
+		event.preventDefault();
+		var ref = $(this);
+		var params = ref.serializeArray();
+		$.ajax({
+			async: false,
+			cache: true,
+			data: params,
+			dataType: 'json',
+			statusCode: {
+				200: function(data_return, textStatus, jqXHR) {
+					$('#share_email_' + data_return.itm_id).remove();
+					if(data_return.status == 'ko') {
+						$('#item_' + data_return.itm_id).after(data_return.modal);
+					}
+				}
+			},
+			type: 'POST',
+			url: ref.attr('action')
+		});
+	});
+
+	$(document).on('click', '.share_email_close', function(event) {
+		$($(this).attr('href')).remove();
+	});
 });
