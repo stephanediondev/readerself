@@ -23,10 +23,10 @@ class Feeds extends CI_Controller {
 		$flt = $this->readerself_library->build_filters($filters);
 		$flt[] = 'fed.fed_id IS NOT NULL';
 		$results = $this->readerself_model->get_feeds_total($flt);
-		$build_pagination = $this->readerself_library->build_pagination($results->count, 20, $this->router->class.'_feeds');
+		$build_pagination = $this->readerself_library->build_pagination($results->count, 50, $this->router->class.'_feeds');
 		$data['pagination'] = $build_pagination['output'];
 		$data['position'] = $build_pagination['position'];
-		$data['feeds'] = $this->readerself_model->get_feeds_rows($flt, $build_pagination['limit'], $build_pagination['start'], 'subscribers DESC');
+		$data['feeds'] = $this->readerself_model->get_feeds_rows($flt, $build_pagination['limit'], $build_pagination['start'], 'fed.fed_title ASC');
 
 		$content = $this->load->view('feeds_index', $data, TRUE);
 		$this->readerself_library->set_content($content);

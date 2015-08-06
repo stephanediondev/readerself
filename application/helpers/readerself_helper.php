@@ -61,8 +61,9 @@ if( ! function_exists('build_table_progression')) {
 		$data = array_reverse($data);
 		$legend = array_reverse($legend);
 
-		$content = '<div class="data_table">';
-		$content .= '<h3>'.$title.'</h3>';
+		$content = '<div class="mdl-card mdl-cell mdl-cell--3-col mdl-cell--12-col-phone mdl-cell--12-col-tablet">';
+		$content .= '<div class="mdl-card__title"><h1 class="mdl-card__title-text">'.$title.'</h1></div>';
+		$content .= '<div class="mdl-card__supporting-text mdl-color-text--black">';
 
 		if(count($data) > 0) {
 			$total = max(array_values($data));
@@ -105,7 +106,7 @@ if( ! function_exists('build_table_progression')) {
 			} else if($line[2] < 0) {
 				$content .= '<td class="result">'.$line[2].'</td>';
 			}
-			$content .= '<td style="width:100px;"><span class="color color_percent" style="width:'.$line[3].'%;">&nbsp;</span></td>';
+			$content .= '<td style="width:50px;"><span class="color color_percent" style="width:'.$line[3].'%;">&nbsp;</span></td>';
 			$content .= '</tr>';
 		}
 		$total_lines = count($lines);
@@ -116,7 +117,7 @@ if( ! function_exists('build_table_progression')) {
 		$content .= '<td>&nbsp;</td>';
 		$content .= '</tr>';
 		$content .= '</table>';
-		$content .= '</div>';
+		$content .= '</div></div>';
 
 		return $content;
 	}
@@ -124,8 +125,9 @@ if( ! function_exists('build_table_progression')) {
 
 if( ! function_exists('build_table_repartition')) {
 	function build_table_repartition($title, $data, $legend) {
-		$content = '<div class="data_table">';
-		$content .= '<h3>'.$title.'</h3>';
+		$content = '<div class="mdl-card mdl-cell mdl-cell--3-col mdl-cell--12-col-phone mdl-cell--12-col-tablet">';
+		$content .= '<div class="mdl-card__title"><h1 class="mdl-card__title-text">'.$title.'</h1></div>';
+		$content .= '<div class="mdl-card__supporting-text mdl-color-text--black">';
 
 		$total = array_sum($data);
 
@@ -150,7 +152,7 @@ if( ! function_exists('build_table_repartition')) {
 			$content .= '<td>'.$line[0].'</td>';
 			$content .= '<td class="result">'.$line[1].'</td>';
 			$content .= '<td class="result">'.$line[2].'%</td>';
-			$content .= '<td style="width:100px;"><span class="color color_percent" style="width:'.$line[2].'%;">&nbsp;</span></td>';
+			$content .= '<td style="width:50px;"><span class="color color_percent" style="width:'.$line[2].'%;">&nbsp;</span></td>';
 			$content .= '</tr>';
 		}
 		$total_lines = count($lines);
@@ -161,7 +163,7 @@ if( ! function_exists('build_table_repartition')) {
 		$content .= '<td>&nbsp;</td>';
 		$content .= '</tr>';
 		$content .= '</table>';
-		$content .= '</div>';
+		$content .= '</div></div>';
 
 		return $content;
 	}

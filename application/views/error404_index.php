@@ -1,10 +1,14 @@
-</header>
-<main>
-	<section>
-		<section>
-		<article class="title">
-			<h2><i class="icon icon-bug"></i><?php echo $this->lang->line('error404'); ?></h2>
-		</article>
-		</section>
-	</section>
+<div class="mdl-tooltip" for="tip_home"><?php echo $this->lang->line('home'); ?></div>
+
+<main class="mdl-layout__content mdl-color--grey-100">
+	<div class="mdl-grid">
+		<div class="mdl-card mdl-cell mdl-cell--12-col">
+			<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
+				<h1 class="mdl-card__title-text"><i class="material-icons md-18">bug_report</i><?php echo $this->lang->line('error404'); ?></h1>
+			</div>
+			<div class="mdl-card__actions mdl-card--border">
+				<a id="tip_home" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>"><i class="material-icons md-18">home</i></a>
+			</div>
+		</div>
+	</div>
 </main>

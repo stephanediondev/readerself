@@ -36,7 +36,9 @@
 <meta name="HandheldFriendly" content="true">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<link href="<?php echo base_url(); ?>thirdparty/fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="<?php echo base_url(); ?>thirdparty/mdl/material.min.css" rel="stylesheet" type="text/css">
 <link href="<?php echo base_url(); ?>styles/_html.css?modified=<?php echo filemtime('styles/_html.css'); ?>" rel="stylesheet" type="text/css">
 <?php if(file_exists('styles/'.$this->router->class.'.css')) { ?>
 <link href="<?php echo base_url(); ?>styles/<?php echo $this->router->class; ?>.css?modified=<?php echo filemtime('styles/'.$this->router->class.'.css'); ?>" rel="stylesheet" type="text/css">
@@ -50,47 +52,85 @@
 </head>
 <body<?php if(count($this->readerself_library->errors) > 0) { ?> class="error"<?php } ?>>
 
-<header>
-	<nav>
-		<ul class="actions">
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header<?php if($this->router->class == 'home') { ?> mdl-layout--fixed-drawer<?php } ?>">
+	<header class="mdl-layout__header mdl-color--teal">
+		<div class="mdl-layout__header-row">
+			<div class="mdl-layout-spacer">
+			</div>
 			<?php if($this->config->item('salt_password')) { ?>
-				<?php if($this->session->userdata('mbr_id')) { ?>
-					<li class="show-phone show-tablet"><a id="toggle-sidebar" href="#"><i class="icon icon-reorder"></i><?php echo $this->lang->line('sidebar'); ?></a></li>
+				<?php if($this->router->class == 'member') { ?>
+					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon items_refresh" href="#" title="r"><i class="material-icons md-24">refresh</i></a>
+
+					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon item_up" href="#" id="item_up" title="<?php echo $this->lang->line('title_k'); ?>"><i class="material-icons md-24">keyboard_arrow_up</i></a>
+					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon item_down" href="#" id="item_down" title="<?php echo $this->lang->line('title_j'); ?>"><i class="material-icons md-24">keyboard_arrow_down</i></a>
+
+				<?php } else if($this->session->userdata('mbr_id')) { ?>
 					<?php if($this->router->class != 'home') { ?>
-						<li class="show-phone"><a href="<?php echo base_url(); ?>home"><i class="icon icon-home"></i><?php echo $this->lang->line('home'); ?></a></li>
+						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>"><i class="material-icons md-24">home</i></a>
+					<?php } else { ?>
+
+						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon items_refresh" href="#" title="r"><i class="material-icons md-24">refresh</i></a>
+
+						<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn_mode">
+							<i class="material-icons md-24">visibility</i>
+						</button>
+						<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn_mode">
+							<li class="mdl-menu__item"><a class="items_mode" href="unread_only" title="<?php echo $this->lang->line('title_shift_2'); ?>"><?php echo $this->lang->line('unread_only'); ?></a></li>
+							<li class="mdl-menu__item"><a class="items_mode" href="read_and_unread" title="<?php echo $this->lang->line('title_shift_1'); ?>"><?php echo $this->lang->line('read_and_unread'); ?></a></li>
+						</ul>
+
+						<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn_display">
+							<i class="material-icons md-24">view_compact</i>
+						</button>
+						<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn_display">
+							<li class="mdl-menu__item"><a class="items_display" href="expand" title="2"><?php echo $this->lang->line('expand_all'); ?></a></li>
+							<li class="mdl-menu__item"><a class="items_display" href="collapse" title="1"><?php echo $this->lang->line('collapse_all'); ?></a></li>
+						</ul>
+
+						<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn_done">
+							<i class="material-icons md-24">done</i>
+						</button>
+						<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn_done">
+							<li class="mdl-menu__item"><a class="items_read" href="<?php echo base_url(); ?>items/read/all"><?php echo $this->lang->line('no_date_limit'); ?></a></li>
+							<li class="mdl-menu__item"><a class="items_read" href="<?php echo base_url(); ?>items/read/one-day"><?php echo $this->lang->line('items_older_than_a_day'); ?></a></li>
+							<li class="mdl-menu__item"><a class="items_read" href="<?php echo base_url(); ?>items/read/one-week"><?php echo $this->lang->line('items_older_than_a_week'); ?></a></li>
+							<li class="mdl-menu__item"><a class="items_read" href="<?php echo base_url(); ?>items/read/two-weeks"><?php echo $this->lang->line('items_older_than_two_weeks'); ?></a></li>
+						</ul>
+
+						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon item_up" href="#" id="item_up" title="<?php echo $this->lang->line('title_k'); ?>"><i class="material-icons md-24">keyboard_arrow_up</i></a>
+						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon item_down" href="#" id="item_down" title="<?php echo $this->lang->line('title_j'); ?>"><i class="material-icons md-24">keyboard_arrow_down</i></a>
 					<?php } ?>
-					<li class="hide-phone"><a href="<?php echo base_url(); ?>home"><i class="icon icon-home"></i><?php echo $this->lang->line('home'); ?></a></li>
-					<?php if($this->config->item('folders')) { ?>
-						<li class="hide-phone"><a href="<?php echo base_url(); ?>folders"><i class="icon icon-folder-close"></i><?php echo $this->lang->line('folders'); ?></a></li>
-					<?php } ?>
-					<li class="hide-phone"><a href="<?php echo base_url(); ?>subscriptions"><i class="icon icon-bookmark"></i><?php echo $this->lang->line('subscriptions'); ?></a></li>
-					<li class="hide-phone"><a href="<?php echo base_url(); ?>feeds"><i class="icon icon-rss"></i><?php echo $this->lang->line('feeds'); ?></a></li>
-					<?php if($this->config->item('members_list')) { ?>
-						<li class="hide-phone"><a href="<?php echo base_url(); ?>members"><i class="icon icon-group"></i><?php echo $this->lang->line('members'); ?></a></li>
-					<?php } ?>
-					<?php if($this->config->item('elasticsearch/enabled')) { ?>
-						<li><a href="<?php echo base_url(); ?>elasticsearch/form"><i class="icon icon-search"></i>Elasticsearch</a></li>
-					<?php } ?>
-					<li class="hide-phone hide-tablet"><a href="<?php echo base_url(); ?>statistics"><i class="icon icon-bar-chart"></i><?php echo $this->lang->line('statistics'); ?></a></li>
-					<?php if($this->router->class == 'home') { ?>
-						<li class="hide-phone hide-tablet"><a id="link_shortcuts" class="modal_show" href="<?php echo base_url(); ?>home/shortcuts" title="<?php echo $this->lang->line('title_help'); ?>"><i class="icon icon-keyboard"></i><?php echo $this->lang->line('shortcuts'); ?></a></li>
-					<?php } ?>
-					<li class="hide-phone"><a href="<?php echo base_url(); ?>profile"><i class="icon icon-<?php if($this->member->mbr_administrator == 1) { ?>shield<?php } else { ?>user<?php } ?>"></i><?php if($this->member->mbr_nickname) { ?><?php echo $this->member->mbr_nickname; ?><?php } else { ?><?php echo $this->lang->line('profile'); ?><?php } ?></a></li>
-					<?php if($this->member->mbr_administrator == 1) { ?>
-						<li class="hide-phone"><a href="<?php echo base_url(); ?>settings"><i class="icon icon-gears"></i><?php echo $this->lang->line('settings'); ?></a></li>
-					<?php } ?>
-					<li><a href="<?php echo base_url(); ?>logout"><i class="icon icon-signout"></i><?php echo $this->lang->line('logout'); ?></a></li>
+
+					<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
+						<i class="material-icons md-24">more_vert</i>
+					</button>
+					<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
+						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>subscriptions"><?php echo $this->lang->line('subscriptions'); ?></a></li>
+						<?php if($this->config->item('folders')) { ?>
+							<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>folders"><?php echo $this->lang->line('folders'); ?></a></li>
+						<?php } ?>
+						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>feeds"><?php echo $this->lang->line('feeds'); ?></a></li>
+						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>profile"><?php echo $this->lang->line('profile'); ?></a></li>
+						<?php if($this->config->item('members_list')) { ?>
+							<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>members"><?php echo $this->lang->line('members'); ?></a></li>
+						<?php } ?>
+						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>settings"><?php echo $this->lang->line('settings'); ?></a></li>
+						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>shortcuts"><?php echo $this->lang->line('shortcuts'); ?></a></li>
+						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>statistics"><?php echo $this->lang->line('statistics'); ?></a></li>
+						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>logout"><?php echo $this->lang->line('logout'); ?></a></li>
+					</ul>
 				<?php } else { ?>
-					<li><a href="<?php echo base_url(); ?>login"><i class="icon icon-signin"></i><?php echo $this->lang->line('login'); ?></a></li>
-					<li><a href="<?php echo base_url(); ?>password"><i class="icon icon-key"></i><?php echo $this->lang->line('password'); ?></a></li>
-					<?php if($this->config->item('register_multi') && !$this->config->item('ldap')) { ?><li><a href="<?php echo base_url(); ?>register"><i class="icon icon-user"></i><?php echo $this->lang->line('register'); ?></a></li><?php } ?>
-					<li class="hide-phone"><a target="_blank" href="http://readerself.com"><i class="icon icon-rss"></i>Reader Self</a></li>
+					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>login"><i class="material-icons md-24">power_settings_new</i></a>
+					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>password"><i class="material-icons md-24">vpn_key</i></a>
+					<?php if($this->config->item('register_multi') && !$this->config->item('ldap')) { ?>
+						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>register"><i class="material-icons md-24">person_add</i></a>
+					<?php } ?>
 				<?php } ?>
 			<?php } ?>
-		</ul>
-	</nav>
-
-<?php if(isset($content) == 1) { echo $content; } ?>
+		</div>
+	</header>
+	<?php if(isset($content) == 1) { echo $content; } ?>
+</div>
 
 <script>
 var base_url = '<?php echo base_url(); ?>';
@@ -112,6 +152,7 @@ var title = '<?php echo addslashes($this->config->item('title')); ?>';
 var uri_string = '<?php echo $this->uri->uri_string(); ?>';
 </script>
 
+<script src="<?php echo base_url(); ?>thirdparty/mdl/material.min.js"></script>
 <script src="<?php echo base_url(); ?>thirdparty/jquery/jquery.min.js"></script>
 <script src="<?php echo base_url(); ?>thirdparty/jquery/jquery.cookie.min.js"></script>
 <!--<script src="<?php echo base_url(); ?>thirdparty/jquery/jquery.touchswipe.min.js"></script>-->

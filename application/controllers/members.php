@@ -17,7 +17,7 @@ class Members extends CI_Controller {
 		}
 		$flt = $this->readerself_library->build_filters($filters);
 		if($this->member->mbr_administrator == 0) {
-			$flt[] = 'mbr.mbr_nickname IS NOT NULL';
+			$flt[] = '(mbr.mbr_nickname IS NOT NULL OR mbr.mbr_id = \''.$this->member->mbr_id.'\')';
 		}
 		$results = $this->readerself_model->get_members_total($flt);
 		$build_pagination = $this->readerself_library->build_pagination($results->count, 20, $this->router->class.'_members');

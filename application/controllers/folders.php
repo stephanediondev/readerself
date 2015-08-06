@@ -16,7 +16,7 @@ class Folders extends CI_Controller {
 		$flt = $this->readerself_library->build_filters($filters);
 		$flt[] = 'flr.mbr_id = \''.$this->member->mbr_id.'\'';
 		$results = $this->readerself_model->get_folders_total($flt);
-		$build_pagination = $this->readerself_library->build_pagination($results->count, 20, $this->router->class.'_folders');
+		$build_pagination = $this->readerself_library->build_pagination($results->count, 50, $this->router->class.'_folders');
 		$data = array();
 		$data['pagination'] = $build_pagination['output'];
 		$data['position'] = $build_pagination['position'];
@@ -102,7 +102,7 @@ class Folders extends CI_Controller {
 
 			$legend = array();
 			$values = array();
-			$query = $this->db->query('SELECT '.$substring.'(hst.hst_datecreated, 1, 10) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id WHERE hst.hst_real = ? AND hst.mbr_id = ? AND sub.flr_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,30', array($this->session->userdata('timezone'), 1, $this->member->mbr_id, $flr_id));
+			$query = $this->db->query('SELECT '.$substring.'(hst.hst_datecreated, 1, 10) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id WHERE hst.hst_real = ? AND hst.mbr_id = ? AND sub.flr_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,30', array(1, $this->member->mbr_id, $flr_id));
 			if($query->num_rows() > 0) {
 				foreach($query->result() as $row) {
 					$legend[] = '<i class="icon icon-calendar"></i>'.$this->readerself_library->timezone_datetime($row->ref, 'F j, Y');
@@ -113,7 +113,7 @@ class Folders extends CI_Controller {
 
 			$legend = array();
 			$values = array();
-			$query = $this->db->query('SELECT '.$substring.'(hst.hst_datecreated, 1, 7) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id WHERE hst.hst_real = ? AND hst.mbr_id = ? AND sub.flr_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,12', array($this->session->userdata('timezone'), 1, $this->member->mbr_id, $flr_id));
+			$query = $this->db->query('SELECT '.$substring.'(hst.hst_datecreated, 1, 7) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id WHERE hst.hst_real = ? AND hst.mbr_id = ? AND sub.flr_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,12', array(1, $this->member->mbr_id, $flr_id));
 			if($query->num_rows() > 0) {
 				foreach($query->result() as $row) {
 					$legend[] = '<i class="icon icon-calendar"></i>'.$this->readerself_library->timezone_datetime($row->ref, 'F, Y');

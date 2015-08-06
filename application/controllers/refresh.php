@@ -115,15 +115,16 @@ class Refresh extends CI_Controller {
 				if($lastcrawl) {
 					$lastcrawl->crr_datecreated = $this->readerself_library->timezone_datetime($lastcrawl->crr_datecreated);
 					list($date, $time) = explode(' ', $lastcrawl->crr_datecreated);
-					$content['last_crawl'] = '<h2><i class="icon icon-truck"></i>'.$this->lang->line('last_crawl').'</h2>';
-					$content['last_crawl'] .= '<ul class="item-details">';
-					$content['last_crawl'] .= '<li><i class="icon icon-calendar"></i>'.$date.'</li>';
-					$content['last_crawl'] .= '<li><i class="icon icon-time"></i>'.$time.' (<span class="timeago" title="'.$lastcrawl->crr_datecreated.'"></span>)</li>';
-					$content['last_crawl'] .= '<li class="block"><i class="icon icon-rss"></i>'.intval($lastcrawl->crr_feeds).' '.mb_strtolower($this->lang->line('feeds')).'</li>';
-					$content['last_crawl'] .= '<li class="block"><i class="icon icon-bell"></i>'.intval($lastcrawl->crr_errors).' error(s)</li>';
-					$content['last_crawl'] .= '<li class="block"><i class="icon icon-rocket"></i>'.intval($lastcrawl->crr_time).' secondes</li>';
-					$content['last_crawl'] .= '<li class="block"><i class="icon icon-leaf"></i>'.number_format($lastcrawl->crr_memory, 0, '.', ' ').' bytes</li>';
-					$content['last_crawl'] .= '</ul>';
+					$content['last_crawl'] = '<div class="mdl-card__title">';
+					$content['last_crawl'] .= '<h1 class="mdl-card__title-text"><i class="icon icon-truck"></i>'.$this->lang->line('last_crawl').'</h1>';
+					$content['last_crawl'] .= '<div class="mdl-card__title-infos">';
+					$content['last_crawl'] .= '<span class="mdl-navigation__link"><i class="material-icons md-16">access_time</i><span class="timeago" title="'.$lastcrawl->crr_datecreated.'"></span></span>';
+					$content['last_crawl'] .= '<span class="mdl-navigation__link"><i class="material-icons md-16">bookmark</i>'.intval($lastcrawl->crr_feeds).' '.mb_strtolower($this->lang->line('feeds')).'</span>';
+					$content['last_crawl'] .= '<span class="mdl-navigation__link"><i class="material-icons md-16">warning</i>'.intval($lastcrawl->crr_errors).' error(s)</span>';
+					$content['last_crawl'] .= '<span class="mdl-navigation__link"><i class="material-icons md-16">timer</i>'.intval($lastcrawl->crr_time).' secondes</span>';
+					$content['last_crawl'] .= '<span class="mdl-navigation__link"><i class="material-icons md-16">memory</i>'.number_format($lastcrawl->crr_memory, 0, '.', ' ').' bytes</span>';
+					$content['last_crawl'] .= '</div>';
+					$content['last_crawl'] .= '</div>';
 				} else {
 					$content['last_crawl'] = false;
 				}

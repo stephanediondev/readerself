@@ -315,7 +315,7 @@ class Readerself_library {
 
 				if($sp_item->get_enclosures()) {
 					foreach($sp_item->get_enclosures() as $enclosure) {
-						if($enclosure->get_link() && $enclosure->get_type() && $enclosure->get_length()) {
+						if($enclosure->get_link() && $enclosure->get_type()) {
 							$link = $enclosure->get_link();
 							if(substr($link, -2) == '?#') {
 								$link = substr($link, 0, -2);

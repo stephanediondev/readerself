@@ -38,7 +38,7 @@ class Subscriptions extends CI_Controller {
 		$flt[] = 'sub.mbr_id = \''.$this->member->mbr_id.'\'';
 		$flt[] = 'fed.fed_id IS NOT NULL';
 		$results = $this->readerself_model->get_subscriptions_total($flt);
-		$build_pagination = $this->readerself_library->build_pagination($results->count, 20, $this->router->class.'_subscriptions');
+		$build_pagination = $this->readerself_library->build_pagination($results->count, 50, $this->router->class.'_subscriptions');
 		$data['pagination'] = $build_pagination['output'];
 		$data['position'] = $build_pagination['position'];
 		$data['subscriptions'] = $this->readerself_model->get_subscriptions_rows($flt, $build_pagination['limit'], $build_pagination['start'], 'fed.fed_title ASC');
@@ -172,7 +172,7 @@ class Subscriptions extends CI_Controller {
 						$posts = $response->getDecodedBody();
 						$this->readerself_library->crawl_items_facebook($fed_id, $posts['feed']['data']);
 
-						redirect(base_url().'subscriptions');
+						redirect(base_url().'subscriptions/read/'.$sub_id);
 
 					} catch(Facebook\Exceptions\FacebookResponseException $e) {
 						$data['error'] = 'Graph returned an error: ' . $e->getMessage();
@@ -256,7 +256,7 @@ class Subscriptions extends CI_Controller {
 			if($data['error']) {
 				$content = $this->load->view('subscriptions_create', $data, TRUE);
 			} else {
-				redirect(base_url().'subscriptions');
+				redirect(base_url().'subscriptions/read/'.$sub_id);
 			}
 		}
 		$this->readerself_library->set_content($content);
@@ -309,7 +309,7 @@ class Subscriptions extends CI_Controller {
 
 			$legend = array();
 			$values = array();
-			$query = $this->db->query('SELECT '.$substring.'(hst.hst_datecreated, 1, 10) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id WHERE hst.hst_real = ? AND hst.mbr_id = ? AND sub.sub_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,30', array( 1, $this->member->mbr_id, $sub_id));
+			$query = $this->db->query('SELECT '.$substring.'(hst.hst_datecreated, 1, 10) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id WHERE hst.hst_real = ? AND hst.mbr_id = ? AND sub.sub_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,30', array(1, $this->member->mbr_id, $sub_id));
 			if($query->num_rows() > 0) {
 				foreach($query->result() as $row) {
 					$legend[] = '<i class="icon icon-calendar"></i>'.$this->readerself_library->timezone_datetime($row->ref, 'F j, Y');
@@ -520,16 +520,23 @@ class Subscriptions extends CI_Controller {
 					$this->feeds = array();
 					$this->import_opml($obj->body);
 
-					$content .= '<nav>
-		<ul class="actions">
-			<li><a href="'.base_url().'subscriptions"><i class="icon icon-step-backward"></i>'.$this->lang->line('back').'</a></li>
-		</ul>
-	</nav>
-</header>
-<main><section><section>';
+					$content .= '<div class="mdl-tooltip" for="tip_back">'.$this->lang->line('back').'</div>
+<main class="mdl-layout__content mdl-color--grey-100">
+	<div class="mdl-grid">
+		<div class="mdl-card mdl-cell mdl-cell--12-col">
+			<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
+				<h1 class="mdl-card__title-text"><i class="material-icons md-18">file_download</i>'.$this->lang->line('import').'</h1>
+			</div>
+			<div class="mdl-card__actions mdl-card--border">
+				<a id="tip_back" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="'.base_url().'subscriptions"><i class="material-icons md-18">arrow_back</i></a>
+			</div>
+		</div>';
 
 					if(count($this->folders) > 0) {
-						$content_folders = '<article class="title"><h2><i class="icon icon-folder-close"></i>'.$this->lang->line('folders').' ('.count($this->folders).')</h2></article>';
+						$content_folders = '<div class="mdl-card mdl-cell mdl-cell--12-col">
+						<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
+						<h1 class="mdl-card__title-text"><i class="material-icons md-18">folder</i>'.$this->lang->line('folders').' ('.count($this->folders).')</h1></div></div>';
+
 						$folders = array();
 						foreach($this->folders as $value) {
 							$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.flr_title = ? AND flr.mbr_id = ? GROUP BY flr.flr_id', array($value, $this->member->mbr_id));
@@ -546,13 +553,15 @@ class Subscriptions extends CI_Controller {
 								$folders[$value] = $flr->flr_id;
 								$icon = 'repeat';
 							}
-							$content_folders .= '<article>
-								<ul class="actions">
-									<li><a href="'.base_url().'folders/update/'.$folders[$value].'"><i class="icon icon-wrench"></i>'.$this->lang->line('update').'</a></li>
-									<li><a href="'.base_url().'folders/delete/'.$folders[$value].'"><i class="icon icon-trash"></i>'.$this->lang->line('delete').'</a></li>
-								</ul>
-								<h2><a href="'.base_url().'folders/read/'.$folders[$value].'"><i class="icon icon-'.$icon.'"></i>'.$value.'</a></h2>
-							</article>';
+							$content_folders .= '<div class="mdl-card mdl-cell mdl-cell--4-col">
+								<div class="mdl-card__title">
+									<h1 class="mdl-card__title-text"><a href="'.base_url().'folders/read/'.$folders[$value].'">'.$value.'</a></h1>
+								</div>
+								<div class="mdl-card__actions mdl-card--border">
+									<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="'.base_url().'folders/update/'.$folders[$value].'"><i class="material-icons md-18">mode_edit</i></a>
+									<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="'.base_url().'folders/delete/'.$folders[$value].'"><i class="material-icons md-18">delete</i></a>
+								</div>
+							</div>';
 						}
 						if($this->config->item('folders')) {
 							$content .= $content_folders;
@@ -560,7 +569,9 @@ class Subscriptions extends CI_Controller {
 					}
 
 					if(count($this->feeds) > 0) {
-						$content .= '<article class="title"><h2><i class="icon icon-rss"></i>'.$this->lang->line('subscriptions').' ('.count($this->feeds).')</h2></article>';
+						$content .= '<div class="mdl-card mdl-cell mdl-cell--12-col">
+						<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
+						<h1 class="mdl-card__title-text"><i class="material-icons md-18">bookmark</i>'.$this->lang->line('subscriptions').' ('.count($this->feeds).')</h1></div></div>';
 						foreach($this->feeds as $obj) {
 							if(isset($obj->title) == 0 && isset($obj->text) == 1) {
 								$obj->title = $obj->text;
@@ -621,22 +632,22 @@ class Subscriptions extends CI_Controller {
 									$icon = 'plus';
 								}
 							}
-							$content .= '<article>
-								<ul class="actions">
-									<li><a href="'.base_url().'subscriptions/update/'.$sub_id.'"><i class="icon icon-wrench"></i>'.$this->lang->line('update').'</a></li>
-									<li><a href="'.base_url().'subscriptions/delete/'.$sub_id.'"><i class="icon icon-trash"></i>'.$this->lang->line('delete').'</a></li>
-								</ul>
-								<h2><a href="'.base_url().'subscriptions/read/'.$sub_id.'"><i class="icon icon-'.$icon.'"></i>'.$obj->title.'</a></h2>
-								<ul class="item-details">';
-								if($this->config->item('folders')) {
-									if($obj->flr && array_key_exists($obj->flr, $folders)) {
-										$content .= '<li><a href="'.base_url().'folders/read/'.$folders[$obj->flr].'"><i class="icon icon-folder-close"></i>'.$obj->flr.'</a></li>';
-									} else {
-										$content .= '<li><i class="icon icon-folder-close"></i><em>'.$this->lang->line('no_folder').'</em></li>';
-									}
-								}
-								$content .= '</ul>
-							</article>';
+							$content .= '<div class="mdl-card mdl-cell mdl-cell--4-col">
+								<div class="mdl-card__title">
+									<h1 class="mdl-card__title-text"><a href="'.base_url().'subscriptions/read/'.$sub_id.'">'.$obj->title.'</a></h1>
+									<div class="mdl-card__title-infos">';
+										if($this->config->item('folders')) {
+											if($obj->flr && array_key_exists($obj->flr, $folders)) {
+												$content .= '<a class="mdl-navigation__link" href="'.base_url().'folders/read/'.$folders[$obj->flr].'"><i class="material-icons md-16">folder</i>'.$obj->flr.'</a>';
+											}
+										}
+									$content .= '</div>
+								</div>';
+								$content .= '<div class="mdl-card__actions mdl-card--border">
+									<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="'.base_url().'subscriptions/update/'.$sub_id.'"><i class="material-icons md-18">mode_edit</i></a>
+									<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="'.base_url().'subscriptions/delete/'.$sub_id.'"><i class="material-icons md-18">delete</i></a>
+								</div>
+							</div>';
 						}
 					}
 					$content .= '</section></section></main>';
