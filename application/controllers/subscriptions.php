@@ -172,7 +172,7 @@ class Subscriptions extends CI_Controller {
 						$posts = $response->getDecodedBody();
 						$this->readerself_library->crawl_items_facebook($fed_id, $posts['feed']['data']);
 
-						redirect(base_url().'subscriptions');
+						redirect(base_url().'subscriptions/read/'.$sub_id);
 
 					} catch(Facebook\Exceptions\FacebookResponseException $e) {
 						$data['error'] = 'Graph returned an error: ' . $e->getMessage();
@@ -256,7 +256,7 @@ class Subscriptions extends CI_Controller {
 			if($data['error']) {
 				$content = $this->load->view('subscriptions_create', $data, TRUE);
 			} else {
-				redirect(base_url().'subscriptions');
+				redirect(base_url().'subscriptions/read/'.$sub_id);
 			}
 		}
 		$this->readerself_library->set_content($content);
