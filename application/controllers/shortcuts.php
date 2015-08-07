@@ -5,7 +5,7 @@ class Shortcuts extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 

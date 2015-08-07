@@ -7,7 +7,7 @@
 				<?php echo form_open(current_url()); ?>
 				<p>
 				<?php echo form_label($this->lang->line('language'), 'feeds_feedly_language'); ?>
-				<?php echo form_dropdown($this->router->class.'_feeds_feedly_language', $sources, set_value($this->router->class.'_feeds_feedly_language', $this->session->userdata($this->router->class.'_feeds_feedly_language')), 'id="feeds_feedly_language" class="select numeric"'); ?>
+				<?php echo form_dropdown($this->router->class.'_feeds_feedly_language', $sources, set_value($this->router->class.'_feeds_feedly_language', $this->axipi_session->userdata($this->router->class.'_feeds_feedly_language')), 'id="feeds_feedly_language" class="select numeric"'); ?>
 				</p>
 				<p>
 				<button type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--pink mdl-color-text--white">

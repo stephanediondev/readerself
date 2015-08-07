@@ -5,7 +5,7 @@ class Item extends CI_Controller {
 		parent::__construct();
 	}
 	public function star($itm_id) {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -34,7 +34,7 @@ class Item extends CI_Controller {
 		$this->readerself_library->set_content($content);
 	}
 	public function share($itm_id) {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -63,7 +63,7 @@ class Item extends CI_Controller {
 		$this->readerself_library->set_content($content);
 	}
 	public function read($itm_id, $auto = FALSE) {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -103,7 +103,7 @@ class Item extends CI_Controller {
 		$this->readerself_library->set_content($content);
 	}
 	public function email($itm_id) {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -183,7 +183,7 @@ class Item extends CI_Controller {
 		$this->readerself_library->set_content($content);
 	}
 	public function expand($itm_id) {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -211,7 +211,7 @@ class Item extends CI_Controller {
 		$this->readerself_library->set_content($content);
 	}
 	public function readability($itm_id) {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 

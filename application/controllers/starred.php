@@ -5,7 +5,7 @@ class Starred extends CI_Controller {
 		parent::__construct();
 	}
 	public function import() {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -134,7 +134,7 @@ class Starred extends CI_Controller {
 		$this->readerself_library->set_content($content);
 	}
 	public function export() {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 

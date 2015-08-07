@@ -5,7 +5,7 @@ class Items extends CI_Controller {
 		parent::__construct();
 	}
 	public function get($mode, $id = FALSE) {
-		if(!$this->session->userdata('mbr_id') && $mode != 'public_profile') {
+		if(!$this->axipi_session->userdata('mbr_id') && $mode != 'public_profile') {
 			redirect(base_url());
 		}
 
@@ -73,8 +73,8 @@ class Items extends CI_Controller {
 
 		if($this->input->is_ajax_request() && in_array($mode, $modes)) {
 
-			$this->session->set_userdata('items-mode', $mode);
-			$this->session->set_userdata('items-id', $id);
+			$this->axipi_session->set_userdata('items-mode', $mode);
+			$this->axipi_session->set_userdata('items-id', $id);
 
 			$content['nav'] = array();
 			$content['nav']['items_refresh'] = true;
@@ -158,7 +158,7 @@ class Items extends CI_Controller {
 				$bindings = array();
 
 				if($is_member) {
-					if($this->session->userdata('mbr_id')) {
+					if($this->axipi_session->userdata('mbr_id')) {
 						$query = $this->db->query('SELECT fws.* FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? AND fws.fws_following = ?', array($this->member->mbr_id, $is_member->mbr_id));
 						if($query->num_rows() > 0) {
 							$is_member->following = 1;
@@ -369,7 +369,7 @@ class Items extends CI_Controller {
 						}
 
 						$itm->shared_by = false;
-						if($this->session->userdata('mbr_id') && $mode != 'public_profile') {
+						if($this->axipi_session->userdata('mbr_id') && $mode != 'public_profile') {
 							$sql = 'SELECT mbr.mbr_nickname FROM '.$this->db->dbprefix('share').' AS shr LEFT JOIN '.$this->db->dbprefix('followers').' AS fws ON fws.fws_following = shr.mbr_id LEFT JOIN '.$this->db->dbprefix('members').' AS mbr ON mbr.mbr_id = fws.fws_following WHERE mbr.mbr_nickname IS NOT NULL AND fws.mbr_id = ? AND shr.itm_id = ? GROUP BY mbr.mbr_id ORDER BY mbr_nickname ASC';
 							$shared_by = $this->db->query($sql, array($this->member->mbr_id, $itm->itm_id))->result();
 							if($shared_by) {
@@ -474,7 +474,7 @@ class Items extends CI_Controller {
 		$this->readerself_library->set_content($content);
 	}
 	public function read($age) {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -484,34 +484,34 @@ class Items extends CI_Controller {
 			$this->readerself_library->set_template('_json');
 			$this->readerself_library->set_content_type('application/json');
 
-			if($this->session->userdata('items-mode')) {
+			if($this->axipi_session->userdata('items-mode')) {
 				$is_folder = FALSE;
-				if($this->session->userdata('items-mode') == 'folder') {
-					$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? AND flr.flr_id = ? GROUP BY flr.flr_id', array($this->member->mbr_id, $this->session->userdata('items-id')));
+				if($this->axipi_session->userdata('items-mode') == 'folder') {
+					$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? AND flr.flr_id = ? GROUP BY flr.flr_id', array($this->member->mbr_id, $this->axipi_session->userdata('items-id')));
 					if($query->num_rows() > 0) {
 						$is_folder = $query->row();
 					}
 				}
 
 				$is_feed = FALSE;
-				if($this->session->userdata('items-mode') == 'feed') {
-					$query = $this->db->query('SELECT sub.*, fed.fed_title, fed.fed_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.fed_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $this->session->userdata('items-id')));
+				if($this->axipi_session->userdata('items-mode') == 'feed') {
+					$query = $this->db->query('SELECT sub.*, fed.fed_title, fed.fed_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.fed_id = ? GROUP BY sub.sub_id', array($this->member->mbr_id, $this->axipi_session->userdata('items-id')));
 					if($query->num_rows() > 0) {
 						$is_feed = $query->row();
 					}
 				}
 
 				$is_author = FALSE;
-				if($this->session->userdata('items-mode') == 'author') {
-					$query = $this->db->query('SELECT itm.itm_author FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id', array($this->session->userdata('items-id')));
+				if($this->axipi_session->userdata('items-mode') == 'author') {
+					$query = $this->db->query('SELECT itm.itm_author FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id', array($this->axipi_session->userdata('items-id')));
 					if($query->num_rows() > 0) {
 						$is_author = $query->row()->itm_author;
 					}
 				}
 
 				$is_category = FALSE;
-				if($this->session->userdata('items-mode') == 'category') {
-					$query = $this->db->query('SELECT cat.cat_title FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_id = ? GROUP BY cat.cat_id', array($this->session->userdata('items-id')));
+				if($this->axipi_session->userdata('items-mode') == 'category') {
+					$query = $this->db->query('SELECT cat.cat_title FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_id = ? GROUP BY cat.cat_id', array($this->axipi_session->userdata('items-id')));
 					if($query->num_rows() > 0) {
 						$is_category = $query->row()->cat_title;
 					}
@@ -523,12 +523,12 @@ class Items extends CI_Controller {
 				$bindings[] = $this->member->mbr_id;
 				$bindings[] = date('Y-m-d H:i:s');
 
-				if($this->session->userdata('items-mode') == 'priority') {
+				if($this->axipi_session->userdata('items-mode') == 'priority') {
 					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? AND sub.sub_priority = ? )';
 					$bindings[] = $this->member->mbr_id;
 					$bindings[] = 1;
 				} else {
-					if($this->session->userdata('items-mode') == 'following') {
+					if($this->axipi_session->userdata('items-mode') == 'following') {
 						$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
 						$bindings[] = $this->member->mbr_id;
 
@@ -541,17 +541,17 @@ class Items extends CI_Controller {
 					}
 				}
 
-				if($this->session->userdata('items-mode') == 'geolocation') {
+				if($this->axipi_session->userdata('items-mode') == 'geolocation') {
 					$where[] = 'itm.itm_latitude IS NOT NULL';
 					$where[] = 'itm.itm_longitude IS NOT NULL';
 				}
 
-				if($this->session->userdata('items-mode') == 'audio') {
+				if($this->axipi_session->userdata('items-mode') == 'audio') {
 					$where[] = 'enr.enr_type LIKE ?';
 					$bindings[] = 'audio/%';
 				}
 
-				if($this->session->userdata('items-mode') == 'video') {
+				if($this->axipi_session->userdata('items-mode') == 'video') {
 					$where[] = 'enr.enr_type LIKE ?';
 					$bindings[] = 'video/%';
 				}
@@ -579,7 +579,7 @@ class Items extends CI_Controller {
 					$bindings[] = $is_category;
 				}
 
-				if($this->session->userdata('items-mode') == 'nofolder') {
+				if($this->axipi_session->userdata('items-mode') == 'nofolder') {
 					$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.flr_id IS NULL )';
 				}
 
@@ -599,7 +599,7 @@ class Items extends CI_Controller {
 				$sql = 'INSERT INTO '.$this->db->dbprefix('history').' (itm_id, mbr_id, hst_real, hst_datecreated)
 				SELECT itm.itm_id AS itm_id, ? AS mbr_id, \'0\' AS hst_real, ? AS hst_datecreated
 				FROM '.$this->db->dbprefix('items').' AS itm ';
-				if($this->session->userdata('items-mode') == 'audio' || $this->session->userdata('items-mode') == 'video') {
+				if($this->axipi_session->userdata('items-mode') == 'audio' || $this->axipi_session->userdata('items-mode') == 'video') {
 					$sql .= 'LEFT JOIN '.$this->db->dbprefix('enclosures').' AS enr ON enr.itm_id = itm.itm_id ';
 				}
 				$sql .= 'WHERE '.implode(' AND ', $where).'

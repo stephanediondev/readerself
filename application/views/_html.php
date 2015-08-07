@@ -19,7 +19,7 @@
 <title><?php echo $this->config->item('title'); ?></title>
 <?php } ?>
 
-<?php if($this->session->userdata('mbr_id')) { ?>
+<?php if($this->axipi_session->userdata('mbr_id')) { ?>
 <meta name="application-name" content="<?php echo $this->config->item('title'); ?>">
 <meta name="msapplication-starturl" content="<?php echo base_url(); ?>">
 <meta name="msapplication-TileImage" content="<?php echo base_url(); ?>medias/readerself_250x250.png">
@@ -64,7 +64,7 @@
 					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon item_up" href="#" id="item_up" title="<?php echo $this->lang->line('title_k'); ?>"><i class="material-icons md-24">keyboard_arrow_up</i></a>
 					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon item_down" href="#" id="item_down" title="<?php echo $this->lang->line('title_j'); ?>"><i class="material-icons md-24">keyboard_arrow_down</i></a>
 
-				<?php } else if($this->session->userdata('mbr_id')) { ?>
+				<?php } else if($this->axipi_session->userdata('mbr_id')) { ?>
 					<?php if($this->router->class != 'home') { ?>
 						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>"><i class="material-icons md-24">home</i></a>
 					<?php } else { ?>
@@ -138,12 +138,12 @@ var csrf_token_name = '<?php echo $this->config->item('csrf_token_name'); ?>';
 var csrf_cookie_name = '<?php echo $this->config->item('csrf_cookie_name'); ?>';
 var current_url = '<?php echo current_url(); ?>';
 var ci_controller = '<?php echo $this->router->class; ?>';
-<?php if($this->session->userdata('mbr_id') && $this->input->cookie('token_connection')) { ?>
+<?php if($this->axipi_session->userdata('mbr_id') && $this->input->cookie('token_connection')) { ?>
 var is_logged = true;
 <?php } else { ?>
 var is_logged = false;
 <?php } ?>
-<?php if($this->session->userdata('timezone')) { ?>
+<?php if($this->axipi_session->userdata('timezone')) { ?>
 var timezone = true;
 <?php } else { ?>
 var timezone = false;

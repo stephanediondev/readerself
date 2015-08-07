@@ -8,7 +8,7 @@ class Password extends CI_Controller {
 		if($this->readerself_model->count_members() == 0) {
 			redirect(base_url().'register');
 		}
-		if($this->session->userdata('mbr_id')) {
+		if($this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url().'home');
 		}
 
@@ -52,7 +52,7 @@ class Password extends CI_Controller {
 		}
 	}
 	public function token($token_password) {
-		if($this->session->userdata('logged_user')) {
+		if($this->axipi_session->userdata('logged_user')) {
 			redirect(base_url().'home');
 		}
 

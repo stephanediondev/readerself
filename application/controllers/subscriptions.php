@@ -5,7 +5,7 @@ class Subscriptions extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -48,7 +48,7 @@ class Subscriptions extends CI_Controller {
 	}
 
 	public function create() {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url().'?u='.$this->input->get('u'));
 		}
 
@@ -263,7 +263,7 @@ class Subscriptions extends CI_Controller {
 	}
 
 	public function read($sub_id) {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -333,7 +333,7 @@ class Subscriptions extends CI_Controller {
 				$days = array(7=>'Sunday', 1=>'Monday', 2=>'Tuesday', 3=>'Wednesday', 4=>'Thursday', 5=>'Friday', 6=>'Saturday');
 				$legend = array();
 				$values = array();
-				$query = $this->db->query('SELECT IF(DATE_FORMAT(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), \'%w\') = 0, 7, DATE_FORMAT(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), \'%w\')) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id WHERE hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? AND sub.sub_id = ? GROUP BY ref ORDER BY ref ASC', array($this->session->userdata('timezone'), $this->session->userdata('timezone'), 1, $date_ref, $this->member->mbr_id, $sub_id));
+				$query = $this->db->query('SELECT IF(DATE_FORMAT(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), \'%w\') = 0, 7, DATE_FORMAT(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), \'%w\')) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id WHERE hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? AND sub.sub_id = ? GROUP BY ref ORDER BY ref ASC', array($this->axipi_session->userdata('timezone'), $this->axipi_session->userdata('timezone'), 1, $date_ref, $this->member->mbr_id, $sub_id));
 				if($query->num_rows() > 0) {
 					foreach($query->result() as $row) {
 						$temp[$row->ref] = $row->nb;
@@ -358,7 +358,7 @@ class Subscriptions extends CI_Controller {
 	}
 
 	public function update($sub_id) {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -415,7 +415,7 @@ class Subscriptions extends CI_Controller {
 	}
 
 	public function delete($sub_id) {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -439,7 +439,7 @@ class Subscriptions extends CI_Controller {
 	}
 
 	public function priority($sub_id) {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -470,7 +470,7 @@ class Subscriptions extends CI_Controller {
 	}
 
 	public function export() {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -500,7 +500,7 @@ class Subscriptions extends CI_Controller {
 	}
 
 	public function import() {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -688,7 +688,7 @@ class Subscriptions extends CI_Controller {
 		return $feeds;
 	}
 	public function get($mode, $id = FALSE) {
-		if(!$this->session->userdata('mbr_id') && $mode != 'member') {
+		if(!$this->axipi_session->userdata('mbr_id') && $mode != 'member') {
 			redirect(base_url());
 		}
 
@@ -726,7 +726,7 @@ class Subscriptions extends CI_Controller {
 		$this->readerself_library->set_content($content);
 	}
 	function search() {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 

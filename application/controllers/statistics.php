@@ -5,7 +5,7 @@ class Statistics extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -93,7 +93,7 @@ class Statistics extends CI_Controller {
 			$legend = array();
 			$values = array();
 			$temp = array();
-			$query = $this->db->query('SELECT DATE_FORMAT(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), \'%H\') AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? GROUP BY ref ORDER BY ref ASC', array($this->session->userdata('timezone'), 1, $date_ref, $this->member->mbr_id));
+			$query = $this->db->query('SELECT DATE_FORMAT(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), \'%H\') AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? GROUP BY ref ORDER BY ref ASC', array($this->axipi_session->userdata('timezone'), 1, $date_ref, $this->member->mbr_id));
 			if($query->num_rows() > 0) {
 				foreach($query->result() as $row) {
 					$temp[intval($row->ref)] = $row->nb;
@@ -113,7 +113,7 @@ class Statistics extends CI_Controller {
 			$legend = array();
 			$values = array();
 			$temp = array();
-			$query = $this->db->query('SELECT IF(DATE_FORMAT(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), \'%w\') = 0, 7, DATE_FORMAT(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), \'%w\')) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? GROUP BY ref ORDER BY ref ASC', array($this->session->userdata('timezone'), $this->session->userdata('timezone'), 1, $date_ref, $this->member->mbr_id));
+			$query = $this->db->query('SELECT IF(DATE_FORMAT(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), \'%w\') = 0, 7, DATE_FORMAT(DATE_ADD(hst.hst_datecreated, INTERVAL ? HOUR), \'%w\')) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? GROUP BY ref ORDER BY ref ASC', array($this->axipi_session->userdata('timezone'), $this->axipi_session->userdata('timezone'), 1, $date_ref, $this->member->mbr_id));
 			if($query->num_rows() > 0) {
 				foreach($query->result() as $row) {
 					$temp[$row->ref] = $row->nb;

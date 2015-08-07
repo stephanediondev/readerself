@@ -8,12 +8,12 @@
 				<?php echo form_open(current_url()); ?>
 				<p>
 				<?php echo form_label($this->lang->line('title'), 'feeds_fed_title'); ?>
-				<?php echo form_input($this->router->class.'_feeds_fed_title', set_value($this->router->class.'_feeds_fed_title', $this->session->userdata($this->router->class.'_feeds_fed_title')), 'id="feeds_fed_title" class="inputtext"'); ?>
+				<?php echo form_input($this->router->class.'_feeds_fed_title', set_value($this->router->class.'_feeds_fed_title', $this->axipi_session->userdata($this->router->class.'_feeds_fed_title')), 'id="feeds_fed_title" class="inputtext"'); ?>
 				</p>
 				<?php if($errors > 0) { ?>
 					<p>
 					<?php echo form_label($this->lang->line('errors').' ('.$errors.')', 'feeds_fed_lasterror'); ?>
-					<?php echo form_dropdown($this->router->class.'_feeds_fed_lasterror', array('' => '--', 0 => $this->lang->line('no'), 1 => $this->lang->line('yes')), set_value($this->router->class.'_feeds_fed_lasterror', $this->session->userdata($this->router->class.'_feeds_fed_lasterror')), 'id="feeds_fed_lasterror" class="select numeric"'); ?>
+					<?php echo form_dropdown($this->router->class.'_feeds_fed_lasterror', array('' => '--', 0 => $this->lang->line('no'), 1 => $this->lang->line('yes')), set_value($this->router->class.'_feeds_fed_lasterror', $this->axipi_session->userdata($this->router->class.'_feeds_fed_lasterror')), 'id="feeds_fed_lasterror" class="select numeric"'); ?>
 					</p>
 				<?php } ?>
 				<p>

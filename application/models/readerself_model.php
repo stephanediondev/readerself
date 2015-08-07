@@ -5,7 +5,7 @@ class Readerself_model extends CI_Model {
 		parent::__construct();
 	}
 	function login($email_or_nickname, $password) {
-		$this->session->unset_userdata('mbr_id');
+		$this->axipi_session->unset_userdata('mbr_id');
 
 		if($this->config->item('ldap') && filter_var($email_or_nickname, FILTER_VALIDATE_EMAIL)) {
 			$ldap_connect = ldap_connect($this->config->item('ldap_server'), $this->config->item('ldap_port'));
@@ -66,17 +66,17 @@ class Readerself_model extends CI_Model {
 		$this->db->set('cnt_datecreated', date('Y-m-d H:i:s'));
 		$this->db->insert('connections');
 
-		$this->session->set_userdata('mbr_id', $mbr_id);
+		$this->axipi_session->set_userdata('mbr_id', $mbr_id);
 		$this->input->set_cookie('token_connection', $token_connection, 3600 * 24 * 30, NULL, '/', NULL, NULL);
 	}
 	function logout() {
-		if($this->session->userdata('mbr_id') && $this->input->cookie('token_connection')) {
+		if($this->axipi_session->userdata('mbr_id') && $this->input->cookie('token_connection')) {
 			$this->db->where('token_connection', $this->input->cookie('token_connection'));
-			$this->db->where('mbr_id', $this->session->userdata('mbr_id'));
+			$this->db->where('mbr_id', $this->axipi_session->userdata('mbr_id'));
 			$this->db->delete('connections');
 		}
 
-		$this->session->unset_userdata('mbr_id');
+		$this->axipi_session->unset_userdata('mbr_id');
 		$this->input->set_cookie('token_connection', NULL, 0, NULL, '/', NULL, NULL);
 	}
 	function get($mbr_id) {
@@ -149,8 +149,8 @@ class Readerself_model extends CI_Model {
 		$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
 
 		$subscriptions = false;
-		if($this->session->userdata('timezone')) {
-			$timezone = $this->session->userdata('timezone');
+		if($this->axipi_session->userdata('timezone')) {
+			$timezone = $this->axipi_session->userdata('timezone');
 		} else {
 			$timezone = 0;
 		}
@@ -180,8 +180,8 @@ class Readerself_model extends CI_Model {
 		$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
 
 		$sub = false;
-		if($this->session->userdata('timezone')) {
-			$timezone = $this->session->userdata('timezone');
+		if($this->axipi_session->userdata('timezone')) {
+			$timezone = $this->axipi_session->userdata('timezone');
 		} else {
 			$timezone = 0;
 		}
@@ -205,8 +205,8 @@ class Readerself_model extends CI_Model {
 		return $sub;
 	}
 	function get_subscription_row_by_feed($fed_id) {
-		if($this->session->userdata('timezone')) {
-			$timezone = $this->session->userdata('timezone');
+		if($this->axipi_session->userdata('timezone')) {
+			$timezone = $this->axipi_session->userdata('timezone');
 		} else {
 			$timezone = 0;
 		}

@@ -2,7 +2,7 @@
 
 class Setup extends CI_Controller {
 	public function index() {
-		if($this->config->item('salt_password') || $this->session->userdata('mbr_id')) {
+		if($this->config->item('salt_password') || $this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url().'home');
 		}
 
@@ -24,7 +24,7 @@ class Setup extends CI_Controller {
 			$this->readerself_library->set_content($content);
 
 		} else {
-			if($this->db->dbdriver == 'pdo' && $this->db->hostname == 'sqlite:application/database/readerself.sqlite') {
+			if($this->db->dbdriver == 'pdo') {
 				$queries = explode(';', trim(file_get_contents('application/database/installation-sqlite.sql')));
 			}
 			if($this->db->dbdriver == 'mysqli') {

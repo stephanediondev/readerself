@@ -35,8 +35,8 @@ class Readerself_hook {
 			}
 		}
 
-		if($this->CI->session->userdata('mbr_id')) {
-			$this->CI->member = $this->CI->readerself_model->get($this->CI->session->userdata('mbr_id'));
+		if($this->CI->axipi_session->userdata('mbr_id')) {
+			$this->CI->member = $this->CI->readerself_model->get($this->CI->axipi_session->userdata('mbr_id'));
 			if(!$this->CI->member || !$this->CI->input->cookie('token_connection') || $this->CI->input->cookie('token_connection') != $this->CI->member->token_connection) {
 				$this->CI->readerself_model->logout();
 			}
@@ -47,11 +47,11 @@ class Readerself_hook {
 				if($query->num_rows() > 0) {
 					$connection = $query->row();
 
-					$this->CI->session->set_userdata('mbr_id', $connection->mbr_id);
+					$this->CI->axipi_session->set_userdata('mbr_id', $connection->mbr_id);
 					$this->CI->input->set_cookie('token_connection', $this->CI->input->cookie('token_connection'), 3600 * 24 * 30, NULL, '/', NULL, NULL);
 
 					if($this->CI->router->class == 'extension') {
-						$this->CI->member = $this->CI->readerself_model->get($this->CI->session->userdata('mbr_id'));
+						$this->CI->member = $this->CI->readerself_model->get($this->CI->axipi_session->userdata('mbr_id'));
 					} else {
 						if($this->CI->input->get('u')) {
 							redirect(base_url().'subscriptions/create/?u='.$this->CI->input->get('u'));

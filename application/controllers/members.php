@@ -5,7 +5,7 @@ class Members extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
-		if(!$this->session->userdata('mbr_id') || !$this->config->item('members_list')) {
+		if(!$this->axipi_session->userdata('mbr_id') || !$this->config->item('members_list')) {
 			redirect(base_url());
 		}
 
@@ -31,7 +31,7 @@ class Members extends CI_Controller {
 	}
 
 	public function update($mbr_id) {
-		if(!$this->session->userdata('mbr_id') || $this->member->mbr_administrator == 0) {
+		if(!$this->axipi_session->userdata('mbr_id') || $this->member->mbr_administrator == 0) {
 			redirect(base_url());
 		}
 		$mbr = $this->readerself_model->get_member_row($mbr_id);
@@ -76,7 +76,7 @@ class Members extends CI_Controller {
 	}
 
 	public function delete($mbr_id) {
-		if(!$this->session->userdata('mbr_id') || $this->member->mbr_administrator == 0) {
+		if(!$this->axipi_session->userdata('mbr_id') || $this->member->mbr_administrator == 0) {
 			redirect(base_url());
 		}
 		$mbr = $this->readerself_model->get_member_row($mbr_id);
@@ -149,7 +149,7 @@ class Members extends CI_Controller {
 	}
 
 	public function follow($mbr_id) {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 

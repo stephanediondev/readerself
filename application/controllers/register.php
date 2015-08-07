@@ -11,7 +11,7 @@ class Register extends CI_Controller {
 		if($this->config->item('register_multi') && $this->config->item('ldap')) {
 			redirect(base_url());
 		}
-		if($this->session->userdata('mbr_id')) {
+		if($this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url().'home');
 		}
 

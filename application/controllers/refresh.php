@@ -86,8 +86,8 @@ class Refresh extends CI_Controller {
 				$content['count']['shared'] = $query->row()->count;
 			}
 
-			if($this->session->userdata('items-mode') == 'author') {
-				$query = $this->db->query('SELECT itm.itm_author FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id', array($this->session->userdata('items-id')));
+			if($this->axipi_session->userdata('items-mode') == 'author') {
+				$query = $this->db->query('SELECT itm.itm_author FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id', array($this->axipi_session->userdata('items-id')));
 				if($query->num_rows() > 0) {
 					$is_author = $query->row()->itm_author;
 					$content['count']['author'] = $this->readerself_model->count_unread('author', $is_author);
@@ -95,8 +95,8 @@ class Refresh extends CI_Controller {
 			}
 
 			if($this->config->item('tags')) {
-				if($this->session->userdata('items-mode') == 'category') {
-					$query = $this->db->query('SELECT cat.cat_title FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_id = ? GROUP BY cat.cat_id', array($this->session->userdata('items-id')));
+				if($this->axipi_session->userdata('items-mode') == 'category') {
+					$query = $this->db->query('SELECT cat.cat_title FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_id = ? GROUP BY cat.cat_id', array($this->axipi_session->userdata('items-id')));
 					if($query->num_rows() > 0) {
 						$is_category = $query->row()->cat_title;
 						$content['count']['category'] = $this->readerself_model->count_unread('category', $is_category);
@@ -104,7 +104,7 @@ class Refresh extends CI_Controller {
 				}
 			}
 
-			if($this->session->userdata('mbr_id')) {
+			if($this->axipi_session->userdata('mbr_id')) {
 				$content['is_logged'] = TRUE;
 			} else {
 				$content['is_logged'] = FALSE;

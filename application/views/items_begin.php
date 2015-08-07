@@ -102,13 +102,13 @@
 		<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
 			<h1 class="mdl-card__title-text"><i class="material-icons md-18">place</i><?php echo $this->lang->line('geolocation_items'); ?> (<span id="intro-load-geolocation-items"></span>)</h1>
 		</div>
-		<?php if($this->session->userdata('latitude') && $this->session->userdata('longitude')) { ?>
+		<?php if($this->axipi_session->userdata('latitude') && $this->axipi_session->userdata('longitude')) { ?>
 			<div class="mdl-card__supporting-text mdl-color-text--black hide-collapse">
-				<p><a target="_blank" href="http://maps.google.com/maps?q=<?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?>&oe=UTF-8&ie=UTF-8"><i class="icon icon-user"></i><?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?></a></p>
-				<p><a target="_blank" href="http://maps.google.com/maps?q=<?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?>&oe=UTF-8&ie=UTF-8"><img src="http://maps.googleapis.com/maps/api/staticmap?center=<?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?>&markers=color:red|<?php echo $this->session->userdata('latitude'); ?>,<?php echo $this->session->userdata('longitude'); ?>&zoom=12&size=540x200&sensor=false" alt=""></a></p>
+				<p><a target="_blank" href="http://maps.google.com/maps?q=<?php echo $this->axipi_session->userdata('latitude'); ?>,<?php echo $this->axipi_session->userdata('longitude'); ?>&oe=UTF-8&ie=UTF-8"><i class="icon icon-user"></i><?php echo $this->axipi_session->userdata('latitude'); ?>,<?php echo $this->axipi_session->userdata('longitude'); ?></a></p>
+				<p><a target="_blank" href="http://maps.google.com/maps?q=<?php echo $this->axipi_session->userdata('latitude'); ?>,<?php echo $this->axipi_session->userdata('longitude'); ?>&oe=UTF-8&ie=UTF-8"><img src="http://maps.googleapis.com/maps/api/staticmap?center=<?php echo $this->axipi_session->userdata('latitude'); ?>,<?php echo $this->axipi_session->userdata('longitude'); ?>&markers=color:red|<?php echo $this->axipi_session->userdata('latitude'); ?>,<?php echo $this->axipi_session->userdata('longitude'); ?>&zoom=12&size=540x200&sensor=false" alt=""></a></p>
 			</div>
 		<?php } ?>
-		<?php if($this->session->userdata('latitude') && $this->session->userdata('longitude')) { ?>
+		<?php if($this->axipi_session->userdata('latitude') && $this->axipi_session->userdata('longitude')) { ?>
 		<?php } else { ?>
 			<div class="mdl-card__actions mdl-card--border">
 				<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon geolocation" href="<?php echo base_url(); ?>home/geolocation"><i class="material-icons md-18">location_off</i></a>

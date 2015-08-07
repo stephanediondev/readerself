@@ -8,7 +8,7 @@ class Login extends CI_Controller {
 		if($this->readerself_model->count_members() == 0 && !$this->config->item('ldap')) {
 			redirect(base_url().'register');
 		}
-		if($this->session->userdata('mbr_id')) {
+		if($this->axipi_session->userdata('mbr_id')) {
 			if($this->input->get('u')) {
 				redirect(base_url().'subscriptions/create/?u='.$this->input->get('u'));
 			} else {

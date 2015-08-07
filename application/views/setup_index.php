@@ -39,7 +39,7 @@
 			</div>
 		</div>
 
-		<?php if($this->db->dbdriver == 'pdo' && stristr($this->db->hostname, 'sqlite:application/database/readerself.sqlite')) { ?>
+		<?php if($this->db->dbdriver == 'pdo') { ?>
 			<div class="mdl-card mdl-cell mdl-cell--3-col">
 				<div class="mdl-card__title">
 					<h1 class="mdl-card__title-text">/application/database/readerself.sqlite</h1>
@@ -90,20 +90,20 @@
 				<h1 class="mdl-card__title-text">/application/config/database.php</h1>
 			</div>
 			<div class="mdl-card__supporting-text mdl-color-text--black">
-				<?php if($this->db->dbdriver == 'pdo' && stristr($this->db->hostname, 'sqlite:application/database/readerself.sqlite')) { ?>
-					<?php if($this->db->database != '') { ?>
+				<?php if($this->db->dbdriver == 'pdo') { ?>
+					<?php if($this->db->dsn == '') { ?>
 						<?php $form = FALSE; ?>
-						<p>Don't set database value with sqlite</p>
+						<p>Define dsn</p>
 					<?php } else { ?>
-						<p>Hostname defined</p>
+						<p>Dsn defined</p>
 					<?php } ?>
 				<?php } ?>
 				<?php if($this->db->dbdriver == 'mysqli') { ?>
-					<?php if($this->db->database == '' || $this->db->username == '' || $this->db->password == '') { ?>
+					<?php if($this->db->hostname == '' || $this->db->database == '' || $this->db->username == '' || $this->db->password == '') { ?>
 						<?php $form = FALSE; ?>
-						<p>Define database, username and password</p>
+						<p>Define hostname, database, username and password</p>
 					<?php } else { ?>
-						<p>Database, username and password defined</p>
+						<p>Hostname, database, username and password defined</p>
 					<?php } ?>
 				<?php } ?>
 				<?php if($this->db->dbdriver == 'mysql') { ?>

@@ -5,7 +5,7 @@ class Home extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -26,7 +26,7 @@ class Home extends CI_Controller {
 			$this->readerself_library->set_template('_json');
 			$this->readerself_library->set_content_type('application/json');
 
-			$this->session->set_userdata('timezone', $this->input->post('timezone'));
+			$this->axipi_session->set_userdata('timezone', $this->input->post('timezone'));
 		} else {
 			$this->output->set_status_header(403);
 		}
@@ -39,15 +39,15 @@ class Home extends CI_Controller {
 			$this->readerself_library->set_template('_json');
 			$this->readerself_library->set_content_type('application/json');
 
-			$this->session->set_userdata('latitude', floatval($this->input->post('latitude')));
-			$this->session->set_userdata('longitude', floatval($this->input->post('longitude')));
+			$this->axipi_session->set_userdata('latitude', floatval($this->input->post('latitude')));
+			$this->axipi_session->set_userdata('longitude', floatval($this->input->post('longitude')));
 		} else {
 			$this->output->set_status_header(403);
 		}
 		$this->readerself_library->set_content($content);
 	}
 	public function error($type) {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 

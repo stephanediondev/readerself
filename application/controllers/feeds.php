@@ -5,7 +5,7 @@ class Feeds extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -32,7 +32,7 @@ class Feeds extends CI_Controller {
 		$this->readerself_library->set_content($content);
 	}
 	public function feedly() {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -51,19 +51,19 @@ class Feeds extends CI_Controller {
 			$data['source_default'] = 'http://s3.feedly.com/essentials/essentials_en-US.json';
 		}
 		if($this->input->post($this->router->class.'_feeds_feedly_language') && array_key_exists($this->input->post($this->router->class.'_feeds_feedly_language'), $data['sources'])) {
-			$this->session->set_userdata($this->router->class.'_feeds_feedly_language', $this->input->post($this->router->class.'_feeds_feedly_language'));
+			$this->axipi_session->set_userdata($this->router->class.'_feeds_feedly_language', $this->input->post($this->router->class.'_feeds_feedly_language'));
 		}
-		if(!$this->session->userdata($this->router->class.'_feeds_feedly_language')) {
-			$this->session->set_userdata($this->router->class.'_feeds_feedly_language', $data['source_default']);
+		if(!$this->axipi_session->userdata($this->router->class.'_feeds_feedly_language')) {
+			$this->axipi_session->set_userdata($this->router->class.'_feeds_feedly_language', $data['source_default']);
 		}
 
-		$data['feeds'] = json_decode(file_get_contents($this->session->userdata($this->router->class.'_feeds_feedly_language')));
+		$data['feeds'] = json_decode(file_get_contents($this->axipi_session->userdata($this->router->class.'_feeds_feedly_language')));
 
 		$content = $this->load->view('feeds_feedly', $data, TRUE);
 		$this->readerself_library->set_content($content);
 	}
 	public function subscribe($fed_id) {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url().'?u='.$this->input->get('u'));
 		}
 
@@ -120,7 +120,7 @@ class Feeds extends CI_Controller {
 		}
 	}
 	public function read($fed_id) {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -190,7 +190,7 @@ class Feeds extends CI_Controller {
 				$days = array(7=>'Sunday', 1=>'Monday', 2=>'Tuesday', 3=>'Wednesday', 4=>'Thursday', 5=>'Friday', 6=>'Saturday');
 				$legend = array();
 				$values = array();
-				$query = $this->db->query('SELECT IF(DATE_FORMAT(DATE_ADD(itm.itm_date, INTERVAL ? HOUR), \'%w\') = 0, 7, DATE_FORMAT(DATE_ADD(itm.itm_date, INTERVAL ? HOUR), \'%w\')) AS ref, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id WHERE itm.itm_date >= ? AND fed.fed_id = ? GROUP BY ref ORDER BY ref ASC', array($this->session->userdata('timezone'), $this->session->userdata('timezone'), $date_ref, $fed_id));
+				$query = $this->db->query('SELECT IF(DATE_FORMAT(DATE_ADD(itm.itm_date, INTERVAL ? HOUR), \'%w\') = 0, 7, DATE_FORMAT(DATE_ADD(itm.itm_date, INTERVAL ? HOUR), \'%w\')) AS ref, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id WHERE itm.itm_date >= ? AND fed.fed_id = ? GROUP BY ref ORDER BY ref ASC', array($this->axipi_session->userdata('timezone'), $this->axipi_session->userdata('timezone'), $date_ref, $fed_id));
 				if($query->num_rows() > 0) {
 					foreach($query->result() as $row) {
 						$temp[$row->ref] = $row->nb;
@@ -214,7 +214,7 @@ class Feeds extends CI_Controller {
 		}
 	}
 	public function update($fed_id) {
-		if(!$this->session->userdata('mbr_id') || $this->member->mbr_administrator == 0) {
+		if(!$this->axipi_session->userdata('mbr_id') || $this->member->mbr_administrator == 0) {
 			redirect(base_url());
 		}
 
@@ -240,7 +240,7 @@ class Feeds extends CI_Controller {
 		}
 	}
 	public function delete($fed_id) {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 
@@ -280,7 +280,7 @@ class Feeds extends CI_Controller {
 		}
 	}
 	public function export() {
-		if(!$this->session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
 		}
 

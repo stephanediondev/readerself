@@ -7,7 +7,7 @@ class Extension extends CI_Controller {
 
 		$content = array();
 
-		if($this->session->userdata('mbr_id')) {
+		if($this->axipi_session->userdata('mbr_id')) {
 			$content['logged'] = true;
 			$content['unread'] = $this->readerself_model->count_unread('all');
 		} else {

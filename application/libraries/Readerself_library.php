@@ -106,9 +106,9 @@ class Readerself_library {
 			$value = '';
 			if($this->CI->input->post($k) || isset($_POST[$k]) == 1) {
 				$value = strval($this->CI->input->post($k));
-				$this->CI->session->set_userdata($k, strval($this->CI->input->post($k)));
-			} elseif($this->CI->session->userdata($k) != '') {
-				$value = $this->CI->session->userdata($k);
+				$this->CI->axipi_session->set_userdata($k, strval($this->CI->input->post($k)));
+			} elseif($this->CI->axipi_session->userdata($k) != '') {
+				$value = $this->CI->axipi_session->userdata($k);
 			}
 			if($value != '') {
 				if($v[1] == 'compare_today') {
@@ -187,9 +187,9 @@ class Readerself_library {
 		$key = 'per_page_'.$config['query_string_segment'];
 		if($this->CI->input->get($config['query_string_segment']) && is_numeric($this->CI->input->get($config['query_string_segment']))) {
 			$page = $this->CI->input->get($config['query_string_segment']);
-			$this->CI->session->set_userdata($key, $page);
-		} else if($this->CI->session->userdata($key) && is_numeric($this->CI->session->userdata($key))) {
-			$_GET[$config['query_string_segment']] = $this->CI->session->userdata($key);
+			$this->CI->axipi_session->set_userdata($key, $page);
+		} else if($this->CI->axipi_session->userdata($key) && is_numeric($this->CI->axipi_session->userdata($key))) {
+			$_GET[$config['query_string_segment']] = $this->CI->axipi_session->userdata($key);
 		} else {
 			$_GET[$config['query_string_segment']] = 0;
 		}
@@ -451,6 +451,6 @@ class Readerself_library {
 		return $content;
 	}
 	function timezone_datetime($datetime, $format = 'Y-m-d H:i:s') {
-		return date($format, strtotime($datetime) + $this->CI->session->userdata('timezone') * 3600);
+		return date($format, strtotime($datetime) + $this->CI->axipi_session->userdata('timezone') * 3600);
 	}
 }
