@@ -115,30 +115,30 @@ CREATE TABLE IF NOT EXISTS `settings` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 INSERT INTO `settings` (`stg_id`, `stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is_global`, `stg_is_member`, `stg_is_subscription`, `stg_datecreated`) VALUES
-(1, 'folders', 'boolean', '1', NULL, 1, 0, 0, '2013-10-12 21:35:22'),
-(2, 'gravatar', 'boolean', '1', NULL, 1, 0, 0, '2013-10-12 21:35:25'),
-(3, 'gravatar_default', 'string', 'identicon', 'identicon, mm, monsterid, retro, wavatar', 1, 1, 0, '2013-10-12 21:35:51'),
-(4, 'gravatar_rating', 'string', 'pg', 'g, pg, r, x', 1, 1, 0, '2013-10-12 21:36:06'),
-(5, 'gravatar_size', 'integer', '70', NULL, 1, 0, 0, '2013-10-12 21:36:21'),
-(6, 'menu_geolocation_items', 'boolean', '1', NULL, 1, 1, 0, '2013-10-12 21:36:36'),
-(7, 'menu_audio_items', 'boolean', '1', NULL, 1, 1, 0, '2013-10-12 21:36:49'),
-(8, 'menu_video_items', 'boolean', '1', NULL, 1, 1, 0, '2013-10-12 21:37:01'),
-(9, 'readability_parser_key', 'string', NULL, NULL, 1, 1, 0, '2013-10-12 21:37:14'),
-(10, 'sender_email', 'email', 'mailer@readerself.com', NULL, 1, 0, 0, '2013-10-12 21:37:42'),
-(11, 'sender_name', 'string', 'Reader Self', NULL, 1, 0, 0, '2013-10-12 21:37:56'),
-(12, 'shared_items', 'boolean', '1', NULL, 1, 1, 0, '2013-10-12 21:38:11'),
-(13, 'share_external_email', 'boolean', '1', NULL, 1, 1, 0, '2013-10-12 21:38:21'),
-(14, 'social_buttons', 'boolean', '1', NULL, 1, 1, 0, '2013-10-12 21:38:38'),
-(15, 'starred_items', 'boolean', '1', NULL, 1, 1, 0, '2013-10-12 21:38:51'),
-(16, 'tags', 'boolean', '1', NULL, 1, 1, 0, '2013-10-12 21:39:09'),
-(17, 'share_external', 'boolean', '1', NULL, 1, 1, 0, '2013-10-12 21:50:01'),
-(18, 'title', 'string', 'Reader Self', NULL, 1, 0, 0, '2013-10-12 22:06:44'),
-(19, 'members_list', 'boolean', '0', NULL, 1, 0, 0, '2013-10-12 22:21:19'),
-(20, 'register_multi', 'boolean', '0', NULL, 1, 0, 0, '2013-10-12 22:21:22');
+(1, 'folders', 'boolean', '1', NULL, 1, 0, 0, NOW()),
+(2, 'gravatar', 'boolean', '1', NULL, 1, 0, 0, NOW()),
+(3, 'gravatar_default', 'string', 'identicon', 'identicon, mm, monsterid, retro, wavatar', 1, 1, 0, NOW()),
+(4, 'gravatar_rating', 'string', 'pg', 'g, pg, r, x', 1, 1, 0, NOW()),
+(5, 'gravatar_size', 'integer', '70', NULL, 1, 0, 0, NOW()),
+(6, 'menu_geolocation_items', 'boolean', '1', NULL, 1, 1, 0, NOW()),
+(7, 'menu_audio_items', 'boolean', '1', NULL, 1, 1, 0, NOW()),
+(8, 'menu_video_items', 'boolean', '1', NULL, 1, 1, 0, NOW()),
+(9, 'readability_parser_key', 'string', NULL, NULL, 1, 1, 0, NOW()),
+(10, 'sender_email', 'email', 'mailer@readerself.com', NULL, 1, 0, 0, NOW()),
+(11, 'sender_name', 'string', 'Reader Self', NULL, 1, 0, 0, NOW()),
+(12, 'shared_items', 'boolean', '1', NULL, 1, 1, 0, NOW()),
+(13, 'share_external_email', 'boolean', '1', NULL, 1, 1, 0, NOW()),
+(14, 'social_buttons', 'boolean', '1', NULL, 1, 1, 0, NOW()),
+(15, 'starred_items', 'boolean', '1', NULL, 1, 1, 0, NOW()),
+(16, 'tags', 'boolean', '1', NULL, 1, 1, 0, NOW()),
+(17, 'share_external', 'boolean', '1', NULL, 1, 1, 0, NOW()),
+(18, 'title', 'string', 'Reader Self', NULL, 1, 0, 0, NOW()),
+(19, 'members_list', 'boolean', '0', NULL, 1, 0, 0, NOW()),
+(20, 'register_multi', 'boolean', '0', NULL, 1, 0, 0, NOW());
 
 #2013-10-13
 INSERT INTO `settings` (`stg_id`, `stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is_global`, `stg_is_member`, `stg_is_subscription`, `stg_datecreated`) VALUES
-(21, 'refresh_by_cron', 'boolean', '1', NULL, 1, 0, 0, '2013-10-13 20:48:44');
+(21, 'refresh_by_cron', 'boolean', '1', NULL, 1, 0, 0, NOW());
 
 #2013-10-17
 CREATE TABLE IF NOT EXISTS `followers` (
@@ -169,15 +169,15 @@ CREATE TABLE IF NOT EXISTS `elasticsearch_items` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 INSERT INTO `settings` (`stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is_global`, `stg_is_member`, `stg_is_subscription`, `stg_datecreated`) VALUES
-('elasticsearch/enabled', 'boolean', '0', NULL, 1, 0, 0, '2015-06-13 06:23:41'),
-('elasticsearch/index', 'string', 'readerself', NULL, 1, 0, 0, '2015-06-13 06:23:43'),
-('elasticsearch/url', 'string', 'http://127.0.0.1:9200', NULL, 1, 0, 0, '2015-06-13 06:24:18');
+('elasticsearch/enabled', 'boolean', '0', NULL, 1, 0, 0, NOW()),
+('elasticsearch/index', 'string', 'readerself', NULL, 1, 0, 0, NOW()),
+('elasticsearch/url', 'string', 'http://127.0.0.1:9200', NULL, 1, 0, 0, NOW());
 
 #2015-07-12
 INSERT INTO `settings` (`stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is_global`, `stg_is_member`, `stg_is_subscription`, `stg_datecreated`) VALUES
-('facebook/enabled', 'boolean', '0', NULL, 1, 0, 0, '2015-07-12 06:23:41'),
-('facebook/id', 'string', NULL, NULL, 1, 0, 0, '2015-07-12 06:23:43'),
-('facebook/secret', 'string', NULL, NULL, 1, 0, 0, '2015-07-12 06:24:18');
+('facebook/enabled', 'boolean', '0', NULL, 1, 0, 0, NOW()),
+('facebook/id', 'string', NULL, NULL, 1, 0, 0, NOW()),
+('facebook/secret', 'string', NULL, NULL, 1, 0, 0, NOW());
 
 #2015-08-07
 ALTER TABLE  `elasticsearch_items` CHANGE  `id`  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT;
