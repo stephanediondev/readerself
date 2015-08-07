@@ -478,7 +478,7 @@ $(document).ready(function() {
 
 			//h or ?
 			} else if(keycode == 72 || keycode == 188) {
-				modal_show($('#link_shortcuts').attr('href'));
+				//modal_show($('#link_shortcuts').attr('href'));
 
 			//o or enter
 			} else if(keycode == 79 || keycode == 13) {
