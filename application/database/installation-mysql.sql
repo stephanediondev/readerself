@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `crawler` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `elasticsearch_items` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `itm_id` bigint(20) unsigned NOT NULL,
   `datecreated` datetime NOT NULL,
   PRIMARY KEY (`id`),
@@ -184,12 +184,12 @@ INSERT INTO `settings` (`stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is
 ('register_multi', 'boolean', '0', NULL, 1, 0, 0, NOW()),
 ('refresh_by_cron', 'boolean', '1', NULL, 1, 0, 0, NOW()),
 ('menu_authors', 'boolean', '1', NULL, 1, 1, 0, NOW()),
-('elasticsearch/enabled', 'boolean', '0', NULL, 1, 0, 0, '2015-06-13 06:23:41'),
-('elasticsearch/index', 'string', 'readerself', NULL, 1, 0, 0, '2015-06-13 06:23:43'),
-('elasticsearch/url', 'string', 'http://127.0.0.1:9200', NULL, 1, 0, 0, '2015-06-13 06:24:18'),
-('facebook/enabled', 'boolean', '0', NULL, 1, 0, 0, '2015-07-12 06:23:41'),
-('facebook/id', 'string', NULL, NULL, 1, 0, 0, '2015-07-12 06:23:43'),
-('facebook/secret', 'string', NULL, NULL, 1, 0, 0, '2015-07-12 06:24:18');
+('elasticsearch/enabled', 'boolean', '0', NULL, 1, 0, 0, NOW()),
+('elasticsearch/index', 'string', 'readerself', NULL, 1, 0, 0, NOW()),
+('elasticsearch/url', 'string', 'http://127.0.0.1:9200', NULL, 1, 0, 0, NOW()),
+('facebook/enabled', 'boolean', '0', NULL, 1, 0, 0, NOW()),
+('facebook/id', 'string', NULL, NULL, 1, 0, 0, NOW()),
+('facebook/secret', 'string', NULL, NULL, 1, 0, 0, NOW());
 
 CREATE TABLE IF NOT EXISTS `share` (
   `shr_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,

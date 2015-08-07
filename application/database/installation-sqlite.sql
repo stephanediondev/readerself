@@ -135,34 +135,35 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `stg_datecreated` datetime NOT NULL);
 CREATE UNIQUE INDEX "settings_stg_code" ON "settings" ("stg_code");
 
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('folders',	'boolean',	'1',	NULL,	1,	'0',	'0',	'2015-08-07 11:27:46');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('gravatar',	'boolean',	'1',	NULL,	1,	'0',	'0',	'2015-08-07 11:27:46');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('gravatar_default',	'string',	'identicon',	'identicon, mm, monsterid, retro, wavatar',	1,	1,	'0',	'2015-08-07 11:27:46');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('gravatar_rating',	'string',	'pg',	'g, pg, r, x',	1,	1,	'0',	'2015-08-07 11:27:46');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('gravatar_size',	'integer',	'70',	NULL,	1,	'0',	'0',	'2015-08-07 11:27:46');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('menu_geolocation_items',	'boolean',	'1',	NULL,	1,	1,	'0',	'2015-08-07 11:27:46');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('menu_audio_items',	'boolean',	'1',	NULL,	1,	1,	'0',	'2015-08-07 11:27:46');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('menu_video_items',	'boolean',	'1',	NULL,	1,	1,	'0',	'2015-08-07 11:27:46');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('readability_parser_key',	'string',	NULL,	NULL,	1,	1,	'0',	'2015-08-07 11:27:46');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('sender_email',	'email',	'mailer@readerself.com',	NULL,	1,	'0',	'0',	'2015-08-07 11:27:46');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('sender_name',	'string',	'Reader Self',	NULL,	1,	'0',	'0',	'2015-08-07 11:27:46');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('shared_items',	'boolean',	'1',	NULL,	1,	1,	'0',	'2013-10-12 21:38:11');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('share_external_email',	'boolean',	'1',	NULL,	1,	1,	'0',	'2015-08-07 11:27:46');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('social_buttons',	'boolean',	'1',	NULL,	1,	1,	'0',	'2015-08-07 11:27:46');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('starred_items',	'boolean',	'1',	NULL,	1,	1,	'0',	'2015-08-07 11:27:47');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('tags',	'boolean',	'1',	NULL,	1,	1,	'0',	'2015-08-07 11:27:47');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('share_external',	'boolean',	'1',	NULL,	1,	1,	'0',	'2015-08-07 11:27:47');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('title',	'string',	'Reader Self',	NULL,	1,	'0',	'0',	'2015-08-07 11:27:47');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('members_list',	'boolean',	'0',	NULL,	1,	'0',	'0',	'2015-08-07 11:27:47');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('register_multi',	'boolean',	'0',	NULL,	1,	'0',	'0',	'2015-08-07 11:27:47');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('refresh_by_cron',	'boolean',	'1',	NULL,	1,	'0',	'0',	'2015-08-07 11:27:47');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('menu_authors',	'boolean',	'1',	NULL,	1,	1,	'0',	'2015-08-07 11:27:47');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('elasticsearch/enabled',	'boolean',	'0',	NULL,	1,	'0',	'0',	'2015-06-13 06:23:41');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('elasticsearch/index',	'string',	NULL,	NULL,	1,	'0',	'0',	'2015-06-13 06:23:44');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('elasticsearch/url',	'string',	NULL,	NULL,	1,	'0',	'0',	'2015-06-13 06:24:18');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('facebook/enabled',	'boolean',	'0',	NULL,	1,	'0',	'0',	'2015-07-12 06:23:41');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('facebook/id',	'string',	NULL,	NULL,	1,	'0',	'0',	'2015-07-12 06:23:43');
-INSERT INTO "settings" ("stg_code", "stg_type", "stg_value", "stg_note", "stg_is_global", "stg_is_member", "stg_is_subscription", "stg_datecreated") VALUES ('facebook/secret',	'string',	NULL,	NULL,	1,	'0',	'0',	'2015-07-12 06:24:18');
+INSERT INTO `settings` (`stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is_global`, `stg_is_member`, `stg_is_subscription`, `stg_datecreated`) VALUES
+('folders', 'boolean', '1', NULL, 1, 0, 0, datetime('now')),
+('gravatar', 'boolean', '1', NULL, 1, 0, 0, datetime('now')),
+('gravatar_default', 'string', 'identicon', 'identicon, mm, monsterid, retro, wavatar', 1, 1, 0, datetime('now')),
+('gravatar_rating', 'string', 'pg', 'g, pg, r, x', 1, 1, 0, datetime('now')),
+('gravatar_size', 'integer', '70', NULL, 1, 0, 0, datetime('now')),
+('menu_geolocation_items', 'boolean', '1', NULL, 1, 1, 0, datetime('now')),
+('menu_audio_items', 'boolean', '1', NULL, 1, 1, 0, datetime('now')),
+('menu_video_items', 'boolean', '1', NULL, 1, 1, 0, datetime('now')),
+('readability_parser_key', 'string', NULL, NULL, 1, 1, 0, datetime('now')),
+('sender_email', 'email', 'mailer@readerself.com', NULL, 1, 0, 0, datetime('now')),
+('sender_name', 'string', 'Reader Self', NULL, 1, 0, 0, datetime('now')),
+('shared_items', 'boolean', '1', NULL, 1, 1, 0, datetime('now')),
+('share_external_email', 'boolean', '1', NULL, 1, 1, 0, datetime('now')),
+('social_buttons', 'boolean', '1', NULL, 1, 1, 0, datetime('now')),
+('starred_items', 'boolean', '1', NULL, 1, 1, 0, datetime('now')),
+('tags', 'boolean', '1', NULL, 1, 1, 0, datetime('now')),
+('share_external', 'boolean', '1', NULL, 1, 1, 0, datetime('now')),
+('title', 'string', 'Reader Self', NULL, 1, 0, 0, datetime('now')),
+('members_list', 'boolean', '0', NULL, 1, 0, 0, datetime('now')),
+('register_multi', 'boolean', '0', NULL, 1, 0, 0, datetime('now')),
+('refresh_by_cron', 'boolean', '1', NULL, 1, 0, 0, datetime('now')),
+('menu_authors', 'boolean', '1', NULL, 1, 1, 0, datetime('now')),
+('elasticsearch/enabled', 'boolean', '0', NULL, 1, 0, 0, datetime('now')),
+('elasticsearch/index', 'string', 'readerself', NULL, 1, 0, 0, datetime('now')),
+('elasticsearch/url', 'string', 'http://127.0.0.1:9200', NULL, 1, 0, 0, datetime('now')),
+('facebook/enabled', 'boolean', '0', NULL, 1, 0, 0, datetime('now')),
+('facebook/id', 'string', NULL, NULL, 1, 0, 0, datetime('now')),
+('facebook/secret', 'string', NULL, NULL, 1, 0, 0, datetime('now'));
 
 CREATE TABLE IF NOT EXISTS `share` (
   `shr_id` integer PRIMARY KEY AUTOINCREMENT,
