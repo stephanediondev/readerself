@@ -91,7 +91,7 @@ class Feeds extends CI_Controller {
 				$this->form_validation->set_rules('folder', 'lang:folder', 'required');
 			}
 			$this->form_validation->set_rules('priority', 'lang:priority', 'numeric');
-			$this->form_validation->set_rules('direction', 'lang:direction', '');
+			//$this->form_validation->set_rules('direction', 'lang:direction', '');
 
 			if($this->form_validation->run() == FALSE) {
 				$content = $this->load->view('feeds_subscribe', $data, TRUE);
@@ -223,7 +223,7 @@ class Feeds extends CI_Controller {
 		$data['fed'] = $this->readerself_model->get_feed_row($fed_id);
 		if($data['fed']) {
 			$this->form_validation->set_rules('fed_link', 'lang:url', 'required|max_length[255]');
-			$this->form_validation->set_rules('direction', 'lang:direction', '');
+			//$this->form_validation->set_rules('direction', 'lang:direction', '');
 			if($this->form_validation->run() == FALSE) {
 				$content = $this->load->view('feeds_update', $data, TRUE);
 				$this->readerself_library->set_content($content);

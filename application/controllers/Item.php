@@ -145,7 +145,7 @@ class Item extends CI_Controller {
 
 				$this->form_validation->set_rules('email_subject', 'lang:email_subject', 'required');
 				$this->form_validation->set_rules('email_to', 'lang:email_to', 'required|valid_email');
-				$this->form_validation->set_rules('email_message', 'lang:email_message', '');
+				//$this->form_validation->set_rules('email_message', 'lang:email_message', '');
 
 				if($this->form_validation->run() == FALSE) {
 					$content['modal'] = $this->load->view('item_email', $data, TRUE);

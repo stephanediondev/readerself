@@ -34,7 +34,7 @@ class Folders extends CI_Controller {
 		$data = array();
 		$this->load->library(array('form_validation'));
 		$this->form_validation->set_rules('flr_title', 'lang:flr_title', 'required|max_length[255]');
-		$this->form_validation->set_rules('direction', 'lang:direction', '');
+		//$this->form_validation->set_rules('direction', 'lang:direction', '');
 		if($this->form_validation->run() == FALSE) {
 			$content = $this->load->view('folders_create', $data, TRUE);
 			$this->readerself_library->set_content($content);
@@ -160,7 +160,7 @@ class Folders extends CI_Controller {
 		$data['flr'] = $this->readerself_model->get_flr_row($flr_id);
 		if($data['flr']) {
 			$this->form_validation->set_rules('flr_title', 'lang:flr_title', 'required|max_length[255]');
-			$this->form_validation->set_rules('direction', 'lang:direction', '');
+			//$this->form_validation->set_rules('direction', 'lang:direction', '');
 			if($this->form_validation->run() == FALSE) {
 				$content = $this->load->view('folders_update', $data, TRUE);
 				$this->readerself_library->set_content($content);

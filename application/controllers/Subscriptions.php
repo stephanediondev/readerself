@@ -74,7 +74,7 @@ class Subscriptions extends CI_Controller {
 			$this->form_validation->set_rules('folder', 'lang:folder', 'required');
 		}
 		$this->form_validation->set_rules('priority', 'lang:priority', 'numeric');
-		$this->form_validation->set_rules('direction', 'lang:direction', '');
+		//$this->form_validation->set_rules('direction', 'lang:direction', '');
 
 		$data['error'] = false;
 
@@ -382,7 +382,7 @@ class Subscriptions extends CI_Controller {
 			$this->form_validation->set_rules('sub_title', 'lang:sub_title', 'max_length[255]');
 			$this->form_validation->set_rules('folder', 'lang:folder', 'required');
 			$this->form_validation->set_rules('priority', 'lang:priority', 'numeric');
-			$this->form_validation->set_rules('direction', 'lang:direction', '');
+			//$this->form_validation->set_rules('direction', 'lang:direction', '');
 			if($this->form_validation->run() == FALSE) {
 				$content = $this->load->view('subscriptions_update', $data, TRUE);
 				$this->readerself_library->set_content($content);

@@ -9,6 +9,9 @@
 			<?php if($this->config->item('shared_items')) { ?>
 				<li><a id="load-shared-items" class="mdl-navigation__link" href="<?php echo base_url(); ?>items/get/shared" title="<?php echo $this->lang->line('title_g_shift_s'); ?>"><i class="material-icons md-18">favorite</i><?php echo $this->lang->line('shared_items'); ?> {<span>0</span>}</a></li>
 			<?php } ?>
+			<?php if($this->config->item('menu_video_items')) { ?>
+				<li><a id="load-video-items" class="mdl-navigation__link" href="<?php echo base_url(); ?>items/get/video"><i class="material-icons md-18">videocam</i><?php echo $this->lang->line('video_items'); ?> (<span>0</span>)</a></li>
+			<?php } ?>
 			<?php if($this->config->item('menu_geolocation_items')) { ?>
 				<li><a id="load-geolocation-items" class="mdl-navigation__link" href="<?php echo base_url(); ?>items/get/geolocation"><i class="material-icons md-18">place</i><?php echo $this->lang->line('geolocation_items'); ?> (<span>0</span>)</a></li>
 			<?php } ?>

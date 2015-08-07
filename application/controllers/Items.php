@@ -215,8 +215,9 @@ class Items extends CI_Controller {
 
 				if($mode == 'video') {
 					$introduction_title = '<i class="icon icon-youtube-play"></i>'.$this->lang->line('video_items').' (<span id="intro-load-video-items"></span>)';
-					$where[] = 'enr.enr_type LIKE ?';
+					$where[] = '(enr.enr_type LIKE ? OR enr.enr_link LIKE ?)';
 					$bindings[] = 'video/%';
+					$bindings[] = 'https://www.youtube.com/%';
 				}
 
 				if($mode == 'starred') {

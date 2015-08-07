@@ -22,7 +22,9 @@ class Settings extends CI_Controller {
 			if($stg->stg_type == 'integer') {
 				$rules[] = 'integer';
 			}
-			$this->form_validation->set_rules($stg->stg_code, 'lang:stg_'.$stg->stg_code, implode('|', $rules));
+			if(count($rules) > 0) {
+				$this->form_validation->set_rules($stg->stg_code, 'lang:stg_'.$stg->stg_code, implode('|', $rules));
+			}
 		}
 
 		if($this->form_validation->run() == FALSE) {
