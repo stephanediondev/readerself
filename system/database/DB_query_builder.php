@@ -1277,8 +1277,11 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 
 		foreach ($key as $k => $v)
 		{
-			$this->qb_set[$this->protect_identifiers($k, FALSE, $escape)] = ($escape)
-				? $this->escape($v) : $v;
+			if($v == '') {
+				$this->qb_set[$this->protect_identifiers($k, FALSE, $escape)] = 'NULL';
+			} else {
+				$this->qb_set[$this->protect_identifiers($k, FALSE, $escape)] = ($escape) ? $this->escape($v) : $v;
+			}
 		}
 
 		return $this;

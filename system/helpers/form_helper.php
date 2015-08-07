@@ -679,7 +679,7 @@ if ( ! function_exists('set_value'))
 	 * @param	bool	$html_escape	Whether to escape HTML special characters or not
 	 * @return	string
 	 */
-	function set_value($field, $default = '', $html_escape = TRUE)
+	function set_value($field, $default = '', $html_escape = FALSE)
 	{
 		$CI =& get_instance();
 
