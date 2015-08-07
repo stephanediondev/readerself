@@ -4,7 +4,7 @@
 		<div class="mdl-card__title-infos">
 		</div>
 	</div>
-	<div class="mdl-card__supporting-text mdl-color-text--black hide-collapse">
+	<div class="mdl-card__supporting-text mdl-color-text--black">
 		<?php echo validation_errors(); ?>
 
 		<?php echo form_open(current_url()); ?>

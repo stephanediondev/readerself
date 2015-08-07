@@ -36,9 +36,8 @@ a:hover {
 .color, a.color:link, a.color:visited{color:#000000;display:inline-block;margin-right:5px;width:20px;}
 .color_percent{background-color:#AEB2B7!important;}
 
-.items_mode .unread_only{display:none;}
-.items_display .expand{display:none;}
-.item.collapse .hide-collapse{display:none;}
+.item.expand a.expand{display:none;}
+.item.collapse a.collapse{display:none;}
 
 .favicon, a.favicon:link, a.favicon:visited {
 	background-position: center left;
@@ -125,6 +124,14 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 .mdl-card__title .mdl-card__title-text {
 	font-size: 16px;
 	margin: 4px 0px 4px 0px;
+}
+.mdl-card__title .mdl-card__title-text {
+	padding-right: 18px;
+}
+.mdl-card__title .mdl-card__title-text a.expand, .mdl-card__title .mdl-card__title-text a.collapse {
+	position: absolute;
+	right: 0px;
+	top: 4px;
 }
 .mdl-card__title .mdl-card__title-infos {
 	margin-bottom: 4px;
