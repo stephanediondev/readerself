@@ -48,6 +48,7 @@ function load_items(url) {
 					}
 				}
 				$('.mdl-grid').html(content);
+				componentHandler.upgradeDom('MaterialMenu', 'mdl-menu');
 				if(data_return.result_type == 'items') {
 					for(i in data_return.items) {
 						itm = data_return.items[i];
@@ -94,6 +95,7 @@ function add_items(url) {
 					}
 					$('.mdl-spinner').remove();
 					$('.mdl-grid').append(content);
+					componentHandler.upgradeDom('MaterialMenu', 'mdl-menu');
 					for(i in data_return.items) {
 						itm = data_return.items[i];
 						item_swipe('#item_' + itm.itm_id);

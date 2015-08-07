@@ -127,6 +127,7 @@ function add_items(url) {
 					}
 					$('.mdl-spinner').remove();
 					$('.mdl-grid').append(content);
+					componentHandler.upgradeDom('MaterialMenu', 'mdl-menu');
 					for(i in data_return.items) {
 						itm = data_return.items[i];
 						item_swipe('#item_' + itm.itm_id);
