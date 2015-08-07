@@ -54,7 +54,7 @@
 							<?php echo form_label($this->lang->line('stg_'.$stg->stg_code), $stg->stg_code); ?>
 							<?php echo form_input($stg->stg_code, set_value($stg->stg_code, $stg->stg_value), 'id="'.$stg->stg_code.'"'); ?>
 						<?php } ?>
-						<?php if($stg->stg_note) { ?> <em><?php echo $stg->stg_note; ?></em><?php } ?>
+						<?php if($stg->stg_note) { ?><br><em><?php echo $stg->stg_note; ?></em><?php } ?>
 						</p>
 					<?php } ?>
 	
