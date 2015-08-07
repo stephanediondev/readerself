@@ -1,13 +1,10 @@
 <div class="mdl-tooltip" for="tip_add">Feedly Essentials</div>
 <div class="mdl-tooltip" for="tip_export"><?php echo $this->lang->line('export'); ?></div>
 
-<main class="mdl-layout__content mdl-color--grey-100">
-	<div class="mdl-grid">
-		<div class="mdl-card mdl-cell mdl-cell--12-col">
-			<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
-				<h1 class="mdl-card__title-text"><i class="material-icons md-18">bookmark_border</i><?php echo $this->lang->line('feeds'); ?> (<?php echo $position; ?>)</h1>
-			</div>
-			<div class="mdl-card__supporting-text mdl-color-text--black">
+<div class="mdl-layout__drawer">
+	<nav class="mdl-navigation">
+		<ul>
+			<li>
 				<?php echo form_open(current_url()); ?>
 				<p>
 				<?php echo form_label($this->lang->line('title'), 'feeds_fed_title'); ?>
@@ -25,6 +22,16 @@
 				</button>
 				</p>
 				<?php echo form_close(); ?>
+			</li>
+		</ul>
+	</nav>
+</div>
+
+<main class="mdl-layout__content mdl-color--grey-100">
+	<div class="mdl-grid">
+		<div class="mdl-card mdl-cell mdl-cell--12-col">
+			<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
+				<h1 class="mdl-card__title-text"><i class="material-icons md-18">bookmark_border</i><?php echo $this->lang->line('feeds'); ?> (<?php echo $position; ?>)</h1>
 			</div>
 			<div class="mdl-card__actions mdl-card--border">
 				<a id="tip_add" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>feeds/feedly"><i class="material-icons md-18">add</i></a></li>

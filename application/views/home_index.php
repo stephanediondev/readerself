@@ -40,10 +40,10 @@
 			</li>
 			<li>
 				<?php echo form_open(base_url().'subscriptions/search', array('id'=>'search_subscriptions_form')); ?>
-					<p>
-					<?php echo form_label('<i class="icon icon-bookmark"></i>'.$this->lang->line('subscriptions'), 'fed_title'); ?>
-					<?php echo form_input('fed_title', '', 'id="fed_title"'); ?>
-					</p>
+				<p>
+				<?php echo form_label('<i class="icon icon-bookmark"></i>'.$this->lang->line('subscriptions'), 'fed_title'); ?>
+				<?php echo form_input('fed_title', '', 'id="fed_title"'); ?>
+				</p>
 				<?php echo form_close(); ?>
 			</li>
 		</ul>
