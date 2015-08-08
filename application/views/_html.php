@@ -27,15 +27,19 @@
 <meta name="msapplication-square150x150logo" content="<?php echo base_url(); ?>medias/readerself_250x250.png">
 <meta name="msapplication-badge" content="frequency=30;polling-uri=<?php echo base_url(); ?>msapplication/badge/<?php echo $this->member->token_msapplication; ?>">
 <?php } ?>
-
-<link rel="icon" href="<?php echo base_url(); ?>favicon.ico" type="image/x-icon">
-<link rel="shortcut icon" href="<?php echo base_url(); ?>favicon.ico" type="image/x-icon">
-<link rel="apple-touch-icon" href="<?php echo base_url(); ?>medias/readerself_200x200.png">
+<link rel="icon" sizes="16x16" href="<?php echo base_url(); ?>medias/readerself_16x16.png">
+<link rel="icon" sizes="128x128" href="<?php echo base_url(); ?>medias/readerself_128x128.png">
+<link rel="icon" sizes="200X200" href="<?php echo base_url(); ?>medias/readerself_200x200.png">
+<link rel="icon" sizes="250X250" href="<?php echo base_url(); ?>medias/readerself_250X250.png">
+<link rel="apple-touch-icon" sizes="200X200" href="<?php echo base_url(); ?>medias/readerself_200x200.png">
+<link rel="apple-touch-icon-precomposed" sizes="200X200" href="<?php echo base_url(); ?>medias/readerself_200x200.png">
 <meta content="noindex, nofollow, noarchive" name="robots">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
 <meta name="HandheldFriendly" content="true">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#009688">
+<link rel="manifest" href="manifest.json">
 <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="<?php echo base_url(); ?>thirdparty/mdl/material.min.css" rel="stylesheet" type="text/css">

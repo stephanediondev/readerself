@@ -1,0 +1,31 @@
+{
+  "name": "Reader Self",
+  "icons": [
+    {
+      "src": "medias/readerself_16x16.png",
+      "sizes": "16x16",
+      "type": "image/png",
+      "density": 1.0
+    },
+    {
+      "src": "medias/readerself_128X128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "density": 1.0
+    },
+    {
+      "src": "medias/readerself_200X200.png",
+      "sizes": "200X200",
+      "type": "image/png",
+      "density": 1.0
+    },
+    {
+      "src": "medias/readerself_250x250.png",
+      "sizes": "250X250",
+      "type": "image/png",
+      "density": 1.0
+    }
+  ],
+  "short_name": "Reader Self",
+  "display": "standalone"
+}
