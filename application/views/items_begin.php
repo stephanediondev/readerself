@@ -57,7 +57,7 @@
 					<a class="mdl-navigation__link" href="<?php echo $is_feed->fed_url; ?>" target="_blank"><i class="material-icons md-16">open_in_new</i><?php echo $is_feed->fed_url; ?></a>
 				<?php } ?>
 				<?php if($this->config->item('folders')) { ?>
-					<?php if($is_feed->flr_title) { ?><a class="mdl-navigation__link" href="<?php echo base_url(); ?>folders/read/<?php echo $is_feed->flr_id; ?>"><i class="material-icons md-16">folder</i><?php echo $is_feed->flr_title; ?></a><?php } ?>
+					<?php if($is_feed->flr_title) { ?><a class="mdl-navigation__link folder" href="#load-folder-<?php echo $is_feed->flr_id; ?>-items"><i class="material-icons md-16">folder</i><?php echo $is_feed->flr_title; ?></a><?php } ?>
 				<?php } ?>
 			</div>
 		</div>

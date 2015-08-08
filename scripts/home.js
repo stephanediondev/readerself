@@ -631,7 +631,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$(document).on('click', '.title a.folder, .item a.folder', function(event) {
+	$(document).on('click', '.mdl-card a.folder', function(event) {
 		event.preventDefault();
 		$('#search_items').val('');
 		var ref = $(this);

@@ -88,11 +88,14 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 .mdl-layout__drawer .mdl-navigation li li {
 	padding: 4px 8px;
 }
-.mdl-layout__drawer .mdl-navigation .mdl-navigation__link.folder {
-	padding: 8px 0px;
-}
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
 	display: inline;
+}
+.mdl-layout__drawer .mdl-navigation .mdl-navigation__link.lock {
+	padding: 0px 0px;
+	position: absolute;
+	right: 5px;
+	top: 0px;
 }
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link:hover {
 	background-color: transparent;
