@@ -1,9 +1,9 @@
 <div class="mdl-tooltip" for="tip_back"><?php echo $this->lang->line('back'); ?></div>
 
-<main class="mdl-layout__content mdl-color--grey-100">
+<main class="mdl-layout__content mdl-color--<?php echo $this->config->item('material-design/colors/background/layout'); ?>">
 	<div class="mdl-grid">
 		<div class="mdl-card mdl-cell mdl-cell--12-col">
-			<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
+			<div class="mdl-card__title mdl-color-text--white mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
 				<h1 class="mdl-card__title-text"><i class="material-icons md-18">person</i><?php if($this->member->mbr_nickname) { ?><?php echo $this->member->mbr_nickname; ?><?php } else { ?><?php echo $this->lang->line('profile'); ?><?php } ?></h1>
 			</div>
 			<div class="mdl-card__supporting-text mdl-color-text--black">
@@ -38,7 +38,7 @@
 				<p><i class="icon icon-heart"></i><?php echo $shared_items_total; ?> shared item(s)</p>
 
 				<p>
-				<button type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--pink mdl-color-text--white">
+				<button type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--<?php echo $this->config->item('material-design/colors/background/button'); ?> mdl-color-text--white">
 					<i class="material-icons md-24">done</i>
 				</button>
 				</p>

@@ -268,7 +268,7 @@ class Items extends CI_Controller {
 						$categories = $this->db->query('SELECT cat.cat_title AS ref, cat.cat_id AS id, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND itm.itm_date >= ? AND fed.fed_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,10', array($date_ref, $is_feed->fed_id))->result();
 						if($categories) {
 							foreach($categories as $cat) {
-								$is_feed->categories[] = '<a class="category" data-cat_id="'.$cat->id.'" href="'.base_url().'items/get/category/'.$cat->id.'">'.$cat->ref.'</a>';
+								$is_feed->categories[] = '<a class="mdl-navigation__link category" data-cat_id="'.$cat->id.'" href="'.base_url().'items/get/category/'.$cat->id.'"><i class="material-icons md-16">label</i>'.$cat->ref.'</a>';
 							}
 						}
 					}
@@ -368,7 +368,7 @@ class Items extends CI_Controller {
 										if($is_member) {
 											$itm->categories[] = $cat->cat_title;
 										} else {
-											$itm->categories[] = '<a class="category" data-cat_id="'.$cat->cat_id.'" href="'.base_url().'items/get/category/'.$cat->cat_id.'">'.$cat->cat_title.'</a>';
+											$itm->categories[] = '<a class="mdl-navigation__link category" data-cat_id="'.$cat->cat_id.'" href="'.base_url().'items/get/category/'.$cat->cat_id.'"><i class="material-icons md-16">label</i>'.$cat->cat_title.'</a>';
 										}
 									}
 								}
@@ -437,7 +437,7 @@ class Items extends CI_Controller {
 				if($introduction_direction) {
 					$content['begin'] = '<article dir="'.$introduction_direction.'" id="introduction" class="title">';
 				} else {
-					$content['begin'] = '<div class="mdl-card mdl-cell mdl-cell--12-col"><div class="mdl-card__title mdl-color-text--white mdl-color--teal">';
+					$content['begin'] = '<div class="mdl-card mdl-cell mdl-cell--12-col"><div class="mdl-card__title mdl-color-text--white mdl-color--'.$this->config->item('material-design/colors/background/card-title').'">';
 				}
 				$content['begin'] .= '<h1 class="mdl-card__title-text">'.$introduction_title.'</h1>';
 				$content['begin'] .= '</div></div>';

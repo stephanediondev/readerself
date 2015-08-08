@@ -71,6 +71,7 @@ function load_items(url) {
 				if(data_return.result_type == 'items') {
 					for(i in data_return.items) {
 						itm = data_return.items[i];
+						$('#item_' + itm.itm_id).find('.item-content-result').find('a').addClass('mdl-color-text--' + material_design_colors_text_link);
 						item_swipe('#item_' + itm.itm_id);
 					}
 					$('.timeago').timeago();
@@ -130,6 +131,7 @@ function add_items(url) {
 					componentHandler.upgradeDom('MaterialMenu', 'mdl-menu');
 					for(i in data_return.items) {
 						itm = data_return.items[i];
+						$('#item_' + itm.itm_id).find('.item-content-result').find('a').addClass('mdl-color-text--' + material_design_colors_text_link);
 						item_swipe('#item_' + itm.itm_id);
 					}
 					$('.timeago').timeago();
@@ -686,7 +688,9 @@ $(document).ready(function() {
 		$('.mdl-navigation li').removeClass('active');
 
 		$('.mdl-navigation > ul').find('.result').remove();
-		var content = '<li class="result active"><a id="load-category-items" class="mdl-navigation__link" href="' + base_url + 'items/get/category/' + ref.data('cat_id') + '"><i class="icon icon-tag"></i>' + ref.text() + ' (<span>0</span>)</a></li>';
+		var title = ref.find('i').remove();
+		title = ref.text();
+		var content = '<li class="result active"><a id="load-category-items" class="mdl-navigation__link" href="' + base_url + 'items/get/category/' + ref.data('cat_id') + '"><i class="icon icon-tag"></i>' + title + ' (<span>0</span>)</a></li>';
 		$('.mdl-navigation > ul').append(content);
 
 		load_items(ref.attr('href'));

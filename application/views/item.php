@@ -1,9 +1,9 @@
 <div<?php if($itm->sub->sub_direction) { ?> dir="<?php echo $itm->sub->sub_direction; ?>"<?php } ?> class="mdl-card mdl-cell mdl-cell--12-col item<?php if($itm->history == 'read') { ?> read<?php } ?><?php if($this->input->get('items_display') == 'collapse' || $this->input->cookie('items_display') == 'collapse') { ?> collapse<?php } else { ?> expand<?php } ?>" id="item_<?php echo $itm->itm_id; ?>">
 	<div class="mdl-card__title">
 		<h1 class="mdl-card__title-text">
-			<a target="_blank" class="title_link favicon mdl-color-text--grey-"<?php if($itm->sub->fed_host) { ?> style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $itm->sub->fed_host; ?>&amp;alt=feed);"<?php } ?> href="<?php echo $itm->itm_link; ?>"><?php echo $itm->itm_title; ?></a>
-			<a class="expand" href="<?php echo base_url(); ?>item/expand/<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_o'); ?>"><i class="material-icons md-24">arrow_drop_down</i></a>
-			<a class="collapse" href="#item_<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_o'); ?>"><i class="material-icons md-24">arrow_drop_up</i></a>
+			<a target="_blank" class="title_link favicon mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>"<?php if($itm->sub->fed_host) { ?> style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $itm->sub->fed_host; ?>&amp;alt=feed);"<?php } ?> href="<?php echo $itm->itm_link; ?>"><?php echo $itm->itm_title; ?></a>
+			<a class="expand mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>item/expand/<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_o'); ?>"><i class="material-icons md-24">arrow_drop_down</i></a>
+			<a class="collapse mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="#item_<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_o'); ?>"><i class="material-icons md-24">arrow_drop_up</i></a>
 		</h1>
 		<div class="mdl-card__title-infos">
 			<span class="mdl-navigation__link"><i class="material-icons md-16">access_time</i><span class="timeago" title="<?php echo $itm->itm_date; ?>"></span></span>
@@ -16,6 +16,9 @@
 			<?php } ?>
 			<?php if($itm->itm_author) { ?>
 				<a class="mdl-navigation__link author" data-itm_id="<?php echo $itm->itm_id; ?>" href="<?php echo base_url(); ?>items/get/author/<?php echo $itm->itm_id; ?>"><i class="material-icons md-16">person</i><?php echo $itm->itm_author; ?></a>
+			<?php } ?>
+			<?php if($this->config->item('tags') && $itm->categories) { ?>
+				<?php echo implode('', $itm->categories); ?>
 			<?php } ?>
 		</div>
 	</div>
@@ -41,11 +44,11 @@
 			</button>
 			<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--top-left" for="more_share_<?php echo $itm->itm_id; ?>">
 				<?php if($this->config->item('share_external_email') && $itm->case_member != 'public_profile') { ?>
-					<li class="mdl-menu__item"><a class="share_email" href="<?php echo base_url(); ?>item/email/<?php echo $itm->itm_id; ?>"><?php echo $this->lang->line('share_email'); ?></a></li>
+					<li class="mdl-menu__item"><a class="share_email mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>item/email/<?php echo $itm->itm_id; ?>"><?php echo $this->lang->line('share_email'); ?></a></li>
 				<?php } ?>
-				<li class="mdl-menu__item"><a target="_blank" href="https://www.facebook.com/sharer.php?u=<?php echo urlencode($itm->itm_link); ?>">Facebook</a></li>
-				<li class="mdl-menu__item"><a target="_blank" href="https://plus.google.com/share?url=<?php echo urlencode($itm->itm_link); ?>">Google</a></li>
-				<li class="mdl-menu__item"><a target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text=<?php echo urlencode($itm->itm_title.' '.$itm->itm_link); ?>">Twitter</a></li>
+				<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" target="_blank" href="https://www.facebook.com/sharer.php?u=<?php echo urlencode($itm->itm_link); ?>">Facebook</a></li>
+				<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" target="_blank" href="https://plus.google.com/share?url=<?php echo urlencode($itm->itm_link); ?>">Google</a></li>
+				<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text=<?php echo urlencode($itm->itm_title.' '.$itm->itm_link); ?>">Twitter</a></li>
 			</ul>
 		<?php } ?>
 		<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="more_<?php echo $itm->itm_id; ?>">
@@ -53,7 +56,7 @@
 		</button>
 		<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--top-left" for="more_<?php echo $itm->itm_id; ?>">
 			<?php if($this->config->item('readability_parser_key') && $itm->case_member != 'public_profile') { ?>
-				<li class="mdl-menu__item"><a class="link-item-readability" href="<?php echo base_url(); ?>item/readability/<?php echo $itm->itm_id; ?>">Readability</a></li>
+				<li class="mdl-menu__item"><a class="link-item-readability mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>item/readability/<?php echo $itm->itm_id; ?>">Readability</a></li>
 			<?php } ?>
 		</ul>
 	</div>

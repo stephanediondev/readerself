@@ -201,3 +201,9 @@ $lang['stg_elasticsearch/url'] = 'Elasticsearch / Url';
 $lang['stg_facebook/enabled'] = 'Facebook (application to retrieve pages as feeds)';
 $lang['stg_facebook/id'] = 'Facebook / Id';
 $lang['stg_facebook/secret'] = 'Facebook / Secret';
+
+$lang['stg_material-design/colors/text/link'] = 'Material Design - Link text color';
+$lang['stg_material-design/colors/background/layout'] = 'Material Design - Layout background color';
+$lang['stg_material-design/colors/background/header'] = 'Material Design - Header background color';
+$lang['stg_material-design/colors/background/button'] = 'Material Design - Button background color';
+$lang['stg_material-design/colors/background/card-title'] = 'Material Design - Card title background color';

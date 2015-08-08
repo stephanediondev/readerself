@@ -39,3 +39,11 @@ CREATE INDEX "share_itm_id" ON "share" ("itm_id");
 CREATE INDEX "subscriptions_mbr_id" ON "subscriptions" ("mbr_id");
 CREATE INDEX "subscriptions_fed_id" ON "subscriptions" ("fed_id");
 CREATE INDEX "subscriptions_flr_id" ON "subscriptions" ("flr_id");
+
+#2015-08-08
+INSERT INTO `settings` (`stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is_global`, `stg_is_member`, `stg_is_subscription`, `stg_datecreated`) VALUES
+('material-design/colors/text/link', 'varchar', 'pink', NULL, 1, 0, 0, datetime('now')),
+('material-design/colors/background/layout', 'varchar', 'grey-100', NULL, 1, 0, 0, datetime('now')),
+('material-design/colors/background/header', 'varchar', 'teal', NULL, 1, 0, 0, datetime('now')),
+('material-design/colors/background/button', 'varchar', 'pink', NULL, 1, 0, 0, datetime('now')),
+('material-design/colors/background/card-title', 'varchar', 'teal', NULL, 1, 0, 0, datetime('now'));

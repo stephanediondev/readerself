@@ -146,7 +146,7 @@ class Feeds extends CI_Controller {
 				$query = $this->db->query('SELECT cat.cat_title AS ref, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND itm.itm_date >= ? AND fed.fed_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,30', array($date_ref, $fed_id));
 				if($query->num_rows() > 0) {
 					foreach($query->result() as $row) {
-						$legend[] = '<i class="icon icon-tag"></i>'.$row->ref;
+						$legend[] = $row->ref;
 						$values[] = $row->nb;
 					}
 				}
@@ -158,7 +158,7 @@ class Feeds extends CI_Controller {
 			$query = $this->db->query('SELECT itm.itm_author AS ref, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE itm.itm_author IS NOT NULL AND itm.itm_date >= ? AND fed.fed_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,30', array($date_ref, $fed_id));
 			if($query->num_rows() > 0) {
 				foreach($query->result() as $row) {
-					$legend[] = '<i class="icon icon-pencil"></i>'.$row->ref;
+					$legend[] = $row->ref;
 					$values[] = $row->nb;
 				}
 			}
@@ -169,7 +169,7 @@ class Feeds extends CI_Controller {
 			$query = $this->db->query('SELECT '.$substring.'(itm.itm_date, 1, 10) AS ref, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id WHERE fed.fed_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,30', array($fed_id));
 			if($query->num_rows() > 0) {
 				foreach($query->result() as $row) {
-					$legend[] = '<i class="icon icon-calendar"></i>'.$this->readerself_library->timezone_datetime($row->ref, 'F j, Y');
+					$legend[] = $this->readerself_library->timezone_datetime($row->ref, 'F j, Y');
 					$values[] = $row->nb;
 				}
 			}
@@ -180,7 +180,7 @@ class Feeds extends CI_Controller {
 			$query = $this->db->query('SELECT '.$substring.'(itm.itm_date, 1, 7) AS ref, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id WHERE fed.fed_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,12', array($fed_id));
 			if($query->num_rows() > 0) {
 				foreach($query->result() as $row) {
-					$legend[] = '<i class="icon icon-calendar"></i>'.$this->readerself_library->timezone_datetime($row->ref, 'F, Y');
+					$legend[] = $this->readerself_library->timezone_datetime($row->ref, 'F, Y');
 					$values[] = $row->nb;
 				}
 			}
@@ -197,7 +197,7 @@ class Feeds extends CI_Controller {
 					}
 				}
 				foreach($days as $i => $v) {
-						$legend[] = '<i class="icon icon-calendar"></i>'.$v;
+						$legend[] = $v;
 					if(isset($temp[$i]) == 1) {
 						$values[] = $temp[$i];
 					} else {

@@ -25,7 +25,7 @@
 		</p>
 
 		<p>
-		<button type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--pink mdl-color-text--white">
+		<button type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--<?php echo $this->config->item('material-design/colors/background/button'); ?> mdl-color-text--white">
 			<i class="material-icons md-24">done</i>
 		</button>
 		</p>

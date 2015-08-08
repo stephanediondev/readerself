@@ -52,6 +52,7 @@ function load_items(url) {
 				if(data_return.result_type == 'items') {
 					for(i in data_return.items) {
 						itm = data_return.items[i];
+						$('#item_' + itm.itm_id).find('.item-content-result').find('a').addClass('mdl-color-text--' + material_design_colors_text_link);
 						item_swipe('#item_' + itm.itm_id);
 					}
 					$('.timeago').timeago();
@@ -98,6 +99,7 @@ function add_items(url) {
 					componentHandler.upgradeDom('MaterialMenu', 'mdl-menu');
 					for(i in data_return.items) {
 						itm = data_return.items[i];
+						$('#item_' + itm.itm_id).find('.item-content-result').find('a').addClass('mdl-color-text--' + material_design_colors_text_link);
 						item_swipe('#item_' + itm.itm_id);
 					}
 					$('.timeago').timeago();

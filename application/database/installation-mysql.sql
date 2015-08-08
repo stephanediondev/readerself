@@ -189,7 +189,12 @@ INSERT INTO `settings` (`stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is
 ('elasticsearch/url', 'string', 'http://127.0.0.1:9200', NULL, 1, 0, 0, NOW()),
 ('facebook/enabled', 'boolean', '0', NULL, 1, 0, 0, NOW()),
 ('facebook/id', 'string', NULL, NULL, 1, 0, 0, NOW()),
-('facebook/secret', 'string', NULL, NULL, 1, 0, 0, NOW());
+('facebook/secret', 'string', NULL, NULL, 1, 0, 0, NOW()),
+('material-design/colors/text/link', 'varchar', 'pink', NULL, 1, 0, 0, NOW()),
+('material-design/colors/background/layout', 'varchar', 'grey-100', NULL, 1, 0, 0, NOW()),
+('material-design/colors/background/header', 'varchar', 'teal', NULL, 1, 0, 0, NOW()),
+('material-design/colors/background/button', 'varchar', 'pink', NULL, 1, 0, 0, NOW()),
+('material-design/colors/background/card-title', 'varchar', 'teal', NULL, 1, 0, 0, NOW());
 
 CREATE TABLE IF NOT EXISTS `share` (
   `shr_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,

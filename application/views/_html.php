@@ -57,7 +57,7 @@
 <body<?php if(count($this->readerself_library->errors) > 0) { ?> class="error"<?php } ?>>
 
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header<?php if($this->router->class == 'home' || ($this->router->class == 'subscriptions' && $this->router->method == 'index') || ($this->router->class == 'feeds' && $this->router->method == 'index') || ($this->router->class == 'feeds' && $this->router->method == 'feedly') || ($this->router->class == 'folders' && $this->router->method == 'index')) { ?> mdl-layout--fixed-drawer<?php } ?>">
-	<header class="mdl-layout__header mdl-color--teal">
+	<header class="mdl-layout__header mdl-color--<?php echo $this->config->item('material-design/colors/background/header'); ?>">
 		<div class="mdl-layout__header-row">
 			<div class="mdl-layout-spacer">
 			</div>
@@ -79,26 +79,26 @@
 							<i class="material-icons md-24">visibility</i>
 						</button>
 						<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn_mode">
-							<li class="mdl-menu__item"><a class="items_mode" href="unread_only" title="<?php echo $this->lang->line('title_shift_2'); ?>"><?php echo $this->lang->line('unread_only'); ?></a></li>
-							<li class="mdl-menu__item"><a class="items_mode" href="read_and_unread" title="<?php echo $this->lang->line('title_shift_1'); ?>"><?php echo $this->lang->line('read_and_unread'); ?></a></li>
+							<li class="mdl-menu__item"><a class="items_mode mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="unread_only" title="<?php echo $this->lang->line('title_shift_2'); ?>"><?php echo $this->lang->line('unread_only'); ?></a></li>
+							<li class="mdl-menu__item"><a class="items_mode mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="read_and_unread" title="<?php echo $this->lang->line('title_shift_1'); ?>"><?php echo $this->lang->line('read_and_unread'); ?></a></li>
 						</ul>
 
 						<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn_display">
 							<i class="material-icons md-24">view_compact</i>
 						</button>
 						<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn_display">
-							<li class="mdl-menu__item"><a class="items_display" href="expand" title="2"><?php echo $this->lang->line('expand_all'); ?></a></li>
-							<li class="mdl-menu__item"><a class="items_display" href="collapse" title="1"><?php echo $this->lang->line('collapse_all'); ?></a></li>
+							<li class="mdl-menu__item"><a class="items_display mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="expand" title="2"><?php echo $this->lang->line('expand_all'); ?></a></li>
+							<li class="mdl-menu__item"><a class="items_display mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="collapse" title="1"><?php echo $this->lang->line('collapse_all'); ?></a></li>
 						</ul>
 
 						<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn_done">
 							<i class="material-icons md-24">done</i>
 						</button>
 						<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn_done">
-							<li class="mdl-menu__item"><a class="items_read" href="<?php echo base_url(); ?>items/read/all"><?php echo $this->lang->line('no_date_limit'); ?></a></li>
-							<li class="mdl-menu__item"><a class="items_read" href="<?php echo base_url(); ?>items/read/one-day"><?php echo $this->lang->line('items_older_than_a_day'); ?></a></li>
-							<li class="mdl-menu__item"><a class="items_read" href="<?php echo base_url(); ?>items/read/one-week"><?php echo $this->lang->line('items_older_than_a_week'); ?></a></li>
-							<li class="mdl-menu__item"><a class="items_read" href="<?php echo base_url(); ?>items/read/two-weeks"><?php echo $this->lang->line('items_older_than_two_weeks'); ?></a></li>
+							<li class="mdl-menu__item"><a class="items_read mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>items/read/all"><?php echo $this->lang->line('no_date_limit'); ?></a></li>
+							<li class="mdl-menu__item"><a class="items_read mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>items/read/one-day"><?php echo $this->lang->line('items_older_than_a_day'); ?></a></li>
+							<li class="mdl-menu__item"><a class="items_read mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>items/read/one-week"><?php echo $this->lang->line('items_older_than_a_week'); ?></a></li>
+							<li class="mdl-menu__item"><a class="items_read mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>items/read/two-weeks"><?php echo $this->lang->line('items_older_than_two_weeks'); ?></a></li>
 						</ul>
 
 						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon item_up" href="#" id="item_up" title="<?php echo $this->lang->line('title_k'); ?>"><i class="material-icons md-24">keyboard_arrow_up</i></a>
@@ -109,19 +109,19 @@
 						<i class="material-icons md-24">more_vert</i>
 					</button>
 					<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
-						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>subscriptions"><?php echo $this->lang->line('subscriptions'); ?></a></li>
+						<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>subscriptions"><?php echo $this->lang->line('subscriptions'); ?></a></li>
 						<?php if($this->config->item('folders')) { ?>
-							<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>folders"><?php echo $this->lang->line('folders'); ?></a></li>
+							<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>folders"><?php echo $this->lang->line('folders'); ?></a></li>
 						<?php } ?>
-						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>feeds"><?php echo $this->lang->line('feeds'); ?></a></li>
-						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>profile"><?php echo $this->lang->line('profile'); ?></a></li>
+						<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>feeds"><?php echo $this->lang->line('feeds'); ?></a></li>
+						<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>profile"><?php echo $this->lang->line('profile'); ?></a></li>
 						<?php if($this->config->item('members_list')) { ?>
-							<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>members"><?php echo $this->lang->line('members'); ?></a></li>
+							<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>members"><?php echo $this->lang->line('members'); ?></a></li>
 						<?php } ?>
-						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>settings"><?php echo $this->lang->line('settings'); ?></a></li>
-						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>shortcuts"><?php echo $this->lang->line('shortcuts'); ?></a></li>
-						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>statistics"><?php echo $this->lang->line('statistics'); ?></a></li>
-						<li class="mdl-menu__item"><a href="<?php echo base_url(); ?>logout"><?php echo $this->lang->line('logout'); ?></a></li>
+						<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>settings"><?php echo $this->lang->line('settings'); ?></a></li>
+						<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>shortcuts"><?php echo $this->lang->line('shortcuts'); ?></a></li>
+						<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>statistics"><?php echo $this->lang->line('statistics'); ?></a></li>
+						<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>logout"><?php echo $this->lang->line('logout'); ?></a></li>
 					</ul>
 				<?php } else { ?>
 					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>login"><i class="material-icons md-24">power_settings_new</i></a>
@@ -154,6 +154,7 @@ var timezone = false;
 <?php } ?>
 var title = '<?php echo addslashes($this->config->item('title')); ?>';
 var uri_string = '<?php echo $this->uri->uri_string(); ?>';
+var material_design_colors_text_link = '<?php echo $this->config->item('material-design/colors/text/link'); ?>';
 </script>
 
 <script src="<?php echo base_url(); ?>thirdparty/mdl/material.min.js"></script>

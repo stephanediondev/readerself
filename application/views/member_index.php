@@ -1,4 +1,4 @@
-<main class="mdl-layout__content mdl-color--grey-100">
+<main class="mdl-layout__content mdl-color--<?php echo $this->config->item('material-design/colors/background/layout'); ?>">
 	<div class="mdl-grid">
 	</div>
 </main>

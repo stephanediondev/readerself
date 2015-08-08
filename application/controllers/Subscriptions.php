@@ -289,7 +289,7 @@ class Subscriptions extends CI_Controller {
 				$query = $this->db->query('SELECT cat.cat_title AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? AND sub.sub_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,30', array(1, $date_ref, $this->member->mbr_id, $sub_id));
 				if($query->num_rows() > 0) {
 					foreach($query->result() as $row) {
-						$legend[] = '<i class="icon icon-tag"></i>'.$row->ref;
+						$legend[] = $row->ref;
 						$values[] = $row->nb;
 					}
 				}
@@ -301,7 +301,7 @@ class Subscriptions extends CI_Controller {
 			$query = $this->db->query('SELECT itm.itm_author AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE itm.itm_author IS NOT NULL AND hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? AND sub.sub_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,30', array(1, $date_ref, $this->member->mbr_id, $sub_id));
 			if($query->num_rows() > 0) {
 				foreach($query->result() as $row) {
-					$legend[] = '<i class="icon icon-pencil"></i>'.$row->ref;
+					$legend[] = $row->ref;
 					$values[] = $row->nb;
 				}
 			}
@@ -312,7 +312,7 @@ class Subscriptions extends CI_Controller {
 			$query = $this->db->query('SELECT '.$substring.'(hst.hst_datecreated, 1, 10) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id WHERE hst.hst_real = ? AND hst.mbr_id = ? AND sub.sub_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,30', array(1, $this->member->mbr_id, $sub_id));
 			if($query->num_rows() > 0) {
 				foreach($query->result() as $row) {
-					$legend[] = '<i class="icon icon-calendar"></i>'.$this->readerself_library->timezone_datetime($row->ref, 'F j, Y');
+					$legend[] = $this->readerself_library->timezone_datetime($row->ref, 'F j, Y');
 					$values[] = $row->nb;
 				}
 			}
@@ -323,7 +323,7 @@ class Subscriptions extends CI_Controller {
 			$query = $this->db->query('SELECT '.$substring.'(hst.hst_datecreated, 1, 7) AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id WHERE hst.hst_real = ? AND hst.mbr_id = ? AND sub.sub_id = ? GROUP BY ref ORDER BY ref DESC LIMIT 0,12', array(1, $this->member->mbr_id, $sub_id));
 			if($query->num_rows() > 0) {
 				foreach($query->result() as $row) {
-					$legend[] = '<i class="icon icon-calendar"></i>'.$this->readerself_library->timezone_datetime($row->ref, 'F, Y');
+					$legend[] = $this->readerself_library->timezone_datetime($row->ref, 'F, Y');
 					$values[] = $row->nb;
 				}
 			}
@@ -340,7 +340,7 @@ class Subscriptions extends CI_Controller {
 					}
 				}
 				foreach($days as $i => $v) {
-						$legend[] = '<i class="icon icon-calendar"></i>'.$v;
+						$legend[] = $v;
 					if(isset($temp[$i]) == 1) {
 						$values[] = $temp[$i];
 					} else {
@@ -521,10 +521,10 @@ class Subscriptions extends CI_Controller {
 					$this->import_opml($obj->body);
 
 					$content .= '<div class="mdl-tooltip" for="tip_back">'.$this->lang->line('back').'</div>
-<main class="mdl-layout__content mdl-color--grey-100">
+<main class="mdl-layout__content mdl-color--'.$this->config->item('material-design/colors/background/layout').'">
 	<div class="mdl-grid">
 		<div class="mdl-card mdl-cell mdl-cell--12-col">
-			<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
+			<div class="mdl-card__title mdl-color-text--white mdl-color--'.$this->config->item('material-design/colors/background/card-title').'">
 				<h1 class="mdl-card__title-text"><i class="material-icons md-18">file_download</i>'.$this->lang->line('import').'</h1>
 			</div>
 			<div class="mdl-card__actions mdl-card--border">
@@ -534,7 +534,7 @@ class Subscriptions extends CI_Controller {
 
 					if(count($this->folders) > 0) {
 						$content_folders = '<div class="mdl-card mdl-cell mdl-cell--12-col">
-						<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
+						<div class="mdl-card__title mdl-color-text--white mdl-color--'.$this->config->item('material-design/colors/background/card-title').'">
 						<h1 class="mdl-card__title-text"><i class="material-icons md-18">folder</i>'.$this->lang->line('folders').' ('.count($this->folders).')</h1></div></div>';
 
 						$folders = array();
@@ -570,7 +570,7 @@ class Subscriptions extends CI_Controller {
 
 					if(count($this->feeds) > 0) {
 						$content .= '<div class="mdl-card mdl-cell mdl-cell--12-col">
-						<div class="mdl-card__title mdl-color-text--white mdl-color--teal">
+						<div class="mdl-card__title mdl-color-text--white mdl-color--'.$this->config->item('material-design/colors/background/card-title').'">
 						<h1 class="mdl-card__title-text"><i class="material-icons md-18">bookmark</i>'.$this->lang->line('subscriptions').' ('.count($this->feeds).')</h1></div></div>';
 						foreach($this->feeds as $obj) {
 							if(isset($obj->title) == 0 && isset($obj->text) == 1) {

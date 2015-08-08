@@ -181,6 +181,7 @@ class Readerself_library {
 		$config['use_page_numbers'] = TRUE;
 		$config['query_string_segment'] = $ref.'_pg';
 		$config['first_url'] = '?'.$config['query_string_segment'].'=1';
+		$config['attributes'] = array('class' => 'mdl-color-text--'.$this->CI->config->item('material-design/colors/text/link'));
 
 		$pages = ceil($total/$config['per_page']);
 
