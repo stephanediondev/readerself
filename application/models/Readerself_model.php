@@ -113,12 +113,12 @@ class Readerself_model extends CI_Model {
 	}
 
 	function get_members_total($flt) {
-		$query = $this->db->query('SELECT COUNT(mbr.mbr_id) AS count FROM '.$this->db->dbprefix('members').' AS mbr LEFT JOIN '.$this->db->dbprefix('followers').' AS fws ON fws.fws_following = mbr.mbr_id AND fws.mbr_id = ? WHERE '.implode(' AND ', $flt), array($this->member->mbr_id));
+		$query = $this->db->query('SELECT COUNT(mbr.mbr_id) AS count FROM '.$this->db->dbprefix('members').' AS mbr WHERE '.implode(' AND ', $flt), array());
 		return $query->row();
 	}
 	function get_members_rows($flt, $num, $offset, $order) {
 		$members = false;
-		$query = $this->db->query('SELECT mbr.*, IF(fws.fws_id IS NULL, 0, 1) AS following FROM '.$this->db->dbprefix('members').' AS mbr LEFT JOIN '.$this->db->dbprefix('followers').' AS fws ON fws.fws_following = mbr.mbr_id AND fws.mbr_id = ? WHERE '.implode(' AND ', $flt).' GROUP BY mbr.mbr_id ORDER BY '.$order.' LIMIT '.$offset.', '.$num, array($this->member->mbr_id));
+		$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE '.implode(' AND ', $flt).' GROUP BY mbr.mbr_id ORDER BY '.$order.' LIMIT '.$offset.', '.$num, array());
 		if($query->num_rows() > 0) {
 			$members = array();
 			foreach($query->result() as $mbr) {
@@ -306,29 +306,6 @@ class Readerself_model extends CI_Model {
 		return $query->result();
 	}
 	function count_unread($type, $id = false) {
-		if($type == 'following') {
-			$where = array();
-			$bindings = array();
-
-			$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
-			$bindings[] = $this->member->mbr_id;
-
-			$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
-			$bindings[] = $this->member->mbr_id;
-
-			$where[] = 'itm.itm_id NOT IN ( SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.itm_id = itm.itm_id AND hst.mbr_id = ? )';
-			$bindings[] = $this->member->mbr_id;
-
-			$sql = 'SELECT COUNT(DISTINCT(itm.itm_id)) AS count
-			FROM '.$this->db->dbprefix('items').' AS itm
-			WHERE '.implode(' AND ', $where);
-			if($type == 'following') {
-				return $this->db->query($sql, $bindings)->row()->count;
-			} else {
-				$count_following = $this->db->query($sql, $bindings)->row()->count;
-			}
-		}
-
 		if($type == 'all') {
 			$where = array();
 			$bindings = array();

@@ -29,13 +29,11 @@
 		<?php if($itm->case_member != 'public_profile') { ?>
 			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon history" href="<?php echo base_url(); ?>item/read/<?php echo $itm->itm_id; ?>" title="m"><?php if($itm->history == 'unread') { ?> <i class="material-icons md-18">panorama_fish_eye</i><?php } ?><?php if($itm->history == 'read') { ?><i class="material-icons md-18">check_circle</i><?php } ?></a>
 		<?php } ?>
-		<?php if($itm->case_member != 'following') { ?>
-			<?php if($this->config->item('starred_items') && $itm->case_member != 'public_profile') { ?>
-				<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon star" href="<?php echo base_url(); ?>item/star/<?php echo $itm->itm_id; ?>" title="s"><?php if($itm->star == 0) { ?><i class="material-icons md-18">star_border</i><?php } ?><?php if($itm->star == 1) { ?><i class="material-icons md-18">star</i><?php } ?></a>
-			<?php } ?>
-			<?php if($this->config->item('shared_items') && $itm->case_member != 'public_profile') { ?>
-				<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon share" href="<?php echo base_url(); ?>item/share/<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_shift_s'); ?>"><?php if($itm->share == 0) { ?><i class="material-icons md-18">favorite_border</i><?php } ?><?php if($itm->share == 1) { ?><i class="material-icons md-18">favorite</i><?php } ?></a>
-			<?php } ?>
+		<?php if($this->config->item('starred_items') && $itm->case_member != 'public_profile') { ?>
+			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon star" href="<?php echo base_url(); ?>item/star/<?php echo $itm->itm_id; ?>" title="s"><?php if($itm->star == 0) { ?><i class="material-icons md-18">star_border</i><?php } ?><?php if($itm->star == 1) { ?><i class="material-icons md-18">star</i><?php } ?></a>
+		<?php } ?>
+		<?php if($this->config->item('shared_items') && $itm->case_member != 'public_profile') { ?>
+			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon share" href="<?php echo base_url(); ?>item/share/<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_shift_s'); ?>"><?php if($itm->share == 0) { ?><i class="material-icons md-18">favorite_border</i><?php } ?><?php if($itm->share == 1) { ?><i class="material-icons md-18">favorite</i><?php } ?></a>
 		<?php } ?>
 		<?php if($this->config->item('share_external')) { ?>
 			<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="more_share_<?php echo $itm->itm_id; ?>">

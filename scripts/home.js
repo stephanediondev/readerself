@@ -397,13 +397,6 @@ $(document).ready(function() {
 				$.cookie('menu', 'load-starred-items', { expires: 30, path: '/' });
 				load_items( $('.mdl-navigation').find('li.active').find('a.mdl-navigation__link').attr('href') );
 
-			//g then f
-			} else if(g_key && keycode == 70) {
-				$('.mdl-navigation li').removeClass('active');
-				$('#load-following-items').parent().addClass('active');
-				$.cookie('menu', 'load-following-items', { expires: 30, path: '/' });
-				load_items( $('.mdl-navigation').find('li.active').find('a.mdl-navigation__link').attr('href') );
-
 			//shift + 1
 			} else if(event.shiftKey && keycode == 49) {
 				event.preventDefault();

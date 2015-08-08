@@ -9,7 +9,7 @@ class Items extends CI_Controller {
 			redirect(base_url());
 		}
 
-		$modes = array('all', 'priority', 'geolocation', 'audio', 'video', 'starred', 'shared', 'nofolder', 'folder', 'feed', 'category', 'author', 'search', 'cloud', 'public_profile', 'following');
+		$modes = array('all', 'priority', 'geolocation', 'audio', 'video', 'starred', 'shared', 'nofolder', 'folder', 'feed', 'category', 'author', 'search', 'cloud', 'public_profile');
 		$clouds = array('tags', 'authors');
 
 		$content = array();
@@ -158,15 +158,6 @@ class Items extends CI_Controller {
 				$bindings = array();
 
 				if($is_member) {
-					if($this->axipi_session->userdata('mbr_id')) {
-						$query = $this->db->query('SELECT fws.* FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? AND fws.fws_following = ?', array($this->member->mbr_id, $is_member->mbr_id));
-						if($query->num_rows() > 0) {
-							$is_member->following = 1;
-						} else {
-							$is_member->following = 0;
-						}
-					}
-
 					$content['begin'] = $this->load->view('items_begin', array('is_member'=>$is_member, 'mode'=>$mode), TRUE);
 
 					$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id = ? )';
@@ -181,21 +172,11 @@ class Items extends CI_Controller {
 					$bindings[] = $this->member->mbr_id;
 					$bindings[] = 1;
 
-				} else if($mode == 'following') {
-					$introduction_title = '<i class="icon icon-link"></i>'.$this->lang->line('following_items').' (<span id="intro-load-following-items"></span>)';
-					$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
-					$bindings[] = $this->member->mbr_id;
-
-					//$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
-					//$bindings[] = $this->member->mbr_id;
-
 				} else {
 					$introduction_title = '<i class="material-icons md-18">public</i>'.$this->lang->line('all_items').' (<span id="intro-load-all-items"></span>)';
 					if($is_feed) {
 					} else {
 						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )';
-						//$where[] = '( itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? ) OR ( itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) ) ) )';
-						//$bindings[] = $this->member->mbr_id;
 						$bindings[] = $this->member->mbr_id;
 					}
 				}
@@ -361,12 +342,7 @@ class Items extends CI_Controller {
 							$itm->sub = $this->db->query($sql, array($itm->fed_id, $is_member->mbr_id))->row();
 							$itm->case_member = 'public_profile';
 						} else {
-							if($itm->sub = $this->db->query($sql, array($itm->fed_id, $this->member->mbr_id))->row()) {
-							} else {
-								$sql = 'SELECT fed.fed_host, fed.fed_title AS title, fed.fed_direction, fed.fed_direction AS sub_direction FROM '.$this->db->dbprefix('feeds').' AS fed WHERE fed.fed_id = ? GROUP BY fed.fed_id';
-								$itm->sub = $this->db->query($sql, array($itm->fed_id))->row();
-								$itm->case_member = 'following';
-							}
+							$itm->sub = $this->db->query($sql, array($itm->fed_id, $this->member->mbr_id))->row();
 						}
 
 						$itm->shared_by = false;
@@ -381,8 +357,6 @@ class Items extends CI_Controller {
 							}
 						}
 
-						$itm->foursquare = false;
-
 						$itm->categories = false;
 						if($this->config->item('tags')) {
 							$categories = $this->db->query('SELECT cat.* FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.itm_id = ? GROUP BY cat.cat_id', array($itm->itm_id))->result();
@@ -390,7 +364,6 @@ class Items extends CI_Controller {
 								$itm->categories = array();
 								foreach($categories as $cat) {
 									if(substr($cat->cat_title, 0, 17) == 'foursquare:venue=') {
-										$itm->foursquare = substr($cat->cat_title, 17);
 									} else {
 										if($is_member) {
 											$itm->categories[] = $cat->cat_title;
@@ -529,17 +502,8 @@ class Items extends CI_Controller {
 					$bindings[] = $this->member->mbr_id;
 					$bindings[] = 1;
 				} else {
-					if($this->axipi_session->userdata('items-mode') == 'following') {
-						$where[] = 'itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
+					$where[] = '( itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? ) OR ( itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id ) ) )';
 						$bindings[] = $this->member->mbr_id;
-
-						$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) )';
-						$bindings[] = $this->member->mbr_id;
-					} else {
-						$where[] = '( itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? ) OR ( itm.itm_id IN ( SELECT shr.itm_id FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = itm.itm_id AND shr.mbr_id IN ( SELECT fws.fws_following FROM '.$this->db->dbprefix('followers').' AS fws WHERE fws.mbr_id = ? ) ) ) )';
-						$bindings[] = $this->member->mbr_id;
-						$bindings[] = $this->member->mbr_id;
-					}
 				}
 
 				if($this->axipi_session->userdata('items-mode') == 'geolocation') {
