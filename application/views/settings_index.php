@@ -1,12 +1,12 @@
 <main class="mdl-layout__content mdl-color--<?php echo $this->config->item('material-design/colors/background/layout'); ?>">
 	<div class="mdl-grid">
-		<div class="mdl-card mdl-cell mdl-cell--12-col">
+		<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
 			<div class="mdl-card__title mdl-color-text--white mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
 				<h1 class="mdl-card__title-text"><i class="material-icons md-18">settings</i><?php echo $this->lang->line('settings'); ?></h1>
 			</div>
 		</div>
 
-		<div class="mdl-card mdl-cell mdl-cell--4-col allow_notifications">
+		<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--4-col allow_notifications">
 			<div class="mdl-card__title">
 				<h1 class="mdl-card__title-text"><?php echo $this->lang->line('allow_notifications'); ?></h1>
 			</div>
@@ -15,7 +15,7 @@
 			</div>
 		</div>
 
-		<div class="mdl-card mdl-cell mdl-cell--4-col">
+		<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--4-col">
 			<div class="mdl-card__title">
 				<h1 class="mdl-card__title-text">Bookmarklet</h1>
 			</div>
@@ -24,7 +24,7 @@
 			</div>
 		</div>
 
-		<div class="mdl-card mdl-cell mdl-cell--4-col registerContentHandler">
+		<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--4-col registerContentHandler">
 			<div class="mdl-card__title">
 				<h1 class="mdl-card__title-text"><?php echo $this->lang->line('registerContentHandler'); ?></h1>
 			</div>
@@ -34,7 +34,7 @@
 		</div>
 
 		<?php if($this->member->mbr_administrator == 1) { ?>
-			<div class="mdl-card mdl-cell mdl-cell--12-col">
+			<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
 				<div class="mdl-card__title">
 					<h1 class="mdl-card__title-text"><?php echo $this->lang->line('update'); ?></h1>
 				</div>

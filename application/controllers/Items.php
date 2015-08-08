@@ -423,10 +423,10 @@ class Items extends CI_Controller {
 				} else {
 					$lastcrawl = $this->db->query('SELECT crr.crr_datecreated FROM '.$this->db->dbprefix('crawler').' AS crr GROUP BY crr.crr_id ORDER BY crr.crr_id DESC LIMIT 0,1')->row();
 					if($lastcrawl && $mode != 'public_profile') {
-						$content['end'] = '<div class="mdl-card mdl-cell mdl-cell--12-col" id="last_crawl">';
+						$content['end'] = '<div class="mdl-card mdl-color--'.$this->config->item('material-design/colors/background/card').' mdl-cell mdl-cell--12-col" id="last_crawl">';
 						$content['end'] .= '</div>';
 					} else if($mode == 'public_profile') {
-						$content['end'] = '<div class="mdl-card mdl-cell mdl-cell--12-col"><div class="mdl-card__title">';
+						$content['end'] = '<div class="mdl-card mdl-color--'.$this->config->item('material-design/colors/background/card').' mdl-cell mdl-cell--12-col"><div class="mdl-card__title">';
 						$content['end'] .= '<h1 class="mdl-card__title-text">'.$this->lang->line('no_more_items').'</h1>';
 						$content['end'] .= '</div></div>';
 					}
@@ -437,7 +437,7 @@ class Items extends CI_Controller {
 				if($introduction_direction) {
 					$content['begin'] = '<article dir="'.$introduction_direction.'" id="introduction" class="title">';
 				} else {
-					$content['begin'] = '<div class="mdl-card mdl-cell mdl-cell--12-col"><div class="mdl-card__title mdl-color-text--white mdl-color--'.$this->config->item('material-design/colors/background/card-title').'">';
+					$content['begin'] = '<div class="mdl-card mdl-color--'.$this->config->item('material-design/colors/background/card').' mdl-cell mdl-cell--12-col"><div class="mdl-card__title mdl-color-text--white mdl-color--'.$this->config->item('material-design/colors/background/card-title').'">';
 				}
 				$content['begin'] .= '<h1 class="mdl-card__title-text">'.$introduction_title.'</h1>';
 				$content['begin'] .= '</div></div>';

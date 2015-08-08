@@ -1,6 +1,6 @@
 <main class="mdl-layout__content mdl-color--<?php echo $this->config->item('material-design/colors/background/layout'); ?>">
 	<div class="mdl-grid">
-		<div class="mdl-card mdl-cell mdl-cell--12-col">
+		<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
 			<div class="mdl-card__title mdl-color-text--white mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
 				<h1 class="mdl-card__title-text"><i class="material-icons md-18">people</i><?php echo $this->lang->line('members'); ?> (<?php echo $position; ?>)</h2>
 			</div>
@@ -8,7 +8,7 @@
 
 		<?php if($members) { ?>
 			<?php foreach($members as $mbr) { ?>
-				<div class="mdl-card mdl-cell mdl-cell--4-col">
+				<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--4-col">
 					<div class="mdl-card__title">
 						<?php if($mbr->mbr_nickname) { ?>
 							<h1 class="mdl-card__title-text"><a href="<?php echo base_url(); ?>member/<?php echo $mbr->mbr_nickname; ?>"><i class="material-icons md-16">person</i><?php if($this->member->mbr_administrator == 1) { ?><?php echo $mbr->mbr_email; ?> / <?php } ?><?php echo $mbr->mbr_nickname; ?></a></h1>
@@ -38,7 +38,7 @@
 					</div>
 				</div>
 			<?php } ?>
-			<div class="mdl-card mdl-cell mdl-cell--12-col paging">
+			<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col paging">
 				<div class="mdl-card__supporting-text mdl-color-text--black">
 					<?php echo $pagination; ?>
 				</div>

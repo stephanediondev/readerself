@@ -3,7 +3,7 @@
 
 <main class="mdl-layout__content mdl-color--<?php echo $this->config->item('material-design/colors/background/layout'); ?>">
 	<div class="mdl-grid">
-		<div class="mdl-card mdl-cell mdl-cell--12-col">
+		<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
 			<div class="mdl-card__title mdl-color-text--white mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
 				<h1 class="mdl-card__title-text"><i class="material-icons md-18">wifi</i><?php echo $this->lang->line('active_connections'); ?></h1>
 			</div>
@@ -15,7 +15,7 @@
 
 		<?php if($connections) { ?>
 			<?php foreach($connections as $cnt) { ?>
-				<div class="mdl-card mdl-cell mdl-cell--4-col">
+				<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--4-col">
 					<div class="mdl-card__title">
 						<h1 class="mdl-card__title-text"><?php if($this->member->token_connection == $cnt->token_connection) { ?><strong><?php echo $cnt->cnt_agent; ?></strong><?php } else { ?><?php echo $cnt->cnt_agent; ?><?php } ?></a></h1>
 						<div class="mdl-card__title-infos">

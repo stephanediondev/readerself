@@ -1,4 +1,4 @@
-<div class="mdl-card mdl-cell mdl-cell--4-col share_email_result" id="share_email_<?php echo $itm->itm_id; ?>">
+<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--4-col share_email_result" id="share_email_<?php echo $itm->itm_id; ?>">
 	<div class="mdl-card__title">
 		<h1 class="mdl-card__title-text"><i class="material-icons md-18">email</i><?php echo $this->lang->line('share_email'); ?></h1>
 		<div class="mdl-card__title-infos">

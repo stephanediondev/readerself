@@ -2,7 +2,7 @@
 
 <main class="mdl-layout__content mdl-color--<?php echo $this->config->item('material-design/colors/background/layout'); ?>">
 	<div class="mdl-grid">
-		<div class="mdl-card mdl-cell mdl-cell--12-col">
+		<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
 			<div class="mdl-card__title mdl-color-text--white mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
 				<h1 class="mdl-card__title-text"><i class="material-icons md-18">folder</i><?php echo $this->lang->line('folders'); ?></h1>
 			</div>
@@ -11,7 +11,7 @@
 			</div>
 		</div>
 
-		<div<?php if($flr->flr_direction) { ?> dir="<?php echo $flr->flr_direction; ?>"<?php } ?> class="mdl-card mdl-cell mdl-cell--4-col">
+		<div<?php if($flr->flr_direction) { ?> dir="<?php echo $flr->flr_direction; ?>"<?php } ?> class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--4-col">
 			<div class="mdl-card__title">
 				<h1 class="mdl-card__title-text"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>folders/read/<?php echo $folder->flr_id; ?>"><i class="icon icon-folder-close"></i><?php echo $flr->flr_title; ?></a></h1>
 				<div class="mdl-card__title-infos">
@@ -25,7 +25,7 @@
 			</div>
 		</div>
 
-		<div class="mdl-card mdl-cell mdl-cell--12-col">
+		<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
 			<div class="mdl-card__title">
 				<h1 class="mdl-card__title-text"><?php echo $this->lang->line('update'); ?></h1>
 			</div>

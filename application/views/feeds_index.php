@@ -29,7 +29,7 @@
 
 <main class="mdl-layout__content mdl-color--<?php echo $this->config->item('material-design/colors/background/layout'); ?>">
 	<div class="mdl-grid">
-		<div class="mdl-card mdl-cell mdl-cell--12-col">
+		<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
 			<div class="mdl-card__title mdl-color-text--white mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
 				<h1 class="mdl-card__title-text"><i class="material-icons md-18">bookmark_border</i><?php echo $this->lang->line('feeds'); ?> (<?php echo $position; ?>)</h1>
 			</div>
@@ -43,14 +43,14 @@
 
 		<?php if($feeds) { ?>
 			<?php if($pagination) { ?>
-				<div class="mdl-card mdl-cell mdl-cell--12-col paging">
+				<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col paging">
 					<div class="mdl-card__supporting-text mdl-color-text--black">
 						<?php echo $pagination; ?>
 					</div>
 				</div>
 			<?php } ?>
 			<?php foreach($feeds as $fed) { ?>
-				<div<?php if($fed->fed_direction) { ?> dir="<?php echo $fed->fed_direction; ?>"<?php } ?> class="mdl-card mdl-cell mdl-cell--4-col">
+				<div<?php if($fed->fed_direction) { ?> dir="<?php echo $fed->fed_direction; ?>"<?php } ?> class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--4-col">
 					<div class="mdl-card__title">
 						<h1 class="mdl-card__title-text"><a style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $fed->fed_host; ?>&amp;alt=feed);" class="favicon mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>feeds/read/<?php echo $fed->fed_id; ?>"><?php echo $fed->fed_title; ?></a></h1>
 						<div class="mdl-card__title-infos">
@@ -80,7 +80,7 @@
 				</div>
 			<?php } ?>
 			<?php if($pagination) { ?>
-				<div class="mdl-card mdl-cell mdl-cell--12-col paging">
+				<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col paging">
 					<div class="mdl-card__supporting-text mdl-color-text--black">
 						<?php echo $pagination; ?>
 					</div>

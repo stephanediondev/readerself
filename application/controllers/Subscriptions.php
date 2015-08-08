@@ -523,7 +523,7 @@ class Subscriptions extends CI_Controller {
 					$content .= '<div class="mdl-tooltip" for="tip_back">'.$this->lang->line('back').'</div>
 <main class="mdl-layout__content mdl-color--'.$this->config->item('material-design/colors/background/layout').'">
 	<div class="mdl-grid">
-		<div class="mdl-card mdl-cell mdl-cell--12-col">
+		<div class="mdl-card mdl-color--'.$this->config->item('material-design/colors/background/card').' mdl-cell mdl-cell--12-col">
 			<div class="mdl-card__title mdl-color-text--white mdl-color--'.$this->config->item('material-design/colors/background/card-title').'">
 				<h1 class="mdl-card__title-text"><i class="material-icons md-18">file_download</i>'.$this->lang->line('import').'</h1>
 			</div>
@@ -533,7 +533,7 @@ class Subscriptions extends CI_Controller {
 		</div>';
 
 					if(count($this->folders) > 0) {
-						$content_folders = '<div class="mdl-card mdl-cell mdl-cell--12-col">
+						$content_folders = '<div class="mdl-card mdl-color--'.$this->config->item('material-design/colors/background/card').' mdl-cell mdl-cell--12-col">
 						<div class="mdl-card__title mdl-color-text--white mdl-color--'.$this->config->item('material-design/colors/background/card-title').'">
 						<h1 class="mdl-card__title-text"><i class="material-icons md-18">folder</i>'.$this->lang->line('folders').' ('.count($this->folders).')</h1></div></div>';
 
@@ -553,9 +553,9 @@ class Subscriptions extends CI_Controller {
 								$folders[$value] = $flr->flr_id;
 								$icon = 'repeat';
 							}
-							$content_folders .= '<div class="mdl-card mdl-cell mdl-cell--4-col">
+							$content_folders .= '<div class="mdl-card mdl-color--'.$this->config->item('material-design/colors/background/card').' mdl-cell mdl-cell--4-col">
 								<div class="mdl-card__title">
-									<h1 class="mdl-card__title-text"><a href="'.base_url().'folders/read/'.$folders[$value].'">'.$value.'</a></h1>
+									<h1 class="mdl-card__title-text"><a class="mdl-color-text--'.$this->config->item('material-design/colors/text/link').'" href="'.base_url().'folders/read/'.$folders[$value].'">'.$value.'</a></h1>
 								</div>
 								<div class="mdl-card__actions mdl-card--border">
 									<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="'.base_url().'folders/update/'.$folders[$value].'"><i class="material-icons md-18">mode_edit</i></a>
@@ -569,7 +569,7 @@ class Subscriptions extends CI_Controller {
 					}
 
 					if(count($this->feeds) > 0) {
-						$content .= '<div class="mdl-card mdl-cell mdl-cell--12-col">
+						$content .= '<div class="mdl-card mdl-color--'.$this->config->item('material-design/colors/background/card').' mdl-cell mdl-cell--12-col">
 						<div class="mdl-card__title mdl-color-text--white mdl-color--'.$this->config->item('material-design/colors/background/card-title').'">
 						<h1 class="mdl-card__title-text"><i class="material-icons md-18">bookmark</i>'.$this->lang->line('subscriptions').' ('.count($this->feeds).')</h1></div></div>';
 						foreach($this->feeds as $obj) {
@@ -632,9 +632,9 @@ class Subscriptions extends CI_Controller {
 									$icon = 'plus';
 								}
 							}
-							$content .= '<div class="mdl-card mdl-cell mdl-cell--4-col">
+							$content .= '<div class="mdl-card mdl-color--'.$this->config->item('material-design/colors/background/card').' mdl-cell mdl-cell--4-col">
 								<div class="mdl-card__title">
-									<h1 class="mdl-card__title-text"><a href="'.base_url().'subscriptions/read/'.$sub_id.'">'.$obj->title.'</a></h1>
+									<h1 class="mdl-card__title-text"><a class="mdl-color-text--'.$this->config->item('material-design/colors/text/link').'" href="'.base_url().'subscriptions/read/'.$sub_id.'">'.$obj->title.'</a></h1>
 									<div class="mdl-card__title-infos">';
 										if($this->config->item('folders')) {
 											if($obj->flr && array_key_exists($obj->flr, $folders)) {

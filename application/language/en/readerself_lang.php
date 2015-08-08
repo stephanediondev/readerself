@@ -206,4 +206,5 @@ $lang['stg_material-design/colors/text/link'] = 'Material Design - Link text col
 $lang['stg_material-design/colors/background/layout'] = 'Material Design - Layout background color';
 $lang['stg_material-design/colors/background/header'] = 'Material Design - Header background color';
 $lang['stg_material-design/colors/background/button'] = 'Material Design - Button background color';
+$lang['stg_material-design/colors/background/card'] = 'Material Design - Card background color';
 $lang['stg_material-design/colors/background/card-title'] = 'Material Design - Card title background color';
