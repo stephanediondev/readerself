@@ -690,7 +690,7 @@ $(document).ready(function() {
 		$('.mdl-navigation > ul').find('.result').remove();
 		var title = ref.find('i').remove();
 		title = ref.text();
-		var content = '<li class="result active"><a id="load-category-items" class="mdl-navigation__link" href="' + base_url + 'items/get/category/' + ref.data('cat_id') + '"><i class="icon icon-tag"></i>' + title + ' (<span>0</span>)</a></li>';
+		var content = '<li class="result active"><a id="load-category-items" class="mdl-navigation__link" href="' + base_url + 'items/get/category/' + ref.data('cat_id') + '"><i class="material-icons md-18">label</i>' + title + ' (<span>0</span>)</a></li>';
 		$('.mdl-navigation > ul').append(content);
 
 		load_items(ref.attr('href'));
