@@ -15,7 +15,7 @@
 			<div class="mdl-card__title">
 				<h1 class="mdl-card__title-text"><?php echo $this->lang->line('add'); ?></h1>
 			</div>
-			<div class="mdl-card__supporting-text mdl-color-text--black">
+			<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 				<?php echo validation_errors(); ?>
 
 				<?php echo form_open(current_url()); ?>

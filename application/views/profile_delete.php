@@ -6,7 +6,7 @@
 			<div class="mdl-card__title mdl-color-text--white mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
 				<h1 class="mdl-card__title-text"><i class="material-icons md-18">person</i><?php if($this->member->mbr_nickname) { ?><?php echo $this->member->mbr_nickname; ?><?php } else { ?><?php echo $this->lang->line('profile'); ?><?php } ?></h1>
 			</div>
-			<div class="mdl-card__supporting-text mdl-color-text--black">
+			<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 				<?php if($this->member->mbr_description) { ?>
 					<p><?php echo strip_tags($this->member->mbr_description); ?></p>
 				<?php } ?>
@@ -20,7 +20,7 @@
 			<div class="mdl-card__title">
 				<h1 class="mdl-card__title-text"><?php echo $this->lang->line('delete'); ?></h1>
 			</div>
-			<div class="mdl-card__supporting-text mdl-color-text--black">
+			<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 				<?php echo validation_errors(); ?>
 
 				<?php echo form_open(current_url()); ?>

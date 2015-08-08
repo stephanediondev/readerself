@@ -191,6 +191,7 @@ INSERT INTO `settings` (`stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is
 ('facebook/id', 'string', NULL, NULL, 1, 0, 0, NOW()),
 ('facebook/secret', 'string', NULL, NULL, 1, 0, 0, NOW()),
 ('material-design/colors/text/link', 'varchar', 'pink', NULL, 1, 0, 0, NOW()),
+('material-design/colors/text/content', 'varchar', 'black', NULL, 1, 0, 0, NOW()),
 ('material-design/colors/background/layout', 'varchar', 'grey-100', NULL, 1, 0, 0, NOW()),
 ('material-design/colors/background/header', 'varchar', 'teal', NULL, 1, 0, 0, NOW()),
 ('material-design/colors/background/button', 'varchar', 'pink', NULL, 1, 0, 0, NOW()),

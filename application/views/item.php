@@ -22,7 +22,7 @@
 			<?php } ?>
 		</div>
 	</div>
-	<div class="mdl-card__supporting-text mdl-color-text--black">
+	<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 		<?php if($this->input->get('items_display') == 'collapse' || $this->input->cookie('items_display') == 'collapse') { ?>
 		<?php } else if($this->input->get('items_display') == 'expand') { ?>
 			<?php echo $this->load->view('item_expand', array('itm', $itm), TRUE); ?>

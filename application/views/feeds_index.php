@@ -44,7 +44,7 @@
 		<?php if($feeds) { ?>
 			<?php if($pagination) { ?>
 				<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col paging">
-					<div class="mdl-card__supporting-text mdl-color-text--black">
+					<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 						<?php echo $pagination; ?>
 					</div>
 				</div>
@@ -59,7 +59,7 @@
 							<?php } ?>
 						</div>
 					</div>
-					<div class="mdl-card__supporting-text mdl-color-text--black">
+					<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 						<?php if($fed->fed_lasterror) { ?>
 							<p><?php echo $fed->fed_lasterror; ?></p>
 						<?php } ?>
@@ -81,7 +81,7 @@
 			<?php } ?>
 			<?php if($pagination) { ?>
 				<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col paging">
-					<div class="mdl-card__supporting-text mdl-color-text--black">
+					<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 						<?php echo $pagination; ?>
 					</div>
 				</div>

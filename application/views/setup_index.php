@@ -12,7 +12,7 @@
 			<div class="mdl-card__title">
 				<h1 class="mdl-card__title-text">PHP <?php echo phpversion(); ?></h1>
 			</div>
-			<div class="mdl-card__supporting-text mdl-color-text--black">
+			<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 				<?php if(version_compare(phpversion(), '5.2.0', '<')) { ?>
 					<?php $form = FALSE; ?>
 					<p>Not supported</p>
@@ -26,7 +26,7 @@
 			<div class="mdl-card__title">
 				<h1 class="mdl-card__title-text">/application/config/readerself_config.php</h1>
 			</div>
-			<div class="mdl-card__supporting-text mdl-color-text--black">
+			<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 				<?php if(!file_exists('application/config/readerself_config.php')) { ?>
 					<?php $form = FALSE; ?>
 					<p>File missing</p>
@@ -44,7 +44,7 @@
 				<div class="mdl-card__title">
 					<h1 class="mdl-card__title-text">/application/database/readerself.sqlite</h1>
 				</div>
-				<div class="mdl-card__supporting-text mdl-color-text--black">
+				<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 					<?php if(!file_exists('application/database/readerself.sqlite')) { ?>
 						<?php $form = FALSE; ?>
 						<p>File missing</p>
@@ -58,7 +58,7 @@
 				<div class="mdl-card__title">
 					<h1 class="mdl-card__title-text">/application/database/installation-sqlite.sql</h1>
 				</div>
-				<div class="mdl-card__supporting-text mdl-color-text--black">
+				<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 					<?php if(!file_exists('application/database/installation-sqlite.sql')) { ?>
 						<?php $form = FALSE; ?>
 						<p>File missing</p>
@@ -74,7 +74,7 @@
 				<div class="mdl-card__title">
 					<h1 class="mdl-card__title-text">/application/database/installation-mysql.sql</h1>
 				</div>
-				<div class="mdl-card__supporting-text mdl-color-text--black">
+				<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 					<?php if(!file_exists('application/database/installation-mysql.sql')) { ?>
 						<?php $form = FALSE; ?>
 						<p>File missing</p>
@@ -89,7 +89,7 @@
 			<div class="mdl-card__title">
 				<h1 class="mdl-card__title-text">/application/config/database.php</h1>
 			</div>
-			<div class="mdl-card__supporting-text mdl-color-text--black">
+			<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 				<?php if($this->db->dbdriver == 'pdo') { ?>
 					<?php if($this->db->dsn == '') { ?>
 						<?php $form = FALSE; ?>
@@ -115,7 +115,7 @@
 
 		<?php if($form) { ?>
 			<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
-				<div class="mdl-card__supporting-text mdl-color-text--black">
+				<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 					<?php echo validation_errors(); ?>
 
 					<?php echo form_open(current_url()); ?>

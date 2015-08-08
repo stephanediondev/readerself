@@ -4,7 +4,7 @@
 			<div class="mdl-card__title mdl-color-text--white mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
 				<h1 class="mdl-card__title-text"><i class="material-icons md-18">vpn_key</i><?php echo $this->lang->line('password'); ?></h1>
 			</div>
-			<div class="mdl-card__supporting-text mdl-color-text--black">
+			<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 				<?php echo validation_errors(); ?>
 
 				<?php echo form_open(current_url()); ?>

@@ -25,7 +25,7 @@
 					<span class="mdl-navigation__link"><i class="material-icons md-16">favorite</i><?php echo $mbr->shared_items; ?> shared item(s)</span>
 				</div>
 			</div>
-			<div class="mdl-card__supporting-text mdl-color-text--black">
+			<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 				<?php if($mbr->mbr_description) { ?>
 					<p><?php echo strip_tags($mbr->mbr_description); ?></p>
 				<?php } ?>
@@ -36,7 +36,7 @@
 			<div class="mdl-card__title">
 				<h1 class="mdl-card__title-text"><?php echo $this->lang->line('update'); ?></h1>
 			</div>
-			<div class="mdl-card__supporting-text mdl-color-text--black">
+			<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 				<?php echo validation_errors(); ?>
 
 				<?php echo form_open(current_url()); ?>
