@@ -516,11 +516,11 @@ class Subscriptions extends CI_Controller {
 		} else {
 			$content = '';
 			if(isset($_FILES['file']) == 1 && $_FILES['file']['error'] == 0) {
-				$obj = simplexml_load_file($_FILES['file']['tmp_name']);
-				if($obj) {
+				$obj_simplexml = simplexml_load_file($_FILES['file']['tmp_name']);
+				if($obj_simplexml) {
 					$this->folders = array();
 					$this->feeds = array();
-					$this->import_opml($obj->body);
+					$this->import_opml($obj_simplexml->body);
 
 					$content .= '<div class="mdl-tooltip" for="tip_back">'.$this->lang->line('back').'</div>
 <main class="mdl-layout__content mdl-color--'.$this->config->item('material-design/colors/background/layout').'">
@@ -585,8 +585,8 @@ class Subscriptions extends CI_Controller {
 								$obj->htmlUrl = $obj->url;
 							}
 
-							$query = $this->db->query('SELECT fed.*, sub.sub_id FROM '.$this->db->dbprefix('feeds').' AS fed LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = fed.fed_id AND sub.mbr_id = ? WHERE fed.fed_link = ? GROUP BY fed.fed_id', array($this->member->mbr_id, $obj->xmlUrl));
-							if($query->num_rows() == 0) {
+							$fed = $this->db->query('SELECT fed.*, sub.sub_id FROM '.$this->db->dbprefix('feeds').' AS fed LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = fed.fed_id AND sub.mbr_id = ? WHERE fed.fed_link = ? GROUP BY fed.fed_id', array($this->member->mbr_id, $obj->xmlUrl))->row();
+							if(!$fed) {
 								$parse_url = parse_url($obj->htmlUrl);
 
 								$this->db->set('fed_title', $obj->title);
@@ -610,7 +610,6 @@ class Subscriptions extends CI_Controller {
 
 								$icon = 'plus';
 							} else {
-								$fed = $query->row();
 								if($fed->sub_id) {
 									if($obj->flr && array_key_exists($obj->flr, $folders)) {
 										$this->db->set('flr_id', $folders[$obj->flr]);
