@@ -261,6 +261,61 @@ class Readerself_library {
 			}
 		}
 	}
+	function convert_category_title($tag_title) {
+		$tag_id = false;
+		$tag_exists = $this->CI->db->query('SELECT tag.* FROM '.$this->CI->db->dbprefix('tags').' AS tag WHERE tag.tag_title = ? GROUP BY tag.tag_id', array($tag_title))->row();
+		if($tag_exists) {
+			$tag_id = $tag_exists->tag_id;
+		} else {
+			if($tag_title != '') {
+				$this->CI->db->set('tag_title', $tag_title);
+				$this->CI->db->set('tag_datecreated', date('Y-m-d H:i:s'));
+				$this->CI->db->insert('tags');
+				$tag_id = $this->CI->db->insert_id();
+			}
+		}
+		return $tag_id;
+	}
+	function clean_categories($type, $value) {
+		if($type == 'date') {
+			$query = $this->CI->db->query('SELECT cat.itm_id, cat.cat_title FROM '.$this->CI->db->dbprefix('categories').' AS cat WHERE cat.cat_title IS NOT NULL AND cat.cat_datecreated >= ?', array($value));
+		}
+		if($type == 'title') {
+			$query = $this->CI->db->query('SELECT cat.itm_id, cat.cat_title FROM '.$this->CI->db->dbprefix('categories').' AS cat WHERE cat.cat_title IS NOT NULL AND cat.cat_title = ?', array($value));
+		}
+		if($type == 'item') {
+			$query = $this->CI->db->query('SELECT cat.itm_id, cat.cat_title FROM '.$this->CI->db->dbprefix('categories').' AS cat WHERE cat.cat_title IS NOT NULL AND cat.itm_id = ?', array($value));
+		}
+		if($type == 'feed') {
+			$query = $this->CI->db->query('SELECT cat.itm_id, cat.cat_title FROM '.$this->CI->db->dbprefix('categories').' AS cat LEFT JOIN '.$this->CI->db->dbprefix('items').' AS itm ON itm.itm_id = cat.itm_id WHERE cat.cat_title IS NOT NULL AND itm.fed_id = ?', array($value));
+		}
+		if($query->num_rows() > 0) {
+			foreach($query->result() as $row) {
+				$tag_id = false;
+				$tag_exists = $this->CI->db->query('SELECT tag.* FROM '.$this->CI->db->dbprefix('tags').' AS tag WHERE tag.tag_title = ? GROUP BY tag.tag_id', array($row->cat_title))->row();
+				if($tag_exists) {
+					$tag_id = $tag_exists->tag_id;
+				} else {
+					if($row->cat_title != '') {
+						$this->CI->db->set('tag_title', $row->cat_title);
+						$this->CI->db->set('tag_datecreated', date('Y-m-d H:i:s'));
+						$this->CI->db->insert('tags');
+						$tag_id = $this->CI->db->insert_id();
+					}
+				}
+				if($tag_id) {
+					$this->CI->db->set('tag_id', $tag_id);
+					$this->CI->db->set('itm_id', $row->itm_id);
+					$this->CI->db->set('tag_itm_datecreated', date('Y-m-d H:i:s'));
+					$this->CI->db->insert('tags_items');
+
+					$this->CI->db->where('cat_title', $row->cat_title);
+					$this->CI->db->where('itm_id', $row->itm_id);
+					$this->CI->db->delete('categories');
+				}
+			}
+		}
+	}
 	function crawl_items($fed_id, $items) {
 		foreach($items as $sp_item) {
 			if(!$sp_item->get_link()) {
@@ -342,6 +397,7 @@ class Readerself_library {
 				}
 
 				if($sp_item->get_categories()) {
+					$categories_to_insert = array();
 					foreach($sp_item->get_categories() as $category) {
 						if($category->get_label()) {
 							if(strstr($category->get_label(), ',')) {
@@ -349,22 +405,23 @@ class Readerself_library {
 								foreach($categories as $category_split) {
 									$category_split = trim( strip_tags( html_entity_decode( $category_split ) ) );
 									if($category_split != '') {
-										$this->CI->db->set('itm_id', $itm_id);
-										$this->CI->db->set('cat_title', $category_split);
-										$this->CI->db->set('cat_datecreated', date('Y-m-d H:i:s'));
-										$this->CI->db->insert('categories');
+										$categories_to_insert[] = $category_split;
 									}
 								}
 							} else {
 								$category_split = trim( strip_tags( html_entity_decode( $category->get_label() ) ) );
 								if($category_split != '') {
-									$this->CI->db->set('itm_id', $itm_id);
-									$this->CI->db->set('cat_title', $category_split);
-									$this->CI->db->set('cat_datecreated', date('Y-m-d H:i:s'));
-									$this->CI->db->insert('categories');
+									$categories_to_insert[] = $category_split;
 								}
 							}
 						}
+					}
+					foreach($categories_to_insert as $category) {
+						$tag_id = $this->CI->readerself_library->convert_category_title($category);
+						$this->CI->db->set('tag_id', $tag_id);
+						$this->CI->db->set('itm_id', $itm_id);
+						$this->CI->db->set('tag_itm_datecreated', date('Y-m-d H:i:s'));
+						$this->CI->db->insert('tags_items');
 					}
 				}
 

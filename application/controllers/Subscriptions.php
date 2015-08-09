@@ -284,9 +284,10 @@ class Subscriptions extends CI_Controller {
 			$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
 
 			if($this->config->item('tags')) {
+				$this->readerself_library->clean_categories('feed', $data['sub']->fed_id);
 				$legend = array();
 				$values = array();
-				$query = $this->db->query('SELECT cat.cat_title AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? AND sub.sub_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,30', array(1, $date_ref, $this->member->mbr_id, $sub_id));
+				$query = $this->db->query('SELECT tag.tag_title AS ref, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('tags_items').' AS tag_itm ON tag_itm.itm_id = itm.itm_id LEFT JOIN '.$this->db->dbprefix('tags').' AS tag ON tag.tag_id = tag_itm.tag_id WHERE tag.tag_id IS NOT NULL AND hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? AND sub.sub_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,30', array(1, $date_ref, $this->member->mbr_id, $sub_id));
 				if($query->num_rows() > 0) {
 					foreach($query->result() as $row) {
 						$legend[] = $row->ref;

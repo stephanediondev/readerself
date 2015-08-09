@@ -92,7 +92,7 @@ class Refresh extends CI_Controller {
 
 			if($this->config->item('tags')) {
 				if($this->axipi_session->userdata('items-mode') == 'category') {
-					$query = $this->db->query('SELECT cat.cat_title FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_id = ? GROUP BY cat.cat_id', array($this->axipi_session->userdata('items-id')));
+					$query = $this->db->query('SELECT tag.tag_title FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.tag_id = ? GROUP BY tag.tag_id', array($this->axipi_session->userdata('items-id')));
 					if($query->num_rows() > 0) {
 						$is_category = $query->row()->cat_title;
 						$content['count']['category'] = $this->readerself_model->count_unread('category', $is_category);
@@ -305,7 +305,7 @@ class Refresh extends CI_Controller {
 				$this->db->insert('crawler');
 
 				if($this->db->dbdriver == 'mysqli') {
-					$this->db->query('OPTIMIZE TABLE categories, connections, enclosures, favorites, feeds, folders, history, items, members, share, subscriptions');
+					$this->db->query('OPTIMIZE TABLE categories, authors, tags, tags_items, connections, enclosures, favorites, feeds, folders, history, items, members, share, subscriptions');
 				}
 			}
 		}

@@ -63,9 +63,10 @@ class Items extends CI_Controller {
 
 		$is_category = FALSE;
 		if($mode == 'category') {
-			$query = $this->db->query('SELECT cat.cat_title FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_id = ? GROUP BY cat.cat_id', array($id));
+			$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.tag_id = ? GROUP BY tag.tag_id', array($id));
 			if($query->num_rows() > 0) {
-				$is_category = $query->row()->cat_title;
+				$is_category = $query->row();
+				$this->readerself_library->clean_categories('title', $is_category->tag_title);
 			}
 		}
 
@@ -108,7 +109,9 @@ class Items extends CI_Controller {
 				$legend = array();
 				$values = array();
 				if($id == 'tags') {
-					$query = $this->db->query('SELECT LOWER(cat.cat_title) AS ref, cat.cat_id AS id, COUNT(DISTINCT(itm.itm_id)) AS count FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND itm.itm_date >= ? AND sub.mbr_id = ? GROUP BY ref ORDER BY count DESC LIMIT 0,100', array($date_ref, $this->member->mbr_id));
+					$this->readerself_library->clean_categories('date', $date_ref);
+
+					$query = $this->db->query('SELECT LOWER(tag.tag_title) AS ref, tag.tag_id AS id, COUNT(DISTINCT(tag_itm.itm_id)) AS count FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('tags_items').' AS tag_itm ON tag_itm.itm_id = itm.itm_id LEFT JOIN '.$this->db->dbprefix('tags').' AS tag ON tag.tag_id = tag_itm.tag_id WHERE itm.itm_date >= ? AND sub.mbr_id = ? GROUP BY ref ORDER BY count DESC LIMIT 0,100', array($date_ref, $this->member->mbr_id));
 				}
 				if($id == 'authors') {
 					$this->readerself_library->clean_authors('date', $date_ref);
@@ -263,13 +266,22 @@ class Items extends CI_Controller {
 				}
 
 				if($is_feed) {
-					$is_feed->categories = array();
+					$is_feed->categories = false;
 					if($this->config->item('tags')) {
 						$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
 						$categories = $this->db->query('SELECT cat.cat_title AS ref, cat.cat_id AS id, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND itm.itm_date >= ? AND fed.fed_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,10', array($date_ref, $is_feed->fed_id))->result();
 						if($categories) {
+							$this->readerself_library->clean_categories('feed', $is_feed->fed_id);
+						}
+
+						$categories = $this->db->query('SELECT tag.tag_title AS ref, tag.tag_id AS id, COUNT(DISTINCT(tag_itm.itm_id)) AS nb FROM '.$this->db->dbprefix('tags').' AS tag LEFT JOIN '.$this->db->dbprefix('tags_items').' AS tag_itm ON tag_itm.tag_id = tag.tag_id LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = tag_itm.itm_id WHERE itm.itm_date >= ? AND itm.fed_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,10', array($date_ref, $is_feed->fed_id))->result();
+						if($categories) {
+							$is_feed->categories = array();
 							foreach($categories as $cat) {
-								$is_feed->categories[] = '<a class="mdl-navigation__link mdl-color-text--'.$this->config->item('material-design/colors/text/card-title').' category" data-cat_id="'.$cat->id.'" href="'.base_url().'items/get/category/'.$cat->id.'"><i class="material-icons md-16">label</i>'.$cat->ref.'</a>';
+								if(substr($cat->ref, 0, 17) == 'foursquare:venue=') {
+								} else {
+									$is_feed->categories[] = '<a class="mdl-navigation__link mdl-color-text--'.$this->config->item('material-design/colors/text/card-title').' category" data-cat_id="'.$cat->id.'" href="'.base_url().'items/get/category/'.$cat->id.'"><i class="material-icons md-16">label</i>'.$cat->ref.'</a>';
+								}
 							}
 						}
 					}
@@ -286,9 +298,9 @@ class Items extends CI_Controller {
 				}
 
 				if($is_category) {
-					$introduction_title = '<i class="material-icons md-18">label</i>'.$is_category.' (<span id="intro-load-category-items">0</span>)';
-					$where[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_title = ? )';
-					$bindings[] = $is_category;
+					$introduction_title = '<i class="material-icons md-18">label</i>'.$is_category->tag_title.' (<span id="intro-load-category-items">0</span>)';
+					$where[] = 'itm.itm_id IN ( SELECT tag_itm.itm_id FROM '.$this->db->dbprefix('tags_items').' AS tag_itm WHERE tag_itm.tag_id = ? )';
+					$bindings[] = $is_category->tag_id;
 				}
 
 				if($mode == 'nofolder') {
@@ -376,14 +388,19 @@ class Items extends CI_Controller {
 						if($this->config->item('tags')) {
 							$categories = $this->db->query('SELECT cat.* FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.itm_id = ? GROUP BY cat.cat_id', array($itm->itm_id))->result();
 							if($categories) {
+								$this->readerself_library->clean_categories('item', $itm->itm_id);
+							}
+
+							$categories = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag LEFT JOIN '.$this->db->dbprefix('tags_items').' AS tag_itm ON tag_itm.tag_id = tag.tag_id WHERE tag_itm.itm_id = ? GROUP BY tag.tag_id', array($itm->itm_id))->result();
+							if($categories) {
 								$itm->categories = array();
 								foreach($categories as $cat) {
-									if(substr($cat->cat_title, 0, 17) == 'foursquare:venue=') {
+									if(substr($cat->tag_title, 0, 17) == 'foursquare:venue=') {
 									} else {
 										if($is_member) {
-											$itm->categories[] = $cat->cat_title;
+											$itm->categories[] = $cat->tag_title;
 										} else {
-											$itm->categories[] = '<a class="mdl-navigation__link mdl-color-text--'.$this->config->item('material-design/colors/text/card-title').' category" data-cat_id="'.$cat->cat_id.'" href="'.base_url().'items/get/category/'.$cat->cat_id.'"><i class="material-icons md-16">label</i>'.$cat->cat_title.'</a>';
+											$itm->categories[] = '<a class="mdl-navigation__link mdl-color-text--'.$this->config->item('material-design/colors/text/card-title').' category" data-cat_id="'.$cat->tag_id.'" href="'.base_url().'items/get/category/'.$cat->tag_id.'"><i class="material-icons md-16">label</i>'.$cat->tag_title.'</a>';
 										}
 									}
 								}
@@ -492,17 +509,17 @@ class Items extends CI_Controller {
 
 				$is_author = FALSE;
 				if($this->axipi_session->userdata('items-mode') == 'author') {
-					$query = $this->db->query('SELECT itm.itm_author FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id', array($this->axipi_session->userdata('items-id')));
+					$query = $this->db->query('SELECT auh.* FROM '.$this->db->dbprefix('authors').' AS auh WHERE auh.auh_id = ? GROUP BY auh.auh_id', array($this->axipi_session->userdata('items-id')));
 					if($query->num_rows() > 0) {
-						$is_author = $query->row()->itm_author;
+						$is_author = $query->row()->auh_id;
 					}
 				}
 
 				$is_category = FALSE;
 				if($this->axipi_session->userdata('items-mode') == 'category') {
-					$query = $this->db->query('SELECT cat.cat_title FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_id = ? GROUP BY cat.cat_id', array($this->axipi_session->userdata('items-id')));
+					$query = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.tag_id = ? GROUP BY tag.tag_id', array($this->axipi_session->userdata('items-id')));
 					if($query->num_rows() > 0) {
-						$is_category = $query->row()->cat_title;
+						$is_category = $query->row()->tag_id;
 					}
 				}
 
@@ -550,12 +567,12 @@ class Items extends CI_Controller {
 				}
 
 				if($is_author) {
-					$where[] = 'itm.itm_author = ?';
+					$where[] = 'itm.auh_id = ?';
 					$bindings[] = $is_author;
 				}
 
 				if($is_category) {
-					$where[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_title = ? )';
+					$where[] = 'itm.itm_id IN ( SELECT tag_itm.itm_id FROM '.$this->db->dbprefix('tags_items').' AS tag_itm WHERE tag_itm.tag_id = ? )';
 					$bindings[] = $is_category;
 				}
 

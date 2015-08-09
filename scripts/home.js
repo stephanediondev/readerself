@@ -680,7 +680,7 @@ $(document).ready(function() {
 		load_items(ref.attr('href'));
 	});
 
-	$(document).on('click', '.title a.category, .item a.category, #cloud a.category', function(event) {
+	$(document).on('click', 'a.category', function(event) {
 		event.preventDefault();
 		$('#search_items').val('');
 		var ref = $(this);

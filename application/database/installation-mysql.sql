@@ -238,3 +238,21 @@ CREATE TABLE IF NOT EXISTS `subscriptions` (
   KEY `fed_id` (`fed_id`),
   KEY `flr_id` (`flr_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `tags` (
+  `tag_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `tag_title` varchar(255) NOT NULL,
+  `tag_datecreated` datetime NOT NULL,
+  PRIMARY KEY (`tag_id`),
+  UNIQUE KEY `tag_title` (`tag_title`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `tags_items` (
+  `tag_itm_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `tag_id` bigint(20) unsigned NOT NULL,
+  `itm_id` bigint(20) unsigned NOT NULL,
+  `tag_itm_datecreated` datetime NOT NULL,
+  PRIMARY KEY (`tag_itm_id`),
+  KEY `tag_id` (`tag_id`),
+  KEY `itm_id` (`itm_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;

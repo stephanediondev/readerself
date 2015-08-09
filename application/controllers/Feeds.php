@@ -141,9 +141,10 @@ class Feeds extends CI_Controller {
 			$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
 
 			if($this->config->item('tags')) {
+				$this->readerself_library->clean_categories('feed', $data['fed']->fed_id);
 				$legend = array();
 				$values = array();
-				$query = $this->db->query('SELECT cat.cat_title AS ref, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND itm.itm_date >= ? AND fed.fed_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,30', array($date_ref, $fed_id));
+				$query = $this->db->query('SELECT tag.tag_title AS ref, COUNT(DISTINCT(tag_itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('tags_items').' AS tag_itm ON tag_itm.itm_id = itm.itm_id LEFT JOIN '.$this->db->dbprefix('tags').' AS tag ON tag.tag_id = tag_itm.tag_id WHERE tag.tag_id IS NOT NULL AND itm.itm_date >= ? AND fed.fed_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,30', array($date_ref, $fed_id));
 				if($query->num_rows() > 0) {
 					foreach($query->result() as $row) {
 						$legend[] = $row->ref;

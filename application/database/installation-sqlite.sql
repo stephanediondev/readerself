@@ -206,3 +206,17 @@ CREATE TABLE IF NOT EXISTS `subscriptions` (
 CREATE INDEX "subscriptions_mbr_id" ON "subscriptions" ("mbr_id");
 CREATE INDEX "subscriptions_fed_id" ON "subscriptions" ("fed_id");
 CREATE INDEX "subscriptions_flr_id" ON "subscriptions" ("flr_id");
+
+CREATE TABLE IF NOT EXISTS `tags` (
+  `tag_id` integer PRIMARY KEY AUTOINCREMENT,
+  `tag_title` varchar(255) NOT NULL,
+  `tag_datecreated` datetime NOT NULL);
+CREATE UNIQUE INDEX "tags_tag_title" ON "tags" ("tag_title");
+
+CREATE TABLE IF NOT EXISTS `tags_items` (
+  `tag_itm_id` integer PRIMARY KEY AUTOINCREMENT,
+  `tag_id` INTEGER NOT NULL,
+  `itm_id` INTEGER NOT NULL,
+  `tag_itm_datecreated` datetime NOT NULL);
+CREATE INDEX "tags_items_tag_id" ON "history" ("tag_id");
+CREATE INDEX "tags_items_itm_id" ON "history" ("itm_id");
