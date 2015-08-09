@@ -92,9 +92,9 @@ class Refresh extends CI_Controller {
 
 			if($this->config->item('tags')) {
 				if($this->axipi_session->userdata('items-mode') == 'category') {
-					$query = $this->db->query('SELECT tag.tag_title FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.tag_id = ? GROUP BY tag.tag_id', array($this->axipi_session->userdata('items-id')));
+					$query = $this->db->query('SELECT tag.tag_id FROM '.$this->db->dbprefix('tags').' AS tag WHERE tag.tag_id = ? GROUP BY tag.tag_id', array($this->axipi_session->userdata('items-id')));
 					if($query->num_rows() > 0) {
-						$is_category = $query->row()->cat_title;
+						$is_category = $query->row()->tag_id;
 						$content['count']['category'] = $this->readerself_model->count_unread('category', $is_category);
 					}
 				}

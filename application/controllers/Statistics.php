@@ -33,37 +33,55 @@ class Statistics extends CI_Controller {
 
 		$data['tables'] = '';
 
-		if($this->db->dbdriver == 'mysqli') {
-			$legend = array();
-			$values = array();
-			$query = $this->db->query('SELECT fed.fed_host, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS ref, sub.sub_id AS id, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = fed.fed_id WHERE hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? AND sub.mbr_id = ? GROUP BY id ORDER BY nb DESC LIMIT 0,30', array(1, $date_ref, $this->member->mbr_id, $this->member->mbr_id));
-			if($query->num_rows() > 0) {
-				foreach($query->result() as $row) {
-					if($row->direction) {
-						$legend[] = '<a style="background-image:url(https://www.google.com/s2/favicons?domain='.$row->fed_host.'&amp;alt=feed);" class="favicon mdl-color-text--'.$this->config->item('material-design/colors/text/link').'" dir="'.$row->direction.'" href="'.base_url().'subscriptions/read/'.$row->id.'">'.$row->ref.'</a>';
-					} else {
-						$legend[] = '<a style="background-image:url(https://www.google.com/s2/favicons?domain='.$row->fed_host.'&amp;alt=feed);" class="favicon mdl-color-text--'.$this->config->item('material-design/colors/text/link').'" href="'.base_url().'subscriptions/read/'.$row->id.'">'.$row->ref.'</a>';
-					}
-					$values[] = $row->nb;
+		$legend = array();
+		$values = array();
+		$query = $this->db->query('SELECT fed.fed_host, sub.sub_title, fed.fed_title, sub.sub_id AS id, sub.sub_direction, fed.fed_direction, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = fed.fed_id WHERE hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? AND sub.mbr_id = ? GROUP BY id ORDER BY nb DESC LIMIT 0,30', array(1, $date_ref, $this->member->mbr_id, $this->member->mbr_id));
+		if($query->num_rows() > 0) {
+			foreach($query->result() as $row) {
+				if($row->sub_title) {
+					$row->ref = $row->sub_title;
+				} else {
+					$row->ref = $row->fed_title;
 				}
-			}
-			$data['tables'] .= build_table_repartition($this->lang->line('items_read_by_subscription').'*', $values, $legend);
-
-			$legend = array();
-			$values = array();
-			$query = $this->db->query('SELECT fed.fed_host, IF(sub.sub_title IS NOT NULL, sub.sub_title, fed.fed_title) AS ref, sub.sub_id AS id, IF(sub.sub_direction IS NOT NULL, sub.sub_direction, fed.fed_direction) AS direction, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = fed.fed_id WHERE hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? AND sub.mbr_id = ? GROUP BY id ORDER BY nb ASC LIMIT 0,30', array(1, $date_ref, $this->member->mbr_id, $this->member->mbr_id));
-			if($query->num_rows() > 0) {
-				foreach($query->result() as $row) {
-					if($row->direction) {
-						$legend[] = '<a style="background-image:url(https://www.google.com/s2/favicons?domain='.$row->fed_host.'&amp;alt=feed);" class="favicon mdl-color-text--'.$this->config->item('material-design/colors/text/link').'" dir="'.$row->direction.'" href="'.base_url().'subscriptions/read/'.$row->id.'">'.$row->ref.'</a>';
-					} else {
-						$legend[] = '<a style="background-image:url(https://www.google.com/s2/favicons?domain='.$row->fed_host.'&amp;alt=feed);" class="favicon mdl-color-text--'.$this->config->item('material-design/colors/text/link').'" href="'.base_url().'subscriptions/read/'.$row->id.'">'.$row->ref.'</a>';
-					}
-					$values[] = $row->nb;
+				if($row->sub_direction) {
+					$row->direction = $row->sub_direction;
+				} else {
+					$row->direction = $row->fed_direction;
 				}
+				if($row->direction) {
+					$legend[] = '<a style="background-image:url(https://www.google.com/s2/favicons?domain='.$row->fed_host.'&amp;alt=feed);" class="favicon mdl-color-text--'.$this->config->item('material-design/colors/text/link').'" dir="'.$row->direction.'" href="'.base_url().'subscriptions/read/'.$row->id.'">'.$row->ref.'</a>';
+				} else {
+					$legend[] = '<a style="background-image:url(https://www.google.com/s2/favicons?domain='.$row->fed_host.'&amp;alt=feed);" class="favicon mdl-color-text--'.$this->config->item('material-design/colors/text/link').'" href="'.base_url().'subscriptions/read/'.$row->id.'">'.$row->ref.'</a>';
+				}
+				$values[] = $row->nb;
 			}
-			$data['tables'] .= build_table_repartition($this->lang->line('items_read_by_subscription_less').'*', $values, $legend);
 		}
+		$data['tables'] .= build_table_repartition($this->lang->line('items_read_by_subscription').'*', $values, $legend);
+
+		$legend = array();
+		$values = array();
+		$query = $this->db->query('SELECT fed.fed_host, sub.sub_title, fed.fed_title, sub.sub_id AS id, sub.sub_direction, fed.fed_direction, COUNT(DISTINCT(hst.itm_id)) AS nb FROM '.$this->db->dbprefix('history').' AS hst LEFT JOIN '.$this->db->dbprefix('items').' AS itm ON itm.itm_id = hst.itm_id LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = fed.fed_id WHERE hst.hst_real = ? AND hst.hst_datecreated >= ? AND hst.mbr_id = ? AND sub.mbr_id = ? GROUP BY id ORDER BY nb ASC LIMIT 0,30', array(1, $date_ref, $this->member->mbr_id, $this->member->mbr_id));
+		if($query->num_rows() > 0) {
+			foreach($query->result() as $row) {
+				if($row->sub_title) {
+					$row->ref = $row->sub_title;
+				} else {
+					$row->ref = $row->fed_title;
+				}
+				if($row->sub_direction) {
+					$row->direction = $row->sub_direction;
+				} else {
+					$row->direction = $row->fed_direction;
+				}
+				if($row->direction) {
+					$legend[] = '<a style="background-image:url(https://www.google.com/s2/favicons?domain='.$row->fed_host.'&amp;alt=feed);" class="favicon mdl-color-text--'.$this->config->item('material-design/colors/text/link').'" dir="'.$row->direction.'" href="'.base_url().'subscriptions/read/'.$row->id.'">'.$row->ref.'</a>';
+				} else {
+					$legend[] = '<a style="background-image:url(https://www.google.com/s2/favicons?domain='.$row->fed_host.'&amp;alt=feed);" class="favicon mdl-color-text--'.$this->config->item('material-design/colors/text/link').'" href="'.base_url().'subscriptions/read/'.$row->id.'">'.$row->ref.'</a>';
+				}
+				$values[] = $row->nb;
+			}
+		}
+		$data['tables'] .= build_table_repartition($this->lang->line('items_read_by_subscription_less').'*', $values, $legend);
 
 		if($this->config->item('tags')) {
 			$this->readerself_library->clean_categories('date', $date_ref);
