@@ -68,10 +68,13 @@
 				<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 					<?php echo validation_errors(); ?>
 
+					<div id="themes">
+					</div>
+
 					<?php foreach($settings_material as $stg) { ?>
 						<p>
-						<?php echo form_label($this->lang->line('stg_'.$stg->stg_code), $stg->stg_code); ?>
-						<?php echo form_input($stg->stg_code, set_value($stg->stg_code, $stg->stg_value), 'class="material_color" id="'.$stg->stg_code.'"'); ?>
+						<?php echo form_label($this->lang->line('stg_'.$stg->stg_code), str_replace('/', '_', $stg->stg_code)); ?>
+						<?php echo form_input($stg->stg_code, set_value($stg->stg_code, $stg->stg_value), 'class="material_color" id="'.str_replace('/', '_', $stg->stg_code).'"'); ?>
 						<?php if($stg->stg_note) { ?><br><em><?php echo $stg->stg_note; ?></em><?php } ?>
 						</p>
 					<?php } ?>
