@@ -97,10 +97,10 @@ class Items extends CI_Controller {
 				$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
 
 				if($id == 'tags') {
-					$introduction_title = '<i class="material-icons md-18">cloud</i>'.$this->lang->line('tags').'*';
+					$introduction_title = '<i class="material-icons md-18">label</i>'.$this->lang->line('tags').'*';
 				}
 				if($id == 'authors') {
-					$introduction_title = '<i class="material-icons md-18">cloud</i>'.$this->lang->line('authors').'*';
+					$introduction_title = '<i class="material-icons md-18">people</i>'.$this->lang->line('authors').'*';
 				}
 
 				$items = array();
