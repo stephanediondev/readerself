@@ -31,7 +31,7 @@ themes['black']['material-design_colors_text_link'] = 'lime';
 
 function load_themes() {
 	for(i in themes) {
-		$('#themes').append('<a class="material_theme mdl-color-text--'+ material_design_colors_text_link + '" href="' + i + '"><i class="material-icons md-18">color_lens</i>' + i + '</a> ');
+		$('#themes').append('<a class="material_theme mdl-navigation__link mdl-color-text--'+ material_design_colors_text_card_title + '" href="' + i + '"><i class="material-icons md-18">color_lens</i>' + i + '</a> ');
 	}
 }
 function load_theme(theme) {

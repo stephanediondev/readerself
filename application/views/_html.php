@@ -154,6 +154,7 @@ var timezone = false;
 <?php } ?>
 var title = '<?php echo addslashes($this->config->item('title')); ?>';
 var uri_string = '<?php echo $this->uri->uri_string(); ?>';
+var material_design_colors_text_card_title = '<?php echo $this->config->item('material-design/colors/text/card-title'); ?>';
 var material_design_colors_text_link = '<?php echo $this->config->item('material-design/colors/text/link'); ?>';
 </script>
 
