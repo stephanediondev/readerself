@@ -56,7 +56,7 @@
 </head>
 <body<?php if(count($this->readerself_library->errors) > 0) { ?> class="error"<?php } ?>>
 
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header<?php if($this->router->class == 'home' || ($this->router->class == 'subscriptions' && $this->router->method == 'index') || ($this->router->class == 'feeds' && $this->router->method == 'index') || ($this->router->class == 'feeds' && $this->router->method == 'feedly') || ($this->router->class == 'folders' && $this->router->method == 'index')) { ?> mdl-layout--fixed-drawer<?php } ?>">
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header<?php if($this->router->class == 'settings' || $this->router->class == 'home' || ($this->router->class == 'subscriptions' && $this->router->method == 'index') || ($this->router->class == 'feeds' && $this->router->method == 'index') || ($this->router->class == 'feeds' && $this->router->method == 'feedly') || ($this->router->class == 'folders' && $this->router->method == 'index')) { ?> mdl-layout--fixed-drawer<?php } ?>">
 	<header class="mdl-layout__header mdl-color--<?php echo $this->config->item('material-design/colors/background/header'); ?>">
 		<div class="mdl-layout__header-row">
 			<div class="mdl-layout-spacer">

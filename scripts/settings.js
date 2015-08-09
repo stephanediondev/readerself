@@ -35,7 +35,6 @@ function load_themes() {
 	}
 }
 function load_theme(theme) {
-	console.log(theme);
 	for(i in themes[theme]) {
 		$('#' + i).val(themes[theme][i]);
 	}
@@ -106,6 +105,22 @@ $(document).ready(function() {
 	});
 
 	$('.material_color').bind('keyup', function(event) {
+		build_preview();
+	});
+
+	$('.material_color').bind('focus', function(event) {
+		$('.material_color').removeClass('material_color_focus');
+		$(this).addClass('material_color_focus');
+	});
+
+	$('#colors .mdl-card').bind('click', function(event) {
+		event.preventDefault();
+		ref = $('.material_color_focus');
+		if(ref.hasClass('material_color_hexa')) {
+			ref.val($(this).data('hexa'));
+		} else {
+			ref.val($(this).data('code'));
+		}
 		build_preview();
 	});
 });
