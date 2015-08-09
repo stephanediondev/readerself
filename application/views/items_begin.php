@@ -1,9 +1,9 @@
 <?php if($mode == 'starred') { ?>
 	<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
-		<div class="mdl-card__title mdl-color-text--white mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
+		<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?> mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
 			<h1 class="mdl-card__title-text"><i class="material-icons md-18">star</i><?php echo $this->lang->line('starred_items'); ?> {<span id="intro-load-starred-items"></span>}</h1>
 		</div>
-		<div class="mdl-card__actions mdl-card--border">
+		<div class="mdl-card__actions mdl-card--border mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-actions'); ?>">
 			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>starred/export"><i class="material-icons md-18">file_upload</i></a>
 			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>starred/import"><i class="material-icons md-18">file_download</i></a>
 		</div>
@@ -12,10 +12,10 @@
 
 <?php if($mode == 'shared') { ?>
 	<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
-		<div class="mdl-card__title mdl-color-text--white mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
+		<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?> mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
 			<h1 class="mdl-card__title-text"><i class="material-icons md-18">favorite</i><?php echo $this->lang->line('shared_items'); ?> {<span id="intro-load-shared-items"></span>}</h1>
 		</div>
-		<div class="mdl-card__actions mdl-card--border">
+		<div class="mdl-card__actions mdl-card--border mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-actions'); ?>">
 			<?php if($this->member->mbr_nickname) { ?>
 				<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>member/<?php echo $this->member->mbr_nickname; ?>"><i class="material-icons md-18">link</i></a>
 			<?php } else { ?>
@@ -35,14 +35,14 @@
 				<span class="mdl-navigation__link"><i class="material-icons md-16">favorite</i><?php echo $is_folder->shared_items; ?> shared item(s)</span>
 			</div>
 		</div>
-		<div class="mdl-card__actions mdl-card--border">
+		<div class="mdl-card__actions mdl-card--border mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-actions'); ?>">
 			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>folders/update/<?php echo $is_folder->flr_id; ?>"><i class="material-icons md-18">mode_edit</i></a>
 			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>folders/delete/<?php echo $is_folder->flr_id; ?>"><i class="material-icons md-18">delete</i></a>
 		</div>
 	</div>
 
 	<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
-		<div class="mdl-card__title mdl-color-text--white mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
+		<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?> mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
 			<h1 class="mdl-card__title-text"><i class="material-icons md-18">folder</i> (<span id="intro-load-folder-<?php echo $is_folder->flr_id; ?>-items">0</span>)</h1>
 		</div>
 	</div>
@@ -67,7 +67,7 @@
 		<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 			<p><?php echo $is_feed->fed_description; ?></p>
 		</div>
-		<div class="mdl-card__actions mdl-card--border">
+		<div class="mdl-card__actions mdl-card--border mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-actions'); ?>">
 			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon subscribe" href="<?php echo base_url(); ?>subscriptions/delete/<?php echo $is_feed->sub_id; ?>"><i class="material-icons md-18">bookmark</i></a>
 			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon priority" href="<?php echo base_url(); ?>subscriptions/priority/<?php echo $is_feed->sub_id; ?>"><?php if($is_feed->sub_priority == 0) { ?><i class="material-icons md-18">chat_bubble_outline</i><?php } ?><?php if($is_feed->sub_priority == 1) { ?><i class="material-icons md-18">announcement</i><?php } ?></a>
 			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>subscriptions/update/<?php echo $is_feed->sub_id; ?>"><i class="material-icons md-18">mode_edit</i></a>
@@ -75,7 +75,7 @@
 	</div>
 
 	<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
-		<div class="mdl-card__title mdl-color-text--white mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
+		<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?> mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
 			<h1 class="mdl-card__title-text"><i class="material-icons md-18">bookmark</i> (<span id="intro-load-feed-<?php echo $is_feed->fed_id; ?>-items">0</span>)</h1>
 		</div>
 	</div>
@@ -83,7 +83,7 @@
 
 <?php if($mode == 'public_profile') { ?>
 	<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
-		<div class="mdl-card__title mdl-color-text--white mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
+		<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?> mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
 			<h1 class="mdl-card__title-text"><i class="material-icons md-18">person</i><?php echo $is_member->mbr_nickname; ?></h1>
 		</div>
 		<?php if($is_member->mbr_description) { ?>
@@ -91,7 +91,7 @@
 				<p><?php echo strip_tags($is_member->mbr_description); ?></p>
 			</div>
 		<?php } ?>
-		<div class="mdl-card__actions mdl-card--border">
+		<div class="mdl-card__actions mdl-card--border mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-actions'); ?>">
 			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon geolocation" href="<?php echo base_url(); ?>share/<?php echo $is_member->token_share; ?>"><i class="material-icons md-18">code</i></a>
 		</div>
 	</div>
@@ -99,7 +99,7 @@
 
 <?php if($mode == 'geolocation') { ?>
 	<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
-		<div class="mdl-card__title mdl-color-text--white mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
+		<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?> mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
 			<h1 class="mdl-card__title-text"><i class="material-icons md-18">place</i><?php echo $this->lang->line('geolocation_items'); ?> (<span id="intro-load-geolocation-items"></span>)</h1>
 		</div>
 		<?php if($this->axipi_session->userdata('latitude') && $this->axipi_session->userdata('longitude')) { ?>
@@ -110,7 +110,7 @@
 		<?php } ?>
 		<?php if($this->axipi_session->userdata('latitude') && $this->axipi_session->userdata('longitude')) { ?>
 		<?php } else { ?>
-			<div class="mdl-card__actions mdl-card--border">
+			<div class="mdl-card__actions mdl-card--border mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-actions'); ?>">
 				<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon geolocation" href="<?php echo base_url(); ?>home/geolocation"><i class="material-icons md-18">location_off</i></a>
 			</div>
 		<?php } ?>

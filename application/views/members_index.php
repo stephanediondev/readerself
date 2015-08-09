@@ -1,7 +1,7 @@
 <main class="mdl-layout__content mdl-color--<?php echo $this->config->item('material-design/colors/background/layout'); ?>">
 	<div class="mdl-grid">
 		<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
-			<div class="mdl-card__title mdl-color-text--white mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
+			<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?> mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
 				<h1 class="mdl-card__title-text"><i class="material-icons md-18">people</i><?php echo $this->lang->line('members'); ?> (<?php echo $position; ?>)</h2>
 			</div>
 		</div>
@@ -27,7 +27,7 @@
 							<p><?php echo strip_tags($mbr->mbr_description); ?></p>
 						<?php } ?>
 					</div>
-					<div class="mdl-card__actions mdl-card--border">
+					<div class="mdl-card__actions mdl-card--border mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-actions'); ?>">
 						<?php if($this->member->mbr_administrator == 1) { ?>
 							<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>members/update/<?php echo $mbr->mbr_id; ?>"><i class="material-icons md-18">mode_edit</i></a>
 							<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>members/delete/<?php echo $mbr->mbr_id; ?>"><i class="material-icons md-18">delete</i></a>

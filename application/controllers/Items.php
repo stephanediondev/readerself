@@ -452,7 +452,7 @@ class Items extends CI_Controller {
 				if($introduction_direction) {
 					$content['begin'] = '<article dir="'.$introduction_direction.'" id="introduction" class="title">';
 				} else {
-					$content['begin'] = '<div class="mdl-card mdl-color--'.$this->config->item('material-design/colors/background/card').' mdl-cell mdl-cell--12-col"><div class="mdl-card__title mdl-color-text--white mdl-color--'.$this->config->item('material-design/colors/background/card-title').'">';
+					$content['begin'] = '<div class="mdl-card mdl-color--'.$this->config->item('material-design/colors/background/card').' mdl-cell mdl-cell--12-col"><div class="mdl-card__title mdl-color-text--'.$this->config->item('material-design/colors/text/card-title').' mdl-color--'.$this->config->item('material-design/colors/background/card-title').'">';
 				}
 				$content['begin'] .= '<h1 class="mdl-card__title-text">'.$introduction_title.'</h1>';
 				$content['begin'] .= '</div></div>';

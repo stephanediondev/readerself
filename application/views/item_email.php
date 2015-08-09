@@ -32,7 +32,7 @@
 
 		<?php echo form_close(); ?>
 	</div>
-	<div class="mdl-card__actions mdl-card--border">
+	<div class="mdl-card__actions mdl-card--border mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-actions'); ?>">
 		<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon share_email_close" href="#share_email_<?php echo $itm->itm_id; ?>"><i class="material-icons md-18">close</i></a></li>
 	</div>
 </div>

@@ -28,7 +28,7 @@
 			<?php echo $this->load->view('item_expand', array('itm', $itm), TRUE); ?>
 		<?php } ?>
 	</div>
-	<div class="mdl-card__actions mdl-card--border">
+	<div class="mdl-card__actions mdl-card--border mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-actions'); ?>">
 		<?php if($itm->case_member != 'public_profile') { ?>
 			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon history" href="<?php echo base_url(); ?>item/read/<?php echo $itm->itm_id; ?>" title="m"><?php if($itm->history == 'unread') { ?> <i class="material-icons md-18">panorama_fish_eye</i><?php } ?><?php if($itm->history == 'read') { ?><i class="material-icons md-18">check_circle</i><?php } ?></a>
 		<?php } ?>
@@ -42,7 +42,7 @@
 			<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="more_share_<?php echo $itm->itm_id; ?>">
 				<i class="material-icons md-18">share</i>
 			</button>
-			<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--top-left" for="more_share_<?php echo $itm->itm_id; ?>">
+			<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--top-left mdl-color--<?php echo $this->config->item('material-design/colors/background/menu'); ?>" for="more_share_<?php echo $itm->itm_id; ?>">
 				<?php if($this->config->item('share_external_email') && $itm->case_member != 'public_profile') { ?>
 					<li class="mdl-menu__item"><a class="share_email mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>item/email/<?php echo $itm->itm_id; ?>"><?php echo $this->lang->line('share_email'); ?></a></li>
 				<?php } ?>
@@ -54,7 +54,7 @@
 		<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="more_<?php echo $itm->itm_id; ?>">
 			<i class="material-icons md-18">more_vert</i>
 		</button>
-		<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--top-left" for="more_<?php echo $itm->itm_id; ?>">
+		<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--top-left mdl-color--<?php echo $this->config->item('material-design/colors/background/menu'); ?>" for="more_<?php echo $itm->itm_id; ?>">
 			<?php if($this->config->item('readability_parser_key') && $itm->case_member != 'public_profile') { ?>
 				<li class="mdl-menu__item"><a class="link-item-readability mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>item/readability/<?php echo $itm->itm_id; ?>">Readability</a></li>
 			<?php } ?>

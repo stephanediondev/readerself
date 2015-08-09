@@ -202,6 +202,8 @@ $lang['stg_facebook/enabled'] = 'Facebook (application to retrieve pages as feed
 $lang['stg_facebook/id'] = 'Facebook / Id';
 $lang['stg_facebook/secret'] = 'Facebook / Secret';
 
+$lang['stg_material-design/colors/text/card-title'] = 'Material Design - Card title color';
+$lang['stg_material-design/colors/text/card-actions'] = 'Material Design - Card actions color';
 $lang['stg_material-design/colors/text/link'] = 'Material Design - Link text color';
 $lang['stg_material-design/colors/text/content'] = 'Material Design - Content text color';
 $lang['stg_material-design/colors/background/layout'] = 'Material Design - Layout background color';
@@ -209,3 +211,4 @@ $lang['stg_material-design/colors/background/header'] = 'Material Design - Heade
 $lang['stg_material-design/colors/background/button'] = 'Material Design - Button background color';
 $lang['stg_material-design/colors/background/card'] = 'Material Design - Card background color';
 $lang['stg_material-design/colors/background/card-title'] = 'Material Design - Card title background color';
+$lang['stg_material-design/colors/background/menu'] = 'Material Design - Menu background color';
