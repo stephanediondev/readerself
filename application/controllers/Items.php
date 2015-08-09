@@ -323,7 +323,7 @@ class Items extends CI_Controller {
 					$pagination_items = 10;
 				}
 
-				$sql = 'SELECT itm.* FROM '.$this->db->dbprefix('items').' AS itm ';
+				$sql = 'SELECT itm.itm_id FROM '.$this->db->dbprefix('items').' AS itm ';
 				if($mode == 'audio' || $mode == 'video') {
 					$sql .= 'LEFT JOIN '.$this->db->dbprefix('enclosures').' AS enr ON enr.itm_id = itm.itm_id ';
 				}
@@ -349,6 +349,9 @@ class Items extends CI_Controller {
 				if($query->num_rows() > 0) {
 					$u = 0;
 					foreach($query->result() as $itm) {
+						$sql = 'SELECT itm.* FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id';
+						$itm = $this->db->query($sql, array($itm->itm_id))->row();
+
 						if($itm->itm_author && !$itm->auh_id) {
 							$itm->auh_id = $this->readerself_library->convert_author_title($itm->itm_author);
 							$this->db->set('auh_id', $itm->auh_id);
