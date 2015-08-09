@@ -2,8 +2,8 @@
 	<div class="mdl-card__title">
 		<h1 class="mdl-card__title-text">
 			<a target="_blank" class="title_link favicon mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>"<?php if($itm->sub->fed_host) { ?> style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $itm->sub->fed_host; ?>&amp;alt=feed);"<?php } ?> href="<?php echo $itm->itm_link; ?>"><?php echo $itm->itm_title; ?></a>
-			<a class="expand mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>item/expand/<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_o'); ?>"><i class="material-icons md-24">arrow_drop_down</i></a>
-			<a class="collapse mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="#item_<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_o'); ?>"><i class="material-icons md-24">arrow_drop_up</i></a>
+			<a class="expand mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>item/expand/<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_o'); ?>"><i class="material-icons md-24">arrow_drop_up</i></a>
+			<a class="collapse mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="#item_<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_o'); ?>"><i class="material-icons md-24">arrow_drop_down</i></a>
 		</h1>
 		<div class="mdl-card__title-infos">
 			<span class="mdl-navigation__link"><i class="material-icons md-16">access_time</i><span class="timeago" title="<?php echo $itm->itm_date; ?>"></span></span>

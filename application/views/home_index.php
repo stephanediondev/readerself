@@ -24,7 +24,7 @@
 					<?php foreach($folders as $folder) { ?>
 						<li>
 							<a<?php if($folder->flr_direction) { ?> dir="<?php echo $folder->flr_direction; ?>"<?php } ?> id="load-folder-<?php echo $folder->flr_id; ?>-items" class="mdl-navigation__link" href="<?php echo base_url(); ?>items/get/folder/<?php echo $folder->flr_id; ?>"><i class="material-icons md-18">folder</i><?php echo $folder->flr_title; ?> (<span>0</span>)</a>
-							<a class="mdl-navigation__link folder lock" href="<?php echo base_url(); ?>subscriptions/get/folder/<?php echo $folder->flr_id; ?>" title="<?php echo $this->lang->line('open_close'); ?>"><i class="material-icons md-24">arrow_drop_down</i></a>
+							<a class="mdl-navigation__link folder lock" href="<?php echo base_url(); ?>subscriptions/get/folder/<?php echo $folder->flr_id; ?>" title="<?php echo $this->lang->line('open_close'); ?>"><i class="material-icons md-24">arrow_drop_up</i></a>
 							<ul></ul>
 						</li>
 					<?php } ?>
@@ -32,7 +32,7 @@
 				<?php if($count_nofolder > 0) { ?>
 					<li>
 						<a id="load-nofolder-items" class="mdl-navigation__link" href="<?php echo base_url(); ?>items/get/nofolder"><i class="material-icons md-18">folder</i><em><?php echo $this->lang->line('no_folder'); ?></em> (<span>0</span>)</a>
-						<a class="mdl-navigation__link folder lock" href="<?php echo base_url(); ?>subscriptions/get/nofolder" title="<?php echo $this->lang->line('open_close'); ?>"><i class="material-icons md-24">arrow_drop_down</i></a>
+						<a class="mdl-navigation__link folder lock" href="<?php echo base_url(); ?>subscriptions/get/nofolder" title="<?php echo $this->lang->line('open_close'); ?>"><i class="material-icons md-24">arrow_drop_up</i></a>
 						<ul></ul>
 					</li>
 				<?php } ?>

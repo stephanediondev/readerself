@@ -76,7 +76,7 @@
 						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon items_refresh" href="#" title="r"><i class="material-icons md-24">refresh</i></a>
 
 						<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn_mode">
-							<i class="material-icons md-24">visibility</i>
+							<i class="material-icons md-24"><?php if(!$this->input->cookie('items_mode') || $this->input->cookie('items_mode') == 'unread_only') { ?>visibility_off<?php } else { ?>visibility<?php } ?></i>
 						</button>
 						<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn_mode">
 							<li class="mdl-menu__item"><a class="items_mode mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="unread_only" title="<?php echo $this->lang->line('title_shift_2'); ?>"><?php echo $this->lang->line('unread_only'); ?></a></li>
@@ -84,7 +84,7 @@
 						</ul>
 
 						<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn_display">
-							<i class="material-icons md-24">view_compact</i>
+							<i class="material-icons md-24"><?php if(!$this->input->cookie('items_display') || $this->input->cookie('items_display') == 'expand') { ?>arrow_drop_down<?php } else { ?>arrow_drop_up<?php } ?></i>
 						</button>
 						<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn_display">
 							<li class="mdl-menu__item"><a class="items_display mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="expand" title="2"><?php echo $this->lang->line('expand_all'); ?></a></li>

@@ -566,7 +566,7 @@ $(document).ready(function() {
 		event.preventDefault();
 		var ref = $(this);
 		if(ref.hasClass('folder')) {
-			if(ref.find('i').text() == 'arrow_drop_down') {
+			if(ref.find('i').text() == 'arrow_drop_up') {
 				var params = [];
 				params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
 				$.ajax({
@@ -577,7 +577,7 @@ $(document).ready(function() {
 					statusCode: {
 						200: function(data_return, textStatus, jqXHR) {
 							if(data_return.subscriptions) {
-								ref.html('<i class="material-icons md-24">arrow_drop_up</i>');
+								ref.html('<i class="material-icons md-24">arrow_drop_down</i>');
 
 								ref.parent().find('ul').html('');
 								for(i in data_return.subscriptions) {
@@ -609,7 +609,7 @@ $(document).ready(function() {
 					url: ref.attr('href')
 				});
 			} else {
-				ref.html('<i class="material-icons md-24">arrow_drop_down</i>');
+				ref.html('<i class="material-icons md-24">arrow_drop_up</i>');
 
 				ref.parent().find('ul').html('');
 			}
@@ -704,6 +704,12 @@ $(document).ready(function() {
 	$('.items_mode').bind('click', function(event) {
 		event.preventDefault();
 		items_mode = $(this).attr('href');
+		if(items_mode == 'unread_only') {
+			$('#hdrbtn_mode').html('<i class="material-icons md-24">visibility_off</i>');
+		}
+		if(items_mode == 'read_and_unread') {
+			$('#hdrbtn_mode').html('<i class="material-icons md-24">visibility</i>');
+		}
 		$.cookie('items_mode', items_mode, { expires: 30, path: '/' });
 		load_items( $('.mdl-navigation').find('li.active').find('a.mdl-navigation__link').attr('href') );
 	});
@@ -714,8 +720,10 @@ $(document).ready(function() {
 		var href = $(this).attr('href');
 		if(href == 'collapse') {
 			items_collapse();
+			$('#hdrbtn_display').html('<i class="material-icons md-24">arrow_drop_up</i>');
 		} else if(href == 'expand') {
 			items_expand();
+			$('#hdrbtn_display').html('<i class="material-icons md-24">arrow_drop_down</i>');
 		}
 	});
 
