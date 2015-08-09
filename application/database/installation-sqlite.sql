@@ -172,6 +172,7 @@ INSERT INTO `settings` (`stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is
 ('facebook/enabled', 'boolean', '0', NULL, 1, 0, 0, datetime('now')),
 ('facebook/id', 'string', NULL, NULL, 1, 0, 0, datetime('now')),
 ('facebook/secret', 'string', NULL, NULL, 1, 0, 0, datetime('now')),
+('material-design/colors/meta/theme', 'varchar', '#009688', NULL, 1, 0, 0, datetime('now')),
 ('material-design/colors/text/card-title-highlight', 'varchar', 'white', NULL, 1, 0, 0, datetime('now')),
 ('material-design/colors/text/card-title', 'varchar', 'black', NULL, 1, 0, 0, datetime('now')),
 ('material-design/colors/text/card-actions', 'varchar', 'black', NULL, 1, 0, 0, datetime('now')),

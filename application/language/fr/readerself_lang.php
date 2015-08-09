@@ -202,6 +202,7 @@ $lang['stg_facebook/enabled'] = 'Facebook (application to retrieve pages as feed
 $lang['stg_facebook/id'] = 'Facebook / Id';
 $lang['stg_facebook/secret'] = 'Facebook / Secret';
 
+$lang['stg_material-design/colors/meta/theme'] = 'Meta theme color';
 $lang['stg_material-design/colors/text/card-title'] = 'Card title color';
 $lang['stg_material-design/colors/text/card-title-highlight'] = 'Card title highlight color';
 $lang['stg_material-design/colors/text/card-actions'] = 'Card actions color';

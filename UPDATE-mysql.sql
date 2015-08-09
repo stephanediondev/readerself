@@ -205,6 +205,7 @@ ALTER TABLE  `items` ADD  `auh_id` BIGINT UNSIGNED NULL AFTER  `fed_id` ;
 ALTER TABLE  `items` ADD INDEX (  `auh_id` ) ;
 
 INSERT INTO `settings` (`stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is_global`, `stg_is_member`, `stg_is_subscription`, `stg_datecreated`) VALUES
+('material-design/colors/meta/theme', 'varchar', '#009688', NULL, 1, 0, 0, NOW()),
 ('material-design/colors/text/button', 'varchar', 'white', NULL, 1, 0, 0, NOW()),
 ('material-design/colors/background/menu', 'varchar', 'white', NULL, 1, 0, 0, NOW()),
 ('material-design/colors/text/card-title-highlight', 'varchar', 'white', NULL, 1, 0, 0, NOW()),

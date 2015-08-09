@@ -83,6 +83,7 @@ COMMIT;
 CREATE INDEX "items_auh_id" ON "items" ("auh_id");
 
 INSERT INTO `settings` (`stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is_global`, `stg_is_member`, `stg_is_subscription`, `stg_datecreated`) VALUES
+('material-design/colors/meta/theme', 'varchar', '#009688', NULL, 1, 0, 0, datetime('now')),
 ('material-design/colors/text/button', 'varchar', 'white', NULL, 1, 0, 0, datetime('now')),
 ('material-design/colors/background/menu', 'varchar', 'white', NULL, 1, 0, 0, datetime('now')),
 ('material-design/colors/text/card-title-highlight', 'varchar', 'white', NULL, 1, 0, 0, datetime('now')),

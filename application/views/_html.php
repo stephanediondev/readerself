@@ -38,7 +38,7 @@
 <meta name="HandheldFriendly" content="true">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<!--<meta name="theme-color" content="#009688">-->
+<meta name="theme-color" content="<?php echo $this->config->item('material-design/colors/meta/theme'); ?>">
 <link rel="manifest" href="manifest.json">
 <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
