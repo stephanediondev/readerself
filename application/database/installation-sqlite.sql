@@ -218,5 +218,5 @@ CREATE TABLE IF NOT EXISTS `tags_items` (
   `tag_id` INTEGER NOT NULL,
   `itm_id` INTEGER NOT NULL,
   `tag_itm_datecreated` datetime NOT NULL);
-CREATE INDEX "tags_items_tag_id" ON "history" ("tag_id");
-CREATE INDEX "tags_items_itm_id" ON "history" ("itm_id");
+CREATE INDEX "tags_items_tag_id" ON "tags_items" ("tag_id");
+CREATE INDEX "tags_items_itm_id" ON "tags_items" ("itm_id");
