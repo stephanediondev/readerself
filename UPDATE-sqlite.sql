@@ -49,3 +49,35 @@ INSERT INTO `settings` (`stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is
 ('material-design/colors/background/button', 'varchar', 'pink', NULL, 1, 0, 0, datetime('now')),
 ('material-design/colors/background/card', 'varchar', 'white', NULL, 1, 0, 0, datetime('now')),
 ('material-design/colors/background/card-title', 'varchar', 'teal', NULL, 1, 0, 0, datetime('now'));
+
+#2015-08-09
+CREATE TABLE IF NOT EXISTS `authors` (
+  `auh_id` integer PRIMARY KEY AUTOINCREMENT,
+  `auh_title` varchar(255) NOT NULL,
+  `auh_datecreated` datetime NOT NULL);
+CREATE UNIQUE INDEX "authors_auh_title" ON "authors" ("auh_title");
+
+BEGIN;
+CREATE TABLE "adminer_items" (
+  "itm_id" integer NULL PRIMARY KEY AUTOINCREMENT,
+  "fed_id" integer NOT NULL,
+  "auh_id" integer NULL,
+  "itm_title" text NOT NULL,
+  "itm_link" text NOT NULL,
+  "itm_author" text NULL,
+  "itm_content" text NULL,
+  "itm_latitude" real NULL,
+  "itm_longitude" real NULL,
+  "itm_date" numeric NOT NULL,
+  "itm_deleted" integer NOT NULL DEFAULT '0',
+  "itm_datecreated" numeric NOT NULL
+);
+INSERT INTO "adminer_items" ("itm_id", "fed_id", "itm_title", "itm_link", "itm_author", "itm_content", "itm_latitude", "itm_longitude", "itm_date", "itm_deleted", "itm_datecreated") SELECT "itm_id", "fed_id", "itm_title", "itm_link", "itm_author", "itm_content", "itm_latitude", "itm_longitude", "itm_date", "itm_deleted", "itm_datecreated" FROM "items";
+DROP TABLE "items";
+ALTER TABLE "adminer_items" RENAME TO "items";
+CREATE INDEX "items_fed_id" ON "items" ("fed_id");
+CREATE INDEX "items_itm_link" ON "items" ("itm_link");
+CREATE INDEX "items_itm_date" ON "items" ("itm_date");
+COMMIT;
+
+CREATE INDEX "items_auh_id" ON "items" ("auh_id");

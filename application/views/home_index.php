@@ -15,6 +15,10 @@
 			<?php if($this->config->item('menu_geolocation_items')) { ?>
 				<li><a id="load-geolocation-items" class="mdl-navigation__link" href="<?php echo base_url(); ?>items/get/geolocation"><i class="material-icons md-18">place</i><?php echo $this->lang->line('geolocation_items'); ?> (<span>0</span>)</a></li>
 			<?php } ?>
+
+			<li><a id="load-cloud-authors-items" class="mdl-navigation__link" href="<?php echo base_url(); ?>items/get/cloud/authors"><i class="material-icons md-18">cloud</i><?php echo $this->lang->line('authors'); ?></a></li>
+			<li><a id="load-cloud-tags-items" class="mdl-navigation__link" href="<?php echo base_url(); ?>items/get/cloud/tags"><i class="material-icons md-18">cloud</i><?php echo $this->lang->line('tags'); ?></a></li>
+
 			<?php if($this->config->item('folders')) { ?>
 				<?php if($folders) { ?>
 					<?php foreach($folders as $folder) { ?>

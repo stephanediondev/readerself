@@ -153,9 +153,10 @@ class Feeds extends CI_Controller {
 				$data['tables'] .= build_table_repartition($this->lang->line('items_posted_by_tag').'*', $values, $legend);
 			}
 
+			$this->readerself_library->clean_authors('feed', $data['fed']->fed_id);
 			$legend = array();
 			$values = array();
-			$query = $this->db->query('SELECT itm.itm_author AS ref, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE itm.itm_author IS NOT NULL AND itm.itm_date >= ? AND fed.fed_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,30', array($date_ref, $fed_id));
+			$query = $this->db->query('SELECT auh.auh_title AS ref, COUNT(DISTINCT(itm.itm_id)) AS nb FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('authors').' AS auh ON auh.auh_id = itm.auh_id WHERE itm.auh_id IS NOT NULL AND itm.itm_date >= ? AND fed.fed_id = ? GROUP BY ref ORDER BY nb DESC LIMIT 0,30', array($date_ref, $fed_id));
 			if($query->num_rows() > 0) {
 				foreach($query->result() as $row) {
 					$legend[] = $row->ref;

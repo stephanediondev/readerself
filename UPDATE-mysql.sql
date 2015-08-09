@@ -191,3 +191,15 @@ INSERT INTO `settings` (`stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is
 ('material-design/colors/background/button', 'varchar', 'pink', NULL, 1, 0, 0, NOW()),
 ('material-design/colors/background/card', 'varchar', 'white', NULL, 1, 0, 0, NOW()),
 ('material-design/colors/background/card-title', 'varchar', 'teal', NULL, 1, 0, 0, NOW());
+
+#2015-08-09
+CREATE TABLE IF NOT EXISTS `authors` (
+  `auh_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `auh_title` varchar(255) NOT NULL,
+  `auh_datecreated` datetime NOT NULL,
+  PRIMARY KEY (`auh_id`),
+  UNIQUE KEY `auh_title` (`auh_title`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+ALTER TABLE  `items` ADD  `auh_id` BIGINT UNSIGNED NULL AFTER  `fed_id` ;
+ALTER TABLE  `items` ADD INDEX (  `auh_id` ) ;

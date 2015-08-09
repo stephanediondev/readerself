@@ -14,8 +14,8 @@
 					<a class="mdl-navigation__link folder" href="#load-folder-<?php echo $itm->sub->flr_id; ?>-items"><i class="material-icons md-16">folder</i><?php echo $itm->sub->flr_title; ?></a>
 				<?php } ?>
 			<?php } ?>
-			<?php if($itm->itm_author) { ?>
-				<a class="mdl-navigation__link author" data-itm_id="<?php echo $itm->itm_id; ?>" href="<?php echo base_url(); ?>items/get/author/<?php echo $itm->itm_id; ?>"><i class="material-icons md-16">person</i><?php echo $itm->itm_author; ?></a>
+			<?php if($itm->auh) { ?>
+				<a class="mdl-navigation__link author" data-auh_id="<?php echo $itm->auh->auh_id; ?>" href="<?php echo base_url(); ?>items/get/author/<?php echo $itm->auh->auh_id; ?>"><i class="material-icons md-16">person</i><?php echo $itm->auh->auh_title; ?></a>
 			<?php } ?>
 			<?php if($this->config->item('tags') && $itm->categories) { ?>
 				<?php echo implode('', $itm->categories); ?>

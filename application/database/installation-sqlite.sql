@@ -1,3 +1,9 @@
+CREATE TABLE IF NOT EXISTS `authors` (
+  `auh_id` integer PRIMARY KEY AUTOINCREMENT,
+  `auh_title` varchar(255) NOT NULL,
+  `auh_datecreated` datetime NOT NULL);
+CREATE UNIQUE INDEX "authors_auh_title" ON "authors" ("auh_title");
+
 CREATE TABLE IF NOT EXISTS `categories` (
   `cat_id` integer PRIMARY KEY AUTOINCREMENT,
   `itm_id` INTEGER NOT NULL,
@@ -94,6 +100,7 @@ CREATE INDEX "history_hst_real" ON "history" ("hst_real");
 CREATE TABLE IF NOT EXISTS `items` (
   `itm_id` integer PRIMARY KEY AUTOINCREMENT,
   `fed_id` INTEGER NOT NULL,
+  `auh_id` INTEGER DEFAULT NULL,
   `itm_title` varchar(255) NOT NULL,
   `itm_link` varchar(255) NOT NULL,
   `itm_author` varchar(255) DEFAULT NULL,
@@ -104,6 +111,7 @@ CREATE TABLE IF NOT EXISTS `items` (
   `itm_deleted` INTEGER NOT NULL DEFAULT '0',
   `itm_datecreated` datetime NOT NULL);
 CREATE INDEX "items_fed_id" ON "items" ("fed_id");
+CREATE INDEX "items_auh_id" ON "items" ("auh_id");
 CREATE INDEX "items_itm_link" ON "items" ("itm_link");
 CREATE INDEX "items_itm_date" ON "items" ("itm_date");
 

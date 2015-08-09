@@ -83,9 +83,9 @@ class Refresh extends CI_Controller {
 			}
 
 			if($this->axipi_session->userdata('items-mode') == 'author') {
-				$query = $this->db->query('SELECT itm.itm_author FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id', array($this->axipi_session->userdata('items-id')));
+				$query = $this->db->query('SELECT itm.auh_id FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.auh_id = ? GROUP BY itm.itm_id', array($this->axipi_session->userdata('items-id')));
 				if($query->num_rows() > 0) {
-					$is_author = $query->row()->itm_author;
+					$is_author = $query->row()->auh_id;
 					$content['count']['author'] = $this->readerself_model->count_unread('author', $is_author);
 				}
 			}

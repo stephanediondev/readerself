@@ -54,9 +54,10 @@ class Items extends CI_Controller {
 
 		$is_author = FALSE;
 		if($mode == 'author') {
-			$query = $this->db->query('SELECT itm.itm_author FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id', array($id));
+			$query = $this->db->query('SELECT auh.* FROM '.$this->db->dbprefix('authors').' AS auh WHERE auh.auh_id = ? GROUP BY auh.auh_id', array($id));
 			if($query->num_rows() > 0) {
-				$is_author = $query->row()->itm_author;
+				$is_author = $query->row();
+				$this->readerself_library->clean_authors('title', $is_author->auh_title);
 			}
 		}
 
@@ -96,14 +97,11 @@ class Items extends CI_Controller {
 				$date_ref = date('Y-m-d H:i:s', time() - 3600 * 24 * 30);
 
 				if($id == 'tags') {
-					$introduction_title = '<i class="icon icon-tags"></i>'.$this->lang->line('tags').'*';
+					$introduction_title = '<i class="material-icons md-18">cloud</i>'.$this->lang->line('tags').'*';
 				}
 				if($id == 'authors') {
-					$introduction_title = '<i class="icon icon-pencil"></i>'.$this->lang->line('authors').'*';
+					$introduction_title = '<i class="material-icons md-18">cloud</i>'.$this->lang->line('authors').'*';
 				}
-				$content['end'] = '<article class="title">';
-				$content['end'] .= '<p>*'.$this->lang->line('last_30_days').'</p>';
-				$content['end'] .= '</article>';
 
 				$items = array();
 
@@ -113,7 +111,9 @@ class Items extends CI_Controller {
 					$query = $this->db->query('SELECT LOWER(cat.cat_title) AS ref, cat.cat_id AS id, COUNT(DISTINCT(itm.itm_id)) AS count FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('categories').' AS cat ON cat.itm_id = itm.itm_id WHERE cat.cat_id IS NOT NULL AND itm.itm_date >= ? AND sub.mbr_id = ? GROUP BY ref ORDER BY count DESC LIMIT 0,100', array($date_ref, $this->member->mbr_id));
 				}
 				if($id == 'authors') {
-					$query = $this->db->query('SELECT LOWER(itm.itm_author) AS ref, itm.itm_id AS id, COUNT(DISTINCT(itm.itm_id)) AS count FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id WHERE itm.itm_author IS NOT NULL AND itm.itm_datecreated >= ? AND sub.mbr_id = ? GROUP BY ref ORDER BY count DESC LIMIT 0,100', array($date_ref, $this->member->mbr_id));
+					$this->readerself_library->clean_authors('date', $date_ref);
+
+					$query = $this->db->query('SELECT LOWER(auh.auh_title) AS ref, itm.auh_id AS id, COUNT(DISTINCT(itm.itm_id)) AS count FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('authors').' AS auh ON auh.auh_id = itm.auh_id WHERE itm.auh_id IS NOT NULL AND itm.itm_datecreated >= ? AND sub.mbr_id = ? GROUP BY ref ORDER BY count DESC LIMIT 0,100', array($date_ref, $this->member->mbr_id));
 				}
 				if($query->num_rows() > 0) {
 					if($id == 'tags') {
@@ -132,19 +132,20 @@ class Items extends CI_Controller {
 						}
 					}
 					ksort($items);
-					$content['cloud'] = '<article id="cloud"><p>';
+					$content['cloud'] = '<div class="mdl-card mdl-color--'.$this->config->item('material-design/colors/background/card').' mdl-cell mdl-cell--12-col" id="cloud">';
+					$content['cloud'] .= '<div class="mdl-card__supporting-text mdl-color-text--'.$this->config->item('material-design/colors/text/content').'"><p>';
 					foreach($items as $k => $v) {
 						$percent = ($v['count'] * 100) / $max;
 						$percent = $percent - ($percent % 10);
 						$percent = intval($percent) + 100;
 						if($id == 'tags') {
-							$content['cloud'] .= '<a class="category" data-cat_id="'.$v['id'].'" href="'.base_url().'items/get/category/'.$v['id'].'" style="font-size:'.$percent.'%;">'.$k.'</a> ';
+							$content['cloud'] .= '<a class="category mdl-color-text--'.$this->config->item('material-design/colors/text/link').'" data-cat_id="'.$v['id'].'" href="'.base_url().'items/get/category/'.$v['id'].'" style="font-size:'.$percent.'%;">'.$k.'</a> ';
 						}
 						if($id == 'authors') {
-							$content['cloud'] .= '<a class="author" data-itm_id="'.$v['id'].'" href="'.base_url().'items/get/author/'.$v['id'].'" style="font-size:'.$percent.'%;">'.$k.'</a> ';
+							$content['cloud'] .= '<a class="author mdl-color-text--'.$this->config->item('material-design/colors/text/link').'" data-auh_id="'.$v['id'].'" href="'.base_url().'items/get/author/'.$v['id'].'" style="font-size:'.$percent.'%;">'.$k.'</a> ';
 						}
 					}
-					$content['cloud'] .= '</p></article>';
+					$content['cloud'] .= '</p><p>*'.$this->lang->line('last_30_days').'</p></div></div>';
 				} else {
 					$content['cloud'] = '';
 				}
@@ -279,13 +280,13 @@ class Items extends CI_Controller {
 				}
 
 				if($is_author) {
-					$introduction_title = '<i class="icon icon-pencil"></i>'.$is_author.' (<span id="intro-load-author-items">0</span>)';
-					$where[] = 'itm.itm_author = ?';
-					$bindings[] = $is_author;
+					$introduction_title = '<i class="material-icons md-18">person</i>'.$is_author->auh_title.' (<span id="intro-load-author-items">0</span>)';
+					$where[] = 'itm.auh_id = ?';
+					$bindings[] = $is_author->auh_id;
 				}
 
 				if($is_category) {
-					$introduction_title = '<i class="icon icon-tag"></i>'.$is_category.' (<span id="intro-load-category-items">0</span>)';
+					$introduction_title = '<i class="material-icons md-18">label</i>'.$is_category.' (<span id="intro-load-category-items">0</span>)';
 					$where[] = 'itm.itm_id IN ( SELECT cat.itm_id FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.cat_title = ? )';
 					$bindings[] = $is_category;
 				}
@@ -336,6 +337,20 @@ class Items extends CI_Controller {
 				if($query->num_rows() > 0) {
 					$u = 0;
 					foreach($query->result() as $itm) {
+						if($itm->itm_author && !$itm->auh_id) {
+							$itm->auh_id = $this->readerself_library->convert_author_title($itm->itm_author);
+							$this->db->set('auh_id', $itm->auh_id);
+							$this->db->set('itm_author', '');
+							$this->db->where('itm_id', $itm->itm_id);
+							$this->db->update('items');
+						}
+						if($itm->auh_id) {
+							$sql = 'SELECT auh.* FROM '.$this->db->dbprefix('authors').' AS auh WHERE auh.auh_id = ? GROUP BY auh.auh_id';
+							$itm->auh = $this->db->query($sql, array($itm->auh_id))->row();
+						} else {
+							$itm->auh = false;
+						}
+
 						$sql = 'SELECT fed.fed_host, sub.sub_id, sub.sub_priority AS priority, sub.sub_title, fed.fed_title, sub.sub_direction, fed.fed_direction, flr.flr_id, flr.flr_title, flr.flr_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
 						$itm->case_member = 'you';
 						if($is_member) {

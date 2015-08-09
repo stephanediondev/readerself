@@ -1,3 +1,11 @@
+CREATE TABLE IF NOT EXISTS `authors` (
+  `auh_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `auh_title` varchar(255) NOT NULL,
+  `auh_datecreated` datetime NOT NULL,
+  PRIMARY KEY (`auh_id`),
+  UNIQUE KEY `auh_title` (`auh_title`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `categories` (
   `cat_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `itm_id` bigint(20) unsigned NOT NULL,
@@ -114,6 +122,7 @@ CREATE TABLE IF NOT EXISTS `history` (
 CREATE TABLE IF NOT EXISTS `items` (
   `itm_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `fed_id` bigint(20) unsigned NOT NULL,
+  `auh_id` bigint(20) unsigned DEFAULT NULL,
   `itm_title` varchar(255) NOT NULL,
   `itm_link` varchar(255) NOT NULL,
   `itm_author` varchar(255) DEFAULT NULL,
@@ -125,6 +134,7 @@ CREATE TABLE IF NOT EXISTS `items` (
   `itm_datecreated` datetime NOT NULL,
   PRIMARY KEY (`itm_id`),
   KEY `fed_id` (`fed_id`),
+  KEY `auh_id` (`auh_id`),
   KEY `itm_link` (`itm_link`),
   KEY `itm_date` (`itm_date`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;

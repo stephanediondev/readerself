@@ -647,7 +647,7 @@ $(document).ready(function() {
 		$('.mdl-navigation > ul').find('.result').remove();
 		var title = ref.find('i').remove();
 		title = ref.text();
-		var content = '<li class="result active"><a id="load-author-items" class="mdl-navigation__link" href="' + base_url + 'items/get/author/' + ref.data('itm_id') + '"><i class="material-icons md-18">person</i>' + title + ' (<span>0</span>)</a></li>';
+		var content = '<li class="result active"><a id="load-author-items" class="mdl-navigation__link" href="' + base_url + 'items/get/author/' + ref.data('auh_id') + '"><i class="material-icons md-18">person</i>' + title + ' (<span>0</span>)</a></li>';
 		$('.mdl-navigation > ul').append(content);
 
 		load_items(ref.attr('href'));

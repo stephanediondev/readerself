@@ -213,6 +213,54 @@ class Readerself_library {
 		$this->CI->pagination->initialize($config);
 		return array('output'=>$this->CI->pagination->create_links(), 'start'=>$start, 'limit'=>$config['per_page'], 'position'=>$position);
 	}
+	function convert_author_title($auh_title) {
+		$auh_id = false;
+		$author_exists = $this->CI->db->query('SELECT auh.* FROM '.$this->CI->db->dbprefix('authors').' AS auh WHERE auh.auh_title = ? GROUP BY auh.auh_id', array($auh_title))->row();
+		if($author_exists) {
+			$auh_id = $author_exists->auh_id;
+		} else {
+			if($auh_title != '') {
+				$this->CI->db->set('auh_title', $auh_title);
+				$this->CI->db->set('auh_datecreated', date('Y-m-d H:i:s'));
+				$this->CI->db->insert('authors');
+				$auh_id = $this->CI->db->insert_id();
+			}
+		}
+		return $auh_id;
+	}
+	function clean_authors($type, $value) {
+		if($type == 'date') {
+			$query = $this->CI->db->query('SELECT itm.itm_id, itm.itm_author FROM '.$this->CI->db->dbprefix('items').' AS itm WHERE itm.itm_author IS NOT NULL AND itm.auh_id IS NULL AND itm.itm_datecreated >= ?', array($value));
+		}
+		if($type == 'title') {
+			$query = $this->CI->db->query('SELECT itm.itm_id, itm.itm_author FROM '.$this->CI->db->dbprefix('items').' AS itm WHERE itm.itm_author IS NOT NULL AND itm.auh_id IS NULL AND itm.itm_author = ?', array($value));
+		}
+		if($type == 'feed') {
+			$query = $this->CI->db->query('SELECT itm.itm_id, itm.itm_author FROM '.$this->CI->db->dbprefix('items').' AS itm WHERE itm.itm_author IS NOT NULL AND itm.auh_id IS NULL AND itm.fed_id = ?', array($value));
+		}
+		if($query->num_rows() > 0) {
+			foreach($query->result() as $row) {
+				$auh_id = false;
+				$author_exists = $this->CI->db->query('SELECT auh.* FROM '.$this->CI->db->dbprefix('authors').' AS auh WHERE auh.auh_title = ? GROUP BY auh.auh_id', array($row->itm_author))->row();
+				if($author_exists) {
+					$auh_id = $author_exists->auh_id;
+				} else {
+					if($row->itm_author != '') {
+						$this->CI->db->set('auh_title', $row->itm_author);
+						$this->CI->db->set('auh_datecreated', date('Y-m-d H:i:s'));
+						$this->CI->db->insert('authors');
+						$auh_id = $this->CI->db->insert_id();
+					}
+				}
+				if($auh_id) {
+					$this->CI->db->set('auh_id', $auh_id);
+					$this->CI->db->set('itm_author', '');
+					$this->CI->db->where('itm_id', $row->itm_id);
+					$this->CI->db->update('items');
+				}
+			}
+		}
+	}
 	function crawl_items($fed_id, $items) {
 		foreach($items as $sp_item) {
 			if(!$sp_item->get_link()) {
@@ -220,6 +268,12 @@ class Readerself_library {
 			}
 			$count = $this->CI->db->query('SELECT COUNT(DISTINCT(itm.itm_id)) AS count FROM '.$this->CI->db->dbprefix('items').' AS itm WHERE itm.itm_link = ? OR itm.itm_link = ?', array($sp_item->get_link(), str_replace('&amp;', '&', $sp_item->get_link())))->row()->count;
 			if($count == 0) {
+
+				$auh_id = false;
+				if($author = $sp_item->get_author()) {
+					$auh_id = $this->CI->readerself_library->convert_author_title($author->get_name());
+				}
+
 				$this->CI->db->set('fed_id', $fed_id);
 
 				if($sp_item->get_title()) {
@@ -228,8 +282,8 @@ class Readerself_library {
 					$this->CI->db->set('itm_title', '-');
 				}
 
-				if($author = $sp_item->get_author()) {
-					$this->CI->db->set('itm_author', $author->get_name());
+				if($auh_id) {
+					$this->CI->db->set('auh_id', $auh_id);
 				}
 
 				$this->CI->db->set('itm_link', str_replace('&amp;', '&', $sp_item->get_link()));
