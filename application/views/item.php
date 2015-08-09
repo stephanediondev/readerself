@@ -1,21 +1,21 @@
 <div<?php if($itm->sub->sub_direction) { ?> dir="<?php echo $itm->sub->sub_direction; ?>"<?php } ?> class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col item<?php if($itm->history == 'read') { ?> read<?php } ?><?php if($this->input->get('items_display') == 'collapse' || $this->input->cookie('items_display') == 'collapse') { ?> collapse<?php } else { ?> expand<?php } ?>" id="item_<?php echo $itm->itm_id; ?>">
-	<div class="mdl-card__title">
+	<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
 		<h1 class="mdl-card__title-text">
 			<a target="_blank" class="title_link favicon mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>"<?php if($itm->sub->fed_host) { ?> style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $itm->sub->fed_host; ?>&amp;alt=feed);"<?php } ?> href="<?php echo $itm->itm_link; ?>"><?php echo $itm->itm_title; ?></a>
 			<a class="expand mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>item/expand/<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_o'); ?>"><i class="material-icons md-24">arrow_drop_up</i></a>
 			<a class="collapse mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="#item_<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_o'); ?>"><i class="material-icons md-24">arrow_drop_down</i></a>
 		</h1>
 		<div class="mdl-card__title-infos">
-			<span class="mdl-navigation__link"><i class="material-icons md-16">access_time</i><span class="timeago" title="<?php echo $itm->itm_date; ?>"></span></span>
-			<a class="mdl-navigation__link from" data-fed_id="<?php echo $itm->fed_id; ?>" data-fed_host="<?php echo $itm->sub->fed_host; ?>" data-direction="<?php echo $itm->sub->sub_direction; ?>" data-priority="<?php echo $itm->sub->priority; ?>" href="<?php echo base_url(); ?>items/get/feed/<?php echo $itm->fed_id; ?>"><i class="material-icons md-16">bookmark</i><?php if($itm->sub->sub_title) { ?><?php echo $itm->sub->sub_title; ?><?php } else { ?><?php echo $itm->sub->fed_title; ?><?php } ?></a>
+			<span class="mdl-navigation__link mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>"><i class="material-icons md-16">access_time</i><span class="timeago" title="<?php echo $itm->itm_date; ?>"></span></span>
+			<a class="mdl-navigation__link mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?> from" data-fed_id="<?php echo $itm->fed_id; ?>" data-fed_host="<?php echo $itm->sub->fed_host; ?>" data-direction="<?php echo $itm->sub->sub_direction; ?>" data-priority="<?php echo $itm->sub->priority; ?>" href="<?php echo base_url(); ?>items/get/feed/<?php echo $itm->fed_id; ?>"><i class="material-icons md-16">bookmark</i><?php if($itm->sub->sub_title) { ?><?php echo $itm->sub->sub_title; ?><?php } else { ?><?php echo $itm->sub->fed_title; ?><?php } ?></a>
 
 			<?php if($this->config->item('folders')) { ?>
 				<?php if($itm->sub->flr_id) { ?>
-					<a class="mdl-navigation__link folder" href="#load-folder-<?php echo $itm->sub->flr_id; ?>-items"><i class="material-icons md-16">folder</i><?php echo $itm->sub->flr_title; ?></a>
+					<a class="mdl-navigation__link mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?> folder" href="#load-folder-<?php echo $itm->sub->flr_id; ?>-items"><i class="material-icons md-16">folder</i><?php echo $itm->sub->flr_title; ?></a>
 				<?php } ?>
 			<?php } ?>
 			<?php if($itm->auh) { ?>
-				<a class="mdl-navigation__link author" data-auh_id="<?php echo $itm->auh->auh_id; ?>" href="<?php echo base_url(); ?>items/get/author/<?php echo $itm->auh->auh_id; ?>"><i class="material-icons md-16">person</i><?php echo $itm->auh->auh_title; ?></a>
+				<a class="mdl-navigation__link mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?> author" data-auh_id="<?php echo $itm->auh->auh_id; ?>" href="<?php echo base_url(); ?>items/get/author/<?php echo $itm->auh->auh_id; ?>"><i class="material-icons md-16">person</i><?php echo $itm->auh->auh_title; ?></a>
 			<?php } ?>
 			<?php if($this->config->item('tags') && $itm->categories) { ?>
 				<?php echo implode('', $itm->categories); ?>

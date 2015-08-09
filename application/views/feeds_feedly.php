@@ -10,7 +10,7 @@
 				<?php echo form_dropdown($this->router->class.'_feeds_feedly_language', $sources, set_value($this->router->class.'_feeds_feedly_language', $this->axipi_session->userdata($this->router->class.'_feeds_feedly_language')), 'id="feeds_feedly_language" class="select numeric"'); ?>
 				</p>
 				<p>
-				<button type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--<?php echo $this->config->item('material-design/colors/background/button'); ?> mdl-color-text--white">
+				<button type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--<?php echo $this->config->item('material-design/colors/background/button'); ?> mdl-color-text--<?php echo $this->config->item('material-design/colors/text/button'); ?>">
 					<i class="material-icons md-24">search</i>
 				</button>
 				</p>
@@ -23,7 +23,7 @@
 <main class="mdl-layout__content mdl-color--<?php echo $this->config->item('material-design/colors/background/layout'); ?>">
 	<div class="mdl-grid">
 		<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
-			<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?> mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
+			<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title-highlight'); ?> mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title-highlight'); ?>">
 				<h1 class="mdl-card__title-text"><i class="material-icons md-18">bookmark_border</i><?php echo $this->lang->line('feeds'); ?></h1>
 			</div>
 			<div class="mdl-card__actions mdl-card--border mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-actions'); ?>">
@@ -34,7 +34,7 @@
 		<?php if($feeds) { ?>
 			<?php foreach($feeds as $cat) { ?>
 				<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
-					<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?> mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
+					<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title-highlight'); ?> mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title-highlight'); ?>">
 						<h1 class="mdl-card__title-text"><?php echo $cat->label; ?> (<?php echo count($cat->subscriptions); ?>)</h1>
 					</div>
 				</div>
@@ -45,7 +45,7 @@
 						<?php $parse_url = parse_url($fed->id); ?>
 	
 						<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--3-col">
-							<div class="mdl-card__title">
+							<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
 								<h1 class="mdl-card__title-text favicon"<?php if(isset($parse_url['host']) == 1) { ?> style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $parse_url['host']; ?>&amp;alt=feed);"<?php } ?>><?php echo $fed->title; ?></h1>
 								<div class="mdl-card__title-infos">
 									<span class="mdl-navigation__link"><i class="material-icons md-16">people</i><?php echo $fed->subscribers; ?></span>

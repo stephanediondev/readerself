@@ -111,14 +111,14 @@ class Refresh extends CI_Controller {
 				if($lastcrawl) {
 					$lastcrawl->crr_datecreated = $this->readerself_library->timezone_datetime($lastcrawl->crr_datecreated);
 					list($date, $time) = explode(' ', $lastcrawl->crr_datecreated);
-					$content['last_crawl'] = '<div class="mdl-card__title">';
-					$content['last_crawl'] .= '<h1 class="mdl-card__title-text"><i class="icon icon-truck"></i>'.$this->lang->line('last_crawl').'</h1>';
+					$content['last_crawl'] = '<div class="mdl-card__title mdl-color-text--'.$this->config->item('material-design/colors/text/card-title').'">';
+					$content['last_crawl'] .= '<h1 class="mdl-card__title-text">'.$this->lang->line('last_crawl').'</h1>';
 					$content['last_crawl'] .= '<div class="mdl-card__title-infos">';
-					$content['last_crawl'] .= '<span class="mdl-navigation__link"><i class="material-icons md-16">access_time</i><span class="timeago" title="'.$lastcrawl->crr_datecreated.'"></span></span>';
-					$content['last_crawl'] .= '<span class="mdl-navigation__link"><i class="material-icons md-16">bookmark</i>'.intval($lastcrawl->crr_feeds).' '.mb_strtolower($this->lang->line('feeds')).'</span>';
-					$content['last_crawl'] .= '<span class="mdl-navigation__link"><i class="material-icons md-16">warning</i>'.intval($lastcrawl->crr_errors).' error(s)</span>';
-					$content['last_crawl'] .= '<span class="mdl-navigation__link"><i class="material-icons md-16">timer</i>'.intval($lastcrawl->crr_time).' secondes</span>';
-					$content['last_crawl'] .= '<span class="mdl-navigation__link"><i class="material-icons md-16">memory</i>'.number_format($lastcrawl->crr_memory, 0, '.', ' ').' bytes</span>';
+					$content['last_crawl'] .= '<span class="mdl-navigation__link mdl-color-text--'.$this->config->item('material-design/colors/text/card-title').'"><i class="material-icons md-16">access_time</i><span class="timeago" title="'.$lastcrawl->crr_datecreated.'"></span></span>';
+					$content['last_crawl'] .= '<span class="mdl-navigation__link mdl-color-text--'.$this->config->item('material-design/colors/text/card-title').'"><i class="material-icons md-16">bookmark</i>'.intval($lastcrawl->crr_feeds).' '.mb_strtolower($this->lang->line('feeds')).'</span>';
+					$content['last_crawl'] .= '<span class="mdl-navigation__link mdl-color-text--'.$this->config->item('material-design/colors/text/card-title').'"><i class="material-icons md-16">warning</i>'.intval($lastcrawl->crr_errors).' error(s)</span>';
+					$content['last_crawl'] .= '<span class="mdl-navigation__link mdl-color-text--'.$this->config->item('material-design/colors/text/card-title').'"><i class="material-icons md-16">timer</i>'.intval($lastcrawl->crr_time).' secondes</span>';
+					$content['last_crawl'] .= '<span class="mdl-navigation__link mdl-color-text--'.$this->config->item('material-design/colors/text/card-title').'"><i class="material-icons md-16">memory</i>'.number_format($lastcrawl->crr_memory, 0, '.', ' ').' bytes</span>';
 					$content['last_crawl'] .= '</div>';
 					$content['last_crawl'] .= '</div>';
 				} else {

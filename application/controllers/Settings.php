@@ -10,7 +10,8 @@ class Settings extends CI_Controller {
 		}
 
 		$data = array();
-		$data['settings'] = $this->readerself_model->get_settings_global();
+		$data['settings'] = $this->readerself_model->get_settings_not_material();
+		$data['settings_material'] = $this->readerself_model->get_settings_material();
 
 		$this->load->library(array('form_validation'));
 
@@ -34,6 +35,11 @@ class Settings extends CI_Controller {
 		} else {
 			if($this->member->mbr_administrator == 1) {
 				foreach($data['settings'] as $stg) {
+					$this->db->set('stg_value', $this->input->post($stg->stg_code));
+					$this->db->where('stg_id', $stg->stg_id);
+					$this->db->update('settings');
+				}
+				foreach($data['settings_material'] as $stg) {
 					$this->db->set('stg_value', $this->input->post($stg->stg_code));
 					$this->db->where('stg_id', $stg->stg_id);
 					$this->db->update('settings');

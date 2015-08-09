@@ -305,6 +305,14 @@ class Readerself_model extends CI_Model {
 		$query = $this->db->query('SELECT stg.* FROM '.$this->db->dbprefix('settings').' AS stg WHERE stg.stg_is_global = ? GROUP BY stg.stg_id ORDER BY stg.stg_code ASC', array(1));
 		return $query->result();
 	}
+	function get_settings_not_material() {
+		$query = $this->db->query('SELECT stg.* FROM '.$this->db->dbprefix('settings').' AS stg WHERE stg.stg_is_global = ? AND stg.stg_code NOT LIKE ? GROUP BY stg.stg_id ORDER BY stg.stg_code ASC', array(1, 'material-design/colors/%'));
+		return $query->result();
+	}
+	function get_settings_material() {
+		$query = $this->db->query('SELECT stg.* FROM '.$this->db->dbprefix('settings').' AS stg WHERE stg.stg_is_global = ? AND stg.stg_code LIKE ? GROUP BY stg.stg_id ORDER BY stg.stg_code ASC', array(1, 'material-design/colors/%'));
+		return $query->result();
+	}
 	function count_unread($type, $id = false) {
 		if($type == 'all') {
 			$where = array();

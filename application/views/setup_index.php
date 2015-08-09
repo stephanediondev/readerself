@@ -3,13 +3,13 @@
 <main class="mdl-layout__content mdl-color--<?php echo $this->config->item('material-design/colors/background/layout'); ?>">
 	<div class="mdl-grid">
 		<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
-			<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?> mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title'); ?>">
+			<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title-highlight'); ?> mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title-highlight'); ?>">
 				<h1 class="mdl-card__title-text"><i class="material-icons md-18">settings</i><?php echo $this->lang->line('setup'); ?></h1>
 			</div>
 		</div>
 
 		<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--3-col">
-			<div class="mdl-card__title">
+			<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
 				<h1 class="mdl-card__title-text">PHP <?php echo phpversion(); ?></h1>
 			</div>
 			<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
@@ -23,7 +23,7 @@
 		</div>
 
 		<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--3-col">
-			<div class="mdl-card__title">
+			<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
 				<h1 class="mdl-card__title-text">/application/config/readerself_config.php</h1>
 			</div>
 			<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
@@ -41,7 +41,7 @@
 
 		<?php if($this->db->dbdriver == 'pdo') { ?>
 			<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--3-col">
-				<div class="mdl-card__title">
+				<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
 					<h1 class="mdl-card__title-text">/application/database/readerself.sqlite</h1>
 				</div>
 				<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
@@ -55,7 +55,7 @@
 			</div>
 
 			<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--3-col">
-				<div class="mdl-card__title">
+				<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
 					<h1 class="mdl-card__title-text">/application/database/installation-sqlite.sql</h1>
 				</div>
 				<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
@@ -71,7 +71,7 @@
 
 		<?php if($this->db->dbdriver == 'mysqli') { ?>
 			<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--3-col">
-				<div class="mdl-card__title">
+				<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
 					<h1 class="mdl-card__title-text">/application/database/installation-mysql.sql</h1>
 				</div>
 				<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
@@ -86,7 +86,7 @@
 		<?php } ?>
 
 		<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--3-col">
-			<div class="mdl-card__title">
+			<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
 				<h1 class="mdl-card__title-text">/application/config/database.php</h1>
 			</div>
 			<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
@@ -140,7 +140,7 @@
 					</p>
 
 					<p>
-					<button type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--<?php echo $this->config->item('material-design/colors/background/button'); ?> mdl-color-text--white">
+					<button type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--<?php echo $this->config->item('material-design/colors/background/button'); ?> mdl-color-text--<?php echo $this->config->item('material-design/colors/text/button'); ?>">
 						<i class="material-icons md-24">done</i>
 					</button>
 					</p>
