@@ -334,11 +334,13 @@ function item_collapse(ref) {
 }
 function items_collapse() {
 	items_display = 'collapse';
+	$('#hdrbtn_display').html('<i class="material-icons md-24">arrow_drop_up</i>');
 	$.cookie('items_display', items_display, { expires: 30, path: '/' });
 	load_items( $('.mdl-navigation').find('li.active').find('a.mdl-navigation__link').attr('href') );
 }
 function items_expand() {
 	items_display = 'expand';
+	$('#hdrbtn_display').html('<i class="material-icons md-24">arrow_drop_down</i>');
 	$.cookie('items_display', items_display, { expires: 30, path: '/' });
 	load_items( $('.mdl-navigation').find('li.active').find('a.mdl-navigation__link').attr('href') );
 }
@@ -403,8 +405,7 @@ $(document).ready(function() {
 			} else if(event.shiftKey && keycode == 49) {
 				event.preventDefault();
 				if(items_mode == 'unread_only') {
-					$('.items_mode').find('.read_and_unread').hide();
-					$('.items_mode').find('.unread_only').show();
+					$('#hdrbtn_mode').html('<i class="material-icons md-24">visibility</i>');
 					items_mode = 'read_and_unread';
 					$.cookie('items_mode', items_mode, { expires: 30, path: '/' });
 					load_items( $('.mdl-navigation').find('li.active').find('a.mdl-navigation__link').attr('href') );
@@ -414,8 +415,7 @@ $(document).ready(function() {
 			} else if(event.shiftKey && keycode == 50) {
 				event.preventDefault();
 				if(items_mode == 'read_and_unread') {
-					$('.items_mode').find('.unread_only').hide();
-					$('.items_mode').find('.read_and_unread').show();
+					$('#hdrbtn_mode').html('<i class="material-icons md-24">visibility_off</i>');
 					items_mode = 'unread_only';
 					$.cookie('items_mode', items_mode, { expires: 30, path: '/' });
 					load_items( $('.mdl-navigation').find('li.active').find('a.mdl-navigation__link').attr('href') );
@@ -429,7 +429,6 @@ $(document).ready(function() {
 			//1
 			} else if(keycode == 49) {
 				event.preventDefault();
-				var ref = $('.items_display');
 				if(items_display == 'expand') {
 					items_collapse();
 				}
@@ -437,7 +436,6 @@ $(document).ready(function() {
 			//2
 			} else if(keycode == 50) {
 				event.preventDefault();
-				var ref = $('.items_display');
 				if(items_display == 'collapse') {
 					items_expand();
 				}
@@ -720,10 +718,8 @@ $(document).ready(function() {
 		var href = $(this).attr('href');
 		if(href == 'collapse') {
 			items_collapse();
-			$('#hdrbtn_display').html('<i class="material-icons md-24">arrow_drop_up</i>');
 		} else if(href == 'expand') {
 			items_expand();
-			$('#hdrbtn_display').html('<i class="material-icons md-24">arrow_drop_down</i>');
 		}
 	});
 
