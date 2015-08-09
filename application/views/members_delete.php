@@ -2,7 +2,7 @@
 
 <main class="mdl-layout__content mdl-color--<?php echo $this->config->item('material-design/colors/background/layout'); ?>">
 	<div class="mdl-grid">
-		<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
+		<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
 			<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title-highlight'); ?> mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title-highlight'); ?>">
 				<h1 class="mdl-card__title-text"><i class="material-icons md-18">people</i><?php echo $this->lang->line('members'); ?></h1>
 			</div>
@@ -11,14 +11,14 @@
 			</div>
 		</div>
 
-		<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--4-col">
+		<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--4-col">
 			<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
 				<?php if($mbr->mbr_nickname) { ?>
 					<h1 class="mdl-card__title-text"><a href="<?php echo base_url(); ?>member/<?php echo $mbr->mbr_nickname; ?>"><i class="material-icons md-16">person</i><?php if($this->member->mbr_administrator == 1) { ?><?php echo $mbr->mbr_email; ?> / <?php } ?><?php echo $mbr->mbr_nickname; ?></a></h1>
 				<?php } else { ?>
 					<h1 class="mdl-card__title-text"><i class="material-icons md-16">person</i><?php echo $mbr->mbr_email; ?></h1>
 				<?php } ?>
-				<div class="mdl-card__title-infos">
+				<div class="mdl-card__subtitle-text">
 					<?php if($mbr->subscriptions_common) { ?>
 						<span class="mdl-navigation__link"><i class="material-icons md-16">bookmark</i><?php echo $mbr->subscriptions_common; ?> subscription(s) in common</span>
 					<?php } ?>
@@ -32,7 +32,7 @@
 			</div>
 		</div>
 
-		<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
+		<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
 			<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
 				<h1 class="mdl-card__title-text"><?php echo $this->lang->line('delete'); ?></h1>
 			</div>

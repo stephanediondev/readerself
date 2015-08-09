@@ -2,7 +2,7 @@
 	<?php if($this->member->mbr_administrator == 1) { ?>
 		<div class="mdl-grid" id="colors">
 			<?php foreach($colors as $code => $hexa) { ?>
-				<div class="mdl-card mdl-color--<?php echo $code; ?> mdl-cell mdl-cell--12-col" data-code="<?php echo $code; ?>" data-hexa="#<?php echo $hexa; ?>">
+				<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $code; ?> mdl-cell mdl-cell--12-col" data-code="<?php echo $code; ?>" data-hexa="#<?php echo $hexa; ?>">
 					<div class="mdl-card__supporting-text mdl-color-text--<?php if(in_array($code, $color_black_text)) { ?>black<?php } else { ?>white<?php } ?>">
 						<?php echo ucwords(str_replace('-', ' ', $code)); ?><br>#<?php echo $hexa; ?>
 					</div>
@@ -14,13 +14,13 @@
 
 <main class="mdl-layout__content mdl-color--<?php echo $this->config->item('material-design/colors/background/layout'); ?>">
 	<div class="mdl-grid">
-		<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
+		<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
 			<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title-highlight'); ?> mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title-highlight'); ?>">
 				<h1 class="mdl-card__title-text"><i class="material-icons md-18">settings</i><?php echo $this->lang->line('settings'); ?></h1>
 			</div>
 		</div>
 
-		<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--4-col allow_notifications">
+		<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--4-col allow_notifications">
 			<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
 				<h1 class="mdl-card__title-text"><?php echo $this->lang->line('allow_notifications'); ?></h1>
 			</div>
@@ -29,7 +29,7 @@
 			</div>
 		</div>
 
-		<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--4-col">
+		<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--4-col">
 			<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
 				<h1 class="mdl-card__title-text">Bookmarklet</h1>
 			</div>
@@ -38,7 +38,7 @@
 			</div>
 		</div>
 
-		<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--4-col registerContentHandler">
+		<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--4-col registerContentHandler">
 			<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
 				<h1 class="mdl-card__title-text"><?php echo $this->lang->line('registerContentHandler'); ?></h1>
 			</div>
@@ -51,7 +51,7 @@
 	<?php if($this->member->mbr_administrator == 1) { ?>
 		<?php echo form_open(current_url()); ?>
 		<div class="mdl-grid">
-			<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--6-col">
+			<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--6-col">
 				<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
 					<h1 class="mdl-card__title-text">Material Design</h1>
 				</div>
@@ -83,7 +83,7 @@
 			<div class="mdl-cell mdl-cell--6-col" id="preview">
 			</div>
 
-			<div class="mdl-card mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--6-col">
+			<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--6-col">
 				<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
 					<h1 class="mdl-card__title-text"><?php echo $this->lang->line('update'); ?></h1>
 				</div>

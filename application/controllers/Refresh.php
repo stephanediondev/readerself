@@ -113,7 +113,7 @@ class Refresh extends CI_Controller {
 					list($date, $time) = explode(' ', $lastcrawl->crr_datecreated);
 					$content['last_crawl'] = '<div class="mdl-card__title mdl-color-text--'.$this->config->item('material-design/colors/text/card-title').'">';
 					$content['last_crawl'] .= '<h1 class="mdl-card__title-text">'.$this->lang->line('last_crawl').'</h1>';
-					$content['last_crawl'] .= '<div class="mdl-card__title-infos">';
+					$content['last_crawl'] .= '<div class="mdl-card__subtitle-text">';
 					$content['last_crawl'] .= '<span class="mdl-navigation__link mdl-color-text--'.$this->config->item('material-design/colors/text/card-title').'"><i class="material-icons md-16">access_time</i><span class="timeago" title="'.$lastcrawl->crr_datecreated.'"></span></span>';
 					$content['last_crawl'] .= '<span class="mdl-navigation__link mdl-color-text--'.$this->config->item('material-design/colors/text/card-title').'"><i class="material-icons md-16">bookmark</i>'.intval($lastcrawl->crr_feeds).' '.mb_strtolower($this->lang->line('feeds')).'</span>';
 					$content['last_crawl'] .= '<span class="mdl-navigation__link mdl-color-text--'.$this->config->item('material-design/colors/text/card-title').'"><i class="material-icons md-16">warning</i>'.intval($lastcrawl->crr_errors).' error(s)</span>';

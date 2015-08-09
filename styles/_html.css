@@ -136,7 +136,7 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 	right: 0px;
 	top: 4px;
 }
-.mdl-card__title .mdl-card__title-infos {
+.mdl-card__title .mdl-card__subtitle-text {
 	margin-bottom: 4px;
 	overflow: hidden;
 }

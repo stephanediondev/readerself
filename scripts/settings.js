@@ -55,16 +55,16 @@ function build_preview() {
 
 	content += '<main class="mdl-layout__content mdl-color--' + colors['material-design_colors_background_layout'] + '"><div class="mdl-grid">';
 
-		content += '<div class="mdl-card mdl-color--' + colors['material-design_colors_background_card'] + ' mdl-cell mdl-cell--12-col">';
+		content += '<div class="mdl-card mdl-shadow--2dp mdl-color--' + colors['material-design_colors_background_card'] + ' mdl-cell mdl-cell--12-col">';
 		content += '<div class="mdl-card__title mdl-color--' + colors['material-design_colors_background_card-title-highlight'] + ' mdl-color-text--' + colors['material-design_colors_text_card-title-highlight'] + '">';
 		content += '<h1 class="mdl-card__title-text"><i class="material-icons md-18">android</i>Aliquam fermentum feugiat</h1>';
 		content += '</div>';
 		content += '</div>';
 
-		content += '<div class="mdl-card mdl-color--' + colors['material-design_colors_background_card'] + ' mdl-cell mdl-cell--12-col">';
+		content += '<div class="mdl-card mdl-shadow--2dp mdl-color--' + colors['material-design_colors_background_card'] + ' mdl-cell mdl-cell--12-col">';
 		content += '<div class="mdl-card__title mdl-color-text--' + colors['material-design_colors_text_card-title'] + '">';
 		content += '<h1 class="mdl-card__title-text"><a class="mdl-color-text--' + colors['material-design_colors_text_link'] + '" href="#">Pharetra quis lectus</a>, molestie pretium tortor</h1>';
-		content += '<div class="mdl-card__title-infos">';
+		content += '<div class="mdl-card__subtitle-text">';
 		content += '<span class="mdl-navigation__link mdl-color-text--' + colors['material-design_colors_text_card-title'] + '"><i class="material-icons md-16">android</i>Fusce aliquam eleifend mattis</span>';
 		content += '</div>';
 		content += '</div>';
