@@ -94,6 +94,9 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 .mdl-layout__drawer .mdl-navigation li.active .mdl-navigation__link {
 	font-weight: bold;
 }
+.mdl-layout__drawer .mdl-navigation li.active li .mdl-navigation__link {
+	font-weight: normal;
+}
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link.lock {
 	padding: 0px 0px;
 	position: absolute;
