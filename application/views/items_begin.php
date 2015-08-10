@@ -43,7 +43,7 @@
 
 	<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
 		<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title-highlight'); ?> mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title-highlight'); ?>">
-			<h1 class="mdl-card__title-text"><i class="material-icons md-18">folder</i> (<span id="intro-load-folder-<?php echo $is_folder->flr_id; ?>-items">0</span>)</h1>
+			<h1 class="mdl-card__title-text"><i class="material-icons md-18">folder</i><?php echo $is_folder->flr_title; ?> (<span id="intro-load-folder-<?php echo $is_folder->flr_id; ?>-items">0</span>)</h1>
 		</div>
 	</div>
 <?php } ?>
@@ -76,7 +76,7 @@
 
 	<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
 		<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title-highlight'); ?> mdl-color--<?php echo $this->config->item('material-design/colors/background/card-title-highlight'); ?>">
-			<h1 class="mdl-card__title-text"><i class="material-icons md-18">bookmark</i> (<span id="intro-load-feed-<?php echo $is_feed->fed_id; ?>-items">0</span>)</h1>
+			<h1 class="mdl-card__title-text"><i class="material-icons md-18">bookmark</i><?php echo $is_feed->fed_title; ?><?php if($is_feed->sub_title) { ?> / <em><?php echo $is_feed->sub_title; ?></em><?php } ?> (<span id="intro-load-feed-<?php echo $is_feed->fed_id; ?>-items">0</span>)</h1>
 		</div>
 	</div>
 <?php } ?>
