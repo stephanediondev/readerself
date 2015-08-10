@@ -48,7 +48,7 @@
 			<?php } else if(strstr($enr->enr_link, 'youtube.com') && $filename != '') { ?>
 				<div class="enclosure">
 					<p><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" target="_blank" href="http://www.youtube.com/watch?v=<?php echo $filename; ?>"><i class="material-icons md-18">videocam</i><?php echo $filename; ?> (Youtube)</a></p>
-					<iframe allowfullscreen src="http://www.youtube.com/embed/<?php echo $filename; ?>?rel=0" width="<?php echo $enr->enr_width; ?>" height="<?php echo $enr->enr_height; ?>"></iframe>
+					<iframe allowfullscreen src="https://www.youtube.com/embed/<?php echo $filename; ?>?rel=0" width="<?php echo $enr->enr_width; ?>" height="<?php echo $enr->enr_height; ?>"></iframe>
 				</div>
 
 			<?php } else if(stristr($enr->enr_type, 'video/') && $filename != '') { ?>
