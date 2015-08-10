@@ -121,14 +121,25 @@
 						<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>settings"><?php echo $this->lang->line('settings'); ?></a></li>
 						<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>shortcuts"><?php echo $this->lang->line('shortcuts'); ?></a></li>
 						<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>statistics"><?php echo $this->lang->line('statistics'); ?></a></li>
+						<li class="mdl-menu__item"><a target="_blank" class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="https://github.com/readerself">Code</a></li>
+						<li class="mdl-menu__item"><a target="_blank" class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="https://www.facebook.com/readerself">Community</a></li>
 						<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>logout"><?php echo $this->lang->line('logout'); ?></a></li>
 					</ul>
 				<?php } else { ?>
-					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>login"><i class="material-icons md-24">power_settings_new</i></a>
-					<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>password"><i class="material-icons md-24">vpn_key</i></a>
+					<?php if($this->router->class != 'login') { ?>
+						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>login"><i class="material-icons md-24">power_settings_new</i></a>
+					<?php } ?>
 					<?php if($this->config->item('register_multi') && !$this->config->item('ldap')) { ?>
 						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>register"><i class="material-icons md-24">person_add</i></a>
 					<?php } ?>
+					<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
+						<i class="material-icons md-24">more_vert</i>
+					</button>
+					<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right mdl-color--<?php echo $this->config->item('material-design/colors/background/menu'); ?>" for="hdrbtn">
+						<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>password"><?php echo $this->lang->line('password'); ?></a>
+						<li class="mdl-menu__item"><a target="_blank" class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="https://github.com/readerself">Code</a></li>
+						<li class="mdl-menu__item"><a target="_blank" class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="https://www.facebook.com/readerself">Community</a></li>
+					</ul>
 				<?php } ?>
 			<?php } ?>
 		</div>
