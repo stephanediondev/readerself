@@ -841,33 +841,30 @@ $(document).ready(function() {
 		});
 	});
 
-	$(document).on('click', '.link-item-like', function(event) {
+	/*$(document).on('click', '.sharedcount', function(event) {
 		event.preventDefault();
-		var ref = $(this).attr('href');
-		$(this).parent().remove();
-		var url = $(this).data('url');
-		$.ajax({
-			async: false,
-			cache: true,
-			dataType: 'json',
-			statusCode: {
-				200: function(data_return, textStatus, jqXHR) {
-					debug(data_return);
-					var content = '<p>';
-					content += 'Delicious (' + data_return.Delicious + ') ';
-					content += 'Facebook (' + data_return.Facebook.total_count + ') ';
-					content += 'Google (' + data_return.GooglePlusOne + ') ';
-					content += 'Reddit (' + data_return.Reddit + ') ';
-					content += 'Twitter (' + data_return.Twitter + ') ';
-					content += '</p>';
-					$(ref).html(content);
-					$(ref).show();
-				}
-			},
-			type: 'GET',
-			url: '//' + (location.protocol == 'https:' ? 'sharedcount.appspot' : 'api.sharedcount') + '.com/?url=' + url,
-		});
-	});
+		var ref = $(this);
+		if(ref.hasClass('sharedcount_done')) {
+		} else {
+			var itm_id = ref.data('itm_id');
+			var url = $('#item_' + itm_id).find('.title_link').attr('href');
+			$.ajax({
+				async: false,
+				cache: true,
+				dataType: 'json',
+				statusCode: {
+					200: function(data_return, textStatus, jqXHR) {
+						ref.adClass('sharedcount_done');
+						$('#item_' + itm_id).find('.share_facebook').append(' (' + data_return.Facebook.total_count + ')');
+						$('#item_' + itm_id).find('.share_google').append(' (' + data_return.GooglePlusOne + ')');
+						$('#item_' + itm_id).find('.share_twitter').append(' (' + data_return.Twitter + ')');
+					}
+				},
+				type: 'GET',
+				url: 'https://free.sharedcount.com/?apikey=&url=' + url,
+			});
+		}
+	});*/
 
 	$(document).on('click', '.geolocation', function(event) {
 		event.preventDefault();

@@ -39,16 +39,16 @@
 			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon share" href="<?php echo base_url(); ?>item/share/<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_shift_s'); ?>"><?php if($itm->share == 0) { ?><i class="material-icons md-18">favorite_border</i><?php } ?><?php if($itm->share == 1) { ?><i class="material-icons md-18">favorite</i><?php } ?></a>
 		<?php } ?>
 		<?php if($this->config->item('share_external')) { ?>
-			<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="more_share_<?php echo $itm->itm_id; ?>">
+			<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon sharedcount" data-itm_id="<?php echo $itm->itm_id; ?>" id="more_share_<?php echo $itm->itm_id; ?>">
 				<i class="material-icons md-18">share</i>
 			</button>
 			<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--top-left mdl-color--<?php echo $this->config->item('material-design/colors/background/menu'); ?>" for="more_share_<?php echo $itm->itm_id; ?>">
 				<?php if($this->config->item('share_external_email') && $itm->case_member != 'public_profile') { ?>
 					<li class="mdl-menu__item"><a class="share_email mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>item/email/<?php echo $itm->itm_id; ?>"><?php echo $this->lang->line('share_email'); ?></a></li>
 				<?php } ?>
-				<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" target="_blank" href="https://www.facebook.com/sharer.php?u=<?php echo urlencode($itm->itm_link); ?>">Facebook</a></li>
-				<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" target="_blank" href="https://plus.google.com/share?url=<?php echo urlencode($itm->itm_link); ?>">Google</a></li>
-				<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text=<?php echo urlencode($itm->itm_title.' '.$itm->itm_link); ?>">Twitter</a></li>
+				<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?> share_facebook" target="_blank" href="https://www.facebook.com/sharer.php?u=<?php echo urlencode($itm->itm_link); ?>">Facebook</a></li>
+				<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?> share_google" target="_blank" href="https://plus.google.com/share?url=<?php echo urlencode($itm->itm_link); ?>">Google</a></li>
+				<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?> share_twitter" target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text=<?php echo urlencode($itm->itm_title.' '.$itm->itm_link); ?>">Twitter</a></li>
 			</ul>
 		<?php } ?>
 		<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="more_<?php echo $itm->itm_id; ?>">
