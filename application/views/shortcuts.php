@@ -24,7 +24,9 @@
 					<li><?php echo $this->lang->line('shortcut_g_p'); ?></li>
 					<li><?php echo $this->lang->line('shortcut_g_s'); ?></li>
 					<li><?php echo $this->lang->line('shortcut_g_shift_s'); ?></li>
-					<li><?php echo $this->lang->line('shortcut_g_f'); ?></li>
+					<li><?php echo $this->lang->line('shortcut_shift_p'); ?></li>
+					<li><?php echo $this->lang->line('shortcut_shift_n'); ?></li>
+					<li><?php echo $this->lang->line('shortcut_shift_x'); ?></li>
 					<li><?php echo $this->lang->line('shortcut_1'); ?></li>
 					<li><?php echo $this->lang->line('shortcut_2'); ?></li>
 					<li><?php echo $this->lang->line('shortcut_shift_1'); ?></li>

@@ -184,6 +184,13 @@ function click_navigation(ref) {
 function navigation_up() {
 	var ref = $('.mdl-layout__drawer .mdl-navigation').find('li.active');
 	prev = ref.prev('li');
+	var last_sub = prev.find('ul li:last');
+	if(last_sub.length > 0) {
+		prev = last_sub;
+	}
+	if(prev.length == 0) {
+		prev = $('.mdl-layout__drawer .mdl-navigation').find('li.active').parent().parent();
+	}
 	if(prev.length > 0) {
 		var ref = prev.find('a.mdl-navigation__link:first');
 		if(ref.length > 0) {
@@ -193,7 +200,15 @@ function navigation_up() {
 }
 function navigation_down() {
 	var ref = $('.mdl-layout__drawer .mdl-navigation').find('li.active');
-	next = ref.next('li');
+	var first_sub = ref.find('ul li:first');
+	if(first_sub.length > 0) {
+		next = first_sub;
+	} else {
+		next = ref.next('li');
+		if(next.length == 0) {
+			next = $('.mdl-layout__drawer .mdl-navigation').find('li.active').parent().parent().next();
+		}
+	}
 	if(next.length > 0) {
 		var ref = next.find('a.mdl-navigation__link:first');
 		if(ref.length > 0) {
