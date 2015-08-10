@@ -217,7 +217,7 @@ class Item extends CI_Controller {
 
 		$content = array();
 
-		if($this->input->is_ajax_request()) {
+		if($this->input->is_ajax_request() && $this->config->item('readability_parser_key')) {
 			$this->readerself_library->set_template('_json');
 			$this->readerself_library->set_content_type('application/json');
 
@@ -227,8 +227,13 @@ class Item extends CI_Controller {
 
 				$content['itm_id'] = $itm->itm_id;
 
-				$json = file_get_contents('https://www.readability.com/api/content/v1/parser?url='.urlencode($itm->itm_link).'&token='.$this->config->item('readability_parser_key'));
-				$content['readability'] = json_decode($json);
+				$url = 'https://www.readability.com/api/content/v1/parser?url='.urlencode($itm->itm_link).'&token='.$this->config->item('readability_parser_key');
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+				curl_setopt($ch, CURLOPT_URL, $url);
+				$result = curl_exec($ch);
+				curl_close($ch);
+				$content['readability'] = json_decode($result);
 			}
 		} else {
 			$this->output->set_status_header(403);

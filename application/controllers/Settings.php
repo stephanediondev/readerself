@@ -49,6 +49,41 @@ class Settings extends CI_Controller {
 			'white',
 		);
 
+		if($this->member->mbr_administrator == 1) {
+			$data['facebook_error'] = false;
+			if($this->config->item('facebook/enabled')) {
+				include_once('thirdparty/facebook/autoload.php');
+				try {
+					$fb = new Facebook\Facebook(array(
+						'app_id' => $this->config->item('facebook/id'),
+						'app_secret' => $this->config->item('facebook/secret'),
+					));
+					$fbApp = $fb->getApp();
+					$accessToken = $fbApp->getAccessToken();
+					$request = new Facebook\FacebookRequest($fbApp, $accessToken, 'GET', 'readerself');
+					$response = $fb->getClient()->sendRequest($request);
+				} catch(Facebook\Exceptions\FacebookResponseException $e) {
+					$data['facebook_error'] = 'Facebook: '.$e->getMessage();
+
+				} catch(Facebook\Exceptions\FacebookSDKException $e) {
+					$data['facebook_error'] = 'Facebook: '.$e->getMessage();
+				}
+			}
+
+			$data['readability_error'] = false;
+			if($this->config->item('readability_parser_key')) {
+				$url = 'https://www.readability.com/api/content/v1/parser?url='.urlencode('https://readerself.com').'&token='.$this->config->item('readability_parser_key');
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+				curl_setopt($ch, CURLOPT_URL, $url);
+				$result = curl_exec($ch);
+				curl_close($ch);
+				$json = json_decode($result);
+				if(isset($json->error) == 1 && isset($json->messages) == 1) {
+					$data['readability_error'] = 'Readability: '.$json->messages;
+				}
+			}
+		}
 		$this->load->library(array('form_validation'));
 
 		foreach($data['settings'] as $stg) {
