@@ -416,7 +416,7 @@ class Items extends CI_Controller {
 						if(!$is_member) {
 							$sql = 'SELECT hst.* FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.itm_id = ? AND hst.mbr_id = ? GROUP BY hst.hst_id';
 							$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
-							if($query->num_rows > 0) {
+							if($query->num_rows() > 0) {
 								$itm->history = 'read';
 							} else {
 								$itm->history = 'unread';
@@ -425,7 +425,7 @@ class Items extends CI_Controller {
 							if($this->config->item('starred_items')) {
 								$sql = 'SELECT fav.* FROM '.$this->db->dbprefix('favorites').' AS fav WHERE fav.itm_id = ? AND fav.mbr_id = ? GROUP BY fav.fav_id';
 								$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
-								if($query->num_rows > 0) {
+								if($query->num_rows() > 0) {
 									$itm->star = 1;
 								} else {
 									$itm->star = 0;
@@ -435,7 +435,7 @@ class Items extends CI_Controller {
 							if($this->config->item('shared_items')) {
 								$sql = 'SELECT shr.* FROM '.$this->db->dbprefix('share').' AS shr WHERE shr.itm_id = ? AND shr.mbr_id = ? GROUP BY shr.shr_id';
 								$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
-								if($query->num_rows > 0) {
+								if($query->num_rows() > 0) {
 									$itm->share = 1;
 								} else {
 									$itm->share = 0;

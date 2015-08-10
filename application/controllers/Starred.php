@@ -168,7 +168,7 @@ class Starred extends CI_Controller {
 				$item['categories'] = array();
 				$sql = 'SELECT hst.* FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.itm_id = ? AND hst.mbr_id = ? GROUP BY hst.hst_id';
 				$query = $this->db->query($sql, array($itm->itm_id, $this->member->mbr_id));
-				if($query->num_rows > 0) {
+				if($query->num_rows() > 0) {
 					$item['categories'][] = 'user/'.$this->member->mbr_id.'/state/com.google/read';
 				} else {
 					$item['categories'][] = 'user/'.$this->member->mbr_id.'/state/com.google/unread';
