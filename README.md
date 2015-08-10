@@ -1,5 +1,3 @@
-![Screenshot](medias/screenshot.png)
-
 ####Demo
 
 https://readerself.com/demo/?email=example@example.com&password=example
@@ -13,7 +11,7 @@ https://readerself.com/demo/?email=example@example.com&password=example
 
 Edit [/application/config/database.php](/application/config/database.php)
 * with MySQL, define "username", "password" and "database" ("hostname" if necessary)
-* with SQLite, set "hostname" with "sqlite:application/database/readerself.sqlite" and "dbdriver" with "pdo"
+* with SQLite, set "dsn" with "sqlite:application/database/readerself.sqlite" and "dbdriver" with "pdo"
 
 Launch in a browser to access setup
 
@@ -33,3 +31,9 @@ cd /path-to-installation && php index.php refresh items
 * [jQuery](http://jquery.com/)
 * [Material Design Lite](http://www.getmdl.io/)
 * [FeedWriter](https://github.com/ajaxray/FeedWriter)
+
+####Screenshots
+
+![Home](https://readerself.com/medias/home.png)
+![Configurable colors](https://readerself.com/medias/configurable-colors.png)
+![Statistics](https://readerself.com/medias/statistics.png)

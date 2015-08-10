@@ -63,8 +63,8 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	'dsn'	=> '',
-	'hostname' => 'localhost',//localhost (MySQL) or sqlite:application/database/readerself.sqlite (SQLite)
+	'dsn'	=> '',//sqlite:application/database/readerself.sqlite (SQLite)
+	'hostname' => 'localhost',//localhost (MySQL)
 	'username' => '',
 	'password' => '',
 	'database' => '',
