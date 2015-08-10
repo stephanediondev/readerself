@@ -34,6 +34,5 @@ cd /path-to-installation && php index.php refresh items
 
 ####Screenshots
 
-![Home](https://readerself.com/medias/home.png)
-![Configurable colors](https://readerself.com/medias/configurable-colors.png)
-![Statistics](https://readerself.com/medias/statistics.png)
+![Desktop](https://readerself.com/medias/home.png)
+![Mobile](https://readerself.com/medias/moto-g-2014.png)
