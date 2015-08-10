@@ -467,7 +467,7 @@ $(document).ready(function() {
 			///
 			} else if(keycode == 58) {
 				event.preventDefault();
-				$('#search_items').focus().select();
+				//$('#search_items').focus().select();
 
 			//h or ?
 			} else if(keycode == 72 || keycode == 188) {
@@ -487,7 +487,7 @@ $(document).ready(function() {
 			} else if(keycode == 65) {
 				//shift + a
 				if(event.shiftKey) {
-					modal_show($('#items_read').attr('href'));
+					//modal_show($('#items_read').attr('href'));
 				//a
 				} else {
 					window.location.href = base_url + 'subscriptions/create';
