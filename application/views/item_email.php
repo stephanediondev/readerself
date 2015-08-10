@@ -5,7 +5,7 @@
 		</div>
 	</div>
 	<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
-		<?php echo validation_errors(); ?>
+		<?php echo validation_errors('<p><i class="material-icons md-16">warning</i>', '</p>'); ?>
 
 		<?php echo form_open(current_url()); ?>
 

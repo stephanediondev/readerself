@@ -8,7 +8,7 @@
 
 	<h2><i class="icon icon-download-alt"></i><?php echo $this->lang->line('import'); ?></h2>
 
-	<?php echo validation_errors(); ?>
+	<?php echo validation_errors('<p><i class="material-icons md-16">warning</i>', '</p>'); ?>
 
 	<?php echo form_open_multipart(current_url()); ?>
 
