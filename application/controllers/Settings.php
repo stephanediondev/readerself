@@ -166,6 +166,8 @@ class Settings extends CI_Controller {
 		$data['entries'] = simplexml_load_file('https://github.com/readerself/readerself/releases.atom');
 
 		if($release && !file_exists('update/'.$release.'.txt')) {
+			set_time_limit(120);
+
 			$local_file = 'update/'.$release.'.zip';
 			file_put_contents($local_file, file_get_contents('https://github.com/readerself/readerself/archive/'.$release.'.zip'));
 
