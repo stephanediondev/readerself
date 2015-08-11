@@ -366,7 +366,7 @@ class Items extends CI_Controller {
 							$itm->auh = false;
 						}
 
-						$sql = 'SELECT fed.fed_host, sub.sub_id, sub.sub_priority AS priority, sub.sub_title, fed.fed_title, sub.sub_direction, fed.fed_direction, flr.flr_id, flr.flr_title, flr.flr_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
+						$sql = 'SELECT fed.fed_link, fed.fed_host, sub.sub_id, sub.sub_priority AS priority, sub.sub_title, fed.fed_title, sub.sub_direction, fed.fed_direction, flr.flr_id, flr.flr_title, flr.flr_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
 						$itm->case_member = 'you';
 						if($is_member) {
 							$itm->sub = $this->db->query($sql, array($itm->fed_id, $is_member->mbr_id))->row();

@@ -27,6 +27,14 @@
 		<?php } else if($this->input->get('items_display') == 'expand') { ?>
 			<?php echo $this->load->view('item_expand', array('itm', $itm), TRUE); ?>
 		<?php } ?>
+
+		<?php if($itm->sub->fed_link == 'https://github.com/readerself/readerself/releases.atom' && $this->member->mbr_administrator == 1) { ?>
+			<?php $installed = file_exists('update/'.$itm->itm_title.'.txt'); ?>
+			<?php if(!$installed) { ?>
+				<p><a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--<?php echo $this->config->item('material-design/colors/background/button'); ?> mdl-color-text--<?php echo $this->config->item('material-design/colors/text/button'); ?>" href="<?php echo base_url(); ?>settings/update"><i class="material-icons md-18">done</i></a>
+			<?php } ?>
+		<?php } ?>
+
 	</div>
 	<div class="mdl-card__actions mdl-card--border mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-actions'); ?>">
 		<?php if($itm->case_member != 'public_profile') { ?>
