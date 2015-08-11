@@ -541,8 +541,8 @@ class Subscriptions extends CI_Controller {
 
 						$folders = array();
 						foreach($this->folders as $value) {
-							$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.flr_title = ? AND flr.mbr_id = ? GROUP BY flr.flr_id', array($value, $this->member->mbr_id));
-							if($query->num_rows() == 0) {
+							$flr = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.flr_title = ? AND flr.mbr_id = ? GROUP BY flr.flr_id', array($value, $this->member->mbr_id))->row();
+							if(!$flr) {
 								$this->db->set('mbr_id', $this->member->mbr_id);
 								$this->db->set('flr_title', $value);
 								$this->db->set('flr_datecreated', date('Y-m-d H:i:s'));
@@ -551,7 +551,6 @@ class Subscriptions extends CI_Controller {
 								$folders[$value] = $flr_id;
 								$icon = 'plus';
 							} else {
-								$flr = $query->row();
 								$folders[$value] = $flr->flr_id;
 								$icon = 'repeat';
 							}
