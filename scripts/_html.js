@@ -52,7 +52,7 @@ function refresh() {
 					first_refresh = true;
 
 					try {
-						if(window.external.msIsSiteMode()) {
+						if(window.external.msSiteModeRefreshBadge()) {
 							try {
 								window.external.msSiteModeRefreshBadge();
 							}
@@ -62,6 +62,7 @@ function refresh() {
 					}
 					catch (err) { 
 					}
+
 					if($('#last_crawl').length > 0 && data_return.last_crawl) {
 						$('#last_crawl').html(data_return.last_crawl);
 						$('#last_crawl').find('.timeago').timeago();
