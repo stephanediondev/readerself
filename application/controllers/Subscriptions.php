@@ -454,7 +454,7 @@ class Subscriptions extends CI_Controller {
 			$sub = $this->readerself_model->get_subscription_row($sub_id);
 			if($sub) {
 				if($sub->sub_priority == 1) {
-					$this->db->set('sub_priority', 0);
+					$this->db->set('sub_priority', '0');
 					$content['status'] = 'not_priority';
 				} else {
 					$this->db->set('sub_priority', 1);
