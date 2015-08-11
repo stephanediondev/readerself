@@ -5,6 +5,7 @@
 				<a href="<?php echo base_url(); ?>settings" class="mdl-tabs__tab">Theme</a>
 				<a href="<?php echo base_url(); ?>settings/goodies" class="mdl-tabs__tab">Goodies</a>
 				<a href="<?php echo base_url(); ?>settings/other" class="mdl-tabs__tab is-active">Other</a>
+				<a href="<?php echo base_url(); ?>settings/update" class="mdl-tabs__tab">Update</a>
 			</div>
 		</div>
 

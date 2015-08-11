@@ -156,6 +156,19 @@ class Settings extends CI_Controller {
 			redirect(base_url().'settings/other');
 		}
 	}
+	public function update() {
+		if(!$this->axipi_session->userdata('mbr_id') || !$this->member->mbr_administrator) {
+			redirect(base_url());
+		}
+
+		$data = array();
+
+		$data['entries'] = simplexml_load_file('https://github.com/readerself/readerself/releases.atom');
+		//https://api.github.com/repositories/8966215/releases
+
+		$content = $this->load->view('settings_update', $data, TRUE);
+		$this->readerself_library->set_content($content);
+	}
 	public function is_example() {
 		if($this->member->mbr_email == 'example@example.com') {
 			$this->form_validation->set_message('is_example', 'Demo account');

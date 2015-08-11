@@ -18,6 +18,7 @@
 				<a href="<?php echo base_url(); ?>settings/goodies" class="mdl-tabs__tab">Goodies</a>
 				<?php if($this->member->mbr_administrator == 1) { ?>
 					<a href="<?php echo base_url(); ?>settings/other" class="mdl-tabs__tab">Other</a>
+					<a href="<?php echo base_url(); ?>settings/update" class="mdl-tabs__tab">Update</a>
 				<?php } ?>
 			</div>
 		</div>
