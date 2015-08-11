@@ -156,7 +156,7 @@ class Settings extends CI_Controller {
 			redirect(base_url().'settings/other');
 		}
 	}
-	public function update() {
+	public function update($release = false) {
 		if(!$this->axipi_session->userdata('mbr_id') || !$this->member->mbr_administrator) {
 			redirect(base_url());
 		}
@@ -164,7 +164,61 @@ class Settings extends CI_Controller {
 		$data = array();
 
 		$data['entries'] = simplexml_load_file('https://github.com/readerself/readerself/releases.atom');
-		//https://api.github.com/repositories/8966215/releases
+
+		if($release && !file_exists('update/'.$release.'.txt')) {
+			$local_file = 'update/'.$release.'.zip';
+			file_put_contents($local_file, file_get_contents('https://github.com/readerself/readerself/archive/'.$release.'.zip'));
+
+			$exclude_files = array(
+				'application/config/database.php',
+				'application/config/readerself_config.php',
+				'application/config/development/database.php',
+				'application/config/development/readerself_config.php',
+				'application/database/readerself.sqlite',
+			);
+
+			$zip = new ZipArchive;
+			if($zip->open($local_file) === TRUE) {
+				$total_files = $zip->numFiles;
+				for($i=0;$i<$total_files;$i++) {
+					$file_source = $zip->getNameIndex($i);
+					$file_destination = str_replace('readerself-'.$release.'/', '', $file_source);
+					if(!in_array($file_destination, $exclude_files)) {
+						copy('zip://'.$local_file.'#'.$file_source, $file_destination);
+					}
+				}
+				$zip->close();
+
+				$reverse_releases = array();
+				foreach($data['entries']->entry as $entry) {
+					$reverse_releases[] = $entry->title;
+				}
+				$reverse_releases = array_reverse($reverse_releases);
+
+				foreach($reverse_releases as $release_history) {
+					if($this->db->dbdriver == 'pdo') {
+						$filename = 'application/database/update-sqlite-'.$release_history.'.sql';
+					}
+					if($this->db->dbdriver == 'mysqli') {
+						$filename = 'application/database/update-mysql-'.$release_history.'.sql';
+					}
+					if(file_exists($filename) && !file_exists('update/'.$release_history.'.txt')) {
+						$queries = explode(';', trim(file_get_contents($filename)));
+						foreach($queries as $query) {
+							if($query != '') {
+								$this->db->query($query);
+							}
+						}
+					}
+
+					$fp = fopen('update/'.$release_history.'.txt', 'w');
+					fclose($fp);
+				}
+
+				unlink($local_file);
+			}
+			redirect(base_url().'settings/update');
+		}
 
 		$content = $this->load->view('settings_update', $data, TRUE);
 		$this->readerself_library->set_content($content);
