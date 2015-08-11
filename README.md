@@ -20,11 +20,11 @@ Add to cron (hourly)
 cd /path-to-installation && php index.php refresh items
 ```
 
-####Update before August 15, 2015
+####Update before August 11, 2015
 * keep /application/config/database.php and /application/config/readerself_config.php
 * download the latest version and replace all other files
 
-####Update after August 15, 2015
+####Update after August 11, 2015
 * go to settings / update
 * click on the version not installed (if any)
 
