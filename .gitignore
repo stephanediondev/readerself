@@ -4,4 +4,4 @@ application/config/development
 application/config/readerself_config.php
 application/database/readerself.sqlite
 styles/custom.css
-update/*.css
+update/*.txt
