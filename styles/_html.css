@@ -55,10 +55,10 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 }
 
 .mdl-layout__header {
-	min-height: 34px;
+	min-height: 38px;
 }
 .mdl-layout__header-row {
-	height: 34px;
+	height: 38px;
 	padding: 0px 10px 0px 0px;
 }
 .mdl-layout__header-row .mdl-button {
