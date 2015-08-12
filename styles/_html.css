@@ -18,6 +18,7 @@ input[type=text], input[type=password], textarea{border: 1px solid #d7d8dd;paddi
 img, iframe, video{max-width:100%;}
 .item-content-result em{font-style:italic;}
 .item-content-result strong{font-weight:bold;}
+.item-content-result blockquote{-webkit-margin-start:10px;font-size:inherit;}
 
 label {
 	display: block;
