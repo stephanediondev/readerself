@@ -19,7 +19,7 @@
 			<?php if($this->member->mbr_nickname) { ?>
 				<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>member/<?php echo $this->member->mbr_nickname; ?>"><i class="material-icons md-18">link</i></a>
 			<?php } else { ?>
-				<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" target="_blank" href="<?php echo base_url(); ?>share/<?php echo $this->member->token_share; ?>"><i class="material-icons md-18">publish</i></a>
+				<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" target="_blank" href="<?php echo base_url(); ?>share/<?php echo $this->member->token_share; ?>"><i class="material-icons md-18">code</i></a>
 			<?php } ?>
 		</div>
 	</div>
