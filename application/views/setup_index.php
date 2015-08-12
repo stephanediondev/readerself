@@ -24,6 +24,23 @@
 
 		<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--3-col">
 			<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
+				<h1 class="mdl-card__title-text">/application/config/database.php</h1>
+			</div>
+			<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
+				<?php if(!file_exists('application/config/database.php')) { ?>
+					<?php $form = FALSE; ?>
+					<p>File missing</p>
+				<?php } else if(!is_writable('application/config/database.php')) { ?>
+					<?php $form = FALSE; ?>
+					<p>File not writable</p>
+				<?php } else { ?>
+					<p>File exists</p>
+				<?php } ?>
+			</div>
+		</div>
+
+		<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--3-col">
+			<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
 				<h1 class="mdl-card__title-text">/application/config/readerself_config.php</h1>
 			</div>
 			<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
@@ -38,87 +55,48 @@
 				<?php } ?>
 			</div>
 		</div>
+	</div>
 
-		<?php if($this->db->dbdriver == 'pdo') { ?>
-			<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--3-col">
-				<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
-					<h1 class="mdl-card__title-text">/application/database/readerself.sqlite</h1>
-				</div>
-				<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
-					<?php if(!file_exists('application/database/readerself.sqlite')) { ?>
-						<?php $form = FALSE; ?>
-						<p>File missing</p>
-					<?php } else { ?>
-						<p>File exists</p>
-					<?php } ?>
-				</div>
-			</div>
-
-			<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--3-col">
-				<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
-					<h1 class="mdl-card__title-text">/application/database/installation-sqlite.sql</h1>
-				</div>
-				<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
-					<?php if(!file_exists('application/database/installation-sqlite.sql')) { ?>
-						<?php $form = FALSE; ?>
-						<p>File missing</p>
-					<?php } else { ?>
-						<p>File exists</p>
-					<?php } ?>
-				</div>
-			</div>
-		<?php } ?>
-
-		<?php if($this->db->dbdriver == 'mysqli') { ?>
-			<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--3-col">
-				<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
-					<h1 class="mdl-card__title-text">/application/database/installation-mysql.sql</h1>
-				</div>
-				<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
-					<?php if(!file_exists('application/database/installation-mysql.sql')) { ?>
-						<?php $form = FALSE; ?>
-						<p>File missing</p>
-					<?php } else { ?>
-						<p>File exists</p>
-					<?php } ?>
-				</div>
-			</div>
-		<?php } ?>
-
-		<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--3-col">
-			<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
-				<h1 class="mdl-card__title-text">/application/config/database.php</h1>
-			</div>
-			<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
-				<?php if($this->db->dbdriver == 'pdo') { ?>
-					<?php if($this->db->dsn == '') { ?>
-						<?php $form = FALSE; ?>
-						<p>Define dsn</p>
-					<?php } else { ?>
-						<p>Dsn defined</p>
-					<?php } ?>
-				<?php } ?>
-				<?php if($this->db->dbdriver == 'mysqli') { ?>
-					<?php if($this->db->hostname == '' || $this->db->database == '' || $this->db->username == '' || $this->db->password == '') { ?>
-						<?php $form = FALSE; ?>
-						<p>Define hostname, database, username and password</p>
-					<?php } else { ?>
-						<p>Hostname, database, username and password defined</p>
-					<?php } ?>
-				<?php } ?>
-				<?php if($this->db->dbdriver == 'mysql') { ?>
-					<?php $form = FALSE; ?>
-					<p>Recommended to use mysqli as driver instead of mysql</p>
-				<?php } ?>
-			</div>
-		</div>
-
-		<?php if($form) { ?>
+	<?php if($form) { ?>
+		<?php echo form_open(current_url()); ?>
+		<div class="mdl-grid">
 			<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
+				<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
+					<h1 class="mdl-card__title-text"><?php echo $this->lang->line('database'); ?></h1>
+				</div>
 				<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
-					<?php echo validation_errors('<p><i class="material-icons md-16">warning</i>', '</p>'); ?>
+					<p>
+					<?php echo form_label($this->lang->line('database_type'), 'database_type'); ?>
+					<?php echo form_dropdown('database_type', $types, set_value('database_type', 'mysqli'), 'id="database_type" class="required"'); ?>
+					</p>
 
-					<?php echo form_open(current_url()); ?>
+					<p class="database_option">
+					<?php echo form_label($this->lang->line('database_hostname'), 'database_hostname'); ?>
+					<?php echo form_input('database_hostname', set_value('database_hostname', 'localhost'), 'id="database_hostname"'); ?>
+					</p>
+
+					<p class="database_option">
+					<?php echo form_label($this->lang->line('database_username'), 'database_username'); ?>
+					<?php echo form_input('database_username', set_value('database_username'), 'id="database_username"'); ?>
+					</p>
+
+					<p class="database_option">
+					<?php echo form_label($this->lang->line('database_password'), 'database_password'); ?>
+					<?php echo form_password('database_password', set_value('database_password'), 'id="database_password"'); ?>
+					</p>
+
+					<p class="database_option">
+					<?php echo form_label($this->lang->line('database_name'), 'database_name'); ?>
+					<?php echo form_input('database_name', set_value('database_name', 'readerself'), 'id="database_name"'); ?>
+					</p>
+				</div>
+			</div>
+
+			<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
+				<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
+					<h1 class="mdl-card__title-text"><?php echo $this->lang->line('user'); ?></h1>
+				</div>
+				<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 					<p>
 					<?php echo form_label($this->lang->line('mbr_email'), 'mbr_email'); ?>
 					<?php echo form_input('mbr_email', set_value('mbr_email'), 'id="mbr_email" class="valid_email required"'); ?>
@@ -145,10 +123,10 @@
 					</button>
 					</p>
 
-					<?php echo form_close(); ?>
+					<?php echo validation_errors('<p><i class="material-icons md-16">warning</i>', '</p>'); ?>
 				</div>
 			</div>
-		<?php } ?>
-
-	</div>
+		</div>
+		<?php echo form_close(); ?>
+	<?php } ?>
 </main>

@@ -218,3 +218,12 @@ $lang['stg_material-design/colors/text/card-actions'] = 'Card actions text color
 $lang['stg_material-design/colors/text/link'] = 'Link text color';
 $lang['stg_material-design/colors/text/content'] = 'Content text color';
 $lang['stg_material-design/colors/text/button'] = 'Button text color';
+
+$lang['database'] = 'Base de données';
+$lang['database_type'] = 'Type de base de données';
+$lang['database_hostname'] = 'Serveur';
+$lang['database_username'] = 'Utilisateur';
+$lang['database_password'] = 'Mot de passe';
+$lang['database_name'] = 'Nom de la base de données';
+$lang['user'] = 'Utilisateur';
+$lang['callback_database_username_password'] = 'Définir un utlisateur et un mot de passe';

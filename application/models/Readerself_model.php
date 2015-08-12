@@ -78,6 +78,8 @@ class Readerself_model extends CI_Model {
 
 		$this->axipi_session->unset_userdata('mbr_id');
 		$this->input->set_cookie('token_connection', NULL, 0, NULL, '/', NULL, NULL);
+
+		session_regenerate_id();
 	}
 	function get($mbr_id) {
 		$member = false;

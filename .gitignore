@@ -1,7 +1,9 @@
 application/cache/cache.ini
 application/cache/uasdata.ini
 application/config/development
+application/config/database.php
 application/config/readerself_config.php
 application/database/readerself.sqlite
+application/controllers/Reset.php
 styles/custom.css
 update/*.txt

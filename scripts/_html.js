@@ -134,11 +134,13 @@ $(document).ready(function() {
 	}
 
 	if(is_logged) {
-		if(ci_controller != 'home') {
-			refresh();
+		if(ci_controller != 'setup') {
+			if(ci_controller != 'home') {
+				refresh();
+			}
+			set_positions();
+			setInterval(refresh, 10000*6*10);
 		}
-		set_positions();
-		setInterval(refresh, 10000*6*10);
 	}
 
 	if(timezone == false) {

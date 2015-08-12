@@ -31,7 +31,7 @@
 		<?php if($itm->sub->fed_link == 'https://github.com/readerself/readerself/releases.atom' && $this->member->mbr_administrator == 1) { ?>
 			<?php $installed = file_exists('update/'.$itm->itm_title.'.txt'); ?>
 			<?php if(!$installed) { ?>
-				<p><a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--<?php echo $this->config->item('material-design/colors/background/button'); ?> mdl-color-text--<?php echo $this->config->item('material-design/colors/text/button'); ?>" href="<?php echo base_url(); ?>settings/update"><i class="material-icons md-18">done</i></a>
+				<p><a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--<?php echo $this->config->item('material-design/colors/background/button'); ?> mdl-color-text--<?php echo $this->config->item('material-design/colors/text/button'); ?>" href="<?php echo base_url(); ?>settings/update"><i class="material-icons md-18">done</i></a></p>
 			<?php } ?>
 		<?php } ?>
 

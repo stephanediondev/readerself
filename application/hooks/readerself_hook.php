@@ -24,43 +24,45 @@ class Readerself_hook {
 		$this->CI->readerself_library->set_charset('UTF-8');
 		$this->CI->readerself_library->set_template('_html');
 
-		if(!$this->CI->config->item('salt_password') && $this->CI->router->class != 'setup') {
+		if(!$this->CI->config->item('salt_password') && $this->CI->router->class != 'setup' && $this->CI->router->class != 'reset' && !$this->CI->axipi_session->userdata('setup_done')) {
 			redirect(base_url().'setup');
 		}
 
 		if($this->CI->config->item('salt_password')) {
+			$this->CI->load->database();
+
 			$settings = $this->CI->readerself_model->get_settings_global();
 			foreach($settings as $stg) {
 				$this->CI->config->set_item($stg->stg_code, $stg->stg_value);
 			}
-		}
 
-		if($this->CI->axipi_session->userdata('mbr_id')) {
-			$this->CI->member = $this->CI->readerself_model->get($this->CI->axipi_session->userdata('mbr_id'));
-			if(!$this->CI->member || !$this->CI->input->cookie('token_connection') || $this->CI->input->cookie('token_connection') != $this->CI->member->token_connection) {
-				$this->CI->readerself_model->logout();
-			}
-
-		} else {
-			if($this->CI->input->cookie('token_connection')) {
-				$query = $this->CI->db->query('SELECT cnt.* FROM '.$this->CI->db->dbprefix('connections').' AS cnt WHERE cnt.cnt_ip = ? AND cnt.cnt_agent = ? AND token_connection IS NOT NULL AND token_connection = ? GROUP BY cnt.cnt_id', array($this->CI->input->ip_address(), $this->CI->input->user_agent(), $this->CI->input->cookie('token_connection')));
-				if($query->num_rows() > 0) {
-					$connection = $query->row();
-
-					$this->CI->axipi_session->set_userdata('mbr_id', $connection->mbr_id);
-					$this->CI->input->set_cookie('token_connection', $this->CI->input->cookie('token_connection'), 3600 * 24 * 30, NULL, '/', NULL, NULL);
-
-					if($this->CI->router->class == 'extension') {
-						$this->CI->member = $this->CI->readerself_model->get($this->CI->axipi_session->userdata('mbr_id'));
-					} else {
-						if($this->CI->input->get('u')) {
-							redirect(base_url().'subscriptions/create/?u='.$this->CI->input->get('u'));
-						} else {
-							redirect(base_url().'home');
-						}
-					}
-				} else {
+			if($this->CI->axipi_session->userdata('mbr_id')) {
+				$this->CI->member = $this->CI->readerself_model->get($this->CI->axipi_session->userdata('mbr_id'));
+				if(!$this->CI->member || !$this->CI->input->cookie('token_connection') || $this->CI->input->cookie('token_connection') != $this->CI->member->token_connection) {
 					$this->CI->readerself_model->logout();
+				}
+
+			} else {
+				if($this->CI->input->cookie('token_connection')) {
+					$query = $this->CI->db->query('SELECT cnt.* FROM '.$this->CI->db->dbprefix('connections').' AS cnt WHERE cnt.cnt_ip = ? AND cnt.cnt_agent = ? AND token_connection IS NOT NULL AND token_connection = ? GROUP BY cnt.cnt_id', array($this->CI->input->ip_address(), $this->CI->input->user_agent(), $this->CI->input->cookie('token_connection')));
+					if($query->num_rows() > 0) {
+						$connection = $query->row();
+	
+						$this->CI->axipi_session->set_userdata('mbr_id', $connection->mbr_id);
+						$this->CI->input->set_cookie('token_connection', $this->CI->input->cookie('token_connection'), 3600 * 24 * 30, NULL, '/', NULL, NULL);
+	
+						if($this->CI->router->class == 'extension') {
+							$this->CI->member = $this->CI->readerself_model->get($this->CI->axipi_session->userdata('mbr_id'));
+						} else {
+							if($this->CI->input->get('u')) {
+								redirect(base_url().'subscriptions/create/?u='.$this->CI->input->get('u'));
+							} else {
+								redirect(base_url().'home');
+							}
+						}
+					} else {
+						$this->CI->readerself_model->logout();
+					}
 				}
 			}
 		}
