@@ -19,7 +19,7 @@ class Evernote extends CI_Controller {
 
 		$data = array();
 
-		$data['token'] = $this->readerself_model->get_token('evernote', $this->member->mbr_id);
+		$data['token'] = $this->readerself_model->get_token('evernote', $this->member->mbr_id, $this->config->item('evernote/sandbox'));
 		if($data['token']) {
 			try {
 				$client = new Client(array(
@@ -63,7 +63,7 @@ class Evernote extends CI_Controller {
 		if($this->handleCallback()) {
 			$oauth_token = $this->getTokenCredentials();
 			if($oauth_token) {
-				$this->readerself_model->set_token('evernote', $this->member->mbr_id, $oauth_token);
+				$this->readerself_model->set_token('evernote', $this->member->mbr_id, $oauth_token, $this->config->item('evernote/sandbox'));
 			}
 		}
 
@@ -74,7 +74,7 @@ class Evernote extends CI_Controller {
 	/*function list_notebooks() {
 		try {
 			$client = new Client(array(
-				'token' => $this->readerself_model->get_token('evernote', $this->member->mbr_id),
+				'token' => $this->readerself_model->get_token('evernote', $this->member->mbr_id, $this->config->item('evernote/sandbox')),
 				'sandbox' => $this->config->item('evernote/sandbox')
 			));
 
@@ -123,11 +123,11 @@ class Evernote extends CI_Controller {
 
 		$data['itm'] = $this->db->query('SELECT * FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? ) GROUP BY itm.itm_id', array($itm_id, $this->member->mbr_id))->row();
 		if($data['itm'] && $this->input->is_ajax_request()) {
-			$token = $this->readerself_model->get_token('evernote', $this->member->mbr_id);
+			$token = $this->readerself_model->get_token('evernote', $this->member->mbr_id, $this->config->item('evernote/sandbox'));
 			if($token) {
 				try {
 					$client = new Client(array(
-						'token' => $this->readerself_model->get_token('evernote', $this->member->mbr_id),
+						'token' => $this->readerself_model->get_token('evernote', $this->member->mbr_id, $this->config->item('evernote/sandbox')),
 						'sandbox' => $this->config->item('evernote/sandbox')
 					));
 					$noteStore = $client->getNoteStore();

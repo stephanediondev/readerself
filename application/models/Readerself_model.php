@@ -110,17 +110,18 @@ class Readerself_model extends CI_Model {
 		}
 		return $member;
 	}
-	function get_token($type, $mbr_id) {
-		$row = $this->db->query('SELECT tok.tok_value FROM '.$this->db->dbprefix('tokens').' AS tok WHERE tok.tok_type = ? AND tok.mbr_id = ? GROUP BY tok.tok_id', array($type, $mbr_id))->row();
+	function get_token($type, $mbr_id, $sandbox) {
+		$row = $this->db->query('SELECT tok.tok_value FROM '.$this->db->dbprefix('tokens').' AS tok WHERE tok.tok_type = ? AND tok.mbr_id = ? AND tok.tok_sandbox = ? GROUP BY tok.tok_id', array($type, $mbr_id, $sandbox))->row();
 		if($row) {
 			return $row->tok_value;
 		} else {
 			return false;
 		}
 	}
-	function set_token($type, $mbr_id, $value) {
-		$row = $this->get_token($type, $mbr_id);
+	function set_token($type, $mbr_id, $value, $sandbox) {
+		$row = $this->get_token($type, $mbr_id, $sandbox);
 		$this->db->set('tok_value', $value);
+		$this->db->set('tok_sandbox', $sandbox);
 		if(!$row) {
 			$this->db->set('tok_type', $type);
 			$this->db->set('mbr_id', $mbr_id);

@@ -266,6 +266,7 @@ CREATE TABLE IF NOT EXISTS `tokens` (
   `mbr_id` bigint(20) unsigned NOT NULL,
   `tok_type` varchar(255) NOT NULL,
   `tok_value` varchar(255) NOT NULL,
+  `tok_sandbox` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `tok_datecreated` datetime NOT NULL,
   PRIMARY KEY (`tok_id`),
   KEY `mbr_id` (`mbr_id`),
