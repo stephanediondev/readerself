@@ -61,24 +61,24 @@ class Evernote extends CI_Controller {
 			return TRUE;
 		} catch (EDAMSystemException $e) {
 			if (isset(EDAMErrorCode::$__names[$e->errorCode])) {
-				$lastError = 'Error listing notebooks: ' . EDAMErrorCode::$__names[$e->errorCode] . ": " . $e->parameter;
+				$lastError = EDAMErrorCode::$__names[$e->errorCode].': '.$e->parameter;
 			} else {
-				$lastError = 'Error listing notebooks: ' . $e->getCode() . ": " . $e->getMessage();
+				$lastError = $e->getCode().': '.$e->getMessage();
 			}
 		} catch (EDAMUserException $e) {
 			if (isset(EDAMErrorCode::$__names[$e->errorCode])) {
-				$lastError = 'Error listing notebooks: ' . EDAMErrorCode::$__names[$e->errorCode] . ": " . $e->parameter;
+				$lastError = EDAMErrorCode::$__names[$e->errorCode].': '.$e->parameter;
 			} else {
-				$lastError = 'Error listing notebooks: ' . $e->getCode() . ": " . $e->getMessage();
+				$lastError = $e->getCode().': '.$e->getMessage();
 			}
 		} catch (EDAMNotFoundException $e) {
 			if (isset(EDAMErrorCode::$__names[$e->errorCode])) {
-				$lastError = 'Error listing notebooks: ' . EDAMErrorCode::$__names[$e->errorCode] . ": " . $e->parameter;
+				$lastError = EDAMErrorCode::$__names[$e->errorCode].': '.$e->parameter;
 			} else {
-				$lastError = 'Error listing notebooks: ' . $e->getCode() . ": " . $e->getMessage();
+				$lastError = $e->getCode().': '.$e->getMessage();
 			}
 		} catch (Exception $e) {
-			$lastError = 'Error listing notebooks: ' . $e->getMessage();
+			$lastError = $e->getMessage();
 		}
 	}*/
 	function create($itm_id) {
@@ -148,6 +148,33 @@ class Evernote extends CI_Controller {
 						$content['modal'] = $this->load->view('evernote_create', $data, TRUE);
 						$this->readerself_library->set_content($content);
 					}
+				} catch (EDAMSystemException $e) {
+					$data['status'] = 'error';
+					if(isset(EDAMErrorCode::$__names[$e->errorCode])) {
+						$data['message'] = EDAMErrorCode::$__names[$e->errorCode].': '.$e->parameter;
+					} else {
+						$data['message'] = $e->getCode().': '.$e->getMessage();
+					}
+					$content['modal'] = $this->load->view('evernote_create', $data, TRUE);
+					$this->readerself_library->set_content($content);
+				} catch (EDAMUserException $e) {
+					$data['status'] = 'error';
+					if(isset(EDAMErrorCode::$__names[$e->errorCode])) {
+						$data['message'] = EDAMErrorCode::$__names[$e->errorCode].': '.$e->parameter;
+					} else {
+						$data['message'] = $e->getCode().': '.$e->getMessage();
+					}
+					$content['modal'] = $this->load->view('evernote_create', $data, TRUE);
+					$this->readerself_library->set_content($content);
+				} catch (EDAMNotFoundException $e) {
+					$data['status'] = 'error';
+					if(isset(EDAMErrorCode::$__names[$e->errorCode])) {
+						$data['message'] = EDAMErrorCode::$__names[$e->errorCode].': '.$e->parameter;
+					} else {
+						$data['message'] = $e->getCode().': '.$e->getMessage();
+					}
+					$content['modal'] = $this->load->view('evernote_create', $data, TRUE);
+					$this->readerself_library->set_content($content);
 				} catch (Exception $e) {
 					$data['status'] = 'error';
 					$data['message'] = $e->getMessage();
