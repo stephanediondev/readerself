@@ -868,6 +868,28 @@ $(document).ready(function() {
 		$(ref).find('.item-share').removeClass('hide');
 	});
 
+	$(document).on('click', '.link-item-evernote', function(event) {
+		event.preventDefault();
+		var ref = $(this);
+		var params = [];
+		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
+		$.ajax({
+			async: true,
+			cache: true,
+			data: params,
+			dataType: 'json',
+			statusCode: {
+				200: function(data_return, textStatus, jqXHR) {
+					if(data_return.modal) {
+						$('#item_' + data_return.itm_id).after(data_return.modal);
+					}
+				}
+			},
+			type: 'POST',
+			url: ref.attr('href')
+		});
+	});
+
 	$(document).on('click', '.link-item-readability', function(event) {
 		event.preventDefault();
 		var ref = $(this);
@@ -1018,6 +1040,7 @@ $(document).ready(function() {
 	});
 
 	$(document).on('click', '.share_email_close', function(event) {
+		event.preventDefault();
 		$($(this).attr('href')).remove();
 	});
 });

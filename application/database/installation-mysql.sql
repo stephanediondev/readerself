@@ -212,7 +212,11 @@ INSERT INTO `settings` (`stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is
 ('material-design/colors/text/button', 'varchar', 'white', NULL, 1, 0, 0, NOW()),
 ('material-design/colors/background/card', 'varchar', 'white', NULL, 1, 0, 0, NOW()),
 ('material-design/colors/background/menu', 'varchar', 'white', NULL, 1, 0, 0, NOW()),
-('material-design/colors/background/card-title-highlight', 'varchar', 'teal', NULL, 1, 0, 0, NOW());
+('material-design/colors/background/card-title-highlight', 'varchar', 'teal', NULL, 1, 0, 0, NOW()),
+('evernote/enabled', 'boolean', '0', NULL, 1, 0, 0, NOW()),
+('evernote/sandbox', 'boolean', '0', NULL, 1, 0, 0, NOW()),
+('evernote/consumer_key', 'string', NULL, NULL, 1, 0, 0, NOW()),
+('evernote/consumer_secret', 'string', NULL, NULL, 1, 0, 0, NOW());
 
 CREATE TABLE IF NOT EXISTS `share` (
   `shr_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -255,4 +259,15 @@ CREATE TABLE IF NOT EXISTS `tags_items` (
   PRIMARY KEY (`tag_itm_id`),
   KEY `tag_id` (`tag_id`),
   KEY `itm_id` (`itm_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `tokens` (
+  `tok_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `mbr_id` bigint(20) unsigned NOT NULL,
+  `tok_type` varchar(255) NOT NULL,
+  `tok_value` varchar(255) NOT NULL,
+  `tok_datecreated` datetime NOT NULL,
+  PRIMARY KEY (`tok_id`),
+  KEY `mbr_id` (`mbr_id`),
+  KEY `tok_type` (`tok_type`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;

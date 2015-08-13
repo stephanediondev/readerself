@@ -227,3 +227,8 @@ $lang['database_password'] = 'Password';
 $lang['database_name'] = 'Database name';
 $lang['user'] = 'User';
 $lang['callback_database_username_password'] = 'Define username and password';
+
+$lang['stg_evernote/enabled'] = 'Evernote';
+$lang['stg_evernote/sandbox'] = 'Evernote / Sandbox';
+$lang['stg_evernote/consumer_key'] = 'Evernote / Consumer Key';
+$lang['stg_evernote/consumer_secret'] = 'Evernote / Consumer Secret';

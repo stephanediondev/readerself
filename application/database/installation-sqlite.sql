@@ -184,7 +184,11 @@ INSERT INTO `settings` (`stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is
 ('material-design/colors/text/button', 'varchar', 'white', NULL, 1, 0, 0, datetime('now')),
 ('material-design/colors/background/card', 'varchar', 'white', NULL, 1, 0, 0, datetime('now')),
 ('material-design/colors/background/menu', 'varchar', 'white', NULL, 1, 0, 0, datetime('now')),
-('material-design/colors/background/card-title-highlight', 'varchar', 'teal', NULL, 1, 0, 0, datetime('now'));
+('material-design/colors/background/card-title-highlight', 'varchar', 'teal', NULL, 1, 0, 0, datetime('now')),
+('evernote/enabled', 'boolean', '0', NULL, 1, 0, 0, datetime('now')),
+('evernote/sandbox', 'boolean', '0', NULL, 1, 0, 0, datetime('now')),
+('evernote/consumer_key', 'string', NULL, NULL, 1, 0, 0, datetime('now')),
+('evernote/consumer_secret', 'string', NULL, NULL, 1, 0, 0, datetime('now'));
 
 CREATE TABLE IF NOT EXISTS `share` (
   `shr_id` integer PRIMARY KEY AUTOINCREMENT,
@@ -220,3 +224,12 @@ CREATE TABLE IF NOT EXISTS `tags_items` (
   `tag_itm_datecreated` datetime NOT NULL);
 CREATE INDEX "tags_items_tag_id" ON "tags_items" ("tag_id");
 CREATE INDEX "tags_items_itm_id" ON "tags_items" ("itm_id");
+
+CREATE TABLE IF NOT EXISTS `tokens` (
+  `tok_id` integer PRIMARY KEY AUTOINCREMENT,
+  `mbr_id` INTEGER NOT NULL,
+  `tok_type` varchar(255) NOT NULL,
+  `tok_value` varchar(255) NOT NULL,
+  `tok_datecreated` datetime NOT NULL);
+CREATE INDEX "tokens_mbr_id" ON "tokens" ("mbr_id");
+CREATE INDEX "tokens_tok_type" ON "tokens" ("tok_type");
