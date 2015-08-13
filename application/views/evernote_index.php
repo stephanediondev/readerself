@@ -81,13 +81,15 @@
 					<h1 class="mdl-card__title-text"><?php if($token) { ?><i class="material-icons md-18">help_outline</i><?php } ?>Tutorial</h1>
 				</div>
 				<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
-					<p>Go to <a href="https://dev.evernote.com/" target="blank">https://dev.evernote.com/</a> and get an API Key.</p>
+					<p>You need to install on your server <a href="http://php.net/manual/en/book.oauth.php" target="_blank">PHP OAuth Extension</a> and <a href="http://php.net/manual/en/book.tidy.php" target="_blank">PHP Tidy Extension</a>.</p>
+
+					<p>Go to <a href="https://dev.evernote.com/" target="_blank">https://dev.evernote.com/</a> and get an API Key.</p>
 					<p><img src="medias/evernote_get_api_key.png"></p>
 	
-					<p><a href="<?php echo base_url(); ?>settings/other">Edit settings</a> and fill in "Evernote / Consumer Key" and "Evernote / Consumer Secret" with the values that you received from Evernote.</p>
+					<p><a href="<?php echo base_url(); ?>settings/other">Edit settings</a>, check "Evernote Enabled" and fill in "Evernote / Consumer Key" and "Evernote / Consumer Secret" with the values that you received from Evernote.</p>
 					<p><img src="medias/evernote_settings.png"></p>
 	
-					<p>Go to <a href="https://dev.evernote.com/support/" target="blank">https://dev.evernote.com/support/</a> and activate your API Key.</p>
+					<p>Go to <a href="https://dev.evernote.com/support/" target="_blank">https://dev.evernote.com/support/</a> and activate your API Key (you will receive confirmation by email within a few hours).</p>
 					<p><img src="medias/evernote_activate_api_key.png"></p>
 				</div>
 			</div>
