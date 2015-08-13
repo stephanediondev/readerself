@@ -185,6 +185,10 @@ class Settings extends CI_Controller {
 				for($i=0;$i<$total_files;$i++) {
 					$file_source = $zip->getNameIndex($i);
 					$file_destination = str_replace('readerself-'.$release.'/', '', $file_source);
+					$dirname = dirname($file_destination);
+					if(!is_dir($dirname)) {
+						mkdir($dirname);
+					}
 					if(!in_array($file_destination, $exclude_files)) {
 						copy('zip://'.$local_file.'#'.$file_source, $file_destination);
 					}
