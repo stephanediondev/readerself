@@ -5,7 +5,7 @@ require_once 'thirdparty/evernote/packages/Types/Types_types.php';
 require_once 'thirdparty/evernote/packages/Errors/Errors_types.php';
 require_once 'thirdparty/evernote/packages/Limits/Limits_constants.php';
 
-use EDAM\Error\EDAMSystemException, EDAM\Error\EDAMUserException, EDAM\Error\EDAMErrorCode, EDAM\Error\EDAMNotFoundException, EDAM\Types\Data, EDAM\Types\Note, EDAM\Types\Resource, EDAM\Types\ResourceAttributes;
+use EDAM\Error\EDAMSystemException, EDAM\Error\EDAMUserException, EDAM\Error\EDAMErrorCode, EDAM\Error\EDAMNotFoundException, EDAM\Types\Data, EDAM\Types\Note, EDAM\Types\NoteAttributes, EDAM\Types\Resource, EDAM\Types\ResourceAttributes;
 use Evernote\Client;
 
 class Evernote extends CI_Controller {
@@ -103,8 +103,21 @@ class Evernote extends CI_Controller {
 						'sandbox' => $this->config->item('evernote/sandbox')
 					));
 					$noteStore = $client->getNoteStore();
+
+					$noteAttributes = new NoteAttributes();
+					$noteAttributes->source = 'api';
+					$noteAttributes->sourceURL = $data['itm']->itm_link;
+					$noteAttributes->sourceApplication = $this->config->item('title');
+					if($data['itm']->itm_latitude) {
+						$noteAttributes->latitude = $data['itm']->itm_latitude;
+					}
+					if($data['itm']->itm_longitude) {
+						$noteAttributes->longitude = $data['itm']->itm_longitude;
+					}
+
 					$note = new Note();
 					$note->title = $data['itm']->itm_title;
+					$note->attributes = $noteAttributes;
 
 					/*if($this->config->item('readability_parser_key')) {
 						$url = 'https://www.readability.com/api/content/v1/parser?url='.urlencode($data['itm']->itm_link).'&token='.$this->config->item('readability_parser_key');
