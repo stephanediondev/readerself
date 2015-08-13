@@ -48,8 +48,12 @@
 			<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 				<?php if(!$this->config->item('evernote/consumer_key') || !$this->config->item('evernote/consumer_secret')) { ?>
 					<?php $form = FALSE; ?>
-					<p>Before connecting you must <a href="<?php echo base_url(); ?>settings/other">edit settings</a> and fill in "Evernote / Consumer Key" and "Evernote / Consumer Secret" with the values that you received from Evernote.</p>
-					<p>If you do not have an API key, you can request one from <a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="https://dev.evernote.com/">https://dev.evernote.com/</a></p>
+					<?php if($this->member->mbr_administrator == 1) { ?>
+						<p>Before connecting you must <a href="<?php echo base_url(); ?>settings/other">edit settings</a> and fill in "Evernote / Consumer Key" and "Evernote / Consumer Secret" with the values that you received from Evernote.</p>
+						<p>If you do not have an API key, you can request one from <a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="https://dev.evernote.com/">https://dev.evernote.com/</a></p>
+					<?php } else { ?>
+						<p>Contact administrator</p>
+					<?php } ?>
 				<?php } else { ?>
 					<p>Installed</p>
 				<?php } ?>
