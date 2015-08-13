@@ -197,11 +197,11 @@ $lang['stg_register_multi'] = 'Multi-comptes';
 $lang['stg_members_list'] = 'Liste des membres';
 $lang['stg_refresh_by_cron'] = 'Rechargement par cron';
 
-$lang['stg_elasticsearch/enabled'] = 'Elasticsearch';
+$lang['stg_elasticsearch/enabled'] = 'Elasticsearch enabled';
 $lang['stg_elasticsearch/index'] = 'Elasticsearch / Index';
 $lang['stg_elasticsearch/url'] = 'Elasticsearch / Url';
 
-$lang['stg_facebook/enabled'] = 'Facebook (application to retrieve pages as feeds)';
+$lang['stg_facebook/enabled'] = 'Facebook (retrieve pages as feeds)';
 $lang['stg_facebook/id'] = 'Facebook / Id';
 $lang['stg_facebook/secret'] = 'Facebook / Secret';
 
@@ -227,3 +227,8 @@ $lang['database_password'] = 'Mot de passe';
 $lang['database_name'] = 'Nom de la base de données';
 $lang['user'] = 'Utilisateur';
 $lang['callback_database_username_password'] = 'Définir un utlisateur et un mot de passe';
+
+$lang['stg_evernote/enabled'] = 'Evernote enabled';
+$lang['stg_evernote/sandbox'] = 'Evernote / Sandbox';
+$lang['stg_evernote/consumer_key'] = 'Evernote / Consumer Key';
+$lang['stg_evernote/consumer_secret'] = 'Evernote / Consumer Secret';

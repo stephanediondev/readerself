@@ -63,6 +63,9 @@
 			<i class="material-icons md-18">more_vert</i>
 		</button>
 		<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--top-left mdl-color--<?php echo $this->config->item('material-design/colors/background/menu'); ?>" for="more_<?php echo $itm->itm_id; ?>">
+			<?php if($this->config->item('evernote/enabled')) { ?>
+				<li class="mdl-menu__item"><a class="link-item-evernote mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>evernote/create/<?php echo $itm->itm_id; ?>">Evernote</a></li>
+			<?php } ?>
 			<?php if($this->config->item('readability_parser_key') && $itm->case_member != 'public_profile') { ?>
 				<li class="mdl-menu__item"><a class="link-item-readability mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>item/readability/<?php echo $itm->itm_id; ?>">Readability</a></li>
 			<?php } ?>

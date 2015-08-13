@@ -110,6 +110,38 @@ class Readerself_model extends CI_Model {
 		}
 		return $member;
 	}
+	function get_token($type, $mbr_id, $sandbox) {
+		if($sandbox) {
+			$sandbox = 1;
+		} else {
+			$sandbox = 0;
+		}
+		$row = $this->db->query('SELECT tok.tok_value FROM '.$this->db->dbprefix('tokens').' AS tok WHERE tok.tok_type = ? AND tok.mbr_id = ? AND tok.tok_sandbox = ? GROUP BY tok.tok_id', array($type, $mbr_id, $sandbox))->row();
+		if($row) {
+			return $row->tok_value;
+		} else {
+			return false;
+		}
+	}
+	function set_token($type, $mbr_id, $value, $sandbox) {
+		$row = $this->get_token($type, $mbr_id, $sandbox);
+		$this->db->set('tok_value', $value);
+		if($sandbox) {
+			$this->db->set('tok_sandbox', 1);
+		} else {
+			$this->db->set('tok_sandbox', '0');
+		}
+		if(!$row) {
+			$this->db->set('tok_type', $type);
+			$this->db->set('mbr_id', $mbr_id);
+			$this->db->set('tok_datecreated', date('Y-m-d H:i:s'));
+			$this->db->insert('tokens');
+		} else {
+			$this->db->where('tok_type', $type);
+			$this->db->where('mbr_id', $mbr_id);
+			$this->db->update('tokens');
+		}
+	}
 	function count_members() {
 		return $this->db->query('SELECT COUNT(DISTINCT(mbr.mbr_id)) AS count FROM '.$this->db->dbprefix('members').' AS mbr')->row()->count;
 	}
