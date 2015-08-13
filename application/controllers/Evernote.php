@@ -19,6 +19,34 @@ class Evernote extends CI_Controller {
 
 		$data = array();
 
+		$data['token'] = $this->readerself_model->get_token('evernote', $this->member->mbr_id);
+		if($data['token']) {
+			try {
+				$client = new Client(array(
+					'token' => $data['token'],
+					'sandbox' => $this->config->item('evernote/sandbox')
+				));
+				$noteStore = $client->getNoteStore();
+
+			} catch (EDAMSystemException $e) {
+				$data['token'] = false;
+				$content = $this->load->view('evernote_index', $data, TRUE);
+				$this->readerself_library->set_content($content);
+			} catch (EDAMUserException $e) {
+				$data['token'] = false;
+				$content = $this->load->view('evernote_index', $data, TRUE);
+				$this->readerself_library->set_content($content);
+			} catch (EDAMNotFoundException $e) {
+				$data['token'] = false;
+				$content['modal'] = $this->load->view('evernote_create', $data, TRUE);
+				$this->readerself_library->set_content($content);
+			} catch (Exception $e) {
+				$data['token'] = false;
+				$content = $this->load->view('evernote_index', $data, TRUE);
+				$this->readerself_library->set_content($content);
+			}
+		}
+
 		$content = $this->load->view('evernote_index', $data, TRUE);
 		$this->readerself_library->set_content($content);
 	}
@@ -106,8 +134,8 @@ class Evernote extends CI_Controller {
 
 					$noteAttributes = new NoteAttributes();
 					$noteAttributes->source = 'api';
-					$noteAttributes->sourceURL = $data['itm']->itm_link;
-					$noteAttributes->sourceApplication = $this->config->item('title');
+					$noteAttributes->sourceURL = trim($data['itm']->itm_link);
+					$noteAttributes->sourceApplication = trim($this->config->item('title'));
 					if($data['itm']->itm_latitude) {
 						$noteAttributes->latitude = $data['itm']->itm_latitude;
 					}
@@ -116,10 +144,11 @@ class Evernote extends CI_Controller {
 					}
 
 					$note = new Note();
-					$note->title = $data['itm']->itm_title;
+					$note->title = trim($data['itm']->itm_title);
 					$note->attributes = $noteAttributes;
 
-					/*if($this->config->item('readability_parser_key')) {
+					//get full content with Readability if key exists
+					if($this->config->item('readability_parser_key')) {
 						$url = 'https://www.readability.com/api/content/v1/parser?url='.urlencode($data['itm']->itm_link).'&token='.$this->config->item('readability_parser_key');
 						$ch = curl_init();
 						curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -128,25 +157,38 @@ class Evernote extends CI_Controller {
 						curl_close($ch);
 						$result = json_decode($result);
 						$data['itm']->itm_content = $result->content;
-					}*/
-
-					$options = array('output-xhtml' => true, 'clean' => true, 'wrap-php' => true, 'doctype' => 'omit', 'show-body-only' => true, 'drop-proprietary-attributes' => true);
-					$tidy = new tidy();
-					$tidy->parseString($data['itm']->itm_content, $options, 'utf8');
-					$tidy->cleanRepair();
-					//strip_tags($tidy, '<img><p><br><br/><em><strong><h1><h2><h3><h4><h5><h6>')
-
-					$note->content = '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd"><en-note>'.$tidy.'</en-note>';
-
-					// When note titles are user-generated, it's important to validate them
-					$len = strlen($note->title);
-					$min = $GLOBALS['EDAM_Limits_Limits_CONSTANTS']['EDAM_NOTE_TITLE_LEN_MIN'];
-					$max = $GLOBALS['EDAM_Limits_Limits_CONSTANTS']['EDAM_NOTE_TITLE_LEN_MAX'];
-					$pattern = '#' . $GLOBALS['EDAM_Limits_Limits_CONSTANTS']['EDAM_NOTE_TITLE_REGEX'] . '#'; // Add PCRE delimiters
-					if ($len < $min || $len > $max || !preg_match($pattern, $note->title)) {
-						//print "\nInvalid note title: " . $note->title . '\n\n';
-						//exit(1);
 					}
+
+					//remove disallowed attributes with DOMDocument
+					if(class_exists('DOMDocument')) {
+						$dom = new DOMDocument;
+						$dom->loadHTML($data['itm']->itm_content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+						$xpath = new DOMXPath($dom);
+
+						$disallowed_attributes = array('id', 'class', 'onclick', 'ondblclick', 'onmouseover', 'onmouseout', 'accesskey', 'data', 'dynsrc', 'tabindex');
+						foreach($disallowed_attributes as $attribute) {
+							$nodes = $xpath->query('//*[@'.$attribute.']');
+							foreach($nodes as $node) {
+								$node->removeAttribute($attribute);
+							}
+						}
+						$data['itm']->itm_content = $dom->saveHTML();
+					}
+
+					//clean all with Tidy
+					if(class_exists('Tidy')) {
+						$options = array('output-xhtml' => true, 'clean' => true, 'wrap-php' => true, 'doctype' => 'omit', 'show-body-only' => true, 'drop-proprietary-attributes' => true);
+						$tidy = new tidy();
+						$tidy->parseString($data['itm']->itm_content, $options, 'utf8');
+						$tidy->cleanRepair();
+						$data['itm']->itm_content = $tidy;
+					}
+
+					//keep only allowed tags
+					strip_tags($data['itm']->itm_content, '<a>,<abbr>,<acronym>,<address>,<area>,<b>,<bdo>,<big>,<blockquote>,<br/>,<caption>,<center>,<cite>,<code>,<col>,<colgroup>,<dd>,<del>,<dfn>,<div>,<dl>,<dt>,<em>,<font>,<h1>,<h2>,<h3>,<h4>,<h5>,<h6>,<hr/>,<i>,<img>,<ins>,<kbd>,<li>,<map>,<ol>,<p>,<pre>,<q>,<s>,<samp>,<small>,<span>,<strike>,<strong>,<sub>,<sup>,<table>,<tbody>,<td>,<tfoot>,<th>,<thead>,<title>,<tr>,<tt>,<u>,<ul>,<var>,<xmp>');
+
+					$note->content = '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd"><en-note>'.$data['itm']->itm_content.'</en-note>';
+
 					try {
 						$createdNote = $noteStore->createNote($note);
 						$data['status'] = 'note_added';
@@ -173,6 +215,9 @@ class Evernote extends CI_Controller {
 				} catch (EDAMUserException $e) {
 					$data['status'] = 'error';
 					if(isset(EDAMErrorCode::$__names[$e->errorCode])) {
+						if(EDAMErrorCode::$__names[$e->errorCode] == 'AUTH_EXPIRED') {
+							$data['status'] = 'no_token';
+						}
 						$data['message'] = EDAMErrorCode::$__names[$e->errorCode].': '.$e->parameter;
 					} else {
 						$data['message'] = $e->getCode().': '.$e->getMessage();

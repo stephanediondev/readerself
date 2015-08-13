@@ -61,8 +61,6 @@
 		</div>
 
 		<?php if($form) { ?>
-			<?php $token = $this->readerself_model->get_token('evernote', $this->member->mbr_id); ?>
-
 			<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--4-col">
 				<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
 					<h1 class="mdl-card__title-text"><?php if($token) { ?><i class="material-icons md-18">done</i><?php } ?>Authorize to access your account</h1>
