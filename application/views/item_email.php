@@ -1,13 +1,11 @@
 <div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--4-col share_email_result" id="share_email_<?php echo $itm->itm_id; ?>">
 	<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
 		<h1 class="mdl-card__title-text"><i class="material-icons md-18">email</i><?php echo $this->lang->line('share_email'); ?></h1>
-		<div class="mdl-card__subtitle-text">
-		</div>
 	</div>
 	<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 		<?php echo validation_errors('<p><i class="material-icons md-16">warning</i>', '</p>'); ?>
 
-		<?php echo form_open(current_url()); ?>
+		<?php echo form_open(current_url(), array('data-itm_id'=>$itm->itm_id)); ?>
 
 		<p>
 		<?php echo form_label($this->lang->line('email_subject')); ?>

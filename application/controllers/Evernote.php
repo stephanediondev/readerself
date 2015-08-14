@@ -71,44 +71,6 @@ class Evernote extends CI_Controller {
 			redirect(base_url().'evernote');
 		}
 	}
-	/*function list_notebooks() {
-		try {
-			$client = new Client(array(
-				'token' => $this->readerself_model->get_token('evernote', $this->member->mbr_id, $this->config->item('evernote/sandbox')),
-				'sandbox' => $this->config->item('evernote/sandbox')
-			));
-
-			$notebooks = $client->getNoteStore()->listNotebooks();
-			$result = array();
-			if (!empty($notebooks)) {
-				foreach ($notebooks as $notebook) {
-					$result[] = $notebook->name;
-				}
-			}
-			print_r($result);
-			return TRUE;
-		} catch (EDAMSystemException $e) {
-			if (isset(EDAMErrorCode::$__names[$e->errorCode])) {
-				$lastError = EDAMErrorCode::$__names[$e->errorCode].': '.$e->parameter;
-			} else {
-				$lastError = $e->getCode().': '.$e->getMessage();
-			}
-		} catch (EDAMUserException $e) {
-			if (isset(EDAMErrorCode::$__names[$e->errorCode])) {
-				$lastError = EDAMErrorCode::$__names[$e->errorCode].': '.$e->parameter;
-			} else {
-				$lastError = $e->getCode().': '.$e->getMessage();
-			}
-		} catch (EDAMNotFoundException $e) {
-			if (isset(EDAMErrorCode::$__names[$e->errorCode])) {
-				$lastError = EDAMErrorCode::$__names[$e->errorCode].': '.$e->parameter;
-			} else {
-				$lastError = $e->getCode().': '.$e->getMessage();
-			}
-		} catch (Exception $e) {
-			$lastError = $e->getMessage();
-		}
-	}*/
 	function create($itm_id) {
 		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
@@ -123,6 +85,7 @@ class Evernote extends CI_Controller {
 
 		$data['itm'] = $this->db->query('SELECT * FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? AND itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? ) GROUP BY itm.itm_id', array($itm_id, $this->member->mbr_id))->row();
 		if($data['itm'] && $this->input->is_ajax_request()) {
+
 			$token = $this->readerself_model->get_token('evernote', $this->member->mbr_id, $this->config->item('evernote/sandbox'));
 			if($token) {
 				try {
@@ -132,77 +95,99 @@ class Evernote extends CI_Controller {
 					));
 					$noteStore = $client->getNoteStore();
 
-					$noteAttributes = new NoteAttributes();
-					$noteAttributes->source = 'api';
-					$noteAttributes->sourceURL = trim($data['itm']->itm_link);
-					$noteAttributes->sourceApplication = trim($this->config->item('title'));
-					if($data['itm']->itm_latitude) {
-						$noteAttributes->latitude = $data['itm']->itm_latitude;
-					}
-					if($data['itm']->itm_longitude) {
-						$noteAttributes->longitude = $data['itm']->itm_longitude;
-					}
-
-					$note = new Note();
-					$note->title = trim($data['itm']->itm_title);
-					$note->attributes = $noteAttributes;
-
-					//get full content with Readability if key exists
-					if($this->config->item('readability_parser_key')) {
-						$url = 'https://www.readability.com/api/content/v1/parser?url='.urlencode($data['itm']->itm_link).'&token='.$this->config->item('readability_parser_key');
-						$ch = curl_init();
-						curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-						curl_setopt($ch, CURLOPT_URL, $url);
-						$result = curl_exec($ch);
-						curl_close($ch);
-						$result = json_decode($result);
-						$data['itm']->itm_content = $result->content;
-					}
-
-					//remove disallowed attributes with DOMDocument
-					if(class_exists('DOMDocument')) {
-						$dom = new DOMDocument;
-						$dom->loadHTML($data['itm']->itm_content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-						$xpath = new DOMXPath($dom);
-
-						$disallowed_attributes = array('id', 'class', 'onclick', 'ondblclick', 'onmouseover', 'onmouseout', 'accesskey', 'data', 'dynsrc', 'tabindex');
-						foreach($disallowed_attributes as $attribute) {
-							$nodes = $xpath->query('//*[@'.$attribute.']');
-							foreach($nodes as $node) {
-								$node->removeAttribute($attribute);
-							}
+					$list_notebooks = $client->getNoteStore()->listNotebooks();
+					$data['notebooks'] = array();
+					if(!empty($list_notebooks)) {
+						foreach ($list_notebooks as $notebook) {
+							$data['notebooks'][$notebook->guid] = $notebook->name;
 						}
-						$data['itm']->itm_content = $dom->saveHTML();
 					}
 
-					//clean all with Tidy
-					if(class_exists('Tidy')) {
-						$options = array('output-xhtml' => true, 'clean' => true, 'wrap-php' => true, 'doctype' => 'omit', 'show-body-only' => true, 'drop-proprietary-attributes' => true);
-						$tidy = new tidy();
-						$tidy->parseString($data['itm']->itm_content, $options, 'utf8');
-						$tidy->cleanRepair();
-						$data['itm']->itm_content = $tidy;
-					}
+					$this->load->library(array('form_validation'));
 
-					//keep only allowed tags
-					strip_tags($data['itm']->itm_content, '<a>,<abbr>,<acronym>,<address>,<area>,<b>,<bdo>,<big>,<blockquote>,<br/>,<caption>,<center>,<cite>,<code>,<col>,<colgroup>,<dd>,<del>,<dfn>,<div>,<dl>,<dt>,<em>,<font>,<h1>,<h2>,<h3>,<h4>,<h5>,<h6>,<hr/>,<i>,<img>,<ins>,<kbd>,<li>,<map>,<ol>,<p>,<pre>,<q>,<s>,<samp>,<small>,<span>,<strike>,<strong>,<sub>,<sup>,<table>,<tbody>,<td>,<tfoot>,<th>,<thead>,<title>,<tr>,<tt>,<u>,<ul>,<var>,<xmp>');
+					$this->form_validation->set_rules('notebook', 'Notebook', 'required');
 
-					$note->content = '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd"><en-note>'.$data['itm']->itm_content.'</en-note>';
-
-					try {
-						$createdNote = $noteStore->createNote($note);
-						$data['status'] = 'note_added';
-					} catch (EDAMUserException $e) {
-						$data['status'] = 'error';
-						$data['message'] = $e->parameter;
+					if($this->form_validation->run() == FALSE) {
 						$content['modal'] = $this->load->view('evernote_create', $data, TRUE);
 						$this->readerself_library->set_content($content);
-					} catch (EDAMNotFoundException $e) {
-						$data['status'] = 'error';
-						$data['message'] = $e->getMessage();
-						$content['modal'] = $this->load->view('evernote_create', $data, TRUE);
-						$this->readerself_library->set_content($content);
+
+					} else {
+						$noteAttributes = new NoteAttributes();
+						$noteAttributes->source = 'api';
+						$noteAttributes->sourceURL = trim($data['itm']->itm_link);
+						$noteAttributes->sourceApplication = trim($this->config->item('title'));
+						if($data['itm']->itm_latitude) {
+							$noteAttributes->latitude = $data['itm']->itm_latitude;
+						}
+						if($data['itm']->itm_longitude) {
+							$noteAttributes->longitude = $data['itm']->itm_longitude;
+						}
+
+						$note = new Note();
+						$note->title = trim($data['itm']->itm_title);
+						$note->notebookGuid = $this->input->post('notebook');
+						$note->attributes = $noteAttributes;
+
+						//get full content with Readability if key exists
+						if($this->config->item('readability_parser_key')) {
+							$url = 'https://www.readability.com/api/content/v1/parser?url='.urlencode($data['itm']->itm_link).'&token='.$this->config->item('readability_parser_key');
+							$ch = curl_init();
+							curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+							curl_setopt($ch, CURLOPT_URL, $url);
+							$result = curl_exec($ch);
+							curl_close($ch);
+							$result = json_decode($result);
+							$data['itm']->itm_content = $result->content;
+						}
+
+						//remove disallowed attributes with DOMDocument
+						if(class_exists('DOMDocument')) {
+							$dom = new DOMDocument;
+							$dom->loadHTML($data['itm']->itm_content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+							$xpath = new DOMXPath($dom);
+
+							$disallowed_attributes = array('id', 'class', 'onclick', 'ondblclick', 'onmouseover', 'onmouseout', 'accesskey', 'data', 'dynsrc', 'tabindex');
+							foreach($disallowed_attributes as $attribute) {
+								$nodes = $xpath->query('//*[@'.$attribute.']');
+								foreach($nodes as $node) {
+									$node->removeAttribute($attribute);
+								}
+							}
+							$data['itm']->itm_content = $dom->saveHTML();
+						}
+
+						//clean all with Tidy
+						if(class_exists('Tidy')) {
+							$options = array('output-xhtml' => true, 'clean' => true, 'wrap-php' => true, 'doctype' => 'omit', 'show-body-only' => true, 'drop-proprietary-attributes' => true);
+							$tidy = new tidy();
+							$tidy->parseString($data['itm']->itm_content, $options, 'utf8');
+							$tidy->cleanRepair();
+							$data['itm']->itm_content = $tidy;
+						}
+
+						//keep only allowed tags
+						strip_tags($data['itm']->itm_content, '<a>,<abbr>,<acronym>,<address>,<area>,<b>,<bdo>,<big>,<blockquote>,<br/>,<caption>,<center>,<cite>,<code>,<col>,<colgroup>,<dd>,<del>,<dfn>,<div>,<dl>,<dt>,<em>,<font>,<h1>,<h2>,<h3>,<h4>,<h5>,<h6>,<hr/>,<i>,<img>,<ins>,<kbd>,<li>,<map>,<ol>,<p>,<pre>,<q>,<s>,<samp>,<small>,<span>,<strike>,<strong>,<sub>,<sup>,<table>,<tbody>,<td>,<tfoot>,<th>,<thead>,<title>,<tr>,<tt>,<u>,<ul>,<var>,<xmp>');
+
+						$note->content = '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd"><en-note>'.$data['itm']->itm_content.'</en-note>';
+
+						try {
+							$createdNote = $noteStore->createNote($note);
+							$data['status'] = 'note_added';
+							$content['modal'] = $this->load->view('evernote_create_confirm', $data, TRUE);
+							$this->readerself_library->set_content($content);
+						} catch (EDAMUserException $e) {
+							$data['status'] = 'error';
+							$data['message'] = $e->parameter;
+							$content['modal'] = $this->load->view('evernote_create_confirm', $data, TRUE);
+							$this->readerself_library->set_content($content);
+						} catch (EDAMNotFoundException $e) {
+							$data['status'] = 'error';
+							$data['message'] = $e->getMessage();
+							$content['modal'] = $this->load->view('evernote_create_confirm', $data, TRUE);
+							$this->readerself_library->set_content($content);
+						}
 					}
+
 				} catch (EDAMSystemException $e) {
 					$data['status'] = 'error';
 					if(isset(EDAMErrorCode::$__names[$e->errorCode])) {
@@ -210,7 +195,7 @@ class Evernote extends CI_Controller {
 					} else {
 						$data['message'] = $e->getCode().': '.$e->getMessage();
 					}
-					$content['modal'] = $this->load->view('evernote_create', $data, TRUE);
+					$content['modal'] = $this->load->view('evernote_create_confirm', $data, TRUE);
 					$this->readerself_library->set_content($content);
 				} catch (EDAMUserException $e) {
 					$data['status'] = 'error';
@@ -222,7 +207,7 @@ class Evernote extends CI_Controller {
 					} else {
 						$data['message'] = $e->getCode().': '.$e->getMessage();
 					}
-					$content['modal'] = $this->load->view('evernote_create', $data, TRUE);
+					$content['modal'] = $this->load->view('evernote_create_confirm', $data, TRUE);
 					$this->readerself_library->set_content($content);
 				} catch (EDAMNotFoundException $e) {
 					$data['status'] = 'error';
@@ -231,22 +216,23 @@ class Evernote extends CI_Controller {
 					} else {
 						$data['message'] = $e->getCode().': '.$e->getMessage();
 					}
-					$content['modal'] = $this->load->view('evernote_create', $data, TRUE);
+					$content['modal'] = $this->load->view('evernote_create_confirm', $data, TRUE);
 					$this->readerself_library->set_content($content);
 				} catch (Exception $e) {
 					$data['status'] = 'error';
 					$data['message'] = $e->getMessage();
-					$content['modal'] = $this->load->view('evernote_create', $data, TRUE);
+					$content['modal'] = $this->load->view('evernote_create_confirm', $data, TRUE);
 					$this->readerself_library->set_content($content);
 				}
+
 			} else {
 				$data['status'] = 'no_token';
+				$content['modal'] = $this->load->view('evernote_create_confirm', $data, TRUE);
+				$this->readerself_library->set_content($content);
 			}
 		} else {
 			$this->output->set_status_header(403);
 		}
-		$content['modal'] = $this->load->view('evernote_create', $data, TRUE);
-		$this->readerself_library->set_content($content);
 	}
 	function getTemporaryCredentials() {
 		try {

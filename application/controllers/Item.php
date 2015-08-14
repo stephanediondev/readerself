@@ -117,19 +117,26 @@ class Item extends CI_Controller {
 			if($query->num_rows() > 0) {
 				$data['itm'] = $query->row();
 
+				if($data['itm']->auh_id) {
+					$sql = 'SELECT auh.* FROM '.$this->db->dbprefix('authors').' AS auh WHERE auh.auh_id = ? GROUP BY auh.auh_id';
+					$data['itm']->auh = $this->db->query($sql, array($data['itm']->auh_id))->row();
+				} else {
+					$data['itm']->auh = false;
+				}
+
 				$sql = 'SELECT sub.sub_id, sub.sub_title, fed.fed_title, sub.sub_direction, fed.fed_direction, flr.flr_id, flr.flr_title, flr.flr_direction FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id LEFT JOIN '.$this->db->dbprefix('folders').' AS flr ON flr.flr_id = sub.flr_id WHERE sub.fed_id = ? AND sub.mbr_id = ? GROUP BY sub.sub_id';
 				$data['itm']->sub = $this->db->query($sql, array($data['itm']->fed_id, $this->member->mbr_id))->row();
 
 				$data['itm']->categories = false;
 
 				if($this->config->item('tags')) {
-					$categories = $this->db->query('SELECT cat.* FROM '.$this->db->dbprefix('categories').' AS cat WHERE cat.itm_id = ? GROUP BY cat.cat_id', array($itm_id))->result();
+					$categories = $this->db->query('SELECT tag.* FROM '.$this->db->dbprefix('tags').' AS tag LEFT JOIN '.$this->db->dbprefix('tags_items').' AS tag_itm ON tag_itm.tag_id = tag.tag_id WHERE tag_itm.itm_id = ? GROUP BY tag.tag_id', array($data['itm']->itm_id))->result();
 					if($categories) {
 						$data['itm']->categories = array();
 						foreach($categories as $cat) {
-							if(substr($cat->cat_title, 0, 17) == 'foursquare:venue=') {
+							if(substr($cat->tag_title, 0, 17) == 'foursquare:venue=') {
 							} else {
-								$data['itm']->categories[] = $cat->cat_title;
+								$data['itm']->categories[] = $cat->tag_title;
 							}
 						}
 					}
@@ -171,7 +178,7 @@ class Item extends CI_Controller {
 					$this->email->message($message);
 					$this->email->send();
 
-					//$content['modal'] = $this->load->view('item_email_confirm', $data, TRUE);
+					$content['modal'] = $this->load->view('item_email_confirm', $data, TRUE);
 					$content['status'] = 'ok';
 				}
 			} else {

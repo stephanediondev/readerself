@@ -871,8 +871,7 @@ $(document).ready(function() {
 	$(document).on('click', '.link-item-evernote', function(event) {
 		event.preventDefault();
 		var ref = $(this);
-		var params = [];
-		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
+		$('#item_' + ref.data('itm_id')).after('<div id="spinner_' + ref.data('itm_id') + '" class="mdl-spinner mdl-js-spinner is-active"></div>');componentHandler.upgradeDom('MaterialSpinner', 'mdl-spinner');
 		$.ajax({
 			async: true,
 			cache: true,
@@ -881,20 +880,43 @@ $(document).ready(function() {
 			statusCode: {
 				200: function(data_return, textStatus, jqXHR) {
 					if(data_return.modal) {
+						$('#spinner_' + data_return.itm_id).remove();
 						$('#item_' + data_return.itm_id).after(data_return.modal);
 					}
 				}
 			},
-			type: 'POST',
+			type: 'GET',
 			url: ref.attr('href')
+		});
+	});
+
+	$(document).on('submit', '.evernote_result form', function(event) {
+		event.preventDefault();
+		var ref = $(this);
+		$('#evernote_' + ref.data('itm_id')).remove();
+		$('#item_' + ref.data('itm_id')).after('<div id="spinner_' + ref.data('itm_id') + '" class="mdl-spinner mdl-js-spinner is-active"></div>');componentHandler.upgradeDom('MaterialSpinner', 'mdl-spinner');
+		var params = ref.serializeArray();
+		$.ajax({
+			async: true,
+			cache: true,
+			data: params,
+			dataType: 'json',
+			statusCode: {
+				200: function(data_return, textStatus, jqXHR) {
+					$('#spinner_' + data_return.itm_id).remove();
+					$('#item_' + data_return.itm_id).after(data_return.modal);
+				}
+			},
+			type: 'POST',
+			url: ref.attr('action')
 		});
 	});
 
 	$(document).on('click', '.link-item-readability', function(event) {
 		event.preventDefault();
 		var ref = $(this);
+		$('#item_' + ref.data('itm_id')).after('<div id="spinner_' + ref.data('itm_id') + '" class="mdl-spinner mdl-js-spinner is-active"></div>');componentHandler.upgradeDom('MaterialSpinner', 'mdl-spinner');
 		var params = [];
-		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
 		$.ajax({
 			async: true,
 			cache: true,
@@ -904,13 +926,14 @@ $(document).ready(function() {
 				200: function(data_return, textStatus, jqXHR) {
 					if(data_return.readability) {
 						if(data_return.readability.content) {
+							$('#spinner_' + data_return.itm_id).remove();
 							$('#item_' + data_return.itm_id).find('.item-content-result').html(data_return.readability.content);
 							scroll_to('#item_' + data_return.itm_id);
 						}
 					}
 				}
 			},
-			type: 'POST',
+			type: 'GET',
 			url: ref.attr('href')
 		});
 	});
@@ -1000,19 +1023,21 @@ $(document).ready(function() {
 
 	$(document).on('click', '.share_email', function(event) {
 		event.preventDefault();
+		var ref = $(this);
+		$('#item_' + ref.data('itm_id')).after('<div id="spinner_' + ref.data('itm_id') + '" class="mdl-spinner mdl-js-spinner is-active"></div>');componentHandler.upgradeDom('MaterialSpinner', 'mdl-spinner');
 		params = [];
-		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
 		$.ajax({
-			async: false,
+			async: true,
 			cache: true,
 			data: params,
 			dataType: 'json',
 			statusCode: {
 				200: function(data_return, textStatus, jqXHR) {
+					$('#spinner_' + data_return.itm_id).remove();
 					$('#item_' + data_return.itm_id).after(data_return.modal);
 				}
 			},
-			type: 'POST',
+			type: 'GET',
 			url: $(this).attr('href')
 		});
 	});
@@ -1020,18 +1045,18 @@ $(document).ready(function() {
 	$(document).on('submit', '.share_email_result form', function(event) {
 		event.preventDefault();
 		var ref = $(this);
+		$('#share_email_' + ref.data('itm_id')).remove();
+		$('#item_' + ref.data('itm_id')).after('<div id="spinner_' + ref.data('itm_id') + '" class="mdl-spinner mdl-js-spinner is-active"></div>');componentHandler.upgradeDom('MaterialSpinner', 'mdl-spinner');
 		var params = ref.serializeArray();
 		$.ajax({
-			async: false,
+			async: true,
 			cache: true,
 			data: params,
 			dataType: 'json',
 			statusCode: {
 				200: function(data_return, textStatus, jqXHR) {
-					$('#share_email_' + data_return.itm_id).remove();
-					if(data_return.status == 'ko') {
-						$('#item_' + data_return.itm_id).after(data_return.modal);
-					}
+					$('#spinner_' + data_return.itm_id).remove();
+					$('#item_' + data_return.itm_id).after(data_return.modal);
 				}
 			},
 			type: 'POST',
