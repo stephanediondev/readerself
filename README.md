@@ -39,4 +39,4 @@ cd /path-to-installation && php index.php refresh items
 ####Screenshots
 
 ![Desktop](https://readerself.com/medias/home.png)
-![Mobile](https://readerself.com/medias/htc-one-mini-2.png)
+![Mobile](https://readerself.com/medias/moto-g-2014.png)
