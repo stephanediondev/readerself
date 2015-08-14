@@ -146,8 +146,8 @@ function add_items(url) {
 	}
 }
 function item_swipe(selector) {
-	if($('aside').css('position') == 'absolute') {
-		/*$(selector).swipe('destroy');
+	/*if('ontouchstart' in window || navigator.msMaxTouchPoints) {
+		$(selector).swipe('destroy');
 		$(selector).swipe({
 			swipe:function(event, direction, distance, duration, fingerCount) {
 				if(direction == 'left') {
@@ -157,19 +157,14 @@ function item_swipe(selector) {
 					if($(selector).hasClass('collapse')) {
 						item_expand($(selector).find('.expand'));
 					} else {
-						$(selector).find('.mdl-card__supporting-text').hide();
-						$(selector).find('.mdl-card__supporting-text').html('');
-						$(selector).find('.collapse').parent().hide();
-						$(selector).find('.expand').parent().show();
-						$(selector).addClass('collapse');
-						scroll_to('#' + $(selector).attr('id'));
+						item_collapse($(selector));
 					}
 					
 				}
 			},
 			threshold: 120
-		});*/
-	}
+		});
+	}*/
 }
 function click_navigation(ref) {
 	$('#search_items').val('');

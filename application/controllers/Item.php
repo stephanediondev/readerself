@@ -117,6 +117,18 @@ class Item extends CI_Controller {
 			if($query->num_rows() > 0) {
 				$data['itm'] = $query->row();
 
+				//get full content with Readability if key exists
+				if($this->config->item('readability_parser_key')) {
+					$url = 'https://www.readability.com/api/content/v1/parser?url='.urlencode($data['itm']->itm_link).'&token='.$this->config->item('readability_parser_key');
+					$ch = curl_init();
+					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+					curl_setopt($ch, CURLOPT_URL, $url);
+					$result = curl_exec($ch);
+					curl_close($ch);
+					$result = json_decode($result);
+					$data['itm']->itm_content = $result->content;
+				}
+
 				if($data['itm']->auh_id) {
 					$sql = 'SELECT auh.* FROM '.$this->db->dbprefix('authors').' AS auh WHERE auh.auh_id = ? GROUP BY auh.auh_id';
 					$data['itm']->auh = $this->db->query($sql, array($data['itm']->auh_id))->row();
