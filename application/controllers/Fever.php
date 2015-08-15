@@ -267,7 +267,9 @@ class Fever extends CI_Controller {
 			$content['saved_item_ids'] = implode(',', $items);
 		}
 
-		//file_put_contents('fever.log', 'GET: '.var_export($_GET, true)."\r\n".'POST: '.var_export($_POST, true)."\r\n\r\n", FILE_APPEND | LOCK_EX);
+		//file_put_contents('fever.log', date('Y-m-d H:i:s')."\r\n", FILE_APPEND | LOCK_EX);
+		//file_put_contents('fever.log', 'SERVER: '.var_export($_SERVER, true)."\r\n".'GET: '.var_export($_GET, true)."\r\n".'POST: '.var_export($_POST, true)."\r\n\r\n", FILE_APPEND | LOCK_EX);
+		//file_put_contents('fever.log', 'AUTH: '.$content['auth']."\r\n\r\n", FILE_APPEND | LOCK_EX);
 
 		$this->readerself_library->set_content($content);
 	}
