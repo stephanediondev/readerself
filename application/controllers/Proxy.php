@@ -2,11 +2,19 @@
 
 class Proxy extends CI_Controller {
 	public function index() {
+		$opts = array(
+			'http' => array(
+				'method' => 'GET',
+				'user_agent'=> $_SERVER['HTTP_USER_AGENT']
+			)
+		);
+
+		$context = stream_context_create($opts);
+
 		$file = $this->input->get('file');
-		//echo file_get_contents($file);
 		$imginfo = getimagesize($file);
 		header('Content-type: '.$imginfo['mime']);
-		readfile($file);
+		readfile($file, false, $context);
 		exit(0);
 	}
 }
