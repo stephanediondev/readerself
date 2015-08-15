@@ -268,7 +268,7 @@ class Fever extends CI_Controller {
 		}
 
 		$data = array();
-		$data['token'] = $this->readerself_model->get_token('fever', $member_id, false);
+		$data['token'] = $this->readerself_model->get_token('fever', $this->member->mbr_id, false);
 
 		$this->load->library(array('form_validation'));
 
@@ -281,7 +281,7 @@ class Fever extends CI_Controller {
 		} else {
 			$api_key = md5($this->member->mbr_email.':'.$this->input->post('mbr_password'));
 
-			$this->readerself_model->set_token('fever', $member_id, $api_key, false);
+			$this->readerself_model->set_token('fever', $this->member->mbr_id, $api_key, false);
 
 			redirect(base_url().'fever/configure');
 		}
