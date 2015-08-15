@@ -9,7 +9,7 @@
 <?php if($itm->itm_latitude && $itm->itm_longitude) { ?>
 	<div class="item-geolocation">
 		<p><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" target="_blank" href="http://maps.google.com/maps?q=<?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?>&oe=UTF-8&ie=UTF-8"><i class="material-icons md-18">place</i><?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?></a><?php if($this->axipi_session->userdata('latitude') && $this->axipi_session->userdata('longitude')) { ?> (<?php echo haversineGreatCircleDistance($itm->itm_latitude, $itm->itm_longitude, $this->axipi_session->userdata('latitude'), $this->axipi_session->userdata('longitude')); ?>)<?php } ?></p>
-		<a target="_blank" href="http://maps.google.com/maps?q=<?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?>&oe=UTF-8&ie=UTF-8"><img src="http://maps.googleapis.com/maps/api/staticmap?center=<?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?>&markers=color:red|<?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?>&zoom=12&size=540x200&sensor=false" alt=""></a>
+		<a target="_blank" href="http://maps.google.com/maps?q=<?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?>&oe=UTF-8&ie=UTF-8"><img src="https://maps.googleapis.com/maps/api/staticmap?center=<?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?>&markers=color:red|<?php echo $itm->itm_latitude; ?>,<?php echo $itm->itm_longitude; ?>&zoom=12&size=540x200&sensor=false" alt=""></a>
 	</div>
 <?php } ?>
 
@@ -22,14 +22,14 @@
 			<?php if(stristr($enr->enr_type, 'image/') && $filename != '') { ?>
 				<div class="enclosure">
 					<p><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" target="_blank" href="<?php echo $enr->enr_link; ?>"><i class="material-icons md-18">image</i><?php echo $filename; ?></a></p>
-					<?php if($enr->enr_length == 0 || $enr->enr_length <= 1048576) { ?><a target="_blank" href="<?php echo $enr->enr_link; ?>"><img src="<?php echo base_url(); ?>proxy?file=<?php echo $enr->enr_link; ?>" alt=""></a><?php } ?>
+					<?php if($enr->enr_length == 0 || $enr->enr_length <= 1048576) { ?><a target="_blank" href="<?php echo $enr->enr_link; ?>"><img src="<?php echo $enr->enr_link; ?>" alt=""></a><?php } ?>
 				</div>
 
 			<?php } else if(stristr($enr->enr_type, 'audio/') && $filename != '') { ?>
 				<div class="enclosure">
 					<p><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" target="_blank" href="<?php echo $enr->enr_link; ?>"><i class="material-icons md-18">audiotrack</i><?php echo $filename; ?></a></p>
 					<audio controls>
-						<source src="<?php echo base_url(); ?>proxy?file=<?php echo $enr->enr_link; ?>" type="<?php echo $enr->enr_type; ?>">
+						<source src="<?php echo $enr->enr_link; ?>" type="<?php echo $enr->enr_type; ?>">
 					</audio>
 				</div>
 
@@ -55,7 +55,7 @@
 				<div class="enclosure">
 					<p><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" target="_blank" href="<?php echo $enr->enr_link; ?>"><i class="material-icons md-18">videocam</i><?php echo $filename; ?></a></p>
 					<video width="<?php echo $enr->enr_width; ?>" height="<?php echo $enr->enr_height; ?>" controls>
-						<source src="<?php echo base_url(); ?>proxy?file=<?php echo $enr->enr_link; ?>" type="<?php echo $enr->enr_type; ?>">
+						<source src="<?php echo $enr->enr_link; ?>" type="<?php echo $enr->enr_type; ?>">
 					</video>
 				</div>
 

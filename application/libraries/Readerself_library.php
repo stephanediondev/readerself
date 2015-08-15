@@ -532,7 +532,7 @@ class Readerself_library {
 	function prepare_content($content) {
 		//$content = strip_tags($content, '<dt><dd><dl><table><caption><tr><th><td><tbody><thead><h2><h3><h4><h5><h6><strong><em><code><pre><blockquote><p><ul><li><ol><br><del><a><img><figure><figcaption><cite><time><abbr>');
 
-		$content = str_replace(' src="', ' src="'.base_url().'proxy?file=', $content);
+		//$content = str_replace(' src="', ' src="'.base_url().'proxy?file=', $content);
 
 		preg_match_all('/<a[^>]+>/i', $content, $result);
 		foreach($result[0] as $flr_a) {
