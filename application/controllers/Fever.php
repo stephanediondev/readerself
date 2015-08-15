@@ -10,16 +10,16 @@ class Fever extends CI_Controller {
 
 		$content = array();
 
-		$api_key = $this->input->post('api_key');
+		$api_key = $_POST['api_key'];
 
 		$row = $this->db->query('SELECT tok.mbr_id FROM '.$this->db->dbprefix('tokens').' AS tok WHERE tok.tok_type = ? AND tok.tok_value = ? AND tok.tok_sandbox = ? GROUP BY tok.tok_id', array('fever', $api_key, 0))->row();
 		if($row) {
 			$member_id = $row->mbr_id;
 			$content['auth'] = 1;
 
-			$last_item = $this->db->query('SELECT MAX(itm.itm_datecreated) AS itm_datecreated FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )', array($member_id))->row();
+			$last_item = $this->db->query('SELECT MAX(itm.itm_date) AS itm_date FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? )', array($member_id))->row();
 			if($last_item) {
-				$content['last_refreshed_on_time'] = date('U', strtotime($last_item->itm_datecreated));
+				$content['last_refreshed_on_time'] = date('U', strtotime($last_item->itm_date));
 			}
 		} else {
 			$member_id = false;
@@ -141,7 +141,7 @@ class Fever extends CI_Controller {
 						'url' => $row->itm_link,
 						'is_saved' => $row->is_saved,
 						'is_read' => $row->is_read,
-						'created_on_time' => date('U', strtotime($row->itm_datecreated)),
+						'created_on_time' => date('U', strtotime($row->itm_date)),
 					);
 				}
 			}
@@ -150,37 +150,37 @@ class Fever extends CI_Controller {
 		$add_unread_item_ids = false;
 		$add_saved_item_ids = false;
 
-		if($member_id && isset($_GET['as']) == 1 && isset($_GET['id']) == 1 && isset($_GET['mark']) == 1) {
+		if($member_id && isset($_POST['as']) == 1 && isset($_POST['id']) == 1 && isset($_POST['mark']) == 1) {
 			$where = array();
 			$bindings = array();
 
 			$bindings[] = $member_id;
-			if($_GET['as'] == 'read' || $_GET['as'] == 'saved') {
+			if($_POST['as'] == 'read' || $_POST['as'] == 'saved') {
 				$bindings[] = date('Y-m-d H:i:s');
 			}
 
-			if($_GET['mark'] == 'item') {
+			if($_POST['mark'] == 'item') {
 				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? ) AND itm_id = ?';
 				$bindings[] = $member_id;
-				$bindings[] = $_GET['id'];
+				$bindings[] = $_POST['id'];
 			}
-			if($_GET['mark'] == 'feed') {
+			if($_POST['mark'] == 'feed') {
 				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? AND sub.fed_id = ? )';
 				$bindings[] = $member_id;
-				$bindings[] = $_GET['id'];
+				$bindings[] = $_POST['id'];
 			}
-			if($_GET['mark'] == 'group') {
+			if($_POST['mark'] == 'group') {
 				$where[] = 'itm.fed_id IN ( SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.fed_id = itm.fed_id AND sub.mbr_id = ? AND sub.flr_id = ? )';
 				$bindings[] = $member_id;
-				$bindings[] = $_GET['id'];
+				$bindings[] = $_POST['id'];
 			}
 
-			if(isset($_GET['before'])) {
-				$where[] = 'itm.itm_datecreated < ?';
-				$bindings[] = date('Y-m-d H:i:s', $_GET['before']);
+			if(isset($_POST['before'])) {
+				$where[] = 'itm.itm_date < ?';
+				$bindings[] = date('Y-m-d H:i:s', $_POST['before']);
 			}
 
-			if($_GET['as'] == 'read') {
+			if($_POST['as'] == 'read') {
 				$add_unread_item_ids = true;
 
 				$where[] = 'itm.itm_id NOT IN ( SELECT hst.itm_id FROM '.$this->db->dbprefix('history').' AS hst WHERE hst.itm_id = itm.itm_id AND hst.mbr_id = ? )';
@@ -191,7 +191,14 @@ class Fever extends CI_Controller {
 				$query = $this->db->query($sql, $bindings);
 			}
 
-			if($_GET['as'] == 'saved') {
+			if($_POST['as'] == 'unread') {
+				$add_unread_item_ids = true;
+
+				$sql = 'DELETE FROM '.$this->db->dbprefix('history').' WHERE mbr_id = ? AND itm_id IN (SELECT itm.itm_id FROM '.$this->db->dbprefix('items').' AS itm WHERE '.implode(' AND ', $where).' GROUP BY itm.itm_id)';
+				$query = $this->db->query($sql, $bindings);
+			}
+
+			if($_POST['as'] == 'saved') {
 				$add_saved_item_ids = true;
 
 				$where[] = 'itm.itm_id NOT IN ( SELECT fav.itm_id FROM '.$this->db->dbprefix('favorites').' AS fav WHERE fav.itm_id = itm.itm_id AND fav.mbr_id = ? )';
@@ -202,7 +209,7 @@ class Fever extends CI_Controller {
 				$query = $this->db->query($sql, $bindings);
 			}
 
-			if($_GET['as'] == 'unsaved') {
+			if($_POST['as'] == 'unsaved') {
 				$add_saved_item_ids = true;
 
 				$sql = 'DELETE FROM '.$this->db->dbprefix('favorites').' WHERE mbr_id = ? AND itm_id IN (SELECT itm.itm_id FROM '.$this->db->dbprefix('items').' AS itm WHERE '.implode(' AND ', $where).' GROUP BY itm.itm_id)';
@@ -250,6 +257,8 @@ class Fever extends CI_Controller {
 			}
 			$content['saved_item_ids'] = implode(',', $items);
 		}
+
+		//file_put_contents('fever.log', 'GET: '.var_export($_GET, true)."\r\n".'POST: '.var_export($_POST, true)."\r\n\r\n", FILE_APPEND | LOCK_EX);
 
 		$this->readerself_library->set_content($content);
 	}
