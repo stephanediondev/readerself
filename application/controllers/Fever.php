@@ -60,13 +60,22 @@ class Fever extends CI_Controller {
 		}
 
 		if($member_id && isset($_GET['groups']) == 1 || isset($_GET['feeds']) == 1) {
-			$result = $this->db->query('SELECT flr.flr_id, (SELECT GROUP_CONCAT(DISTINCT fed.fed_id SEPARATOR \',\') FROM '.$this->db->dbprefix('subscriptions').' AS sub LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = sub.fed_id WHERE sub.mbr_id = ? AND sub.flr_id = flr.flr_id) AS feeds FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? GROUP BY flr.flr_id', array($member_id, $member_id))->result();
+			$result = $this->db->query('SELECT flr.flr_id FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? GROUP BY flr.flr_id', array($member_id))->result();
 			if($result) {
 				$content['feeds_groups'] = array();
 				foreach($result as $row) {
+					$feeds = array();
+					$result = $this->db->query('SELECT sub.fed_id FROM '.$this->db->dbprefix('subscriptions').' AS sub WHERE sub.mbr_id = ? AND sub.flr_id = ?', array($member_id, $row->flr_id))->result();
+					if($result) {
+						foreach($result as $feed) {
+							$feeds[] = $feed->fed_id;
+						}
+					}
+					$feeds = implode(',', $feeds);
+
 					$content['feeds_groups'][] = array(
 						'group_id' => $row->flr_id,
-						'feed_ids' => $row->feeds,
+						'feed_ids' => $feeds,
 					);
 				}
 			}
