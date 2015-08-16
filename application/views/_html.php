@@ -22,9 +22,11 @@
 <?php if($this->axipi_session->userdata('mbr_id')) { ?>
 <meta name="application-name" content="<?php echo $this->config->item('title'); ?>">
 <meta name="msapplication-starturl" content="<?php echo base_url(); ?>">
-<meta name="msapplication-TileImage" content="<?php echo base_url(); ?>medias/readerself_250x250.png">
-<meta name="msapplication-TileColor" content="#FFFFFF">
-<meta name="msapplication-square150x150logo" content="<?php echo base_url(); ?>medias/readerself_250x250.png">
+<meta name="msapplication-TileImage" content="<?php echo base_url(); ?>medias/readerself_310x310.png">
+<meta name="msapplication-square70x70logo" content="<?php echo base_url(); ?>medias/readerself_70x70.png">
+<meta name="msapplication-square150x150logo" content="<?php echo base_url(); ?>medias/readerself_150x150.png">
+<meta name="msapplication-square310x310logo" content="<?php echo base_url(); ?>medias/readerself_310x310.png">
+<meta name="msapplication-wide310x150logo" content="<?php echo base_url(); ?>medias/readerself_310x150.png">
 <meta name="msapplication-badge" content="frequency=30;polling-uri=<?php echo base_url(); ?>msapplication/badge/<?php echo $this->member->token_msapplication; ?>">
 <?php } ?>
 <link rel="icon" sizes="16x16" href="<?php echo base_url(); ?>medias/readerself_16x16.png">
