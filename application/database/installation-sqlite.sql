@@ -144,6 +144,8 @@ CREATE TABLE IF NOT EXISTS `settings` (
 CREATE UNIQUE INDEX "settings_stg_code" ON "settings" ("stg_code");
 
 INSERT INTO `settings` (`stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is_global`, `stg_is_member`, `stg_is_subscription`, `stg_datecreated`) VALUES
+('proxy/enabled', 'boolean', '0', NULL, 1, 0, 0, datetime('now')),
+('proxy/http_only', 'boolean', '0', NULL, 1, 0, 0, datetime('now')),
 ('folders', 'boolean', '1', NULL, 1, 0, 0, datetime('now')),
 ('gravatar', 'boolean', '1', NULL, 1, 0, 0, datetime('now')),
 ('gravatar_default', 'string', 'identicon', 'identicon, mm, monsterid, retro, wavatar', 1, 1, 0, datetime('now')),

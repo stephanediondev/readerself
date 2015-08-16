@@ -232,3 +232,6 @@ $lang['stg_evernote/enabled'] = 'Evernote enabled';
 $lang['stg_evernote/sandbox'] = 'Evernote / Sandbox';
 $lang['stg_evernote/consumer_key'] = 'Evernote / Consumer Key';
 $lang['stg_evernote/consumer_secret'] = 'Evernote / Consumer Secret';
+
+$lang['stg_proxy/enabled'] = 'Proxy enabled';
+$lang['stg_proxy/http_only'] = 'Proxy / Http only';

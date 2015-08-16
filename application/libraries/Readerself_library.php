@@ -560,11 +560,33 @@ class Readerself_library {
 
 			if($attribute_width == 1 || $attribute_height == 1 || stristr($attribute_src, 'feedsportal.com') || stristr($attribute_src, 'feedburner.com')) {
 				$content = str_replace($flr_img, '', $content);
+			} else {
+				$flr_img_new = '<img src="'.$this->add_proxy($attribute_src).'"';
+				if($attribute_width) {
+					$flr_img_new .= ' width="'.$attribute_width.'"';
+				}
+				if($attribute_height) {
+					$flr_img_new .= ' height="'.$attribute_height.'"';
+				}
+				$flr_img_new .= '>';
+				$content = str_replace($flr_img, $flr_img_new, $content);
 			}
 		}
 		return $content;
 	}
 	function timezone_datetime($datetime, $format = 'Y-m-d H:i:s') {
 		return date($format, strtotime($datetime) + $this->CI->axipi_session->userdata('timezone') * 3600);
+	}
+	function add_proxy($url) {
+		if($this->CI->config->item('proxy/enabled')) {
+			if($this->CI->config->item('proxy/http_only') && substr($url, 0, 7) != 'http://') {
+				return $url;
+			} else {
+				//return base_url().'medias/readerself_250x250.png';
+				return base_url().'proxy/?file='.urlencode($url);
+			}
+		} else {
+			return $url;
+		}
 	}
 }

@@ -22,14 +22,14 @@
 			<?php if(stristr($enr->enr_type, 'image/') && $filename != '') { ?>
 				<div class="enclosure">
 					<p><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" target="_blank" href="<?php echo $enr->enr_link; ?>"><i class="material-icons md-18">image</i><?php echo $filename; ?></a></p>
-					<?php if($enr->enr_length == 0 || $enr->enr_length <= 1048576) { ?><a target="_blank" href="<?php echo $enr->enr_link; ?>"><img src="<?php echo $enr->enr_link; ?>" alt=""></a><?php } ?>
+					<?php if($enr->enr_length == 0 || $enr->enr_length <= 1048576) { ?><a target="_blank" href="<?php echo $enr->enr_link; ?>"><img src="<?php echo $this->readerself_library->add_proxy($enr->enr_link); ?>" alt=""></a><?php } ?>
 				</div>
 
 			<?php } else if(stristr($enr->enr_type, 'audio/') && $filename != '') { ?>
 				<div class="enclosure">
 					<p><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" target="_blank" href="<?php echo $enr->enr_link; ?>"><i class="material-icons md-18">audiotrack</i><?php echo $filename; ?></a></p>
 					<audio controls>
-						<source src="<?php echo $enr->enr_link; ?>" type="<?php echo $enr->enr_type; ?>">
+						<source src="<?php echo $this->readerself_library->add_proxy($enr->enr_link); ?>" type="<?php echo $enr->enr_type; ?>">
 					</audio>
 				</div>
 
@@ -55,7 +55,7 @@
 				<div class="enclosure">
 					<p><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" target="_blank" href="<?php echo $enr->enr_link; ?>"><i class="material-icons md-18">videocam</i><?php echo $filename; ?></a></p>
 					<video width="<?php echo $enr->enr_width; ?>" height="<?php echo $enr->enr_height; ?>" controls>
-						<source src="<?php echo $enr->enr_link; ?>" type="<?php echo $enr->enr_type; ?>">
+						<source src="<?php echo $this->readerself_library->add_proxy($enr->enr_link); ?>" type="<?php echo $enr->enr_type; ?>">
 					</video>
 				</div>
 
@@ -63,8 +63,8 @@
 				<div class="enclosure">
 					<p><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" target="_blank" href="<?php echo $enr->enr_link; ?>"><i class="material-icons md-18">flash_on</i><?php echo $enr->enr_link; ?></a></p>
 					<?php if($enr->enr_width && $enr->enr_height) { ?>
-						<object type="application/x-shockwave-flash" data="<?php echo $enr->enr_link; ?>" width="<?php echo $enr->enr_width; ?>" height="<?php echo $enr->enr_height; ?>">
-							<param name="movie" value="<?php echo $enr->enr_link; ?>">
+						<object type="application/x-shockwave-flash" data="<?php echo $this->readerself_library->add_proxy($enr->enr_link); ?>" width="<?php echo $enr->enr_width; ?>" height="<?php echo $enr->enr_height; ?>">
+							<param name="movie" value="<?php echo $this->readerself_library->add_proxy($enr->enr_link); ?>">
 							<param name="loop" value="false">
 						</object>
 					<?php } ?>
