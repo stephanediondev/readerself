@@ -6,6 +6,7 @@ input[type=text], input[type=password], textarea{border: 1px solid #d7d8dd;paddi
 .paging a:hover{background-color:#E7E7E7;}
 
 .allow_notifications{display:none;}
+.bookmarklet{display:none;}
 .registerContentHandler{display:none;}
 
 .item-content-result h1{font-size:17px;line-height:1;margin:15px 0px;}

@@ -114,6 +114,10 @@ function registerContentHandler() {
 }
 
 $(document).ready(function() {
+	if('ontouchstart' in window || navigator.msMaxTouchPoints) {
+	} else {
+		$('.bookmarklet').css({'display': 'inline-block'});
+	}
 	if (!!window.navigator.registerContentHandler) {
 		$('.registerContentHandler').css({'display': 'inline-block'});
 		$('.registerContentHandler a').bind('click', function(event) {
