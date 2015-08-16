@@ -33,14 +33,16 @@ class Setup extends CI_Controller {
 
 		$this->load->library(array('form_validation'));
 
-		if(!file_exists('application/config/database.php')) {
-			$fp = fopen('application/config/database.php', 'w');
-			fclose($fp);
-		}
+		if(is_writable('application/config')) {
+			if(!file_exists('application/config/database.php')) {
+				$fp = fopen('application/config/database.php', 'w');
+				fclose($fp);
+			}
 
-		if(!file_exists('application/config/readerself_config.php')) {
-			$fp = fopen('application/config/readerself_config.php', 'w');
-			fclose($fp);
+			if(!file_exists('application/config/readerself_config.php')) {
+				$fp = fopen('application/config/readerself_config.php', 'w');
+				fclose($fp);
+			}
 		}
 
 		$this->form_validation->set_rules('database_type', 'lang:database_type', 'required|callback_database_type');

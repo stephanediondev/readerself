@@ -24,34 +24,28 @@
 
 		<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--3-col">
 			<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
-				<h1 class="mdl-card__title-text">/application/config/database.php</h1>
+				<h1 class="mdl-card__title-text">PHP mbstring</h1>
 			</div>
 			<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
-				<?php if(!file_exists('application/config/database.php')) { ?>
+				<?php if(!function_exists('mb_detect_encoding')) { ?>
 					<?php $form = FALSE; ?>
-					<p>File missing</p>
-				<?php } else if(!is_writable('application/config/database.php')) { ?>
-					<?php $form = FALSE; ?>
-					<p>File not writable</p>
+					<p>Missing</p>
 				<?php } else { ?>
-					<p>File exists</p>
+					<p>Installed</p>
 				<?php } ?>
 			</div>
 		</div>
 
 		<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--3-col">
 			<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
-				<h1 class="mdl-card__title-text">/application/config/readerself_config.php</h1>
+				<h1 class="mdl-card__title-text">/application/config</h1>
 			</div>
 			<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
-				<?php if(!file_exists('application/config/readerself_config.php')) { ?>
+				<?php if(!is_writable('application/config')) { ?>
 					<?php $form = FALSE; ?>
-					<p>File missing</p>
-				<?php } else if(!is_writable('application/config/readerself_config.php')) { ?>
-					<?php $form = FALSE; ?>
-					<p>File not writable</p>
+					<p>Directory not writable</p>
 				<?php } else { ?>
-					<p>File exists</p>
+					<p>Directory writable</p>
 				<?php } ?>
 			</div>
 		</div>
