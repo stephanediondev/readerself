@@ -2,6 +2,10 @@
 
 class Proxy extends CI_Controller {
 	public function index() {
+		if(!$this->axipi_session->userdata('mbr_id')) {
+			redirect(base_url());
+		}
+
 		$opts = array(
 			'http' => array(
 				'method' => 'GET',
@@ -12,9 +16,13 @@ class Proxy extends CI_Controller {
 		$context = stream_context_create($opts);
 
 		$file = $this->input->get('file');
-		$imginfo = getimagesize($file);
-		header('Content-type: '.$imginfo['mime']);
-		readfile($file, false, $context);
+		if($file != '' && (substr($file, 0, 7) == 'http://' || substr($file, 0, 8) == 'https://')) {
+			$imginfo = getimagesize($file);
+			if($imginfo) {
+				header('Content-type: '.$imginfo['mime']);
+			}
+			readfile($file, false, $context);
+		}
 		exit(0);
 	}
 }
