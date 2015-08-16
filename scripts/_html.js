@@ -45,7 +45,7 @@ function refresh() {
 
 					if(data_return.count.all > 0) {
 						if(data_return.count.all > 99) {
-							badge = '99';
+							badge = '99+';
 						} else {
 							badge = data_return.count.all;
 						}

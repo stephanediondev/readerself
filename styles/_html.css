@@ -69,10 +69,10 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 }
 .mdl-button .mdl-badge[data-badge]:after {
 	font-size: 11px;
-	height: 20px;
+	height: 21px;
 	right: -11px;
 	top: -5px;
-	width: 20px;
+	width: 21px;
 }
 
 .mdl-layout__drawer-button {
