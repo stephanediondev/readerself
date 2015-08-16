@@ -43,6 +43,18 @@ function refresh() {
 					}
 					window.document.title = '(' + data_return.count.all + ') ' + title;
 
+					if(data_return.count.all > 0) {
+						if(data_return.count.all > 99) {
+							badge = '99';
+						} else {
+							badge = data_return.count.all;
+						}
+						$('#hdrbtn_mode i').attr('data-badge', badge);
+						$('#hdrbtn_mode i').addClass('mdl-badge');
+					} else {
+						$('#hdrbtn_mode i').removeClass('mdl-badge');
+					}
+
 					if(first_refresh && data_return.count.all > notification_count) {
 						if(notify.permissionLevel() == notify.PERMISSION_GRANTED) {
 							create_notification(data_return.count.all + ' unread items');
