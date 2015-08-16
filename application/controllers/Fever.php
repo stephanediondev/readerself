@@ -109,7 +109,14 @@ class Fever extends CI_Controller {
 				$order = 'DESC';
 			}
 			if(isset($_GET['with_ids']) == 1) {
-				$where[] = 'itm.itm_id IN('.$_GET['with_ids'].')';
+				$ids = explode(',', $_GET['with_ids']);
+				$ids_new = array();
+				foreach($ids as $id) {
+					if(is_numeric($id) && $id != '') {
+						$ids_new[] = $id;
+					}
+				}
+				$where[] = 'itm.itm_id IN('.implode(',', $ids_new).')';
 			}
 
 			$result = $this->db->query('SELECT itm.* FROM '.$this->db->dbprefix('items').' AS itm WHERE '.implode(' AND ', $where).' GROUP BY itm.itm_id ORDER BY itm.itm_id '.$order.' LIMIT 0,50', $bindings)->result();
@@ -268,8 +275,10 @@ class Fever extends CI_Controller {
 		}
 
 		//file_put_contents('fever.log', date('Y-m-d H:i:s')."\r\n", FILE_APPEND | LOCK_EX);
-		//file_put_contents('fever.log', 'SERVER: '.var_export($_SERVER, true)."\r\n".'GET: '.var_export($_GET, true)."\r\n".'POST: '.var_export($_POST, true)."\r\n\r\n", FILE_APPEND | LOCK_EX);
-		//file_put_contents('fever.log', 'AUTH: '.$content['auth']."\r\n\r\n", FILE_APPEND | LOCK_EX);
+		//file_put_contents('fever.log', 'SERVER: '.var_export($_SERVER, true)."\r\n", FILE_APPEND | LOCK_EX);
+		//file_put_contents('fever.log', 'GET: '.var_export($_GET, true)."\r\n".'POST: '.var_export($_POST, true)."\r\n", FILE_APPEND | LOCK_EX);
+		//file_put_contents('fever.log', 'AUTH: '.$content['auth']."\r\n", FILE_APPEND | LOCK_EX);
+		//file_put_contents('fever.log', "\r\n", FILE_APPEND | LOCK_EX);
 
 		$this->readerself_library->set_content($content);
 	}
