@@ -146,6 +146,8 @@ CREATE UNIQUE INDEX "settings_stg_code" ON "settings" ("stg_code");
 INSERT INTO `settings` (`stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is_global`, `stg_is_member`, `stg_is_subscription`, `stg_datecreated`) VALUES
 ('wallabag/enabled', 'boolean', '0', NULL, 1, 0, 0, datetime('now')),
 ('wallabag/url', 'string', 'http://localhost/wallabag', 'URL to installation, without trailing slash', 1, 0, 0, datetime('now')),
+('shaarli/enabled', 'boolean', '0', NULL, 1, 0, 0, datetime('now')),
+('shaarli/url', 'string', 'http://localhost/shaarli', 'URL to installation, without trailing slash', 1, 0, 0, datetime('now')),
 ('proxy/enabled', 'boolean', '0', NULL, 1, 0, 0, datetime('now')),
 ('proxy/http_only', 'boolean', '0', NULL, 1, 0, 0, datetime('now')),
 ('folders', 'boolean', '1', NULL, 1, 0, 0, datetime('now')),

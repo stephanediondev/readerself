@@ -238,3 +238,6 @@ $lang['stg_proxy/http_only'] = 'Proxy / Http uniquement';
 
 $lang['stg_wallabag/enabled'] = 'Wallabag actif';
 $lang['stg_wallabag/url'] = 'Wallabag / URL';
+
+$lang['stg_shaarli/enabled'] = 'Shaarli actif';
+$lang['stg_shaarli/url'] = 'Shaarli / URL';
