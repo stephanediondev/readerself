@@ -172,6 +172,8 @@ CREATE TABLE IF NOT EXISTS `settings` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 INSERT INTO `settings` (`stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is_global`, `stg_is_member`, `stg_is_subscription`, `stg_datecreated`) VALUES
+('wallabag/enabled', 'boolean', '0', NULL, 1, 0, 0, NOW()),
+('wallabag/url', 'string', 'http://localhost/wallabag', 'URL to installation, without trailing slash', 1, 0, 0, NOW()),
 ('proxy/enabled', 'boolean', '0', NULL, 1, 0, 0, NOW()),
 ('proxy/http_only', 'boolean', '0', NULL, 1, 0, 0, NOW()),
 ('folders', 'boolean', '1', NULL, 1, 0, 0, NOW()),

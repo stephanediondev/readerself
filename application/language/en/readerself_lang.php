@@ -235,3 +235,6 @@ $lang['stg_evernote/consumer_secret'] = 'Evernote / Consumer Secret';
 
 $lang['stg_proxy/enabled'] = 'Proxy enabled';
 $lang['stg_proxy/http_only'] = 'Proxy / Http only';
+
+$lang['stg_wallabag/enabled'] = 'Wallabag enabled';
+$lang['stg_wallabag/url'] = 'Wallabag / URL';
