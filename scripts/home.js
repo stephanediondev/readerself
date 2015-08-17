@@ -69,6 +69,16 @@ function load_items(url) {
 				$('.mdl-grid').html(content);
 				componentHandler.upgradeDom('MaterialMenu', 'mdl-menu');
 				if(data_return.result_type == 'items') {
+					/*if($('#debug_queries').length == 0) {
+						$('body').prepend('<div id="debug_queries" style="background-color:#FFFFFF;border:1px solid #CCCCCC;font-size:10px;left:10px;padding:10px;position:absolute;top:10px;right:10px;z-index:5000;"></div>');
+					}
+					$('#debug_queries').html('');
+					for(i in data_return.queries) {
+						obj = data_return.queries[i];
+						if(obj.time > 0.1) {
+							$('#debug_queries').append('<p>' + obj.query + '<br>' + obj.time + '</p>');
+						}
+					}*/
 					for(i in data_return.items) {
 						itm = data_return.items[i];
 						$('#item_' + itm.itm_id).find('.item-content-result').find('a').addClass('mdl-color-text--' + material_design_colors_text_link);
