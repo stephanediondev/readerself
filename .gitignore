@@ -5,5 +5,6 @@ application/config/database.php
 application/config/readerself_config.php
 application/database/readerself.sqlite
 application/controllers/Reset.php
+application/controllers/Populate.php
 styles/custom.css
 update/*.txt
