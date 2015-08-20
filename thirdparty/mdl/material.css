@@ -1,6 +1,6 @@
 /**
  * material-design-lite - Material Design Components in CSS, JS and HTML
- * @version v1.0.3
+ * @version v1.0.4
  * @license Apache-2.0
  * @copyright 2015 Google, Inc.
  * @link https://github.com/google/material-design-lite
@@ -8771,6 +8771,7 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
   margin: 0;
   padding: 4px 0;
   width: 100%;
+  background: none;
   text-align: left;
   color: inherit; }
   .mdl-textfield.is-focused .mdl-textfield__input {
