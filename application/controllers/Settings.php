@@ -168,6 +168,16 @@ class Settings extends CI_Controller {
 		if($release && !file_exists('update/'.$release.'.txt')) {
 			set_time_limit(120);
 
+			if($this->db->dbdriver == 'mysqli') {
+				$database_type = 'mysql';
+			}
+			if($this->db->dbdriver == 'pdo' && strstr($this->db->dsn, 'mysql:')) {
+				$database_type = 'mysql';
+			}
+			if($this->db->dbdriver == 'pdo' && strstr($this->db->dsn, 'sqlite:')) {
+				$database_type = 'sqlite';
+			}
+
 			$local_file = 'update/'.$release.'.zip';
 			file_put_contents($local_file, file_get_contents('https://github.com/readerself/readerself/archive/'.$release.'.zip'));
 
@@ -202,12 +212,7 @@ class Settings extends CI_Controller {
 				$reverse_releases = array_reverse($reverse_releases);
 
 				foreach($reverse_releases as $release_history) {
-					if($this->db->dbdriver == 'pdo') {
-						$filename = 'application/database/update-sqlite-'.$release_history.'.sql';
-					}
-					if($this->db->dbdriver == 'mysqli') {
-						$filename = 'application/database/update-mysql-'.$release_history.'.sql';
-					}
+					$filename = 'application/database/update-'.$database_type.'-'.$release_history.'.sql';
 					if(file_exists($filename) && !file_exists('update/'.$release_history.'.txt')) {
 						$queries = explode(';', trim(file_get_contents($filename)));
 						foreach($queries as $query) {
