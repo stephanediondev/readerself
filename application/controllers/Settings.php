@@ -249,11 +249,11 @@ class Settings extends CI_Controller {
 							$this->db->query($query);
 						}
 					}
-				}
 
-				//lock version
-				$fp = fopen('update/'.$version.'.txt', 'w');
-				fclose($fp);
+					//lock version
+					$fp = fopen('update/'.$version.'.txt', 'w');
+					fclose($fp);
+				}
 			}
 
 			$versions_feed = array_reverse($versions_feed);
