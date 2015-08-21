@@ -168,6 +168,7 @@ class Settings extends CI_Controller {
 		if($release && !file_exists('update/'.$release.'.txt')) {
 			set_time_limit(120);
 
+			//set database type according to configuration
 			if($this->db->dbdriver == 'mysqli') {
 				$database_type = 'mysql';
 			}
@@ -178,6 +179,10 @@ class Settings extends CI_Controller {
 				$database_type = 'sqlite';
 			}
 
+			$versions_feed = array();
+			$versions_update = array();
+
+			//get release archive and save local
 			$local_file = 'update/'.$release.'.zip';
 			file_put_contents($local_file, file_get_contents('https://github.com/readerself/readerself/archive/'.$release.'.zip'));
 
@@ -189,45 +194,77 @@ class Settings extends CI_Controller {
 				'application/database/readerself.sqlite',
 			);
 
+			//extract archive
 			$zip = new ZipArchive;
 			if($zip->open($local_file) === TRUE) {
 				$total_files = $zip->numFiles;
+				//loop and copy all files
 				for($i=0;$i<$total_files;$i++) {
 					$file_source = $zip->getNameIndex($i);
 					$file_destination = str_replace('readerself-'.$release.'/', '', $file_source);
 					$dirname = dirname($file_destination);
+					//create directory if missing
 					if(!is_dir($dirname)) {
 						mkdir($dirname);
 					}
+					//copy if not excluded
 					if(!in_array($file_destination, $exclude_files)) {
 						copy('zip://'.$local_file.'#'.$file_source, $file_destination);
 					}
 				}
 				$zip->close();
 
-				$reverse_releases = array();
+				//populate versions array from feed
 				foreach($data['entries']->entry as $entry) {
-					$reverse_releases[] = $entry->title;
-				}
-				$reverse_releases = array_reverse($reverse_releases);
-
-				foreach($reverse_releases as $release_history) {
-					$filename = 'application/database/update-'.$database_type.'-'.$release_history.'.sql';
-					if(file_exists($filename) && !file_exists('update/'.$release_history.'.txt')) {
-						$queries = explode(';', trim(file_get_contents($filename)));
-						foreach($queries as $query) {
-							if($query != '') {
-								$this->db->query($query);
-							}
-						}
-					}
-
-					$fp = fopen('update/'.$release_history.'.txt', 'w');
-					fclose($fp);
+					$versions_feed[] = $entry->title;
 				}
 
+				//remove local archive
 				unlink($local_file);
 			}
+
+			$dir = 'application/database';
+			if(is_dir($dir)) {
+				if($dh = opendir($dir)) {
+					while (($file = readdir($dh)) !== false) {
+						$test_start_with = 'update-'.$database_type.'-';
+						if(substr($file, -4) == '.sql' && substr($file, 0, strlen($test_start_with)) == $test_start_with) {
+							$versions_update[] = substr($file, strlen($test_start_with), -4);
+						}
+					}
+					closedir($dh);
+				}
+			}
+			usort($versions_update, 'versionSort');
+
+			//update database from exiting update scripts
+			$versions_update = array_reverse($versions_update);
+			foreach($versions_update as $version) {
+				//execute script if exists
+				$filename = 'application/database/update-'.$database_type.'-'.$version.'.sql';
+				if(file_exists($filename) && !file_exists('update/'.$version.'.txt')) {
+					$queries = explode(';', trim(file_get_contents($filename)));
+					foreach($queries as $query) {
+						if($query != '') {
+							$this->db->query($query);
+						}
+					}
+				}
+
+				//lock version
+				$fp = fopen('update/'.$version.'.txt', 'w');
+				fclose($fp);
+			}
+
+			$versions_feed = array_reverse($versions_feed);
+			foreach($versions_feed as $version) {
+				if(!file_exists('update/'.$version.'.txt')) {
+					//lock version
+					$fp = fopen('update/'.$version.'.txt', 'w');
+					fclose($fp);
+				}
+			}
+
 			redirect(base_url().'settings/update');
 		}
 
@@ -241,4 +278,7 @@ class Settings extends CI_Controller {
 		}
 		return TRUE;
 	}
+}
+function versionSort($a, $b) {
+	return -1 * version_compare($a, $b);
 }
