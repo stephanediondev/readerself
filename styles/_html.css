@@ -20,6 +20,8 @@ img, iframe, video{max-width:100%;}
 .item-content-result em{font-style:italic;}
 .item-content-result strong{font-weight:bold;}
 .item-content-result blockquote{-webkit-margin-start:10px;font-size:inherit;}
+.item-content-result blockquote:before{content:none;}
+.item-content-result blockquote:after{content:none;}
 
 label {
 	display: block;
