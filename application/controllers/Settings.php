@@ -237,7 +237,7 @@ class Settings extends CI_Controller {
 			}
 			usort($versions_update, 'versionSort');
 
-			//update database from exiting update scripts
+			//update database from existing update scripts
 			$versions_update = array_reverse($versions_update);
 			foreach($versions_update as $version) {
 				//execute script if exists
