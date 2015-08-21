@@ -25,10 +25,13 @@ class Setup extends CI_Controller {
 
 		$data['types'] = array();
 		if(function_exists('mysqli_connect')) {
-			$data['types']['mysql'] = 'MySQL';
+			$data['types']['mysqli'] = 'MySQL (Improved Extension)';
+		}
+		if(in_array('mysql', $data['pdo_drivers'])) {
+			$data['types']['pdo_mysql'] = 'MySQL (PDO)';
 		}
 		if(in_array('sqlite', $data['pdo_drivers'])) {
-			$data['types']['sqlite'] = 'SQLite';
+			$data['types']['pdo_sqlite'] = 'SQLite (PDO)';
 		}
 
 		$this->load->library(array('form_validation'));
@@ -58,7 +61,7 @@ class Setup extends CI_Controller {
 
 		} else {
 			$parameters = array();
-			if($this->input->post('database_type') == 'mysql') {
+			if($this->input->post('database_type') == 'mysqli') {
 				$parameters['dsn'] = '';
 				$parameters['hostname'] = $this->input->post('database_hostname');
 				$parameters['username'] = $this->input->post('database_username');
@@ -66,7 +69,15 @@ class Setup extends CI_Controller {
 				$parameters['database'] = $this->input->post('database_name');
 				$parameters['dbdriver'] = 'mysqli';
 			}
-			if($this->input->post('database_type') == 'sqlite') {
+			if($this->input->post('database_type') == 'pdo_mysql') {
+				$parameters['dsn'] = 'mysql:dbname='.$this->input->post('database_name').';host='.$this->input->post('database_hostname');
+				$parameters['hostname'] = '';
+				$parameters['username'] = $this->input->post('database_username');
+				$parameters['password'] = $this->input->post('database_password');
+				$parameters['database'] = '';
+				$parameters['dbdriver'] = 'pdo';
+			}
+			if($this->input->post('database_type') == 'pdo_sqlite') {
 				$parameters['dsn'] = 'sqlite:application/database/readerself.sqlite';
 				$parameters['hostname'] = '';
 				$parameters['username'] = '';
@@ -86,11 +97,11 @@ class Setup extends CI_Controller {
 
 			$this->load->database();
 
-			if($this->db->dbdriver == 'pdo') {
-				$queries = explode(';', trim(file_get_contents('application/database/installation-sqlite.sql')));
-			}
-			if($this->db->dbdriver == 'mysqli') {
+			if($this->input->post('database_type') == 'mysqli' || $this->input->post('database_type') == 'pdo_mysql') {
 				$queries = explode(';', trim(file_get_contents('application/database/installation-mysql.sql')));
+			}
+			if($this->input->post('database_type') == 'pdo_sqlite') {
+				$queries = explode(';', trim(file_get_contents('application/database/installation-sqlite.sql')));
 			}
 			foreach($queries as $query) {
 				if($query != '') {
@@ -135,18 +146,40 @@ class Setup extends CI_Controller {
 		$this->readerself_library->set_content($content);
 	}
 	function database_type() {
-		if($this->input->post('database_type') == 'mysql') {
+		if($this->input->post('database_type') == 'mysqli' || $this->input->post('database_type') == 'pdo_mysql') {
 			if($this->input->post('database_username') == '' || $this->input->post('database_password') == '') {
 				$this->form_validation->set_message('database_type', $this->lang->line('callback_database_username_password'));
 				return FALSE;
 			}
-			try {
-				$mysqli = @new mysqli($this->input->post('database_hostname'), $this->input->post('database_username'), $this->input->post('database_password'), $this->input->post('database_name'));
-				if($mysqli->connect_error) {
-					$this->form_validation->set_message('database_type', $mysqli->connect_error);
+			if($this->input->post('database_type') == 'mysqli') {
+				try {
+					$mysqli = new mysqli($this->input->post('database_hostname'), $this->input->post('database_username'), $this->input->post('database_password'), $this->input->post('database_name'));
+					if($mysqli->connect_error) {
+						$this->form_validation->set_message('database_type', $mysqli->connect_error);
+						return FALSE;
+					}
+				} catch(Exception $e) {
+				}
+			}
+			if($this->input->post('database_type') == 'pdo_mysql') {
+				try {
+					$pdo = new PDO('mysql:dbname='.$this->input->post('database_name').';host='.$this->input->post('database_hostname'), $this->input->post('database_username'), $this->input->post('database_password'));
+				} catch(PDOException $e) {
+					$this->form_validation->set_message('database_type', $e->getMessage());
 					return FALSE;
 				}
-			} catch(Exception $e) {
+			}
+		}
+		if($this->input->post('database_type') == 'pdo_sqlite') {
+			if(!is_writable('application/database')) {
+				$this->form_validation->set_message('database_type', 'Directory application/database not writable');
+				return FALSE;
+			}
+			try {
+				$pdo = new PDO('sqlite:application/database/readerself.sqlite');
+			} catch(PDOException $e) {
+				$this->form_validation->set_message('database_type', $e->getMessage());
+				return FALSE;
 			}
 		}
 		return TRUE;

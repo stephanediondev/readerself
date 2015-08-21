@@ -1,6 +1,6 @@
 function change_database_type() {
 	var value_database = $('#database_type').val();
-	if(value_database == 'mysql') {
+	if(value_database == 'mysqli' || value_database == 'pdo_mysql') {
 		$('.database_option').show();
 	} else {
 		$('.database_option').hide();
