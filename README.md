@@ -7,9 +7,17 @@ https://project29k.typeform.com/to/GFAwM1
 https://readerself.com/demo/?email=example@example.com&password=example
 
 ####Requirements
-* PHP 5.2.4 or greater
-* MySQL 5.0 or greater / SQLite
+
+#####Language
+* PHP 5.3 or greater
+
+#####Database
+* MySQL 5.1 or greater
+* SQLite
+
+#####Web server
 * Apache 2.2 or greater with mod_rewrite module enabled (and "Allowoverride All" in VirtualHost / Directory configuration to allow .htaccess file)
+* Nginx with rewrite rules https://github.com/readerself/readerself/issues/59
 
 ####Installation
 

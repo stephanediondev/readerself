@@ -13,7 +13,7 @@
 				<h1 class="mdl-card__title-text">PHP <?php echo phpversion(); ?></h1>
 			</div>
 			<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
-				<?php if(version_compare(phpversion(), '5.2.0', '<')) { ?>
+				<?php if(version_compare(phpversion(), '5.3.0', '<')) { ?>
 					<?php $form = FALSE; ?>
 					<p>Not supported</p>
 				<?php } else { ?>
@@ -42,6 +42,20 @@
 			</div>
 			<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 				<?php if(!is_writable('application/config')) { ?>
+					<?php $form = FALSE; ?>
+					<p>Directory not writable</p>
+				<?php } else { ?>
+					<p>Directory writable</p>
+				<?php } ?>
+			</div>
+		</div>
+
+		<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--3-col">
+			<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
+				<h1 class="mdl-card__title-text">/update</h1>
+			</div>
+			<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
+				<?php if(!is_writable('update')) { ?>
 					<?php $form = FALSE; ?>
 					<p>Directory not writable</p>
 				<?php } else { ?>
