@@ -194,6 +194,9 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 	font-size: 48px;
 }
 
+.mdl-card[dir=rtl] {
+	overflow: hidden;
+}
 .mdl-card[dir=rtl] .mdl-navigation__link {
 	float: right;
 	margin: 0px 0px 4px 4px;
