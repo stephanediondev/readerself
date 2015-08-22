@@ -171,6 +171,7 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 	padding: 4px 4px;
 }
 .material-icons {
+	font-feature-settings: 'liga';
 	margin-right: 2px;
 	vertical-align: middle;
 	text-rendering: optimizeLegibility;
