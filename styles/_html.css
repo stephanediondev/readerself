@@ -171,12 +171,9 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 	padding: 4px 4px;
 }
 .material-icons {
-
-  /*Support for Webkit based Browsers*/
-  text-rendering: optimizeLegibility;
-
 	margin-right: 2px;
 	vertical-align: middle;
+	text-rendering: optimizeLegibility;
 }
 .material-icons.md-16 {
 	font-size: 16px;
@@ -197,4 +194,32 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 	font-size: 48px;
 }
 
+.mdl-card[dir=rtl] .mdl-navigation__link {
+	float: right;
+	margin: 0px 0px 4px 4px;
+}
+
+.mdl-card[dir=rtl] .material-icons {
+	margin-left: 2px;
+	margin-right: 0px;
+}
+
 .mdl-card[dir=rtl] .mdl-navigation__link .material-icons{display:none;}
+.mdl-card[dir=rtl] .favicon, .mdl-card[dir=rtl] a.favicon:link, .mdl-card[dir=rtl] a.favicon:visited {
+	background-position: center right;
+	padding-left: 0px;
+	padding-right: 16px;
+}
+.mdl-card[dir=rtl] h2 .favicon, .mdl-card[dir=rtl] h2.favicon, .mdl-card[dir=rtl] h2 a.favicon:link, .mdl-card[dir=rtl] h2 a.favicon:visited {
+	padding-left: 0px;
+	padding-right: 19px;
+}
+.mdl-card[dir=rtl] .mdl-card__title .mdl-card__title-text {
+	padding-left: 18px;
+	padding-right: 0px;
+}
+.mdl-card[dir=rtl] .mdl-card__title .mdl-card__title-text a.expand, .mdl-card[dir=rtl] .mdl-card__title .mdl-card__title-text a.collapse {
+	left: 0px;
+	right: auto;
+	width: 25px;
+}
