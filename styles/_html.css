@@ -171,6 +171,10 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 	padding: 4px 4px;
 }
 .material-icons {
+
+  /*Support for Webkit based Browsers*/
+  text-rendering: optimizeLegibility;
+
 	margin-right: 2px;
 	vertical-align: middle;
 }
