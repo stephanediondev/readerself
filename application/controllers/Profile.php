@@ -92,7 +92,7 @@ class Profile extends CI_Controller {
 			$this->db->where('mbr_id', $this->member->mbr_id);
 			$this->db->delete('members');
 
-			if($this->db->dbdriver == 'mysqli') {
+			if($this->db->dbdriver == 'mysqli' || ($this->db->dbdriver == 'pdo' && strstr($this->db->dsn, 'mysql:'))) {
 				$this->db->query('OPTIMIZE TABLE connections, favorites, folders, history, share, subscriptions, members');
 			}
 

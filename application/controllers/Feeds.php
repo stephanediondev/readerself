@@ -128,7 +128,7 @@ class Feeds extends CI_Controller {
 		$data['fed'] = $this->readerself_model->get_feed_row($fed_id);
 		if($data['fed']) {
 
-			if($this->db->dbdriver == 'mysqli') {
+			if($this->db->dbdriver == 'mysqli' || ($this->db->dbdriver == 'pdo' && strstr($this->db->dsn, 'mysql:'))) {
 				$substring = 'SUBSTRING';
 			} else {
 				$substring = 'SUBSTR';
@@ -188,7 +188,7 @@ class Feeds extends CI_Controller {
 			}
 			$data['tables'] .= build_table_progression($this->lang->line('items_posted_by_month'), $values, $legend);
 
-			if($this->db->dbdriver == 'mysqli') {
+			if($this->db->dbdriver == 'mysqli' || ($this->db->dbdriver == 'pdo' && strstr($this->db->dsn, 'mysql:'))) {
 				$days = array(7=>'Sunday', 1=>'Monday', 2=>'Tuesday', 3=>'Wednesday', 4=>'Thursday', 5=>'Friday', 6=>'Saturday');
 				$legend = array();
 				$values = array();
@@ -268,7 +268,7 @@ class Feeds extends CI_Controller {
 					$this->db->where('fed_id', $fed_id);
 					$this->db->delete('feeds');
 
-					/*if($this->db->dbdriver == 'mysqli') {
+					/*if($this->db->dbdriver == 'mysqli' || ($this->db->dbdriver == 'pdo' && strstr($this->db->dsn, 'mysql:'))) {
 						$this->db->query('OPTIMIZE TABLE categories, enclosures, favorites, history, share, items, feeds');
 					}*/
 

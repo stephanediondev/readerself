@@ -169,10 +169,7 @@ class Settings extends CI_Controller {
 			set_time_limit(120);
 
 			//set database type according to configuration
-			if($this->db->dbdriver == 'mysqli') {
-				$database_type = 'mysql';
-			}
-			if($this->db->dbdriver == 'pdo' && strstr($this->db->dsn, 'mysql:')) {
+			if($this->db->dbdriver == 'mysqli' || ($this->db->dbdriver == 'pdo' && strstr($this->db->dsn, 'mysql:'))) {
 				$database_type = 'mysql';
 			}
 			if($this->db->dbdriver == 'pdo' && strstr($this->db->dsn, 'sqlite:')) {

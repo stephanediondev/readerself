@@ -9,7 +9,7 @@ class Statistics extends CI_Controller {
 			redirect(base_url());
 		}
 
-		if($this->db->dbdriver == 'mysqli') {
+		if($this->db->dbdriver == 'mysqli' || ($this->db->dbdriver == 'pdo' && strstr($this->db->dsn, 'mysql:'))) {
 			$substring = 'SUBSTRING';
 		} else {
 			$substring = 'SUBSTR';
@@ -108,7 +108,7 @@ class Statistics extends CI_Controller {
 		}
 		$data['tables'] .= build_table_progression($this->lang->line('items_read_by_day'), $values, $legend);
 
-		if($this->db->dbdriver == 'mysqli') {
+		if($this->db->dbdriver == 'mysqli' || ($this->db->dbdriver == 'pdo' && strstr($this->db->dsn, 'mysql:'))) {
 			$legend = array();
 			$values = array();
 			$temp = array();

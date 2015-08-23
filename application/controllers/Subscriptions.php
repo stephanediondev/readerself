@@ -271,7 +271,7 @@ class Subscriptions extends CI_Controller {
 		$data['sub'] = $this->readerself_model->get_subscription_row($sub_id);
 		if($data['sub']) {
 
-			if($this->db->dbdriver == 'mysqli') {
+			if($this->db->dbdriver == 'mysqli' || ($this->db->dbdriver == 'pdo' && strstr($this->db->dsn, 'mysql:'))) {
 				$substring = 'SUBSTRING';
 			} else {
 				$substring = 'SUBSTR';
@@ -331,7 +331,7 @@ class Subscriptions extends CI_Controller {
 			}
 			$data['tables'] .= build_table_progression($this->lang->line('items_read_by_month'), $values, $legend);
 
-			if($this->db->dbdriver == 'mysqli') {
+			if($this->db->dbdriver == 'mysqli' || ($this->db->dbdriver == 'pdo' && strstr($this->db->dsn, 'mysql:'))) {
 				$days = array(7=>'Sunday', 1=>'Monday', 2=>'Tuesday', 3=>'Wednesday', 4=>'Thursday', 5=>'Friday', 6=>'Saturday');
 				$legend = array();
 				$values = array();

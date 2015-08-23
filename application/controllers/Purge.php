@@ -18,7 +18,7 @@ class Purge extends CI_Controller {
 		$sql = 'UPDATE '.$this->db->dbprefix('items').' SET itm_deleted = 1, itm_content = NULL WHERE '.implode(' AND ', $where);
 		$query = $this->db->query($sql, $bindings);
 
-		if($this->db->dbdriver == 'mysqli') {
+		if($this->db->dbdriver == 'mysqli' || ($this->db->dbdriver == 'pdo' && strstr($this->db->dsn, 'mysql:'))) {
 			$this->db->query('OPTIMIZE TABLE items');
 		}
 

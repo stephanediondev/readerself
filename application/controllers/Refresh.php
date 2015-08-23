@@ -304,7 +304,7 @@ class Refresh extends CI_Controller {
 				$this->db->set('crr_datecreated', date('Y-m-d H:i:s'));
 				$this->db->insert('crawler');
 
-				if($this->db->dbdriver == 'mysqli') {
+				if($this->db->dbdriver == 'mysqli' || ($this->db->dbdriver == 'pdo' && strstr($this->db->dsn, 'mysql:'))) {
 					$this->db->query('OPTIMIZE TABLE categories, authors, tags, tags_items, connections, enclosures, favorites, feeds, folders, history, items, members, share, subscriptions');
 				}
 			}
