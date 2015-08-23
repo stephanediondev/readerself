@@ -46,7 +46,7 @@ class Readerself_model extends CI_Model {
 			}
 
 		} else {
-			$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_email = ? OR (mbr.mbr_nickname = ? AND mbr.mbr_nickname IS NOT NULL) GROUP BY mbr.mbr_id', array($email_or_nickname, $email_or_nickname));
+			$query = $this->db->query('SELECT mbr.mbr_id, mbr.mbr_password FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_email = ? OR (mbr.mbr_nickname = ? AND mbr.mbr_nickname IS NOT NULL) GROUP BY mbr.mbr_id,  mbr.mbr_password', array($email_or_nickname, $email_or_nickname));
 			if($query->num_rows() > 0) {
 				$member = $query->row();
 				if($this->readerself_library->set_salt_password($password) == $member->mbr_password) {
@@ -83,7 +83,7 @@ class Readerself_model extends CI_Model {
 	}
 	function get($mbr_id) {
 		$member = false;
-		$query = $this->db->query('SELECT mbr.* FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_id = ? GROUP BY mbr.mbr_id', array($mbr_id));
+		$query = $this->db->query('SELECT mbr.mbr_id, mbr.mbr_email, mbr.mbr_nickname, mbr.mbr_administrator, mbr.token_share, mbr.token_msapplication FROM '.$this->db->dbprefix('members').' AS mbr WHERE mbr.mbr_id = ? GROUP BY mbr.mbr_id, mbr.mbr_email, mbr.mbr_nickname, mbr.mbr_administrator, mbr.token_share, mbr.token_msapplication', array($mbr_id));
 		if($query->num_rows() > 0) {
 			$member = $query->row();
 
@@ -101,7 +101,7 @@ class Readerself_model extends CI_Model {
 				$this->db->update('members');
 			}
 
-			$query = $this->db->query('SELECT cnt.* FROM '.$this->db->dbprefix('connections').' AS cnt WHERE cnt.mbr_id = ? AND token_connection IS NOT NULL AND token_connection = ? GROUP BY cnt.cnt_id', array($mbr_id, $this->input->cookie('token_connection')));
+			$query = $this->db->query('SELECT cnt.token_connection FROM '.$this->db->dbprefix('connections').' AS cnt WHERE cnt.mbr_id = ? AND token_connection IS NOT NULL AND token_connection = ? GROUP BY cnt.cnt_id, cnt.token_connection', array($mbr_id, $this->input->cookie('token_connection')));
 			if($query->num_rows() > 0) {
 				$member->token_connection = $query->row()->token_connection;
 			} else {
@@ -253,7 +253,7 @@ class Readerself_model extends CI_Model {
 	}
 	function get_folders_rows($flt, $num, $offset, $order) {
 		$folders = false;
-		$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE '.implode(' AND ', $flt).' GROUP BY flr.flr_id ORDER BY '.$order.' LIMIT '.$offset.', '.$num);
+		$query = $this->db->query('SELECT flr.flr_id, flr_title, flr.flr_direction FROM '.$this->db->dbprefix('folders').' AS flr WHERE '.implode(' AND ', $flt).' GROUP BY flr.flr_id, flr.flr_title, flr.flr_direction ORDER BY '.$order.' LIMIT '.$num.' OFFSET '.$offset);
 		if($query->num_rows() > 0) {
 			$folders = array();
 			foreach($query->result() as $flr) {
@@ -269,7 +269,7 @@ class Readerself_model extends CI_Model {
 	}
 	function get_flr_row($flr_id) {
 		$flr = false;
-		$query = $this->db->query('SELECT flr.* FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? AND flr.flr_id = ? GROUP BY flr.flr_id', array($this->member->mbr_id, $flr_id));
+		$query = $this->db->query('SELECT flr.flr_id, flr_title, flr.flr_direction FROM '.$this->db->dbprefix('folders').' AS flr WHERE flr.mbr_id = ? AND flr.flr_id = ? GROUP BY flr.flr_id, flr.flr_title, flr.flr_direction', array($this->member->mbr_id, $flr_id));
 		if($query->num_rows() > 0) {
 			$flr = $query->row();
 
@@ -336,7 +336,7 @@ class Readerself_model extends CI_Model {
 		return $fed;
 	}
 	function get_settings_global() {
-		$query = $this->db->query('SELECT stg.* FROM '.$this->db->dbprefix('settings').' AS stg WHERE stg.stg_is_global = ? GROUP BY stg.stg_id ORDER BY stg.stg_code ASC', array(1));
+		$query = $this->db->query('SELECT stg.stg_id, stg.stg_code, stg.stg_value FROM '.$this->db->dbprefix('settings').' AS stg WHERE stg.stg_is_global = ? GROUP BY stg.stg_id, stg.stg_code, stg.stg_value ORDER BY stg.stg_code ASC', array(1));
 		return $query->result();
 	}
 	function get_settings_not_material() {

@@ -98,7 +98,7 @@ class Readerself_library {
 	}
 	function build_filters($filters) {
 		$flt = array();
-		$flt[] = '1';
+		//$flt[] = '1';
 		foreach($filters as $k =>$v) {
 			if(isset($_SESSION[$k]) == 0) {
 				$_SESSION[$k] = '';

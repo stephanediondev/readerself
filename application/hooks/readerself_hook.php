@@ -44,7 +44,7 @@ class Readerself_hook {
 
 			} else {
 				if($this->CI->input->cookie('token_connection')) {
-					$query = $this->CI->db->query('SELECT cnt.* FROM '.$this->CI->db->dbprefix('connections').' AS cnt WHERE cnt.cnt_ip = ? AND cnt.cnt_agent = ? AND token_connection IS NOT NULL AND token_connection = ? GROUP BY cnt.cnt_id', array($this->CI->input->ip_address(), $this->CI->input->user_agent(), $this->CI->input->cookie('token_connection')));
+					$query = $this->CI->db->query('SELECT cnt.mbr_id FROM '.$this->CI->db->dbprefix('connections').' AS cnt WHERE cnt.cnt_ip = ? AND cnt.cnt_agent = ? AND token_connection IS NOT NULL AND token_connection = ? GROUP BY cnt.cnt_id, cnt.mbr_id', array($this->CI->input->ip_address(), $this->CI->input->user_agent(), $this->CI->input->cookie('token_connection')));
 					if($query->num_rows() > 0) {
 						$connection = $query->row();
 	
