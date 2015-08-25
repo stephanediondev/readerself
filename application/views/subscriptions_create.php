@@ -22,6 +22,7 @@
 
 				<?php if($error) { ?>
 					<p><i class="material-icons md-16">warning</i><?php echo $error; ?></p>
+					<p><a target="_blank" href="http://validator.w3.org/feed/check.cgi?url=<?php echo urlencode($this->input->post('url')); ?>">Check on W3C Feed Validation Service</a></p>
 				<?php } ?>
 
 				<p>

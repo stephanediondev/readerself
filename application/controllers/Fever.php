@@ -148,6 +148,17 @@ class Fever extends CI_Controller {
 						$row->is_read = 0;
 					}
 
+					/*$sql = 'SELECT enr.* FROM '.$this->db->dbprefix('enclosures').' AS enr WHERE enr.itm_id = ? GROUP BY enr.enr_id ORDER BY enr.enr_type ASC';
+					$enclosures = $this->db->query($sql, array($row->itm_id))->result();
+					if($enclosures) {
+						foreach($enclosures as $enclosure) {
+							$filename = substr($enclosure->enr_link, strrpos($enclosure->enr_link, '/') + 1);
+							if(stristr($enclosure->enr_type, 'image/') && $filename != '') {
+								$row->itm_content .= '<p><a href="'.$enclosure->enr_link.'"><img src="'.$enclosure->enr_link.'; ?>" alt=""></a></p>';
+							}
+						}
+					}*/
+
 					$content['items'][] = array(
 						'id' => $row->itm_id,
 						'feed_id' => $row->fed_id,

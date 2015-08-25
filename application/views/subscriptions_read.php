@@ -26,6 +26,7 @@
 			<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
 				<?php if($sub->fed_lasterror) { ?>
 					<p><?php echo $sub->fed_lasterror; ?></p>
+					<p><a target="_blank" href="http://validator.w3.org/feed/check.cgi?url=<?php echo urlencode($sub->fed_link); ?>">Check on W3C Feed Validation Service</a></p>
 				<?php } ?>
 				<?php if($this->config->item('tags') && $sub->categories) { ?>
 					<p><?php echo implode(', ', $sub->categories); ?></p>
