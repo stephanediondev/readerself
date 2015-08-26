@@ -11,7 +11,7 @@ class Elasticsearch extends CI_Controller {
 
 		$this->load->library('elasticsearch_library');
 
-		$query = $this->db->query('SELECT itm.* FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('elasticsearch_items').' AS elastic ON elastic.itm_id = itm.itm_id WHERE elastic.id IS NULL GROUP BY itm.itm_id');
+		$query = $this->db->query('SELECT itm.*, fed.* FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('elasticsearch_items').' AS elastic ON elastic.itm_id = itm.itm_id WHERE elastic.id IS NULL GROUP BY itm.itm_id');
 
 		if($query->num_rows() > 0) {
 			while($item = $query->_fetch_object()) {
@@ -22,7 +22,13 @@ class Elasticsearch extends CI_Controller {
 
 				$body = array(
 					'id' => $item->itm_id,
-					'feed' => $item->fed_id,
+					'feed' => array(
+						'id' => $item->fed_id,
+						'title' => $item->fed_title,
+						'url' => $item->fed_url,
+						'link' => $item->fed_link,
+						'host' => $item->fed_host,
+					),
 					'title' => strip_tags($item->itm_title),
 					'link' => $item->itm_link,
 					'author' => $item->itm_author,
