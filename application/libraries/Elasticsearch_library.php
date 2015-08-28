@@ -10,6 +10,7 @@ class Elasticsearch_library {
 		curl_setopt($ci, CURLOPT_CUSTOMREQUEST, $action);
 		curl_setopt($ci, CURLOPT_RETURNTRANSFER, 1);
 		if($body) {
+			//echo '<textarea style="width:100%;height:100px;">'.json_encode($body).'</textarea><br>';
 			curl_setopt($ci, CURLOPT_POSTFIELDS, json_encode($body));
 		}
 		return json_decode(curl_exec($ci));

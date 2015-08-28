@@ -14,23 +14,36 @@ class Elasticsearch extends CI_Controller {
 		$index = $this->config->item('elasticsearch/index');
 		$type = 'item';
 
-		/*$body = array(
+		$path = '/'.$index.'/_close';
+		$this->elasticsearch_library->post($path);
+
+		$body = array(
 			'settings' => array(
 				'index' => array(
 					'analysis' => array(
 						'analyzer' => array(
-							'lower_keyword' => array(
-								'type' => 'custom',
+							'lowercase_analyzer' => array(
 								'tokenizer' => 'keyword',
-								'filter' => 'lowercase',
+								'type' => 'custom',
+								'filter' => array(
+									'lowercase_filter',
+								),
+							),
+						),
+						'filter' => array(
+							'lowercase_filter' => array(
+								'type' => 'lowercase',
 							),
 						),
 					),
 				),
 			),
 		);
-		$path = '/'.$index;
-		$this->elasticsearch_library->put($path, $body);*/
+		$path = '/'.$index.'/_settings';
+		$this->elasticsearch_library->put($path, $body);
+
+		$path = '/'.$index.'/_open';
+		$this->elasticsearch_library->post($path);
 
 		$body = array(
 			$type => array(
@@ -44,7 +57,7 @@ class Elasticsearch extends CI_Controller {
 							'raw' => array( 
 								'type' => 'string',
 								'index' => 'not_analyzed',
-								//'analyzer' => 'lowercase_keyword',
+								'analyzer' => 'lowercase_analyzer',
 							),
 						),
 					),
