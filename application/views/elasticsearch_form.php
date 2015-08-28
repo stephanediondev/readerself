@@ -12,7 +12,15 @@
 				<?php echo form_open(current_url(), 'class="form-inline" method="get"'); ?>
 				<p>
 				<?php echo form_label('Search', 'q'); ?>
-				<?php echo form_input('q', set_value('q', $this->input->get('q')), 'class="inputtext required"'); ?>
+				<?php echo form_input('q', set_value('q', $this->input->get('q')), 'id="q" class="inputtext required"'); ?>
+				</p>
+				<p>
+				<?php echo form_label('Sort by', 'sort_field'); ?>
+				<?php echo form_dropdown('sort_field', $sort_field, set_value('sort_field', $this->input->get('sort_field', '_score')), 'id="sort_field" class="select required"'); ?>
+				</p>
+				<p>
+				<?php echo form_label('Sort direction', 'sort_direction'); ?>
+				<?php echo form_dropdown('sort_direction', $sort_direction, set_value('sort_direction', $this->input->get('sort_direction', 'desc')), 'id="sort_direction" class="select required"'); ?>
 				</p>
 				<p>
 				<button type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--<?php echo $this->config->item('material-design/colors/background/button'); ?> mdl-color-text--<?php echo $this->config->item('material-design/colors/text/button'); ?>">
@@ -37,7 +45,7 @@
 								<?php if($current_from == $from) { ?>
 									<strong><?php echo $page; ?></strong>
 								<?php } else { ?>
-									<a href="<?php echo current_url(); ?>?q=<?php echo $this->input->get('q'); ?>&amp;from=<?php echo $from; ?>"><?php echo $page; ?></a>
+									<a href="<?php echo current_url(); ?>?q=<?php echo $this->input->get('q'); ?>&amp;sort_field=<?php echo $this->input->get('sort_field'); ?>&amp;sort_direction=<?php echo $this->input->get('sort_direction'); ?>&amp;from=<?php echo $from; ?>"><?php echo $page; ?></a>
 								<?php } ?>
 							<?php } ?>
 						</div>
@@ -53,6 +61,9 @@
 							<div class="mdl-card__subtitle-text">
 								<span class="mdl-navigation__link mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>"><i class="material-icons md-16">access_time</i><span class="timeago" title="<?php echo $hit->_source->date; ?>"></span></span>
 								<span class="mdl-navigation__link mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>"><i class="material-icons md-16">bookmark</i><?php echo $hit->_source->feed->title; ?></span>
+								<?php if($hit->_score != '') { ?>
+									<span class="mdl-navigation__link mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>"><i class="material-icons md-16">trending_up</i><?php echo $hit->_score; ?></span>
+								<?php } ?>
 							</div>
 						</div>
 						<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
@@ -62,7 +73,6 @@
 								<?php } ?>
 							</div>
 						</div>
-
 						<div class="mdl-card__actions mdl-card--border mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-actions'); ?>">
 							<?php if($this->config->item('share_external')) { ?>
 								<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon sharedcount" data-itm_id="<?php echo $hit->_source->id; ?>" id="more_share_<?php echo $hit->_source->id; ?>">
@@ -103,7 +113,7 @@
 								<?php if($current_from == $from) { ?>
 									<strong><?php echo $page; ?></strong>
 								<?php } else { ?>
-									<a href="<?php echo current_url(); ?>?q=<?php echo $this->input->get('q'); ?>&amp;from=<?php echo $from; ?>"><?php echo $page; ?></a>
+									<a href="<?php echo current_url(); ?>?q=<?php echo $this->input->get('q'); ?>&amp;sort_field=<?php echo $this->input->get('sort_field'); ?>&amp;sort_direction=<?php echo $this->input->get('sort_direction'); ?>&amp;from=<?php echo $from; ?>"><?php echo $page; ?></a>
 								<?php } ?>
 							<?php } ?>
 						</div>

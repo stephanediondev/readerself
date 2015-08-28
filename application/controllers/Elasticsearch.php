@@ -11,13 +11,66 @@ class Elasticsearch extends CI_Controller {
 
 		$this->load->library('elasticsearch_library');
 
+		$index = $this->config->item('elasticsearch/index');
+		$type = 'item';
+
+		/*$body = array(
+			'settings' => array(
+				'index' => array(
+					'analysis' => array(
+						'analyzer' => array(
+							'lower_keyword' => array(
+								'type' => 'custom',
+								'tokenizer' => 'keyword',
+								'filter' => 'lowercase',
+							),
+						),
+					),
+				),
+			),
+		);
+		$path = '/'.$index;
+		$this->elasticsearch_library->put($path, $body);*/
+
+		$body = array(
+			$type => array(
+				'properties' => array( 
+					'title' => array( 
+						'type' => 'multi_field',
+						'fields' => array(
+							'title' => array( 
+								'type' => 'string',
+							),
+							'raw' => array( 
+								'type' => 'string',
+								'index' => 'not_analyzed',
+								//'analyzer' => 'lowercase_keyword',
+							),
+						),
+					),
+					'date' => array( 
+						'type' => 'multi_field',
+						'fields' => array(
+							'date' => array( 
+								'type' => 'string',
+							),
+							'raw' => array( 
+								'type' => 'string',
+								'index' => 'not_analyzed',
+							),
+						),
+					),
+				),
+			),
+		);
+		$path = '/'.$index.'/_mapping/'.$type;
+		$this->elasticsearch_library->put($path, $body);
+
 		$query = $this->db->query('SELECT itm.*, fed.* FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('feeds').' AS fed ON fed.fed_id = itm.fed_id LEFT JOIN '.$this->db->dbprefix('elasticsearch_items').' AS elastic ON elastic.itm_id = itm.itm_id WHERE elastic.id IS NULL GROUP BY itm.itm_id');
 
 		if($query->num_rows() > 0) {
 			while($item = $query->_fetch_object()) {
 
-				$index = $this->config->item('elasticsearch/index');
-				$type = 'item';
 				$id = $item->itm_id;
 
 				$body = array(
@@ -56,13 +109,30 @@ class Elasticsearch extends CI_Controller {
 		$data = array();
 
 		$data['to_index'] = $this->db->query('SELECT COUNT(DISTINCT(itm.itm_id)) AS count FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('elasticsearch_items').' AS elastic ON elastic.itm_id = itm.itm_id WHERE elastic.id IS NULL')->row()->count;
+		$data['sort_field'] = array('date.raw' => 'Date', '_score' => 'Score', 'title.raw' => 'Title');
+		$data['sort_direction'] = array('asc' => 'Asc.', 'desc' => 'Desc.',);
 
 		if($this->input->get('q')) {
+			if(!array_key_exists($this->input->get('sort_field'), $data['sort_field'])) {
+				$sort_field = '_score';
+			} else {
+				$sort_field = $this->input->get('sort_field');
+			}
+			if(!array_key_exists($this->input->get('sort_direction'), $data['sort_direction'])) {
+				$sort_direction = 'desc';
+			} else {
+				$sort_direction = $this->input->get('sort_direction');
+			}
+
 			$index = $this->config->item('elasticsearch/index');
 			$size = 20;
 			$from = $this->input->get('from', 0); 
-			$sort = '_score:desc';
 			$body = array();
+			$body['sort'] = array(
+				$sort_field => array(
+					'order' => $sort_direction,
+					),
+			);
 			$body['query'] = array(
 				'query_string' => array(
 					'fields' => array('title', 'content'),
@@ -97,7 +167,7 @@ class Elasticsearch extends CI_Controller {
 				);
 			}*/
 
-			$data['hits'] = $this->elasticsearch_library->get('/'.$index.'/_search?size='.intval($size).'&type=item&from='.intval($from).'&sort='.$sort.'&track_scores', $body)->hits;
+			$data['hits'] = $this->elasticsearch_library->get('/'.$index.'/_search?size='.intval($size).'&type=item&from='.intval($from), $body)->hits;
 
 			$data['pagination'] = array();
 			if($data['hits']->total > $size) {
