@@ -6,6 +6,18 @@
 			</div>
 		</div>
 
+		<?php if(function_exists('posix_getpwuid') && function_exists('posix_geteuid')) { ?>
+			<?php $processUser = posix_getpwuid(posix_geteuid()); ?>
+			<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--12-col">
+				<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
+					<h1 class="mdl-card__title-text">Add to cron</h1>
+				</div>
+				<div class="mdl-card__supporting-text mdl-color-text--<?php echo $this->config->item('material-design/colors/text/content'); ?>">
+					<p>0 * * * * <?php echo $processUser['name']; ?> cd <?php echo dirname($_SERVER['SCRIPT_FILENAME']); ?> && php index.php refresh items</p>
+				</div>
+			</div>
+		<?php } ?>
+
 		<div class="mdl-card mdl-shadow--2dp mdl-color--<?php echo $this->config->item('material-design/colors/background/card'); ?> mdl-cell mdl-cell--3-col">
 			<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
 				<h1 class="mdl-card__title-text">Go to home</h1>
