@@ -14,7 +14,7 @@ class Elasticsearch extends CI_Controller {
 		$index = $this->config->item('elasticsearch/index');
 		$type = 'item';
 
-		$path = '/'.$index.'/_close';
+		/*$path = '/'.$index.'/_close';
 		$this->elasticsearch_library->post($path);
 
 		$body = array(
@@ -23,11 +23,8 @@ class Elasticsearch extends CI_Controller {
 					'analysis' => array(
 						'analyzer' => array(
 							'lowercase_analyzer' => array(
-								'tokenizer' => 'keyword',
+								'tokenizer' => 'lowercase',
 								'type' => 'custom',
-								'filter' => array(
-									'lowercase_filter',
-								),
 							),
 						),
 						'filter' => array(
@@ -43,7 +40,7 @@ class Elasticsearch extends CI_Controller {
 		$this->elasticsearch_library->put($path, $body);
 
 		$path = '/'.$index.'/_open';
-		$this->elasticsearch_library->post($path);
+		$this->elasticsearch_library->post($path);*/
 
 		$body = array(
 			$type => array(
@@ -53,11 +50,12 @@ class Elasticsearch extends CI_Controller {
 						'fields' => array(
 							'title' => array( 
 								'type' => 'string',
+								'index' => 'analyzed',
 							),
 							'raw' => array( 
 								'type' => 'string',
 								'index' => 'not_analyzed',
-								'analyzer' => 'lowercase_analyzer',
+								'tokenizer' => 'lowercase',
 							),
 						),
 					),
@@ -66,6 +64,7 @@ class Elasticsearch extends CI_Controller {
 						'fields' => array(
 							'date' => array( 
 								'type' => 'string',
+								'index' => 'analyzed',
 							),
 							'raw' => array( 
 								'type' => 'string',
@@ -110,7 +109,7 @@ class Elasticsearch extends CI_Controller {
 			}
 		}
 
-		redirect(base_url().'elasticsearch/form');
+		//redirect(base_url().'elasticsearch/form');
 	}
 	public function form() {
 		if(!$this->config->item('elasticsearch/enabled')) {
