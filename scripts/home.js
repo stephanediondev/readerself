@@ -881,7 +881,7 @@ $(document).ready(function() {
 			var itm_id = ref.data('itm_id');
 			var url = $('#item_' + itm_id).find('.title_link').attr('href');
 			$.ajax({
-				async: false,
+				async: true,
 				cache: true,
 				dataType: 'json',
 				statusCode: {
@@ -908,7 +908,7 @@ $(document).ready(function() {
 					params.push({'name': 'longitude', 'value': position.coords.longitude});
 					params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
 					$.ajax({
-						async: false,
+						async: true,
 						cache: true,
 						data: params,
 						dataType: 'json',
@@ -942,7 +942,7 @@ $(document).ready(function() {
 		params = [];
 		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
 		$.ajax({
-			async: false,
+			async: true,
 			cache: true,
 			data: params,
 			dataType: 'json',

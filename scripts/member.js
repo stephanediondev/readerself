@@ -360,7 +360,7 @@ $(document).ready(function() {
 		$(this).parent().remove();
 		var url = $(this).data('url');
 		$.ajax({
-			async: false,
+			async: true,
 			cache: true,
 			dataType: 'json',
 			statusCode: {
