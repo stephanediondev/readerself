@@ -10,16 +10,23 @@ class Elasticsearch_library {
 		curl_setopt($ci, CURLOPT_CUSTOMREQUEST, $action);
 		curl_setopt($ci, CURLOPT_RETURNTRANSFER, 1);
 		if($body) {
-			//echo '<textarea style="width:100%;height:100px;">'.json_encode($body).'</textarea><br>';
 			curl_setopt($ci, CURLOPT_POSTFIELDS, json_encode($body));
 		}
-		return json_decode(curl_exec($ci));
+		$result = json_decode(curl_exec($ci));
+		if($action == 'HEAD') {
+			$result = curl_getinfo($ci, CURLINFO_HTTP_CODE);
+		}
+		//echo '<textarea style="width:100%;height:100px;">'.json_encode($result).'</textarea><br>';echo '<br><br>';
+		return $result;
 	}
 	function delete($path, $body = false) {
 		return $this->_action('DELETE', $path, $body);
 	}
 	function get($path, $body = false) {
 		return $this->_action('GET', $path, $body);
+	}
+	function head($path, $body = false) {
+		return $this->_action('HEAD', $path, $body);
 	}
 	function post($path, $body = false) {
 		return $this->_action('POST', $path, $body);

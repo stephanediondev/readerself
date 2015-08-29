@@ -9,12 +9,22 @@ class Elasticsearch extends CI_Controller {
 			redirect(base_url());
 		}
 
+		//https://www.elastic.co/guide/en/elasticsearch/guide/current/sorting-collations.html
+		//$this->db->query('DELETE FROM elasticsearch_items');
+
 		$this->load->library('elasticsearch_library');
 
 		$index = $this->config->item('elasticsearch/index');
 		$type = 'item';
 
-		/*$path = '/'.$index.'/_close';
+		$path = '/'.$index;
+		$head_http_status = $this->elasticsearch_library->head($path);
+		if($head_http_status == 404) {
+			$path = '/'.$index;
+			$status_index = $this->elasticsearch_library->put($path);
+		}
+
+		$path = '/'.$index.'/_close';
 		$this->elasticsearch_library->post($path);
 
 		$body = array(
@@ -22,14 +32,11 @@ class Elasticsearch extends CI_Controller {
 				'index' => array(
 					'analysis' => array(
 						'analyzer' => array(
-							'lowercase_analyzer' => array(
-								'tokenizer' => 'lowercase',
-								'type' => 'custom',
-							),
-						),
-						'filter' => array(
-							'lowercase_filter' => array(
-								'type' => 'lowercase',
+							'case_insensitive_sort' => array(
+								'filter' => array(
+									'lowercase',
+								),
+								'tokenizer' => 'keyword',
 							),
 						),
 					),
@@ -40,35 +47,26 @@ class Elasticsearch extends CI_Controller {
 		$this->elasticsearch_library->put($path, $body);
 
 		$path = '/'.$index.'/_open';
-		$this->elasticsearch_library->post($path);*/
+		$this->elasticsearch_library->post($path);
 
 		$body = array(
 			$type => array(
 				'properties' => array( 
 					'title' => array( 
-						'type' => 'multi_field',
+						'type' => 'string',
 						'fields' => array(
-							'title' => array( 
+							'sort' => array( 
 								'type' => 'string',
-								'index' => 'analyzed',
-							),
-							'raw' => array( 
-								'type' => 'string',
-								'index' => 'not_analyzed',
-								'tokenizer' => 'lowercase',
+								'analyzer' => 'case_insensitive_sort',
 							),
 						),
 					),
 					'date' => array( 
-						'type' => 'multi_field',
+						'type' => 'string',
 						'fields' => array(
-							'date' => array( 
+							'sort' => array( 
 								'type' => 'string',
-								'index' => 'analyzed',
-							),
-							'raw' => array( 
-								'type' => 'string',
-								'index' => 'not_analyzed',
+								'analyzer' => 'case_insensitive_sort',
 							),
 						),
 					),
@@ -109,7 +107,7 @@ class Elasticsearch extends CI_Controller {
 			}
 		}
 
-		//redirect(base_url().'elasticsearch/form');
+		redirect(base_url().'elasticsearch/form');
 	}
 	public function form() {
 		if(!$this->config->item('elasticsearch/enabled')) {
@@ -121,7 +119,7 @@ class Elasticsearch extends CI_Controller {
 		$data = array();
 
 		$data['to_index'] = $this->db->query('SELECT COUNT(DISTINCT(itm.itm_id)) AS count FROM '.$this->db->dbprefix('items').' AS itm LEFT JOIN '.$this->db->dbprefix('elasticsearch_items').' AS elastic ON elastic.itm_id = itm.itm_id WHERE elastic.id IS NULL')->row()->count;
-		$data['sort_field'] = array('date.raw' => 'Date', '_score' => 'Score', 'title.raw' => 'Title');
+		$data['sort_field'] = array('date.sort' => 'Date', '_score' => 'Score', 'title.sort' => 'Title');
 		$data['sort_direction'] = array('asc' => 'Asc.', 'desc' => 'Desc.',);
 
 		if($this->input->get('q')) {
@@ -147,7 +145,7 @@ class Elasticsearch extends CI_Controller {
 			);
 			$body['query'] = array(
 				'query_string' => array(
-					'fields' => array('title', 'content'),
+					'fields' => array('feed.title', 'title', 'content'),
 					'query' => $this->input->get('q'),
 				),
 			);
@@ -170,7 +168,7 @@ class Elasticsearch extends CI_Controller {
 			/*if($this->input->get('date_from') && $this->input->get('date_to')) {
 				$body['filter'] = array(
 					'range' => array(
-						'date' => array(
+						'date.sort' => array(
 							'gte' => $this->input->get('date_from'),
 							'lte' => $this->input->get('date_to'),
 							'format' => 'YYYY-MM-DD',
