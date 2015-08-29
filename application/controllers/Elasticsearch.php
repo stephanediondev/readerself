@@ -35,6 +35,7 @@ class Elasticsearch extends CI_Controller {
 							'case_insensitive_sort' => array(
 								'filter' => array(
 									'lowercase',
+									'asciifolding',
 								),
 								'tokenizer' => 'keyword',
 							),
