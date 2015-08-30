@@ -132,6 +132,22 @@ class Refresh extends CI_Controller {
 		}
 		$this->readerself_library->set_content($content);
 	}
+	public function get_nextcrawl($lastitem) {
+		$nextcrawl = '';
+		//older than 96 hours, next crawl in 12 hours
+		if($lastitem->itm_datecreated < date('Y-m-d H:i:s', time() - 3600 * 24 * 96)) {
+			$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 12);
+
+		//older than 48 hours, next crawl in 6 hours
+		} else if($lastitem->itm_datecreated < date('Y-m-d H:i:s', time() - 3600 * 48)) {
+			$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 6);
+
+		//older than 24 hours, next crawl in 3 hours
+		} else if($lastitem->itm_datecreated < date('Y-m-d H:i:s', time() - 3600 * 24)) {
+			$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 3);
+		}
+		return $nextcrawl;
+	}
 	public function items() {
 		if($this->input->is_ajax_request()) {
 			$this->readerself_library->set_template('_json');
@@ -170,9 +186,41 @@ class Refresh extends CI_Controller {
 				foreach($query->result() as $fed) {
 					$parse_url = parse_url($fed->fed_link);
 
-					if(isset($parse_url['host']) == 1 && $parse_url['host'] == 'www.facebook.com' && $this->config->item('facebook/enabled')) {
+					if(isset($parse_url['host']) == 1 && $parse_url['host'] == 'instagram.com' && $this->config->item('instagram/enabled')) {
+						if($this->config->item('instagram/access_token')) {
+							$parts = explode('/', rtrim($parse_url['path'], '/'));
+							$total_parts = count($parts);
+							$last_part = $parts[$total_parts - 1 ];
+
+							$result = json_decode(file_get_contents('https://api.instagram.com/v1/users/search?q='.$last_part.'&count=1&access_token='.$this->config->item('instagram/access_token')));
+							if(count($result->data) == 0) {
+								$errors++;
+								$this->db->set('fed_lasterror', 'User not found');
+								$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
+								$this->db->where('fed_id', $fed->fed_id);
+								$this->db->update('feeds');
+
+							} else {
+								$user_id = $result->data[0]->id;
+
+								$result = json_decode(file_get_contents('https://api.instagram.com/v1/users/'.$user_id.'/media/recent?access_token='.$this->config->item('instagram/access_token')));
+								$this->readerself_library->crawl_items_instagram($fed->fed_id, $result->data);
+
+								$lastitem = $this->db->query('SELECT itm.itm_datecreated FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id ORDER BY itm.itm_id DESC LIMIT 0,1', array($fed->fed_id))->row();
+
+								$this->db->set('fed_lasterror', '');
+								$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
+								if($lastitem) {
+									$this->db->set('fed_nextcrawl', $this->get_nextcrawl($lastitem));
+								}
+								$this->db->where('fed_id', $fed->fed_id);
+								$this->db->update('feeds');
+							}
+						}
+
+					} else if(isset($parse_url['host']) == 1 && $parse_url['host'] == 'www.facebook.com' && $this->config->item('facebook/enabled')) {
 						try {
-							$parts = explode('/', $parse_url['path']);
+							$parts = explode('/', rtrim($parse_url['path'], '/'));
 							$total_parts = count($parts);
 							$last_part = $parts[$total_parts - 1 ];
 							$request = new Facebook\FacebookRequest($fbApp, $accessToken, 'GET', $last_part.'?fields=link,name,about');
@@ -196,20 +244,7 @@ class Refresh extends CI_Controller {
 							$this->db->set('fed_lasterror', '');
 							$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
 							if($lastitem) {
-								$nextcrawl = '';
-								//older than 96 hours, next crawl in 12 hours
-								if($lastitem->itm_datecreated < date('Y-m-d H:i:s', time() - 3600 * 24 * 96)) {
-									$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 12);
-
-								//older than 48 hours, next crawl in 6 hours
-								} else if($lastitem->itm_datecreated < date('Y-m-d H:i:s', time() - 3600 * 48)) {
-									$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 6);
-
-								//older than 24 hours, next crawl in 3 hours
-								} else if($lastitem->itm_datecreated < date('Y-m-d H:i:s', time() - 3600 * 24)) {
-									$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 3);
-								}
-								$this->db->set('fed_nextcrawl', $nextcrawl);
+								$this->db->set('fed_nextcrawl', $this->get_nextcrawl($lastitem));
 							}
 							$this->db->where('fed_id', $fed->fed_id);
 							$this->db->update('feeds');
@@ -269,20 +304,7 @@ class Refresh extends CI_Controller {
 							$this->db->set('fed_lasterror', '');
 							$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
 							if($lastitem) {
-								$nextcrawl = '';
-								//older than 96 hours, next crawl in 12 hours
-								if($lastitem->itm_datecreated < date('Y-m-d H:i:s', time() - 3600 * 24 * 96)) {
-									$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 12);
-
-								//older than 48 hours, next crawl in 6 hours
-								} else if($lastitem->itm_datecreated < date('Y-m-d H:i:s', time() - 3600 * 48)) {
-									$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 6);
-
-								//older than 24 hours, next crawl in 3 hours
-								} else if($lastitem->itm_datecreated < date('Y-m-d H:i:s', time() - 3600 * 24)) {
-									$nextcrawl = date('Y-m-d H:i:s', time() + 3600 * 3);
-								}
-								$this->db->set('fed_nextcrawl', $nextcrawl);
+								$this->db->set('fed_nextcrawl', $this->get_nextcrawl($lastitem));
 							}
 							$this->db->where('fed_id', $fed->fed_id);
 							$this->db->update('feeds');

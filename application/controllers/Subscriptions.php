@@ -124,7 +124,52 @@ class Subscriptions extends CI_Controller {
 			if($query->num_rows() == 0) {
 				$parse_url = parse_url($this->input->post('url'));
 
-				if(isset($parse_url['host']) == 1 && $parse_url['host'] == 'www.facebook.com' && $this->config->item('facebook/enabled')) {
+				if(isset($parse_url['host']) == 1 && $parse_url['host'] == 'instagram.com' && $this->config->item('instagram/enabled')) {
+					if($this->config->item('instagram/access_token')) {
+						$parts = explode('/', rtrim($parse_url['path'], '/'));
+						$total_parts = count($parts);
+						$last_part = $parts[$total_parts - 1 ];
+
+						$result = json_decode(file_get_contents('https://api.instagram.com/v1/users/search?q='.$last_part.'&count=1&access_token='.$this->config->item('instagram/access_token')));
+						if(count($result->data) == 0) {
+							$data['error'] = 'User not found';
+						} else {
+							$user_id = $result->data[0]->id;
+
+							$result = json_decode(file_get_contents('https://api.instagram.com/v1/users/'.$user_id.'?access_token='.$this->config->item('instagram/access_token')));
+
+							$this->db->set('fed_title', 'Instagram @'.$result->data->username);
+							$this->db->set('fed_url', $this->input->post('url'));
+							$this->db->set('fed_description', $result->data->bio);
+							$this->db->set('fed_image', $result->data->profile_picture);
+							$this->db->set('fed_link', $this->input->post('url'));
+							if(isset($parse_url['host']) == 1) {
+								$this->db->set('fed_host', $parse_url['host']);
+							}
+							$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
+							$this->db->set('fed_datecreated', date('Y-m-d H:i:s'));
+							$this->db->insert('feeds');
+							$fed_id = $this->db->insert_id();
+
+							$this->db->set('mbr_id', $this->member->mbr_id);
+							$this->db->set('fed_id', $fed_id);
+							if($this->config->item('folders')) {
+								if($folder) {
+									$this->db->set('flr_id', $folder);
+								}
+							}
+							$this->db->set('sub_priority', $this->input->post('priority'));
+							$this->db->set('sub_direction', $this->input->post('direction'));
+							$this->db->set('sub_datecreated', date('Y-m-d H:i:s'));
+							$this->db->insert('subscriptions');
+							$sub_id = $this->db->insert_id();
+
+							$result = json_decode(file_get_contents('https://api.instagram.com/v1/users/'.$user_id.'/media/recent?access_token='.$this->config->item('instagram/access_token')));
+							$this->readerself_library->crawl_items_instagram($fed_id, $result->data);
+						}
+					}
+
+				} else if(isset($parse_url['host']) == 1 && $parse_url['host'] == 'www.facebook.com' && $this->config->item('facebook/enabled')) {
 					include_once('thirdparty/facebook/autoload.php');
 
 					$fb = new Facebook\Facebook(array(
@@ -135,7 +180,7 @@ class Subscriptions extends CI_Controller {
 					$accessToken = $fbApp->getAccessToken();
 
 					try {
-						$parts = explode('/', $parse_url['path']);
+						$parts = explode('/', rtrim($parse_url['path'], '/'));
 						$total_parts = count($parts);
 						$last_part = $parts[$total_parts - 1 ];
 						$request = new Facebook\FacebookRequest($fbApp, $accessToken, 'GET', $last_part.'?fields=link,name,about');

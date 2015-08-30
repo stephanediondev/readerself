@@ -241,3 +241,8 @@ $lang['stg_wallabag/url'] = 'Wallabag / URL';
 
 $lang['stg_shaarli/enabled'] = 'Shaarli enabled';
 $lang['stg_shaarli/url'] = 'Shaarli / URL';
+
+$lang['stg_instagram/enabled'] = 'Instagram enabled';
+$lang['stg_instagram/client_id'] = 'Instagram / Client id';
+$lang['stg_instagram/client_secret'] = 'Instagram / Client secret';
+$lang['stg_instagram/access_token'] = 'Instagram / Access token';

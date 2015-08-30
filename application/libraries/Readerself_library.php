@@ -452,6 +452,79 @@ class Readerself_library {
 			unset($sp_item);
 		}
 	}
+	function crawl_items_instagram($fed_id, $items) {
+		foreach($items as $sp_item) {
+			if(isset($sp_item->link) == 0) {
+				continue;
+			}
+			$count = $this->CI->db->query('SELECT COUNT(DISTINCT(itm.itm_id)) AS count FROM '.$this->CI->db->dbprefix('items').' AS itm WHERE itm.itm_link = ? OR itm.itm_link = ?', array($sp_item->link, str_replace('&amp;', '&', $sp_item->link)))->row()->count;
+			if($count == 0) {
+				$this->CI->db->set('fed_id', $fed_id);
+
+				if(isset($sp_item->caption->text)) {
+					$this->CI->db->set('itm_title', $sp_item->caption->text);
+				} else {
+					$this->CI->db->set('itm_title', '-');
+				}
+
+				$this->CI->db->set('itm_link', str_replace('&amp;', '&', $sp_item->link));
+
+				$this->CI->db->set('itm_content', '-');
+
+				if(isset($sp_item->location)) {
+					if(isset($sp_item->location->latitude) == 1 && isset($sp_item->location->longitude) == 1) {
+						$this->CI->db->set('itm_latitude', $sp_item->location->latitude);
+						$this->CI->db->set('itm_longitude', $sp_item->location->longitude);
+					}
+				}
+
+				$sp_itm_date = $sp_item->created_time;
+				if($sp_itm_date) {
+					$this->CI->db->set('itm_date', date('Y-m-d H:i:s', $sp_itm_date));
+				} else {
+					$this->CI->db->set('itm_date', date('Y-m-d H:i:s'));
+				}
+
+				$this->CI->db->set('itm_datecreated', date('Y-m-d H:i:s'));
+
+				$this->CI->db->insert('items');
+
+				$itm_id = $this->CI->db->insert_id();
+
+				if(isset($sp_item->videos) == 1) {
+					$this->CI->db->set('itm_id', $itm_id);
+					$this->CI->db->set('enr_link', $sp_item->videos->standard_resolution->url);
+					$this->CI->db->set('enr_width', $sp_item->videos->standard_resolution->width);
+					$this->CI->db->set('enr_height', $sp_item->videos->standard_resolution->height);
+					$this->CI->db->set('enr_type', 'video/mp4');
+					$this->CI->db->set('enr_datecreated', date('Y-m-d H:i:s'));
+					$this->CI->db->insert('enclosures');
+				} else if(isset($sp_item->images) == 1) {
+					$this->CI->db->set('itm_id', $itm_id);
+					$this->CI->db->set('enr_link', $sp_item->images->standard_resolution->url);
+					$this->CI->db->set('enr_width', $sp_item->images->standard_resolution->width);
+					$this->CI->db->set('enr_height', $sp_item->images->standard_resolution->height);
+					$this->CI->db->set('enr_type', 'image/jpeg');
+					$this->CI->db->set('enr_datecreated', date('Y-m-d H:i:s'));
+					$this->CI->db->insert('enclosures');
+				}
+
+				if(isset($sp_item->tags)) {
+					$sp_item->tags = array_unique($sp_item->tags);
+					foreach($sp_item->tags as $tag) {
+						$tag_id = $this->CI->readerself_library->convert_category_title($tag);
+						$this->CI->db->set('tag_id', $tag_id);
+						$this->CI->db->set('itm_id', $itm_id);
+						$this->CI->db->set('tag_itm_datecreated', date('Y-m-d H:i:s'));
+						$this->CI->db->insert('tags_items');
+					}
+				}
+			} else {
+				break;
+			}
+			unset($sp_item);
+		}
+	}
 	function crawl_items_facebook($fed_id, $items) {
 		foreach($items as $sp_item) {
 			if(isset($sp_item['link']) == 0) {
@@ -495,27 +568,6 @@ class Readerself_library {
 
 				$itm_id = $this->CI->db->insert_id();
 
-				/*if(stristr($sp_item['link'], 'vimeo.com')) {
-					$this->CI->db->set('itm_id', $itm_id);
-					$this->CI->db->set('enr_link', $sp_item['link']);
-					$this->CI->db->set('enr_type', 'video/vimeo');
-					$this->CI->db->set('enr_datecreated', date('Y-m-d H:i:s'));
-					$this->CI->db->insert('enclosures');
-				}
-				if(stristr($sp_item['link'], 'youtube.com')) {
-					$this->CI->db->set('itm_id', $itm_id);
-					$this->CI->db->set('enr_link', $sp_item['link']);
-					$this->CI->db->set('enr_type', 'video/youtube');
-					$this->CI->db->set('enr_datecreated', date('Y-m-d H:i:s'));
-					$this->CI->db->insert('enclosures');
-				}
-				if(stristr($sp_item['link'], 'dailymotion.com')) {
-					$this->CI->db->set('itm_id', $itm_id);
-					$this->CI->db->set('enr_link', $sp_item['link']);
-					$this->CI->db->set('enr_type', 'video/dailymotion');
-					$this->CI->db->set('enr_datecreated', date('Y-m-d H:i:s'));
-					$this->CI->db->insert('enclosures');
-				}*/
 				if(isset($sp_item['full_picture']) == 1) {
 					$this->CI->db->set('itm_id', $itm_id);
 					$this->CI->db->set('enr_link', $sp_item['full_picture']);

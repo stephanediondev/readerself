@@ -222,7 +222,10 @@ INSERT INTO `settings` (`stg_code`, `stg_type`, `stg_value`, `stg_note`, `stg_is
 ('evernote/enabled', 'boolean', '0', NULL, 1, 0, 0, NOW()),
 ('evernote/sandbox', 'boolean', '0', NULL, 1, 0, 0, NOW()),
 ('evernote/consumer_key', 'string', NULL, NULL, 1, 0, 0, NOW()),
-('evernote/consumer_secret', 'string', NULL, NULL, 1, 0, 0, NOW());
+('evernote/consumer_secret', 'string', NULL, NULL, 1, 0, 0, NOW()),
+('instagram/enabled', 'boolean', '0', NULL, 1, 0, 0, NOW()),
+('instagram/client_id', 'string', NULL, NULL, 1, 0, 0, NOW()),
+('instagram/client_secret', 'string', NULL, NULL, 1, 0, 0, NOW());
 
 CREATE TABLE IF NOT EXISTS `share` (
   `shr_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
