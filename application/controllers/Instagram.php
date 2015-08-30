@@ -38,20 +38,22 @@ class Instagram extends CI_Controller {
 		curl_setopt($ci, CURLOPT_POSTFIELDS, $fields);
 		$result = json_decode(curl_exec($ci));
 
-		$access_token = $result->access_token;
+		if(isset($result->access_token) == 1) {
+			$access_token = $result->access_token;
 
-		$query = $this->db->query('SELECT stg.* FROM '.$this->db->dbprefix('settings').' AS stg WHERE stg.stg_code = ? GROUP BY stg.stg_id', array('instagram/access_token'));
-		if($query->num_rows() == 0) {
-			$this->db->set('stg_value', $access_token);
-			$this->db->set('stg_code', 'instagram/access_token');
-			$this->db->set('stg_type', 'varchar');
-			$this->db->set('stg_is_global', 1);
-			$this->db->set('stg_datecreated', date('Y-m-d H:i:s'));
-			$this->db->insert('settings');
-		} else {
-			$this->db->set('stg_value', $access_token);
-			$this->db->where('stg_code', 'instagram/access_token');
-			$this->db->update('settings');
+			$query = $this->db->query('SELECT stg.* FROM '.$this->db->dbprefix('settings').' AS stg WHERE stg.stg_code = ? GROUP BY stg.stg_id', array('instagram/access_token'));
+			if($query->num_rows() == 0) {
+				$this->db->set('stg_value', $access_token);
+				$this->db->set('stg_code', 'instagram/access_token');
+				$this->db->set('stg_type', 'varchar');
+				$this->db->set('stg_is_global', 1);
+				$this->db->set('stg_datecreated', date('Y-m-d H:i:s'));
+				$this->db->insert('settings');
+			} else {
+				$this->db->set('stg_value', $access_token);
+				$this->db->where('stg_code', 'instagram/access_token');
+				$this->db->update('settings');
+			}
 		}
 
 		if($this->axipi_session->userdata('mbr_id')) {
