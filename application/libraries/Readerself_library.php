@@ -461,7 +461,7 @@ class Readerself_library {
 			if($count == 0) {
 				$this->CI->db->set('fed_id', $fed_id);
 
-				if(isset($sp_item->caption->text)) {
+				if(isset($sp_item->caption->text) == 1 && $sp_item->caption->text != '') {
 					$this->CI->db->set('itm_title', $sp_item->caption->text);
 				} else {
 					$this->CI->db->set('itm_title', '-');
