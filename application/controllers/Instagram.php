@@ -6,7 +6,7 @@ class Instagram extends CI_Controller {
 		$this->redirect_uri = base_url().'instagram/callback';
 	}
 	public function index() {
-		if(!$this->axipi_session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id') || !$this->member->mbr_administrator) {
 			redirect(base_url());
 		}
 
@@ -16,7 +16,7 @@ class Instagram extends CI_Controller {
 		$this->readerself_library->set_content($content);
 	}
 	public function authorize() {
-		if(!$this->axipi_session->userdata('mbr_id')) {
+		if(!$this->axipi_session->userdata('mbr_id') || !$this->member->mbr_administrator) {
 			redirect(base_url());
 		}
 
