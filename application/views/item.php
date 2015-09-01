@@ -51,9 +51,6 @@
 				<i class="material-icons md-18">share</i>
 			</button>
 			<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--top-left mdl-color--<?php echo $this->config->item('material-design/colors/background/menu'); ?>" for="more_share_<?php echo $itm->itm_id; ?>">
-				<?php if($this->config->item('share_external_email') && $itm->case_member != 'public_profile') { ?>
-					<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?> share_email" data-itm_id="<?php echo $itm->itm_id; ?>" href="<?php echo base_url(); ?>item/email/<?php echo $itm->itm_id; ?>"><?php echo $this->lang->line('share_email'); ?></a></li>
-				<?php } ?>
 				<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?> share_evernote" target="_blank" href="https://www.evernote.com/clip.action?url=<?php echo urlencode($itm->itm_link); ?>&amp;title=<?php echo urlencode($itm->itm_title); ?>">Evernote (clip)</a></li>
 				<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?> share_facebook" target="_blank" href="https://www.facebook.com/sharer.php?u=<?php echo urlencode($itm->itm_link); ?>">Facebook</a></li>
 				<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?> share_googleplus" target="_blank" href="https://plus.google.com/share?url=<?php echo urlencode($itm->itm_link); ?>">Google+</a></li>
@@ -70,6 +67,9 @@
 					<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?> share_wallabag" target="_blank" href="<?php echo $this->config->item('wallabag/url'); ?>?action=add&amp;autoclose=true&amp;url=<?php echo base64_encode($itm->itm_link); ?>">Wallabag</a></li>
 				<?php } ?>
 			</ul>
+		<?php } ?>
+		<?php if($this->config->item('share_external_email') && $itm->case_member != 'public_profile') { ?>
+			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon share_email" data-itm_id="<?php echo $itm->itm_id; ?>" href="<?php echo base_url(); ?>item/email/<?php echo $itm->itm_id; ?>"><i class="material-icons md-18">email</i></a>
 		<?php } ?>
 		<?php if($this->config->item('readability_parser_key') && $itm->case_member != 'public_profile') { ?>
 			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon link-item-readability" data-itm_id="<?php echo $itm->itm_id; ?>" href="<?php echo base_url(); ?>item/readability/<?php echo $itm->itm_id; ?>"><i class="material-icons md-18">file_download</i></a>
