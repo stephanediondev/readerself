@@ -30,6 +30,7 @@ p {
 	margin: 0px 0px 4px 0px;
 }
 a:link, a:visited {
+	font-weight: inherit;
 	text-decoration: none;
 }
 a:hover {
@@ -91,6 +92,7 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 }
 .mdl-card .mdl-navigation__link {
 	float: left;
+	font-weight: inherit;
 	margin: 0px 4px 4px 0px;
 	white-space: nowrap;
 }
@@ -145,6 +147,7 @@ h2 .favicon, h2.favicon, h2 a.favicon:link, h2 a.favicon:visited {
 }
 .mdl-card__title .mdl-card__title-text {
 	font-size: 15px;
+	font-weight: 500;
 	margin: 4px 0px 4px 0px;
 }
 .mdl-card__title .mdl-card__title-text {
