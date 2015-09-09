@@ -192,7 +192,7 @@ class Refresh extends CI_Controller {
 							$total_parts = count($parts);
 							$last_part = $parts[$total_parts - 1 ];
 
-							$result = json_decode(file_get_contents('https://api.instagram.com/v1/users/search?q='.$last_part.'&count=1&access_token='.$this->config->item('instagram/access_token')));
+							$result = json_decode(file_get_contents('https://api.instagram.com/v1/users/search?q='.$last_part.'&count=15&access_token='.$this->config->item('instagram/access_token')));
 							if(count($result->data) == 0) {
 								$errors++;
 								$this->db->set('fed_lasterror', 'User not found');
@@ -201,20 +201,35 @@ class Refresh extends CI_Controller {
 								$this->db->update('feeds');
 
 							} else {
-								$user_id = $result->data[0]->id;
-
-								$result = json_decode(file_get_contents('https://api.instagram.com/v1/users/'.$user_id.'/media/recent?access_token='.$this->config->item('instagram/access_token')));
-								$this->readerself_library->crawl_items_instagram($fed->fed_id, $result->data);
-
-								$lastitem = $this->db->query('SELECT itm.itm_datecreated FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id ORDER BY itm.itm_id DESC LIMIT 0,1', array($fed->fed_id))->row();
-
-								$this->db->set('fed_lasterror', '');
-								$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
-								if($lastitem) {
-									$this->db->set('fed_nextcrawl', $this->get_nextcrawl($lastitem));
+								$user_id = false;
+								foreach($result->data as $user) {
+									if($user->username == $last_part) {
+										$user_id = $user->id;
+										break;
+									}
 								}
-								$this->db->where('fed_id', $fed->fed_id);
-								$this->db->update('feeds');
+
+								if(!$user_id) {
+									$errors++;
+									$this->db->set('fed_lasterror', 'User not found');
+									$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
+									$this->db->where('fed_id', $fed->fed_id);
+									$this->db->update('feeds');
+
+								} else {
+									$result = json_decode(file_get_contents('https://api.instagram.com/v1/users/'.$user_id.'/media/recent?access_token='.$this->config->item('instagram/access_token')));
+									$this->readerself_library->crawl_items_instagram($fed->fed_id, $result->data);
+
+									$lastitem = $this->db->query('SELECT itm.itm_datecreated FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.fed_id = ? GROUP BY itm.itm_id ORDER BY itm.itm_id DESC LIMIT 0,1', array($fed->fed_id))->row();
+
+									$this->db->set('fed_lasterror', '');
+									$this->db->set('fed_lastcrawl', date('Y-m-d H:i:s'));
+									if($lastitem) {
+										$this->db->set('fed_nextcrawl', $this->get_nextcrawl($lastitem));
+									}
+									$this->db->where('fed_id', $fed->fed_id);
+									$this->db->update('feeds');
+								}
 							}
 						}
 
