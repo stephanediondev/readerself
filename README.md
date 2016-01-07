@@ -1,7 +1,3 @@
-####Thank you to answer a few questions about your rss/atom/feed reader/aggregator
-
-https://project29k.typeform.com/to/GFAwM1
-
 ####Demo
 
 https://readerself.com/demo/?email=example@example.com&password=example
