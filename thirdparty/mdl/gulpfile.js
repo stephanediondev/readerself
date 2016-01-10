@@ -76,6 +76,7 @@ gulp.task('jscs', function() {
   return gulp.src(['src/**/*.js' , 'gulpfile.js'])
     .pipe(reload({stream: true, once: true}))
     .pipe($.jscs())
+    .pipe($.jscs.reporter())
     .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
 });
 
@@ -218,7 +219,7 @@ gulp.task('scripts', ['jscs', 'jshint'], function() {
     'src/ripple/ripple.js'
   ];
   return gulp.src(sources)
-    .pipe(uniffe())
+    .pipe($.if(/mdlComponentHandler\.js/, $.util.noop(), uniffe()))
     .pipe($.sourcemaps.init())
     // Concatenate Scripts
     .pipe($.concat('material.js'))
@@ -362,6 +363,9 @@ gulp.task('demoresources', function() {
  * put together.
  */
 gulp.task('demos', ['demoresources'], function() {
+  /**
+   * Retrieves the list of component folders.
+   */
   function getComponentFolders() {
     return fs.readdirSync('./src/')
       .filter(function(file) {
@@ -444,6 +448,9 @@ gulp.task('assets', function() {
     .pipe(gulp.dest('dist/assets'));
 });
 
+/**
+ * Defines the list of resources to watch for changes.
+ */
 function watch() {
   gulp.watch(['src/**/*.js', '!src/**/README.md'],
     ['scripts', 'demos', 'components', reload]);
@@ -542,9 +549,9 @@ gulp.task('pushCodeFiles', function() {
   // The gsutil -m option requests parallel copies.
   // The gsutil -h option is used to set metadata headers
   // (cache control, in this case).
-  // For cache control, start with 0s (disable caching during dev),
-  // but consider more helpful interval (e.g. 3600s) after launch.
-  var cacheControl = '-h "Cache-Control:public,max-age=3600"';
+  // Code files should NEVER be touched after uploading, therefore
+  // 30 days caching is a safe value.
+  var cacheControl = '-h "Cache-Control:public,max-age=2592000"';
   var gsutilCpCmd = 'gsutil -m cp -z js,css,map ';
   var gsutilCacheCmd = 'gsutil -m setmeta -R ' + cacheControl;
 
@@ -566,8 +573,11 @@ gulp.task('publish:code', function(cb) {
     cb);
 });
 
-// Function to publish staging or prod version from local tree,
-// or to promote staging to prod, per passed arg.
+/**
+ * Function to publish staging or prod version from local tree,
+ * or to promote staging to prod, per passed arg.
+ * @param {string} pubScope the scope to publish to.
+ */
 function mdlPublish(pubScope) {
   var cacheTtl = null;
   var src = null;
@@ -693,10 +703,10 @@ gulp.task('templates:images', function() {
   return gulp.src([
     'templates/*/images/**/*'
   ])
-  .pipe($.cache($.imagemin({
+  .pipe($.imagemin({
     progressive: true,
     interlaced: true
-  })))
+  }))
   .pipe(gulp.dest('dist/templates'));
 });
 
