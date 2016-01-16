@@ -2,8 +2,8 @@
 	<div class="mdl-card__title mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>">
 		<h1 class="mdl-card__title-text">
 			<a target="_blank" class="title_link favicon mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>"<?php if($itm->sub->fed_host) { ?> style="background-image:url(https://www.google.com/s2/favicons?domain=<?php echo $itm->sub->fed_host; ?>&amp;alt=feed);"<?php } ?> href="<?php echo $itm->itm_link; ?>"><?php echo $itm->itm_title; ?></a>
-			<a class="expand mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>item/expand/<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_o'); ?>"><i class="material-icons md-24">arrow_drop_up</i></a>
-			<a class="collapse mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="#item_<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_o'); ?>"><i class="material-icons md-24">arrow_drop_down</i></a>
+			<a class="expand mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>item/expand/<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_o'); ?>"><i class="material-icons md-24">keyboard_arrow_up</i></a>
+			<a class="collapse mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="#item_<?php echo $itm->itm_id; ?>" title="<?php echo $this->lang->line('title_o'); ?>"><i class="material-icons md-24">keyboard_arrow_down</i></a>
 		</h1>
 		<div class="mdl-card__subtitle-text">
 			<span class="mdl-navigation__link mdl-color-text--<?php echo $this->config->item('material-design/colors/text/card-title'); ?>"><i class="material-icons md-16">access_time</i><span class="timeago" title="<?php echo $itm->itm_date; ?>"></span></span>
@@ -69,7 +69,7 @@
 			</ul>
 		<?php } ?>
 		<?php if($this->config->item('share_external_email') && $itm->case_member != 'public_profile') { ?>
-			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon share_email" data-itm_id="<?php echo $itm->itm_id; ?>" href="<?php echo base_url(); ?>item/email/<?php echo $itm->itm_id; ?>"><i class="material-icons md-18">email</i></a>
+			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon share_email" data-itm_id="<?php echo $itm->itm_id; ?>" href="<?php echo base_url(); ?>item/email/<?php echo $itm->itm_id; ?>"><i class="material-icons md-18">mail_outline</i></a>
 		<?php } ?>
 		<?php if($this->config->item('readability_parser_key') && $itm->case_member != 'public_profile') { ?>
 			<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon link-item-readability" data-itm_id="<?php echo $itm->itm_id; ?>" href="<?php echo base_url(); ?>item/readability/<?php echo $itm->itm_id; ?>"><i class="material-icons md-18">file_download</i></a>

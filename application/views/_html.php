@@ -85,8 +85,10 @@
 							<li class="mdl-menu__item"><a class="items_mode mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="read_and_unread" title="<?php echo $this->lang->line('title_shift_1'); ?>"><?php echo $this->lang->line('read_and_unread'); ?></a></li>
 						</ul>
 
+                        &nbsp;
+
 						<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn_display">
-							<i class="material-icons md-24"><?php if(!$this->input->cookie('items_display') || $this->input->cookie('items_display') == 'expand') { ?>arrow_drop_down<?php } else { ?>arrow_drop_up<?php } ?></i>
+							<i class="material-icons md-24"><?php if(!$this->input->cookie('items_display') || $this->input->cookie('items_display') == 'expand') { ?>keyboard_arrow_down<?php } else { ?>keyboard_arrow_up<?php } ?></i>
 						</button>
 						<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right mdl-color--<?php echo $this->config->item('material-design/colors/background/menu'); ?>" for="hdrbtn_display">
 							<li class="mdl-menu__item"><a class="items_display mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="expand" title="2"><?php echo $this->lang->line('expand_all'); ?></a></li>
@@ -103,8 +105,8 @@
 							<li class="mdl-menu__item"><a class="items_read mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>items/read/two-weeks"><?php echo $this->lang->line('items_older_than_two_weeks'); ?></a></li>
 						</ul>
 
-						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon item_up" href="#" id="item_up" title="<?php echo $this->lang->line('title_k'); ?>"><i class="material-icons md-24">keyboard_arrow_up</i></a>
-						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon item_down" href="#" id="item_down" title="<?php echo $this->lang->line('title_j'); ?>"><i class="material-icons md-24">keyboard_arrow_down</i></a>
+						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon item_up" href="#" id="item_up" title="<?php echo $this->lang->line('title_k'); ?>"><i class="material-icons md-24">arrow_upward</i></a>
+						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon item_down" href="#" id="item_down" title="<?php echo $this->lang->line('title_j'); ?>"><i class="material-icons md-24">arrow_downward</i></a>
 					<?php } ?>
 
 					<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">

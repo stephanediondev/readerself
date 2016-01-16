@@ -222,7 +222,7 @@ function navigation_down() {
 	}
 }
 function toggle_folder(ref) {
-	if(ref.find('i').text() == 'arrow_drop_up') {
+	if(ref.find('i').text() == 'keyboard_arrow_up') {
 		var params = [];
 		params.push({'name': csrf_token_name, 'value': $.cookie(csrf_cookie_name)});
 		$.ajax({
@@ -233,7 +233,7 @@ function toggle_folder(ref) {
 			statusCode: {
 				200: function(data_return, textStatus, jqXHR) {
 					if(data_return.subscriptions) {
-						ref.html('<i class="material-icons md-24">arrow_drop_down</i>');
+						ref.html('<i class="material-icons md-24">keyboard_arrow_down</i>');
 
 						ref.parent().find('ul').html('');
 						for(i in data_return.subscriptions) {
@@ -265,7 +265,7 @@ function toggle_folder(ref) {
 			url: ref.attr('href')
 		});
 	} else {
-		ref.html('<i class="material-icons md-24">arrow_drop_up</i>');
+		ref.html('<i class="material-icons md-24">keyboard_arrow_up</i>');
 
 		ref.parent().find('ul').html('');
 	}
@@ -434,13 +434,13 @@ function item_collapse(ref) {
 }
 function items_collapse() {
 	items_display = 'collapse';
-	$('#hdrbtn_display').html('<i class="material-icons md-24">arrow_drop_up</i>');
+	$('#hdrbtn_display').html('<i class="material-icons md-24">keyboard_arrow_up</i>');
 	$.cookie('items_display', items_display, { expires: 30, path: '/' });
 	load_items( $('.mdl-navigation').find('li.active').find('a.mdl-navigation__link').attr('href') );
 }
 function items_expand() {
 	items_display = 'expand';
-	$('#hdrbtn_display').html('<i class="material-icons md-24">arrow_drop_down</i>');
+	$('#hdrbtn_display').html('<i class="material-icons md-24">keyboard_arrow_down</i>');
 	$.cookie('items_display', items_display, { expires: 30, path: '/' });
 	load_items( $('.mdl-navigation').find('li.active').find('a.mdl-navigation__link').attr('href') );
 }
