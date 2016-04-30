@@ -28,7 +28,11 @@ class Pinboard extends CI_Controller {
 			$content = $this->load->view('pinboard_configure', $data, TRUE);
 			$this->readerself_library->set_content($content);
 		} else {
-			$this->readerself_model->set_token('pinboard', $this->member->mbr_id, $this->input->post('api_token'), false);
+			if($this->input->post('api_token') == '') {
+				$this->db->query('DELETE FROM '.$this->db->dbprefix('tokens').' WHERE tok_type = ? AND mbr_id = ?', array('pinboard', $this->member->mbr_id));
+			} else {
+				$this->readerself_model->set_token('pinboard', $this->member->mbr_id, $this->input->post('api_token'), false);
+			}
 
 			redirect(base_url().'pinboard/configure');
 		}
