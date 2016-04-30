@@ -4,6 +4,32 @@ class Item extends CI_Controller {
 	function __construct() {
 		parent::__construct();
 	}
+	public function pinboard($itm_id, $method = 'add') {
+		if(!$this->axipi_session->userdata('mbr_id')) {
+			redirect(base_url());
+		}
+
+		$token = $this->readerself_model->get_token('pinboard', $this->member->mbr_id, false);
+		if($this->input->is_ajax_request() && $token) {
+			$query = $this->db->query('SELECT * FROM '.$this->db->dbprefix('items').' AS itm WHERE itm.itm_id = ? GROUP BY itm.itm_id', array($itm_id));
+			if($query->num_rows() > 0) {
+				$itm = $query->row();
+
+				$url = 'https://api.pinboard.in/v1/posts/'.$method;
+				$fields = array(
+					'auth_token' => $token,
+					'url' => $itm->itm_link,
+					'description' => $itm->itm_title,
+					'replace' => 'yes',
+				);
+				$ci = curl_init();
+				curl_setopt($ci, CURLOPT_URL, $url.'?'.http_build_query($fields));
+				curl_setopt($ci, CURLOPT_CUSTOMREQUEST, 'GET');
+				curl_setopt($ci, CURLOPT_RETURNTRANSFER, 1);
+				curl_exec($ci);
+			}
+		}
+	}
 	public function star($itm_id) {
 		if(!$this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url());
@@ -21,12 +47,14 @@ class Item extends CI_Controller {
 				$this->db->where('mbr_id', $this->member->mbr_id);
 				$this->db->delete('favorites');
 				$content['status'] = 'unstar';
+				$this->pinboard($itm_id, 'delete');
 			} else {
 				$this->db->set('itm_id', $itm_id);
 				$this->db->set('mbr_id', $this->member->mbr_id);
 				$this->db->set('fav_datecreated', date('Y-m-d H:i:s'));
 				$this->db->insert('favorites');
 				$content['status'] = 'star';
+				$this->pinboard($itm_id, 'add');
 			}
 		} else {
 			$this->output->set_status_header(403);
@@ -50,12 +78,14 @@ class Item extends CI_Controller {
 				$this->db->where('mbr_id', $this->member->mbr_id);
 				$this->db->delete('share');
 				$content['status'] = 'unshare';
+				$this->pinboard($itm_id, 'delete');
 			} else {
 				$this->db->set('itm_id', $itm_id);
 				$this->db->set('mbr_id', $this->member->mbr_id);
 				$this->db->set('shr_datecreated', date('Y-m-d H:i:s'));
 				$this->db->insert('share');
 				$content['status'] = 'share';
+				$this->pinboard($itm_id, 'add');
 			}
 		} else {
 			$this->output->set_status_header(403);
