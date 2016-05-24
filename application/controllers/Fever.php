@@ -158,6 +158,10 @@ class Fever extends CI_Controller {
 						}
 					}
 
+                    if(!$row->author) {
+                        $row->author = 'Unknown';
+                    }
+
 					$content['items'][] = array(
 						'id' => $row->itm_id,
 						'feed_id' => $row->fed_id,
