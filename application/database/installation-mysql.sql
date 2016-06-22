@@ -144,6 +144,7 @@ CREATE TABLE IF NOT EXISTS `members` (
   `mbr_email` varchar(255) NOT NULL,
   `mbr_password` char(40) NOT NULL,
   `mbr_nickname` varchar(255) DEFAULT NULL,
+  `mbr_auth_ldap` tinyint(1) NOT NULL DEFAULT '0',
   `mbr_gravatar` varchar(255) DEFAULT NULL,
   `mbr_description` text,
   `mbr_administrator` tinyint(1) unsigned NOT NULL DEFAULT '0',

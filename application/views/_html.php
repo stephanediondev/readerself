@@ -133,14 +133,16 @@
 					<?php if($this->router->class != 'login') { ?>
 						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>login"><i class="material-icons md-24">power_settings_new</i></a>
 					<?php } ?>
-					<?php if($this->config->item('register_multi') && !$this->config->item('ldap')) { ?>
+					<?php if($this->config->item('register_multi') && $this->config->item('register')) { ?>
 						<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="<?php echo base_url(); ?>register"><i class="material-icons md-24">person_add</i></a>
 					<?php } ?>
 					<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
 						<i class="material-icons md-24">more_vert</i>
 					</button>
 					<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right mdl-color--<?php echo $this->config->item('material-design/colors/background/menu'); ?>" for="hdrbtn">
+						<?php if($this->config->item('password_reset')) { ?>
 						<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="<?php echo base_url(); ?>password"><?php echo $this->lang->line('password'); ?></a>
+						<?php } ?>
 						<li class="mdl-menu__item"><a target="_blank" class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="https://github.com/readerself">Code</a></li>
 						<li class="mdl-menu__item"><a target="_blank" class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?>" href="https://www.facebook.com/readerself">Community</a></li>
 					</ul>

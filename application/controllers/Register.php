@@ -8,7 +8,7 @@ class Register extends CI_Controller {
 		if($this->readerself_model->count_members() > 0 && !$this->config->item('register_multi')) {
 			redirect(base_url());
 		}
-		if($this->config->item('register_multi') && $this->config->item('ldap')) {
+		if($this->config->item('register_multi') && !$this->config->item('register')) {
 			redirect(base_url());
 		}
 		if($this->axipi_session->userdata('mbr_id')) {

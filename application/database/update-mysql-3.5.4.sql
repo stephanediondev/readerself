@@ -1,0 +1,1 @@
+ALTER TABLE members ADD mbr_auth_ldap TINYINT(1) NOT NULL DEFAULT '0';
