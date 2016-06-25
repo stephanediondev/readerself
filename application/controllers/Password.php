@@ -8,6 +8,9 @@ class Password extends CI_Controller {
 		if($this->readerself_model->count_members() == 0) {
 			redirect(base_url().'register');
 		}
+		if(!$this->config->item('password_reset')) {
+			redirect(base_url());
+		}
 		if($this->axipi_session->userdata('mbr_id')) {
 			redirect(base_url().'home');
 		}
