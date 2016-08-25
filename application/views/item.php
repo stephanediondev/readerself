@@ -64,7 +64,7 @@
 				<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?> share_tumblr" target="_blank" href="https://www.tumblr.com/widgets/share/tool/preview?shareSource=legacy&amp;url=<?php echo urlencode($itm->itm_link); ?>&amp;title=<?php echo urlencode($itm->itm_title); ?>">Tumblr</a></li>
 				<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?> share_twitter" target="_blank" href="https://twitter.com/intent/tweet?source=webclient&amp;text=<?php echo urlencode($itm->itm_title.' '.$itm->itm_link); ?>">Twitter</a></li>
 				<?php if($this->config->item('wallabag/enabled')) { ?>
-					<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?> share_wallabag" target="_blank" href="<?php echo $this->config->item('wallabag/url'); ?>?action=add&amp;autoclose=true&amp;url=<?php echo base64_encode($itm->itm_link); ?>">Wallabag</a></li>
+					<li class="mdl-menu__item"><a class="mdl-color-text--<?php echo $this->config->item('material-design/colors/text/link'); ?> share_wallabag" target="_blank" href="<?php echo $this->config->item('wallabag/url'); ?>/bookmarklet?url=<?php echo urlencode($itm->itm_link); ?>">Wallabag</a></li>
 				<?php } ?>
 			</ul>
 		<?php } ?>
