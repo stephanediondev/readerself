@@ -634,13 +634,18 @@ class Subscriptions extends CI_Controller {
 							if(isset($obj->title) == 0 && isset($obj->text) == 1) {
 								$obj->title = $obj->text;
 							}
-							if(isset($obj->xmlUrl) == 0 && isset($obj->url) == 1) {
-								$obj->xmlUrl = $obj->url;
-							}
-							if(isset($obj->htmlUrl) == 0 && isset($obj->url) == 1) {
-								$obj->htmlUrl = $obj->url;
-							}
-
+              if(isset($obj->url)) {
+                if(isset($obj->xmlUrl) == 0 ) {
+                  $obj->xmlUrl = $obj->url;
+                } 
+                if(isset($obj->htmlUrl) == 0 ) {
+                  $obj->htmlUrl = $obj->url;
+                }
+              }
+              if(!isset($obj->xmlUrl)) { 
+                //007: don't import if no xmlUrl
+                continue; 
+              }
 							$fed = $this->db->query('SELECT fed.*, sub.sub_id FROM '.$this->db->dbprefix('feeds').' AS fed LEFT JOIN '.$this->db->dbprefix('subscriptions').' AS sub ON sub.fed_id = fed.fed_id AND sub.mbr_id = ? WHERE fed.fed_link = ? GROUP BY fed.fed_id', array($this->member->mbr_id, $obj->xmlUrl))->row();
 							if(!$fed) {
 								$parse_url = parse_url($obj->htmlUrl);
