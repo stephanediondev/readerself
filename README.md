@@ -1,6 +1,6 @@
 #### Demo
 
-https://readerself.com/demo/?email=example@example.com&password=example
+https://readerself.com/client
 
 #### Requirements
 
