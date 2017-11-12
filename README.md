@@ -1,7 +1,3 @@
-#### Demo
-
-https://readerself.com/client
-
 #### Requirements
 
 ##### Language
